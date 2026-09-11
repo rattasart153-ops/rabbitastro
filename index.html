@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐇 โหรกระต่ายเลข 9 และวิเคราะห์สินทรัพย์</title>
+  <style>
+:root {
+  --bg-color: #f8f8f8;
+  --card-bg: #ffffff;
+  --text-main: #2d3748;
+  --text-muted: #718096;
+  --primary-orange: #e66a00;
+  --primary-orange-light: #fff5eb;
+  --dark-banner: #8c1c13;
+  --dark-btn: #1a1a1a;
+  --border-color: #edf2f7;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Sarabun", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 60px; }
+
+/* Hero Header */
+header.hero { text-align: center; padding: 10px 0 15px; }
+.hero .bunny-badge {
+  width: 50px; height: 50px; background: #fff5eb; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin: 0 auto 10px; border: 1px solid #fbd38d;
+}
+.hero h1 { margin: 0; font-size: 22px; font-weight: 800; color: #1a202c; }
+.hero p { margin: 4px 0 0; color: var(--text-muted); font-size: 13px; }
+
+/* Engine Navigation Tabs */
+.engine-tabs {
+  display: flex; gap: 8px; margin: 15px 0 12px; background: #e2e8f0; padding: 4px; border-radius: 14px;
+}
+.tab-btn {
+  flex: 1; text-align: center; padding: 8px 12px; border: none; background: transparent;
+  border-radius: 10px; font-weight: 700; font-size: 13.5px; color: var(--text-muted); cursor: pointer;
+  transition: all .2s ease;
+}
+.tab-btn.active {
+  background: var(--card-bg); color: var(--primary-orange); box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Dynamic Daily Element Card */
+.daily-element-card {
+  background: linear-gradient(135deg, #7a120a 0%, #a72318 100%);
+  color: #ffffff; border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(122, 18, 10, 0.25); position: relative; overflow: hidden;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.daily-element-card .top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.daily-element-title { font-size: 12px; opacity: 0.85; font-weight: 500; }
+.daily-element-icon { font-size: 26px; }
+.daily-element-value { font-size: 22px; font-weight: 800; margin: 2px 0 6px; }
+.daily-element-desc { font-size: 12.5px; opacity: 0.9; margin-bottom: 10px; }
+.daily-element-badge {
+  background: rgba(0, 0, 0, 0.25); border-radius: 8px; padding: 6px 10px; font-size: 12px;
+  display: inline-flex; align-items: center; gap: 6px; backdrop-filter: blur(4px);
+}
+
+.line-btn {
+  background: #00b900; color: #fff; text-align: center; padding: 10px; border-radius: var(--radius-md);
+  font-weight: 700; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-bottom: 16px; box-shadow: 0 4px 10px rgba(0, 185, 0, 0.15);
+}
+
+.card {
+  background: var(--card-bg); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 14px;
+  box-shadow: var(--shadow); border: 1px solid var(--border-color);
+}
+.card-title { font-size: 12px; font-weight: 700; color: #a0aec0; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+.f-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.f-row .field { flex: 1; }
+label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+input, select {
+  width: 100%; font-family: inherit; font-size: 13.5px; color: var(--text-main);
+  border-radius: 10px; border: 1px solid #e2e8f0; padding: 8px 10px; background: #fdfdfd; outline: none;
+}
+input:focus, select:focus { border-color: var(--primary-orange); background: #fff; }
+
+.chk { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); cursor: pointer; margin-top: 4px; }
+
+/* Option Chips Button Selection */
+.chip-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.chip-btn {
+  padding: 8px 14px; border-radius: 10px; border: 1px solid #edf2f7; background: #f7fafc;
+  font-size: 13px; font-weight: 600; color: #4a5568; cursor: pointer; transition: all .15s; text-align: center;
+}
+.chip-btn.active {
+  background: var(--primary-orange); color: #fff; border-color: var(--primary-orange);
+  box-shadow: 0 3px 8px rgba(230, 106, 0, 0.25);
+}
+.chip-btn-sub {
+  padding: 6px 12px; border-radius: 8px; border: 1px solid #edf2f7; background: #f7fafc;
+  font-size: 12px; font-weight: 500; color: #4a5568; cursor: pointer;
+}
+.chip-btn-sub.active {
+  background: var(--primary-orange-light); color: var(--primary-orange); border-color: #fbd38d; font-weight: 700;
+}
+
+.btn-submit {
+  width: 100%; border: 0; cursor: pointer; font-weight: 700; font-size: 15px; padding: 13px;
+  border-radius: var(--radius-md); background: var(--dark-btn); color: #fff;
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background .2s;
+}
+.btn-submit:hover { background: #333; }
+
+/* Results & Grid UI */
+.num-grid { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+.num-tile { background: #f7fafc; border: 1px solid #edf2f7; border-radius: 12px; padding: 12px; }
+.num-tile.hl { background: var(--primary-orange-light); border-color: #fbd38d; }
+.num-tile .k { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+.num-tile .v { font-size: 15px; font-weight: 800; color: var(--text-main); margin-top: 2px; }
+.num-tile .desc { font-size: 12px; color: #4a5568; margin-top: 4px; line-height: 1.4; }
+
+.element-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 4px; }
+.elem-น้ำ { background: #ebf8ff; color: #3182ce; }
+.elem-ไฟ { background: #fff5f5; color: #e53e3e; }
+.elem-ไม้ { background: #f0fff4; color: #38a169; }
+.elem-ทอง { background: #fffff0; color: #d69e2e; }
+.elem-ดิน { background: #faf5ff; color: #805ad5; }
+
+/* Action Badges for Asset Analysis */
+.action-badge {
+  display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 800; margin-bottom: 8px;
+}
+.act-BUY { background: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
+.act-WAIT { background: #fefcbf; color: #744210; border: 1px solid #faf089; }
+.act-SELL { background: #fed7d7; color: #742a2a; border: 1px solid #feb2b2; }
+.act-DATA { background: #e2e8f0; color: #2d3748; border: 1px solid #cbd5e0; }
+
+.pred-block { margin: 12px 0; padding: 12px; background: #f7fafc; border-radius: 10px; border: 1px solid #edf2f7; }
+.pred-block h4 { margin: 0 0 4px; font-size: 13.5px; color: var(--primary-orange); }
+
+table.tbl { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12px; }
+table.tbl th, table.tbl td { border: 1px solid #edf2f7; padding: 8px; text-align: left; }
+table.tbl th { background: #f7fafc; color: var(--text-muted); }
+
+.refs details { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin: 8px 0; padding: 10px 14px; }
+.refs summary { cursor: pointer; font-weight: 700; font-size: 13px; color: var(--text-main); }
+
+footer { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="bunny-badge">🐇</div>
+      <h1>ทำนายดวงกระต่าย 9</h1>
+      <p>คำนวณดวงชะตา พฤติกรรมกระต่าย และวิเคราะห์สินทรัพย์</p>
+    </header>
+
+    <!-- แท็บเลือก Engine -->
+    <div class="engine-tabs">
+      <button class="tab-btn active" id="tabPerson">👤 ดวงบุคคล</button>
+      <button class="tab-btn" id="tabAsset">📈 วิเคราะห์สินทรัพย์</button>
+    </div>
+
+    <!-- การ์ดพลังงานประจำวัน -->
+    <div class="daily-element-card" id="dailyElementBox">
+      <div class="top-row">
+        <div>
+          <div class="daily-element-title">✨ พลังงานวันนี้ (<span id="dailyDateText">-</span>)</div>
+          <div class="daily-element-value" id="dailyElementVal">กำลังคำนวณ...</div>
+        </div>
+        <div class="daily-element-icon" id="dailyElementIcon">🔥</div>
+      </div>
+      <div class="daily-element-desc" id="dailyElementDesc">-</div>
+      <div class="daily-element-badge">
+        📍 <span>คำแนะนำ:</span> <span id="dailyElementSuggest">ใช้พลังงานอย่างมีสติ</span>
+      </div>
+    </div>
+
+    <!-- ปุ่มแอดไลน์ -->
+    <a href="https://lin.ee/63xp7of" target="_blank" class="line-btn">💬 แอดไลน์ดูดวง @994nroud</a>
+
+    <!-- ===================== ENGINE 1: ดวงบุคคล ===================== -->
+    <div id="enginePerson">
+      <!-- ข้อมูลส่วนตัว -->
+      <section class="card">
+        <span class="card-title">ข้อมูลส่วนตัว</span>
+        <div class="f-row">
+          <div class="field">
+            <label for="fName">ชื่อ *</label>
+            <input id="fName" type="text" placeholder="ชื่อ" />
+          </div>
+          <div class="field">
+            <label for="fLast">นามสกุล *</label>
+            <input id="fLast" type="text" placeholder="นามสกุล" />
+          </div>
+        </div>
+      </section>
+
+      <!-- วันเกิด -->
+      <section class="card">
+        <span class="card-title">วันเกิด</span>
+        <div class="f-row">
+          <div class="field"><label>วัน</label><input id="bDay" type="number" min="1" max="31" placeholder="เช่น 15" /></div>
+          <div class="field"><label>เดือน</label><input id="bMonth" type="number" min="1" max="12" placeholder="เช่น 3" /></div>
+          <div class="field"><label>ปี ค.ศ.</label><input id="bYear" type="number" placeholder="เช่น 1990" /></div>
+        </div>
+        <div style="margin-top: 8px;">
+          <label>เวลาเกิด (24 ชม.)</label>
+          <div class="f-row" style="margin-bottom:0;">
+            <div class="field"><input id="bHour" type="number" min="0" max="23" placeholder="ชม. (0-23)" /></div>
+            <div class="field"><input id="bMin" type="number" min="0" max="59" placeholder="นาที (0-59)" /></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="noBirthTime" /> ไม่ทราบเวลาเกิด</label>
+        </div>
+      </section>
+
+      <!-- จุดเริ่มต้นเหตุการณ์ -->
+      <section class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="card-title" style="margin:0;">จุดเริ่มต้นเหตุการณ์</span>
+          <label class="chk"><input type="checkbox" id="customTimeChk" /> ระบุเวลาเอง</label>
+        </div>
+        <div style="margin-top:8px;">
+          <input type="datetime-local" id="customEventTime" style="display:none;" />
+          <input type="text" id="eventTimeStatus" value="ใช้เวลาปัจจุบัน (อัตโนมัติ)" disabled />
+        </div>
+      </section>
+
+      <!-- ช่วงเวลาที่ดู -->
+      <section class="card">
+        <span class="card-title">ช่วงเวลาที่ดู</span>
+        <div class="chip-group" id="timeRangeGroup">
+          <div class="chip-btn active" data-value="short">ระยะสั้น<br/><small style="font-weight:normal; font-size:10px;">1-7 วัน</small></div>
+          <div class="chip-btn" data-value="month">รายเดือน<br/><small style="font-weight:normal; font-size:10px;">3 เดือน</small></div>
+        </div>
+      </section>
+
+      <!-- เรื่องที่ต้องการดู -->
+      <section class="card">
+        <span class="card-title">เรื่องที่ต้องการดู</span>
+        <div class="chip-group" id="catGroup">
+          <div class="chip-btn active" data-cat="work">การงาน</div>
+          <div class="chip-btn" data-cat="money">การเงิน</div>
+          <div class="chip-btn" data-cat="health">สุขภาพ</div>
+          <div class="chip-btn" data-cat="love">ความรัก</div>
+          <div class="chip-btn" data-cat="interest">เรื่องที่สนใจ</div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <span class="card-title">รายละเอียดเรื่อง</span>
+          <div class="chip-group" id="subTopicGroup"></div>
+        </div>
+      </section>
+
+      <button class="btn-submit" id="btnCalc">🐇 คำนวณดวง</button>
+    </div>
+
+    <!-- ===================== ENGINE 2: วิเคราะห์สินทรัพย์ ===================== -->
+    <div id="engineAsset" style="display:none;">
+      <section class="card">
+        <span class="card-title">ข้อมูลสินทรัพย์</span>
+        <div class="f-row">
+          <div class="field"><label>Ticker สินทรัพย์</label><input id="assetTicker" type="text" placeholder="เช่น GOOGL, BTC" /></div>
+          <div class="field"><label>ประเทศ/ตลาด</label><input id="assetMarket" type="text" placeholder="เช่น UNITED STATES" /></div>
+        </div>
+        <div class="f-row">
+          <div class="field"><label>ราคาปัจจุบัน</label><input id="assetPrice" type="text" placeholder="เช่น 388.46" /></div>
+          <div class="field"><label>วันเวลาที่ถาม</label><input id="assetDatetime" type="datetime-local" /></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <span class="card-title">สถานะการถือครอง</span>
+        <div class="f-row">
+          <div class="field">
+            <select id="assetOwnedStatus">
+              <option value="no">ยังไม่ได้ซื้อ</option>
+              <option value="yes">ซื้อไว้แล้ว</option>
+            </select>
+          </div>
+          <div class="field" id="holdPriceWrap" style="display:none;">
+            <input id="assetHoldPrice" type="text" placeholder="ราคาต้นทุน" />
+          </div>
+        </div>
+      </section>
+
+      <button class="btn-submit" id="btnCalcAsset">📈 วิเคราะห์สินทรัพย์</button>
+    </div>
+
+    <!-- ผลลัพธ์ -->
+    <section id="results" style="display:none; margin-top:16px;"></section>
+
+    <!-- ตารางอ้างอิง -->
+    <section class="card refs" style="margin-top:16px;">
+      <span class="card-title">เอกสารอ้างอิง</span>
+      <details>
+        <summary>🐇 1. พฤติกรรมกระต่าย 1–9</summary>
+        <table class="tbl">
+          <thead><tr><th>เลข</th><th>พฤติกรรม</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><b>ออกจากรัง</b></td><td>เริ่มต้นใหม่ / เคลื่อนไหว</td></tr>
+            <tr><td>2</td><td><b>เงี่ยหูฟัง</b></td><td>ฟัง / สังเกต / รอสัญญาณ</td></tr>
+            <tr><td>3</td><td><b>กระโดดไปข้างหน้า</b></td><td>เดินหน้า / รุกเชิงรุก</td></tr>
+            <tr><td>4</td><td><b>หยุดระวัง</b></td><td>ชะลอ / ตรวจสอบความเสี่ยง</td></tr>
+            <tr><td>5</td><td><b>ซ่อนตัว</b></td><td>เก็บตัว / สะสมเสบียง</td></tr>
+            <tr><td>6</td><td><b>เปลี่ยนทิศ</b></td><td>ปรับแผน / จุดเปลี่ยน</td></tr>
+            <tr><td>7</td><td><b>วิ่งย้อนกลับ</b></td><td>ทบทวน / ปรับฐาน</td></tr>
+            <tr><td>8</td><td><b>อยู่ในโพรง</b></td><td>พัก / Sideway</td></tr>
+            <tr><td>9</td><td><b>พบทางออก</b></td><td>คลี่คลาย / เปิดทางใหม่</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary>☯️ 2. ธาตุกระต่าย</summary>
+        <table class="tbl">
+          <thead><tr><th>ธาตุ</th><th>คู่เลข</th><th>ธรรมชาติ</th></tr></thead>
+          <tbody>
+            <tr><td><b>น้ำ</b> 💧</td><td>1, 6</td><td>ยืดหยุ่น ปรับตัว ไหลลื่น</td></tr>
+            <tr><td><b>ไฟ</b> 🔥</td><td>2, 7</td><td>ว่องไว ชัดเจน กระตือรือร้น</td></tr>
+            <tr><td><b>ไม้</b> 🌿</td><td>3, 8</td><td>เติบโต แตกแขนง มุ่งมั่น</td></tr>
+            <tr><td><b>ทอง</b> ⚔️</td><td>4, 9</td><td>เฉียบขาด รอบคอบ โครงสร้าง</td></tr>
+            <tr><td><b>ดิน</b> ⛰️</td><td>5</td><td>มั่นคง หนักแน่น นิ่งรอจังหวะ</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <footer>
+      🐇 ระบบคำนวณดวงชะตาและพฤติกรรมกระต่าย 1–9 · ประมวลผลภายในเครื่องเรียลไทม์ ค่ะ
+    </footer>
+  </div>
+
+  <script>
+/* ==========================================================================
+   Core Engine: Horakratai 9 Math & Logic Module
+   ========================================================================== */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.Horakratai = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  function digitSum(n) {
+    n = Math.abs(Math.trunc(n || 0));
+    var s = 0; while (n > 0) { s += n % 10; n = Math.floor(n / 10); } return s;
+  }
+
+  function reduce1(n) {
+    n = Math.abs(Math.trunc(n || 0)); while (n >= 10) { n = digitSum(n); } return n;
+  }
+
+  function calcMod(sum, divisor) {
+    if (!divisor || divisor <= 0) return 1;
+    var rem = sum % divisor; return rem === 0 ? divisor : rem;
+  }
+
+  var ENG_PYTHAGOREAN = {
+    'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,'I':9,
+    'J':1,'K':2,'L':3,'M':4,'N':5,'O':6,'P':7,'Q':8,'R':9,
+    'S':1,'T':2,'U':3,'V':4,'W':5,'X':6,'Y':7,'Z':8
+  };
+
+  var THAI_CHAR = {
+    'ก':1,'ข':2,'ค':4,'ง':1,'จ':2,'ฉ':5,'ช':2,'ซ':7,'ฌ':5,'ญ':2,
+    'ฎ':3,'ฏ':9,'ฐ':9,'ฑ':3,'ฒ':3,'ณ':3,'ด':4,'ต':3,'ถ':1,'ท':1,
+    'ธ':4,'น':4,'บ':5,'ป':5,'ผ':8,'ฝ':8,'พ':8,'ภ':1,'ม':5,
+    'ย':6,'ร':4,'ล':6,'ว':6,'ศ':7,'ษ':7,'ส':7,'ห':5,'ฬ':3,'ฮ':5,
+    'ะ':1,'ั':4,'า':1,'ำ':3,'ิ':1,'ี':2,'ึ':1,'ื':2,'ุ':1,'ู':2,
+    'เ':2,'แ':8,'โ':8,'ใ':3,'ไ':3,'็':4,'่':2,'้':3,'๊':7,'๋':8,'์':9
+  };
+
+  function getCharVal(ch) {
+    var upper = ch.toUpperCase();
+    if (THAI_CHAR[ch] !== undefined) return THAI_CHAR[ch];
+    if (ENG_PYTHAGOREAN[upper] !== undefined) return ENG_PYTHAGOREAN[upper];
+    return 0;
+  }
+
+  var NAME_PREDICTIONS = {
+    1: {
+      title: "ผู้ปรับตัวและสื่อสารทรงพลัง (ธาตุน้ำ)",
+      desc: "สติปัญญาเฉียบแหลม ปรับตัวเก่งเหมือนน้ำ มีวาสนาด้านเจรจา ค้าขาย และการเข้าหาผู้ใหญ่ มีเสน่ห์เอ็นดู ข้อระวังคือความใจอ่อน ลังเลง่าย ควรเพิ่มความเด็ดขาด"
+    },
+    2: {
+      title: "ผู้นำเชิงรุก มุ่งมั่นว่องไว (ธาตุไฟ)",
+      desc: "กระตือรือร้น กล้าคิดกล้าทำ มีพลังขับเคลื่อนในชีวิตสูง คิดไวทำไว โดดเด่นด้านการแข่งขันและแก้วิกฤต ข้อระวังคือความอารมณ์ร้อน ใจร้อน และหงุดหงิดง่าย"
+    },
+    3: {
+      title: "ผู้สร้างสรรค์และเติบโตไม่หยุดยั้ง (ธาตุไม้)",
+      desc: "มีความคิดสร้างสรรค์ ชอบเรียนรู้และพัฒนาตนเองอย่างต่อเนื่อง เติบโตเก่ง มีวิสัยทัศน์กว้างไกล เหมาะกับการบุกเบิกสิ่งใหม่ ข้อระวังคือความดื้อรั้น ไม่ฟังใคร"
+    },
+    4: {
+      title: "ผู้มีระเบียบ วางแผนรอบคอบ (ธาตุทอง)",
+      desc: "เน้นกติกา ความถูกต้อง มีโครงสร้างชีวิตและหลักการชัดเจน ตัดสินใจเฉียบขาด เป็นนักวางแผนชั้นยอด ข้อระวังคือความตึงเครียด วิตกกังวล และกดดันตนเองเกินไป"
+    },
+    5: {
+      title: "ผู้มั่นคง หนักแน่น เป็นที่พึ่ง (ธาตุดิน)",
+      desc: "มีความอดทนสูง หนักแน่น สถิตมั่นคง ซุ่มเก็บพลังงานและเป็นที่พึ่งพิงให้ผู้อื่นได้ดี มีโชคด้านอสังหาริมทรัพย์และเสบียง ข้อระวังคือความเฉื่อยชา ปรับตัวช้า"
+    }
+  };
+
+  function calcNameNumber(first, last) {
+    var str = ((first || '') + (last || '')).replace(/\s+/g, '');
+    if (!str) return null;
+    var sum = 0;
+    for (var i = 0; i < str.length; i++) sum += getCharVal(str.charAt(i));
+    var num = calcMod(reduce1(sum), 5);
+    var elem = getElement(num);
+    var pred = NAME_PREDICTIONS[num] || NAME_PREDICTIONS[5];
+    return { sum: sum, reduced: reduce1(sum), num: num, element: elem, prediction: pred };
+  }
+
+  function parsePythagoreanText(str) {
+    var cleanStr = (str || '').replace(/[^a-zA-Z]/g, '').toUpperCase();
+    var sum = 0, steps = [];
+    for (var i = 0; i < cleanStr.length; i++) {
+      var val = ENG_PYTHAGOREAN[cleanStr.charAt(i)] || 0;
+      sum += val; steps.push(cleanStr.charAt(i) + '=' + val);
+    }
+    return { rawStr: cleanStr, stepsStr: steps.join(' + '), sum: sum, reduced: reduce1(sum) };
+  }
+
+  function parsePriceNumber(priceStr) {
+    var cleanPrice = String(priceStr || '').replace(/[^0-9]/g, '');
+    if (!cleanPrice) return { sum: 0, reduced: 0, stepsStr: '0' };
+    var sum = 0, steps = [];
+    for (var i = 0; i < cleanPrice.length; i++) {
+      var digit = parseInt(cleanPrice.charAt(i), 10);
+      sum += digit; steps.push(digit);
+    }
+    return { sum: sum, reduced: reduce1(sum), stepsStr: steps.join('+') };
+  }
+
+  function getDayPower(dateObj) {
+    var day = dateObj.getDay();
+    var hours = dateObj.getHours();
+    var powers = { 0: 6, 1: 15, 2: 8, 4: 19, 5: 21, 6: 10 };
+    if (day === 3) return hours < 18 ? { name: 'พุธกลางวัน', power: 17 } : { name: 'พุธกลางคืน', power: 12 };
+    var dayNames = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+    return { name: dayNames[day], power: powers[day] };
+  }
+
+  var ELEMENTS = {
+    1: { name: 'น้ำ', symbol: '💧', good: 'ปรับตัวเก่ง มีความคิดสร้างสรรค์ ยืดหยุ่น ไหลลื่น', bad: 'ลังเล เปลี่ยนใจง่าย ไม่แน่นอน', story: 'การไหลขยับขยาย การสื่อสาร โอกาสใหม่ๆ' },
+    6: { name: 'น้ำ', symbol: '💧', good: 'ปรับตัวเก่ง มีความคิดสร้างสรรค์ ยืดหยุ่น ไหลลื่น', bad: 'ลังเล เปลี่ยนใจง่าย ไม่แน่นอน', story: 'การไหลขยับขยาย การสื่อสาร โอกาสใหม่ๆ' },
+    2: { name: 'ไฟ', symbol: '🔥', good: 'ตื่นตัว มีพลังขับเคลื่อน รวดเร็ว ชัดเจน', bad: 'ใจร้อน ไม่อดทน หุนหันพลันแล่น', story: 'ความชัดเจน ข่าวสาร สัญญาณเตือน' },
+    7: { name: 'ไฟ', symbol: '🔥', good: 'ตื่นตัว มีพลังขับเคลื่อน รวดเร็ว ชัดเจน', bad: 'ใจร้อน ไม่อดทน หุนหันพลันแล่น', story: 'ความชัดเจน ข่าวสาร สัญญาณเตือน' },
+    3: { name: 'ไม้', symbol: '🌿', good: 'เติบโต พุ่งทะยาน แตกแขนงความคิด มุ่งมั่น', bad: 'ดื้อรั้น ไม่ยืดหยุ่น ยึดติด', story: 'การเติบโต การก้าวหน้า การขยายสาขา' },
+    8: { name: 'ไม้', symbol: '🌿', good: 'เติบโต พุ่งทะยาน แตกแขนงความคิด มุ่งมั่น', bad: 'ดื้อรั้น ไม่ยืดหยุ่น ยึดติด', story: 'การเติบโต การก้าวหน้า การขยายสาขา' },
+    4: { name: 'ทอง', symbol: '⚔️', good: 'เฉียบขาด รอบคอบ เน้นกติกา โครงสร้างชัดเจน', bad: 'ตึงเครียด วิตกกังวล เข้มงวดเกินไป', story: 'การตรวจสอบ ระบบกติกา สัญญาข้อตกลง' },
+    9: { name: 'ทอง', symbol: '⚔️', good: 'เฉียบขาด รอบคอบ เน้นกติกา โครงสร้างชัดเจน', bad: 'ตึงเครียด วิตกกังวล เข้มงวดเกินไป', story: 'การตรวจสอบ ระบบกติกา สัญญาข้อตกลง' },
+    5: { name: 'ดิน', symbol: '⛰️', good: 'มั่นคง หนักแน่น ซุ่มเก็บพลังงาน ไว้ใจได้', bad: 'เฉื่อยชา ปรับตัวช้า ยึดติดกับที่เดิม', story: 'การพักตัว การเก็บสะสม การรอดูจังหวะ' }
+  };
+
+  function getElement(num) { return ELEMENTS[num] || ELEMENTS[5]; }
+
+  function calcElementRelation(ownerElemName, targetElemName) {
+    if (ownerElemName === targetElemName) {
+      return {
+        type: 'เสมอ/สมดุล (ธาตุเดียวกัน)',
+        effect: 'พลังงานเกื้อกูลราบรื่น ไร้แรงต้าน',
+        desc: 'สถานการณ์อยู่ในเกณฑ์ควบคุมได้ บรรยากาศเป็นใจ ทำสิ่งใดก็มีความคล่องตัวตามธรรมชาติของเจ้าชะตา'
+      };
+    }
+
+    var generates = { 'น้ำ': 'ไม้', 'ไม้': 'ไฟ', 'ไฟ': 'ดิน', 'ดิน': 'ทอง', 'ทอง': 'น้ำ' };
+    var overcomes = { 'น้ำ': 'ไฟ', 'ไฟ': 'ทอง', 'ทอง': 'ไม้', 'ไม้': 'ดิน', 'ดิน': 'น้ำ' };
+
+    if (generates[ownerElemName] === targetElemName) {
+      return {
+        type: 'เจ้าชะตาส่งเสริมเรื่องที่ดู (ถ่ายพลัง)',
+        effect: 'ต้องทุ่มเทแรงกายแรงใจมากกว่าปกติ',
+        desc: 'เรื่องนี้ต้องใช้พลังงาน ความตั้งใจ และการลงมือทำจากตัวคุณสูง ผลลัพธ์จะดีแต่ต้องแลกด้วยความเหน็ดเหนื่อย'
+      };
+    } else if (generates[targetElemName] === ownerElemName) {
+      return {
+        type: 'เรื่องที่ดูส่งเสริมเจ้าชะตา (ธาตุหนุน)',
+        effect: 'มีโชคช่วย ได้รับการสนับสนุนราบรื่น',
+        desc: 'จังหวะดวงเปิด มีคนช่วยเหลือ เหตุการณ์รอบข้างเอื้ออำนวยให้สำเร็จง่ายขึ้นดั่งมีลมหนุนหลัง'
+      };
+    } else if (overcomes[ownerElemName] === targetElemName) {
+      return {
+        type: 'เจ้าชะตาควบคุม/ข่มเรื่องที่ดู',
+        effect: 'เกิดความขัดแย้ง แต่เราเอาอยู่',
+        desc: 'คุณเป็นฝ่ายได้เปรียบ สามารถควบคุมสถานการณ์และแก้ปัญหาได้ แม้จะมีแรงต้านหรือข้ออุปสรรคเข้ามาบ้าง'
+      };
+    } else if (overcomes[targetElemName] === ownerElemName) {
+      return {
+        type: 'เรื่องที่ดูพิฆาต/กดดันเจ้าชะตา',
+        effect: 'มีแรงกดดันสูง ต้องระมัดระวัง',
+        desc: 'เรื่องนี้สร้างความกดดันหรือทำให้รู้สึกอึดอัด ควรใช้ความรอบคอบ อดทน และไม่ควรปะทะโดยตรง'
+      };
+    }
+
+    return { type: 'ผสมผสาน', effect: 'ปรับตัวตามสถานการณ์', desc: 'ใช้วิธีผ่อนหนักผ่อนเบา ยืดหยุ่นตามจังหวะ' };
+  }
+
+  var SPECIFIC_PREDICTIONS = {
+    work: {
+      1: "เป็นจังหวะเริ่มต้นงานหรือโปรเจกต์ใหม่ มีโอกาสได้รับหน้าที่ใหม่หรือย้ายไปสู่สภาพแวดล้อมใหม่ ลุยได้เลย",
+      2: "ควรเน้นการฟังความเห็นของเพื่อนร่วมงานและผู้ใหญ่ สังเกตท่าที อย่าเพิ่งรีบเสนอตัว รอฟังข้อมูลให้ชัดเจนก่อน",
+      3: "การงานกำลังพุ่งทะยาน ผลงานเข้าตาผู้ใหญ่ เหมาะกับการรุกนำเสนอไอเดีย เร่งทำผลงานจะเห็นผลลัพธ์เร็วมาก",
+      4: "รอบคอบเรื่องเอกสารและสัญญา อาจมีข้อผิดพลาดซ่อนอยู่ ควรตรวจสอบความถูกต้อง ชะลอการเซ็นสัญญาใหญ่",
+      5: "ช่วงนี้ควรทำตัวนิ่งๆ ซุ่มเก็บงานเบื้องหลัง สะสมผลงานและทักษะ ยังไม่ใช่เวลาเปิดตัวหรือปะทะกับใคร",
+      6: "มีเกณฑ์ปรับเปลี่ยนทิศทางงาน การโยกย้ายแผนงาน หรือต้องยืดหยุ่นเปลี่ยนวิธีทำงานให้ทันสถานการณ์",
+      7: "ควรย้อนกลับไปแก้ไขงานเก่า งานค้าง หรือทบทวนข้อผิดพลาดก่อนหน้า การแก้ปัญหาเดิมจะช่วยให้ผ่านฉลุย",
+      8: "การงานอยู่ในช่วงพักตัวทรงๆ สภาวะงานนิ่งเรียบ ให้รักษามาตรฐานเดิมไว้ ไม่เหมาะกับการเสี่ยงเปลี่ยนงาน",
+      9: "ปัญหาคาราคาซังเรื่องงานจะพบทางออก จะได้รับข่าวดี โอกาสใหม่ๆ เปิดกว้าง มองเห็นอนาคตในสายงานชัดเจน"
+    },
+    money: {
+      1: "มีโอกาสสร้างช่องทางทำมาหากินใหม่ๆ จังหวะเริ่มต้นลงทุนขนาดเล็กหรือเริ่มอาชีพเสริมที่สร้างรายได้",
+      2: "ชะลอการใช้จ่าย ฟังข้อมูลข่าวสารทางสภาวะการเงินให้ดีก่อนลงทุน อย่าเพิ่งหลงเชื่อคำชวนลงทุนง่ายๆ",
+      3: "การเงินหมุนเวียนดี มีโอกาสรับทรัพย์จากการลงมือทำอย่างรวดเร็ว ค้าขายหรือเจรจาทางการเงินได้ผลกำไรดี",
+      4: "ต้องรัดกุมเรื่องงบประมาณ ตรวจสอบบัญชีและรายจ่ายให้ถี่ถ้วน ระวังเงินรั่วไหลจากเรื่องไม่เป็นเรื่อง",
+      5: "เน้นการออมและเก็บหอมรอมริบ ซุ่มเก็บเงินสดไว้ ยังไม่ควรใช้จ่ายก้อนใหญ่หรือลงทุนเสี่ยงสูง",
+      6: "ต้องปรับแผนการเงินใหม่ ตัดรายจ่ายที่ไม่จำเป็นออก ยืดหยุ่นการหมุนเงินให้เข้ากับสถานการณ์",
+      7: "ทบทวนภาระหนี้สินหรือข้อตกลงทางการเงินเดิม มีเกณฑ์ได้เงินเก่าคืน หรือต้องเคลียร์ภาระค้างเก่า",
+      8: "สภาพคล่องทางการเงินทรงตัว นิ่งๆ ไม่หวือหวา แต่ไม่ลำบาก ให้ประคองตัวรักษาเงินต้นไว้",
+      9: "การเงินคลี่คลาย ปัญหาหนี้สินหรือเงินตึงมือจะเจอทางออก มีข่าวดีเรื่องโชคลาภหรือได้รับเงินก้อน"
+    },
+    health: {
+      1: "ร่างกายพร้อมสำหรับการเริ่มต้นดูแลตัวเอง เริ่มออกกำลังกายหรือเริ่มคอร์สฟื้นฟูสุขภาพจะเห็นผลดี",
+      2: "ให้สังเกตสัญญาณเตือนเล็กๆ จากร่างกาย เช่น อาการนอนไม่หลับ หรืออาการทางประสาทสัมผัส ควรพักผ่อนให้เพียงพอ",
+      3: "พลังงานสูง ร่างกายแข็งแรง ฟื้นตัวได้ไว แต่ต้องระวังอุบัติเหตุจากการเคลื่อนไหวที่รวดเร็วเกินไป",
+      4: "ควรตรวจเช็กร่างกายอย่างละเอียด ระวังปัญหาเกี่ยวกับกระดูก ข้อต่อ หรือความเครียดสะสม",
+      5: "เน้นการพักผ่อน ซ่อมแซมร่างกาย ควรอยู่ตากอากาศสดชื่น ไม่ควรหักโหมออกกำลังกายหนักเกินไป",
+      6: "ควรปรับเปลี่ยนพฤติกรรมการกินการนอนใหม่ ปรับสมดุลชีวิตประจำวันเพื่อป้องกันโรคเรื้อรัง",
+      7: "โรคเก่าหรืออาการเดิมๆ อาจกลับมารบกวน ให้ย้อนกลับไปดูแลรักษากับแพทย์เฉพาะทางอย่างจริงจัง",
+      8: "สุขภาพโดยรวมคงที่ อาการป่วยเริ่มทรงตัว เน้นการอยู่นิ่งๆ พักผ่อนกายใจให้เต็มที่",
+      9: "อาการเจ็บป่วยจะคลี่คลาย พบหมอดีเจอถูกทาง สุขภาพกายและใจกลับมาสดชื่นมีพลังอีกครั้ง"
+    },
+    love: {
+      1: "คนโสดมีเกณฑ์พบรักใหม่จากการเริ่มต้นกิจกรรมใหม่ๆ คนมีคู่ได้เริ่มบทบาทใหม่ๆ ร่วมกัน",
+      2: "คอยสังเกตความรู้สึกของอีกฝ่าย เงี่ยหูฟังความต้องการของคู่รักให้มากขึ้น อย่าเพิ่งคิดไปเอง",
+      3: "ความสัมพันธ์หวานชื่น เดินหน้าไปอย่างรวดเร็ว มีพลังในการขับเคลื่อนความสัมพันธ์ให้เป็นรูปธรรม",
+      4: "ระวังความตึงเครียด การจับผิด หรือความเข้มงวดใส่กันเกินไป ควรยืดหยุ่นและลดความตรงไปตรงมาลงบ้าง",
+      5: "ช่วงเวลารักษาระยะห่าง ซุ่มเก็บความรู้สึก หรือซ่อนตัวอยู่ในพื้นที่ปลอดภัย ยังไม่เหมาะเปิดตัวเต็มที่",
+      6: "ถึงจุดต้องปรับทิศทางความสัมพันธ์ ปรับความเข้าใจกันใหม่เพื่อข้ามผ่านอุปสรรคไปด้วยกัน",
+      7: "มีเกณฑ์ถอยกลับมาทบทวนเรื่องราวในอดีต คนรักเก่าอาจวนเวียนกลับมา หรือเคลียร์ใจเรื่องค้างคา",
+      8: "ความรักทรงตัว นิ่งๆ เรียบง่าย ไร้ความหวือหวา เหมาะกับการสร้างความมั่นคงภายในใจ",
+      9: "ความสัมพันธ์ที่คลุมเครือจะพบคำตอบ ปัญหาใจคลี่คลาย มองเห็นอนาคตความรักชัดเจนขึ้น"
+    },
+    interest: {
+      1: "เริ่มต้นลงมือทำในสิ่งที่สนใจได้เลย เป็นจังหวะดีในการลองผิดลองถูกและเปิดรับไอเดียใหม่ๆ",
+      2: "รับฟังข้อมูล ศึกษาหาความรู้เพิ่มเติมในเรื่องที่สนใจ สังเกตแนวโน้มก่อนตัดสินใจลุยจริง",
+      3: "ก้าวหน้าอย่างรวดเร็ว ไอเดียพุ่งกระฉูด สามารถต่อยอดสิ่งที่สนใจไปสู่ผลงานจริงจังได้",
+      4: "วางโครงสร้างและแผนงานให้รอบคอบ ตรวจสอบรายละเอียดและเงื่อนไขต่างๆ ก่อนลุยต่อ",
+      5: "เก็บเกี่ยวความรู้ ซุ่มซ้อมและฝึกฝนเงียบๆ เก็บเป็นคลังปัญญาเพื่อใช้ในอนาคต",
+      6: "ทดลองเปลี่ยนวิธีการหรือประยุกต์มุมมองใหม่ๆ เพื่อให้สิ่งที่สนใจน่าสนใจยิ่งขึ้น",
+      7: "ย้อนกลับไปทำสิ่งที่เคยสนใจในอดีต รื้อฟื้นทักษะเดิมนำมาปัดฝุ่นใหม่จะทำได้ดีมาก",
+      8: "รักษาระดับการทำสิ่งนั้นอย่างสม่ำเสมอ ทำแบบค่อยเป็นค่อยไป ไม่ต้องรีบร้อน",
+      9: "ตกผลึกความคิด สิ่งที่สนใจและศึกษมารวมเป็นก้อนความรู้ที่ตกผลึก มองเห็นประโยชน์ชัดเจน"
+    }
+  };
+
+  var RABBITS = {
+    1: { name: 'ออกจากรัง', short: 'เริ่มต้นใหม่ / กล้าลงมือ', desc: 'จังหวะเริ่มต้นใหม่ กล้าลงมือทำสิ่งใหม่ เคลื่อนไหวเชิงรุก มีโอกาสเปิดกว้าง' },
+    2: { name: 'เงี่ยหูฟัง', short: 'ฟัง / สังเกต / รอสัญญาณ', desc: 'ข้อมูลคืออาวุธ นิ่งฟัง สังเกตสถานการณ์ รอรับข้อมูลข่าวสารก่อนตัดสินใจ' },
+    3: { name: 'กระโดดไปข้างหน้า', short: 'เดินหน้า / มีแรงส่ง', desc: 'มีพลังขับเคลื่อนสูง เดินหน้าพุ่งทะยาน คว้าโอกาสตรงหน้าด้วยความรวดเร็ว' },
+    4: { name: 'หยุดระวัง', short: 'ชะลอ / ตรวจสอบความเสี่ยง', desc: 'ควรชะลอความเร็ว ตรวจสอบความรอบคอบ ระวังความเสี่ยงหรือข้อผิดพลาดที่ซ่อนอยู่' },
+    5: { name: 'ซ่อนตัว', short: 'เก็บตัว / สะสม / รอดู', desc: 'ซุ่มเก็บตัว สะสมกำลัง เสบียง ยังไม่ควรเปิดเผยท่าที รอดูสถานการณ์อย่างอดทน' },
+    6: { name: 'เปลี่ยนทิศ', short: 'เปลี่ยนแผน / จุดเปลี่ยน', desc: 'ถึงจุดเปลี่ยนสำคัญ ควรปรับแผน เปลี่ยนเส้นทาง หรือยืดหยุ่นตามสภาวะรอบข้าง' },
+    7: { name: 'วิ่งย้อนกลับ', short: 'ย้อนทบทวน / ปรับฐาน', desc: 'ย้อนกลับไปทบทวน ปรับฐาน แก้ไขข้อผิดพลาดเดิมๆ เพื่อเตรียมตัวเดินหน้าใหม่' },
+    8: { name: 'อยู่ในโพรง', short: 'พัก / นิ่ง / Sideway', desc: 'อยู่นิ่งๆ ในพื้นที่ปลอดภัย สภาวะพักตัว คอยรักษาสภาพความมั่นคง รอจังหวะเหมาะสม' },
+    9: { name: 'พบทางออก', short: 'คลี่คลาย / เกิดทิศทางใหม่', desc: 'อุปสรรคคลี่คลาย พบทางออกชัดเจน เกิดคำตอบและทิศทางใหม่ๆ เดินหน้าตามแสงสว่าง' }
+  };
+
+  var SHORT_CATEGORIES = {
+    work: { name: 'การงาน', mult: 6, subs: { 1:{n:'เลื่อนขั้น'}, 2:{n:'โอกาสปรับเปลี่ยนตำแหน่ง'}, 3:{n:'การโยกย้าย'} } },
+    money: { name: 'การเงิน', mult: 3, subs: { 1:{n:'รายรับ/กำไร'}, 2:{n:'ปรับแผนลงทุน'}, 3:{n:'ปลดหนี้สิน'} } },
+    health: { name: 'สุขภาพ', mult: 5, subs: { 1:{n:'ตรวจสุขภาพ'}, 2:{n:'ฟื้นฟูร่างกาย'}, 3:{n:'ปรับพฤติกรรม'} } },
+    love: { name: 'ความรัก', mult: 8, subs: { 1:{n:'เริ่มต้นคนใหม่'}, 2:{n:'ปรับความเข้าใจ'}, 3:{n:'ตกลงความสัมพันธ์'} } },
+    interest: { name: 'เรื่องที่สนใจ', mult: 4, subs: { 1:{n:'เริ่มโปรเจกต์'}, 2:{n:'พัฒนาทักษะ'}, 3:{n:'ตกผลึกไอเดีย'} } }
+  };
+
+  return {
+    reduce1: reduce1, calcMod: calcMod, calcNameNumber: calcNameNumber,
+    parsePythagoreanText: parsePythagoreanText, parsePriceNumber: parsePriceNumber,
+    getDayPower: getDayPower, getElement: getElement, calcElementRelation: calcElementRelation,
+    RABBITS: RABBITS, SHORT_CATEGORIES: SHORT_CATEGORIES, SPECIFIC_PREDICTIONS: SPECIFIC_PREDICTIONS
+  };
+});
+
+/* ==========================================================================
+   UI Controller & Application Logic
+   ========================================================================== */
+(function () {
+  'use strict';
+  var H = window.Horakratai;
+  function $(id) { return document.getElementById(id); }
+
+  var currentCat = 'work';
+  var currentSub = '1';
+  var selectedTimeRange = 'short';
+
+  var ELEMENT_THEMES = {
+    'น้ำ': { bg: 'linear-gradient(135deg, #0f4c81 0%, #1e3c72 100%)', shadow: '0 8px 20px rgba(15, 76, 129, 0.35)' },
+    'ไฟ': { bg: 'linear-gradient(135deg, #7a120a 0%, #a72318 100%)', shadow: '0 8px 20px rgba(122, 18, 10, 0.35)' },
+    'ไม้': { bg: 'linear-gradient(135deg, #134e4a 0%, #15803d 100%)', shadow: '0 8px 20px rgba(19, 78, 74, 0.35)' },
+    'ทอง': { bg: 'linear-gradient(135deg, #854d0e 0%, #ca8a04 100%)', shadow: '0 8px 20px rgba(133, 77, 14, 0.35)' },
+    'ดิน': { bg: 'linear-gradient(135deg, #581c87 0%, #7e22ce 100%)', shadow: '0 8px 20px rgba(88, 28, 135, 0.35)' }
+  };
+
+  function renderDailyElement() {
+    var today = new Date();
+    var dateStr = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+    var sum = today.getDate() + (today.getMonth() + 1) + today.getFullYear();
+    var reduced = H.reduce1(sum);
+    var elemNum = H.calcMod(reduced, 5);
+    var elem = H.getElement(elemNum);
+
+    var cardBox = $('dailyElementBox');
+    var theme = ELEMENT_THEMES[elem.name] || ELEMENT_THEMES['ไฟ'];
+    if (cardBox) {
+      cardBox.style.background = theme.bg;
+      cardBox.style.boxShadow = theme.shadow;
+    }
+
+    $('dailyDateText').textContent = dateStr;
+    $('dailyElementVal').innerHTML = 'ธาตุ' + elem.name + ' <small style="font-size:12px; font-weight:normal;">(เลข ' + elemNum + ')</small>';
+    $('dailyElementIcon').textContent = elem.symbol;
+    $('dailyElementDesc').textContent = elem.story + ' — ' + elem.good;
+    $('dailyElementSuggest').textContent = 'ใช้วันนี้อย่างมีสติและเสริมพลังจากธาตุ' + elem.name;
+  }
+
+  function renderSubTopics() {
+    var subContainer = $('subTopicGroup');
+    subContainer.innerHTML = '';
+    var cat = H.SHORT_CATEGORIES[currentCat];
+    if (cat && cat.subs) {
+      for (var key in cat.subs) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chip-btn-sub' + (key === currentSub ? ' active' : '');
+        btn.textContent = cat.subs[key].n;
+        btn.dataset.sub = key;
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.chip-btn-sub').forEach(function(el){ el.classList.remove('active'); });
+          this.classList.add('active');
+          currentSub = this.dataset.sub;
+        });
+        subContainer.appendChild(btn);
+      }
+    }
+  }
+
+  function initUI() {
+    renderDailyElement();
+
+    var now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    $('assetDatetime').value = now.toISOString().slice(0, 16);
+    $('customEventTime').value = now.toISOString().slice(0, 16);
+
+    $('tabPerson').addEventListener('click', function() {
+      this.classList.add('active'); $('tabAsset').classList.remove('active');
+      $('enginePerson').style.display = 'block'; $('engineAsset').style.display = 'none';
+      $('results').style.display = 'none';
+    });
+    $('tabAsset').addEventListener('click', function() {
+      this.classList.add('active'); $('tabPerson').classList.remove('active');
+      $('engineAsset').style.display = 'block'; $('enginePerson').style.display = 'none';
+      $('results').style.display = 'none';
+    });
+
+    document.querySelectorAll('#timeRangeGroup .chip-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#timeRangeGroup .chip-btn').forEach(function(el){ el.classList.remove('active'); });
+        this.classList.add('active');
+        selectedTimeRange = this.dataset.value;
+      });
+    });
+
+    document.querySelectorAll('#catGroup .chip-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#catGroup .chip-btn').forEach(function(el){ el.classList.remove('active'); });
+        this.classList.add('active');
+        currentCat = this.dataset.cat;
+        currentSub = '1';
+        renderSubTopics();
+      });
+    });
+
+    renderSubTopics();
+
+    $('noBirthTime').addEventListener('change', function() {
+      $('bHour').disabled = this.checked;
+      $('bMin').disabled = this.checked;
+      if (this.checked) { $('bHour').value = ''; $('bMin').value = ''; }
+    });
+
+    $('customTimeChk').addEventListener('change', function() {
+      if (this.checked) {
+        $('customEventTime').style.display = 'block';
+        $('eventTimeStatus').style.display = 'none';
+      } else {
+        $('customEventTime').style.display = 'none';
+        $('eventTimeStatus').style.display = 'block';
+      }
+    });
+
+    $('assetOwnedStatus').addEventListener('change', function() {
+      $('holdPriceWrap').style.display = this.value === 'yes' ? 'block' : 'none';
+    });
+
+    $('btnCalc').addEventListener('click', calculatePerson);
+    $('btnCalcAsset').addEventListener('click', calculateAsset);
+  }
+
+  function calculatePerson() {
+    var day = parseInt($('bDay').value, 10);
+    var month = parseInt($('bMonth').value, 10);
+    var year = parseInt($('bYear').value, 10);
+
+    if (!day || !month || !year) { alert('กรุณากรอก วัน/เดือน/ปีเกิด'); return; }
+
+    var noTime = $('noBirthTime').checked;
+    var bHour = parseInt($('bHour').value, 10) || 0;
+    var bMin = parseInt($('bMin').value, 10) || 0;
+
+    var ownerSum = day + month + year + (noTime ? 0 : (bHour + bMin));
+    var ownerReduced = H.reduce1(ownerSum);
+    var ownerNum = H.calcMod(ownerReduced, 5);
+    var ownerElem = H.getElement(ownerNum);
+
+    var fName = $('fName').value.trim();
+    var fLast = $('fLast').value.trim();
+    var nameData = H.calcNameNumber(fName, fLast);
+
+    var eventDt = $('customTimeChk').checked && $('customEventTime').value ? new Date($('customEventTime').value) : new Date();
+
+    var qSum = eventDt.getDate() + (eventDt.getMonth() + 1) + eventDt.getFullYear() + eventDt.getHours() + eventDt.getMinutes();
+    var catObj = H.SHORT_CATEGORIES[currentCat];
+    var subObj = catObj.subs[currentSub];
+
+    var qRed = H.reduce1(qSum * catObj.mult + parseInt(currentSub, 10));
+    var eventNum = H.calcMod(qRed, 9);
+    var rabbitData = H.RABBITS[eventNum];
+    var eventElemNum = H.calcMod(eventNum, 5);
+    var eventElem = H.getElement(eventElemNum);
+
+    var relation = H.calcElementRelation(ownerElem.name, eventElem.name);
+
+    var categoryPrediction = H.SPECIFIC_PREDICTIONS[currentCat] && H.SPECIFIC_PREDICTIONS[currentCat][eventNum] 
+      ? H.SPECIFIC_PREDICTIONS[currentCat][eventNum] 
+      : rabbitData.desc;
+
+    var html = '<div class="card">';
+    html += '<span class="card-title">ผลการคำนวณดวงชะตา</span>';
+    html += '<div class="num-grid">';
+    html += '<div class="num-tile hl"><div class="k">ดวงเจ้าชะตา (ฐานธาตุ)</div><div class="v">ธาตุ' + ownerElem.name + ' ' + ownerElem.symbol + ' (เลข ' + ownerNum + ')</div><div class="desc"><b>จุดแข็ง:</b> ' + ownerElem.good + '<br><b>ข้อควรระวัง:</b> ' + ownerElem.bad + '</div></div>';
+    
+    if (nameData) {
+      html += '<div class="num-tile" style="background:#f0fff4; border-color:#9ae6b4;">';
+      html += '<div class="k">พลังถอดรหัสชื่อ-นามสกุล (เลขศาสตร์ ' + nameData.num + ')</div>';
+      html += '<div class="v">ธาตุ' + nameData.element.name + ' ' + nameData.element.symbol + ' — ' + nameData.prediction.title + '</div>';
+      html += '<div class="desc" style="margin-top:4px;"><b>วิเคราะห์ชื่อ:</b> ' + nameData.prediction.desc + '</div>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+
+    html += '<div class="card" style="border-left: 5px solid #3182ce;">';
+    html += '<span class="card-title">วิเคราะห์พลังธาตุ (ปฏิสัมพันธ์ตัวเรา vs เรื่องที่ดู)</span>';
+    html += '<div style="font-size:13.5px; font-weight:bold; color:#2b6cb0;">☯️ สภาวะ: ' + relation.type + '</div>';
+    html += '<p style="font-size:12.5px; margin:4px 0; color:#2d3748;"><b>ผลกระทบต่อเรา:</b> ' + relation.effect + '</p>';
+    html += '<p style="font-size:12px; color:#4a5568; margin:0; line-height:1.4;">' + relation.desc + '</p>';
+    html += '</div>';
+
+    html += '<div class="card" style="border-color:#fbd38d; background:#fffdfa;">';
+    html += '<span class="card-title" style="color:var(--primary-orange);">พฤติกรรมกระต่ายประจำช่วงเวลา (' + catObj.name + ' - ' + subObj.n + ')</span>';
+    html += '<h3 style="margin:0 0 4px; font-size:18px; color:#1a202c;">เลข ' + eventNum + ' : กระต่าย' + rabbitData.name + ' <span class="element-tag elem-' + eventElem.name + '">ธาตุ' + eventElem.name + ' ' + eventElem.symbol + '</span></h3>';
+    html += '<p style="font-size:13px; font-weight:700; color:var(--primary-orange);">' + rabbitData.short + '</p>';
+    
+    html += '<div class="pred-block" style="background:#fff; border-left:4px solid var(--primary-orange);">';
+    html += '<h4>🔮 คำทำนายด้าน' + catObj.name + ' (' + subObj.n + ')</h4>';
+    html += '<p style="font-size:13px; color:#2d3748; margin:0; line-height:1.6;">' + categoryPrediction + '</p>';
+    html += '</div>';
+
+    html += '<p style="font-size:11.5px; color:#718096; margin-top:8px;"><b>สภาวะทั่วไป:</b> ' + rabbitData.desc + '</p>';
+    html += '</div>';
+
+    var resDiv = $('results');
+    resDiv.innerHTML = html; resDiv.style.display = 'block';
+    resDiv.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function calculateAsset() {
+    var ticker = $('assetTicker').value.trim();
+    var market = $('assetMarket').value.trim();
+    var priceStr = $('assetPrice').value.trim();
+    var dtStr = $('assetDatetime').value;
+
+    if (!ticker || !market || !priceStr || !dtStr) { alert('กรุณากรอกข้อมูลสินทรัพย์ให้ครบถ้วน'); return; }
+
+    var dt = new Date(dtStr);
+    var assetP = H.parsePythagoreanText(ticker);
+    var marketP = H.parsePythagoreanText(market);
+    var dateP = H.parsePriceNumber(dt.getDate() + '' + (dt.getMonth() + 1) + '' + dt.getFullYear());
+    var timeP = H.parsePriceNumber(dt.getHours() + '' + dt.getMinutes());
+    var dayPowerObj = H.getDayPower(dt);
+    var priceP = H.parsePriceNumber(priceStr);
+
+    var baseSum = assetP.reduced + marketP.reduced + dateP.reduced + timeP.reduced + dayPowerObj.power + priceP.reduced;
+    var directionNum = H.calcMod(baseSum, 9);
+    var rabbit = H.RABBITS[directionNum];
+    var elem = H.getElement(H.calcMod(directionNum, 5));
+
+    var isOwned = $('assetOwnedStatus').value === 'yes';
+
+    var actionStatus = "";
+    var actionClass = "";
+    var actionReason = "";
+
+    switch (directionNum) {
+      case 1:
+      case 3:
+        if (!isOwned) {
+          actionStatus = "ควรเข้า";
+          actionClass = "act-BUY";
+          actionReason = "สินทรัพย์อยู่ในสภาวะกระต่าย" + rabbit.name + " มีพลังขับเคลื่อนและแนวโน้มเชิงรุกสูง มีโอกาสทำกำไรในระยะสั้น-กลาง";
+        } else {
+          actionStatus = "ควรเข้า (ถือต่อ/สะสมเพิ่ม)";
+          actionClass = "act-BUY";
+          actionReason = "ทิศทางพละกำลังสนับสนุนการเติบโต หากต้นทุนต่ำกว่าราคาปัจจุบันรันเทรนด์ต่อได้เลย";
+        }
+        break;
+
+      case 2:
+      case 8:
+        actionStatus = "รอจังหวะ";
+        actionClass = "act-WAIT";
+        actionReason = "สินทรัพย์อยู่ในสภาวะกระต่าย" + rabbit.name + " ตลาดยังแกว่งตัวในกรอบนิ่ง รอการยืนยันเบรกไฮ/โลว์ หรือรอปัจจัยข่าวสารใหม่เข้ามา";
+        break;
+
+      case 4:
+      case 7:
+        if (isOwned) {
+          actionStatus = "ควรออก";
+          actionClass = "act-SELL";
+          actionReason = "สินทรัพย์อยู่ในสภาวะกระต่าย" + rabbit.name + " มีแรงขายย่อตัวหรือความเสี่ยงซ่อนอยู่ พิจารณา Take Profit หรือ Stop Loss ลดความเสี่ยง";
+        } else {
+          actionStatus = "รอจังหวะ";
+          actionClass = "act-WAIT";
+          actionReason = "สินทรัพย์กำลังพักฐาน ย่อตัว หรือมีความเสี่ยง ชะลอการเข้าซื้อไว้ก่อนจนกว่าจะสร้างฐานราคาเสร็จ";
+        }
+        break;
+
+      case 5:
+      case 6:
+        actionStatus = "เก็บข้อมูลก่อน";
+        actionClass = "act-DATA";
+        actionReason = "สินทรัพย์อยู่ในสภาวะกระต่าย" + rabbit.name + " ทิศทางผันผวนเปลี่ยนแปลงง่าย หรืออยู่ในช่วงซุ่มสะสมกำลัง ยังไม่ชัดเจน";
+        break;
+    }
+
+    var html = '<div class="card">';
+    html += '<span class="card-title">วิเคราะห์ทิศทางสินทรัพย์ (' + ticker + ')</span>';
+    html += '<div style="text-align:center; margin-bottom:12px;">';
+    html += '<span class="action-badge ' + actionClass + '">' + actionStatus + '</span>';
+    html += '<p style="font-size:12.5px; color:#4a5568; margin:4px 0;">' + actionReason + '</p>';
+    html += '</div>';
+
+    html += '<div class="num-tile hl" style="margin-top:10px;">';
+    html += '<div class="k">สภาวะสินทรัพย์ประจำช่วงเวลา</div>';
+    html += '<div class="v">เลข ' + directionNum + ' : กระต่าย' + rabbit.name + ' <span class="element-tag elem-' + elem.name + '">ธาตุ' + elem.name + ' ' + elem.symbol + '</span></div>';
+    html += '<div class="desc"><b>ความหมาย:</b> ' + rabbit.short + '<br>' + rabbit.desc + '</div>';
+    html += '</div>';
+    html += '</div>';
+
+    var resDiv = $('results');
+    resDiv.innerHTML = html; resDiv.style.display = 'block';
+    resDiv.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  document.addEventListener('DOMContentLoaded', initUI);
+})();
+  </script>
+</body>
+</html>
