@@ -246,6 +246,9 @@ input:focus, select:focus { border-color: var(--primary-orange); background: #ff
 
 /* ---------- รายละเอียดองค์เทพแบบเต็ม ---------- */
 .god-card-main { padding: 18px; }
+.god-message-box { font-size: 16px; line-height: 1.85; padding: 15px; border-radius: 14px; }
+.god-message-box b { display: inline-block; margin-bottom: 5px; font-size: 16px; color: #166534; }
+.god-card-main .god-lead { font-size: 15px; line-height: 1.8; }
 .god-code-row { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:12px; color:#92400e; margin-top:6px; }
 .god-lead { margin-top:10px; background:rgba(255,255,255,.78); border:1px solid #fde68a; border-radius:12px; padding:11px; font-size:12.5px; line-height:1.6; color:#451a03; }
 .god-prediction-block { background:#fffaf0; border-color:#fcd34d; }
@@ -475,7 +478,7 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
 
     <div class="engine-tabs">
       <button class="tab-btn active" id="tabPerson">👤 ดวงบุคคล</button>
-      <button class="tab-btn" id="tabGod">⛩️ มูเทพองค์ไหน</button>
+      <button class="tab-btn" id="tabGod">⛩️ เทพประจำตัว</button>
       <button class="tab-btn" id="tabOreguram">🔮 โอเรกุรัม</button>
       <button class="tab-btn" id="tabTarotRune">🃏 ไพ่ทาโรต์ + รูน</button>
     </div>
@@ -626,30 +629,17 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
       <button type="button" class="btn-submit" id="btnCalc">🐇 คำนวณดวง</button>
     </div>
 
-    <!-- Engine มูเทพองค์ไหน -->
+    <!-- Engine 2: ค้นหาองค์เทพประจำตัวจากเลขศาสตร์ชื่อและข้อมูลเกิด -->
     <div id="engineGod" style="display:none;">
       <section class="card">
-        <span class="card-title">ปรารถนาความสำเร็จเรื่องใดเป็นพิเศษ</span>
-        <div class="chip-group" id="godCatGroup">
-          <div class="chip-btn active" data-cat="work">การงาน/บริวาร</div>
-          <div class="chip-btn" data-cat="money">การเงิน/โชคลาภ</div>
-          <div class="chip-btn" data-cat="health">สุขภาพ/ขจัดอุปสรรค</div>
-          <div class="chip-btn" data-cat="love">ความรัก/เสน่ห์</div>
-          <div class="chip-btn" data-cat="interest">ปัญญา/การเรียน</div>
-        </div>
-      </section>
-
-      <section class="card">
-        <span class="card-title">รายละเอียดเรื่องที่ปรารถนา</span>
-        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
-          เลือกหัวข้อให้เจาะจง คำทำนายจะคำนวณเฉพาะหัวข้อนั้น<br/>
-          เลือกหัวข้อที่ต้องการเพื่อดูคำทำนายเฉพาะเรื่อง
+        <span class="card-title">⛩️ ค้นหาองค์เทพประจำตัว</span>
+        <p style="font-size:13px; color:var(--text-muted); margin:0; line-height:1.65;">
+          ระบบจะใช้เลขศาสตร์ชื่อ-สกุลร่วมกับวัน เดือน ปี และเวลาเกิด เพื่อหาเลขประจำตัว แล้วจับคู่กับองค์เทพตามตารางเลข 1–9
         </p>
-        <div class="chip-group" id="godSubTopicGroup"></div>
+        <div class="hint-box" style="margin-top:12px;">✨ กรุณากรอกข้อมูลส่วนตัวในแบบฟอร์มหลักด้านบนให้ครบ หากไม่ทราบเวลาเกิด สามารถเลือก “ไม่ทราบเวลาเกิด” ได้</div>
       </section>
-
       <button class="btn-submit" id="btnCalcGod" style="background: linear-gradient(135deg, #b45309 0%, #78350f 100%);">
-        ⛩️ คำนวณองค์เทพเสริมดวงช่วงนี้
+        ⛩️ คำนวณองค์เทพประจำตัว
       </button>
     </div>
 
@@ -4354,38 +4344,23 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
     return fn(params);
   }
 
-  // แท็บองค์เทพ: ใช้สูตรโหรกระต่ายทุกชั้นร่วมกัน
-  // พื้นดวง + จิตสำนึก/ลัคนา + แนวโน้มเรื่องที่เลือก + เลขศาสตร์ชื่อ
-  // แล้วใช้ R4 เป็นรหัสกระต่ายหลักในการจับคู่กับองค์เทพ
+  // Engine 2: องค์เทพประจำตัว — ใช้เลขศาสตร์ชื่อ-สกุล + วันเดือนปีและเวลาเกิด
+  // ตัดสูตรโหรกระต่าย/หมวดคำถามเดิมออกจากการหาองค์เทพทั้งหมด
   function calcGod(params) {
-    var p = mergeInto({}, params);
-    p.feature = 'all';
-    var personRes = calcPerson(p);
-    var num = personRes.R4;
-    var category = params.category || 'work';
-    var subKey = parseInt(params.subTopicKey || 1, 10);
-    var catObj = SHORT_CATEGORIES[category] || SHORT_CATEGORIES.work;
-    var subObj = catObj && catObj.subs ? catObj.subs[subKey] : null;
+    var b = readBirthInput(params || {});
+    var nameRes = calcNameNumber(b.fName, b.fLast);
+    var nameNumber = nameRes ? nameRes.num : 0;
+    var timeNumber = b.noBirthTime ? 0 : (b.bHour + b.bMin);
+    var combinedSum = nameNumber + b.bDay + b.bMonth + b.bYear + timeNumber;
+    var num = reduce1(combinedSum);
     return {
-      personRes: personRes,
       godNum: num,
       godInfo: GOD_DATA[num] || GOD_DATA[1],
-      category: category,
-      categoryName: (catObj && catObj.name) || 'การงาน',
-      subTopicKey: subKey,
-      subTopicName: subObj ? subObj.n : '',
-      subTopicFrame: getSubFrame(category, subKey),
-      topicPred: personRes.topicPred || getTopicPred(category, num),
-      deepPrediction: personRes.deepPrediction || getPredDeep(category, num),
       godRitual: GOD_RITUAL[num] || null,
-      rabbitFormula: {
-        base: personRes.R1 || personRes.baseNumber || null,
-        consciousness: personRes.R2 || personRes.consciousnessNumber || null,
-        trend: personRes.R3 || personRes.trendNumber || null,
-        final: personRes.R4 || num,
-        ascendant: personRes.ascInfo || null,
-        element: personRes.element || null
-      }
+      nameRes: nameRes,
+      noBirthTime: b.noBirthTime,
+      combinedSum: combinedSum,
+      components: { nameNumber: nameNumber, day: b.bDay, month: b.bMonth, year: b.bYear, time: timeNumber }
     };
   }
 
@@ -4992,53 +4967,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (baseBar) baseBar.style.display = "block";
     if (topicBar) topicBar.style.display = "none";
   })();
-
-  var currentGodCategory = "work";
-  var currentGodSubKey = 1;
-
-  function renderGodSubTopics(cat) {
-    var wrap = document.getElementById("godSubTopicGroup");
-    if (!wrap) return;
-    wrap.innerHTML = "";
-    var catObj = Engine.SHORT_CATEGORIES[cat];
-    if (!catObj) return;
-    Object.keys(catObj.subs).forEach(function (k) {
-      var sub = catObj.subs[k];
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "chip-btn-sub" + (parseInt(k, 10) === currentGodSubKey ? " active" : "");
-      if (sub.hot) {
-        btn.innerText = sub.n;
-      } else {
-        btn.innerText = sub.n;
-      }
-      btn.addEventListener("click", function () {
-        document.querySelectorAll("#godSubTopicGroup .chip-btn-sub").forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        currentGodSubKey = parseInt(k, 10);
-        if (resultsBox) {
-          resultsBox.style.display = "none";
-          resultsBox.innerHTML = "";
-        }
-          });
-      wrap.appendChild(btn);
-    });
-  }
-  document.querySelectorAll("#godCatGroup .chip-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      document.querySelectorAll("#godCatGroup .chip-btn").forEach(function (b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      currentGodCategory = btn.getAttribute("data-cat");
-      currentGodSubKey = firstSubKey(currentGodCategory);
-      renderGodSubTopics(currentGodCategory);
-      if (resultsBox) {
-        resultsBox.style.display = "none";
-        resultsBox.innerHTML = "";
-      }
-      });
-  });
-  currentGodSubKey = firstSubKey(currentGodCategory);
-  renderGodSubTopics(currentGodCategory);
 
   var currentCategory = "work";
   var currentSubKey = 1;
@@ -6252,37 +6180,67 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ---------- Engine 2: มูเทพองค์ไหน ----------
+  // ---------- Engine 2: องค์เทพประจำตัว ----------
   function renderGodResult(data, fromButton) {
-    var godRes = Engine.calcGod({
-      fName:data.fName,fLast:data.fLast,bDay:data.bDay,bMonth:data.bMonth,bYear:data.bYear,
-      bHour:data.bHour,bMin:data.bMin,noBirthTime:data.noBirthTime,
-      category:currentGodCategory,subTopicKey:currentGodSubKey
-    });
-    var god=godRes.godInfo||{}, ritual=godRes.godRitual||{}, person=godRes.personRes||{}, topic=godRes.topicPred||{}, deep=godRes.deepPrediction||{};
-    var frame=godRes.subTopicFrame||{};
-    function arrHtml(a){return a&&a.length?'<ul class="god-list">'+a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>':'';}
-    var h='<span class="card-title">คำทำนายมูเทพ · '+(godRes.categoryName||'')+(godRes.subTopicName?' · '+godRes.subTopicName:'')+'</span>';
-    h+='<div class="god-card god-card-main"><div class="god-title">⛩️ '+(god.name||'-')+' <span class="god-type">'+(god.type||'')+'</span></div>';
-    h+='<div class="answer-box good"><b>🎯 สรุปสำหรับเรื่องที่คุณเลือก</b><br/>'+(frame.focus||topic.summary||deep.focus||god.bless||'-')+'</div>';
-    h+='<div class="god-lead"><b>🔮 ทำไมจึงได้องค์นี้</b><br/>'+(ritual.why||god.bless||'องค์เทพนี้ถูกจับคู่จากรหัสกระต่ายของผู้ใช้')+'</div></div>';
-    h+='<div class="pred-block"><h4 style="color:#92400e;">🕯️ วิธีสักการะที่เกี่ยวข้องกับคำทำนาย</h4>';
-    if(ritual.bestDay) h+='<div class="pred-section-item"><b>📆 วัน:</b> '+ritual.bestDay+'</div>';
-    if(ritual.bestTime) h+='<div class="pred-section-item"><b>🕐 เวลา:</b> '+ritual.bestTime+'</div>';
-    if(ritual.luckyColor) h+='<div class="pred-section-item"><b>🎨 สี:</b> '+ritual.luckyColor+'</div>';
-    h+=arrHtml(ritual.offerings||[]); h+=arrHtml(ritual.ritual||[]);
-    h+='</div>';
-    if(god.mantra||ritual.chant) h+='<div class="pred-block"><h4 style="color:#92400e;">📜 คาถา</h4><div class="chant-box"><span class="mantra">'+(god.mantra||ritual.chant)+'</span></div></div>';
-    h+=featureCtaHtml('god');
-    resultsBox.style.display='block'; resultsBox.innerHTML=h;
+    var params = {
+      fName:data.fName, fLast:data.fLast,
+      bDay:data.bDay, bMonth:data.bMonth, bYear:data.bYear,
+      bHour:data.bHour, bMin:data.bMin, noBirthTime:data.noBirthTime
+    };
+    var godRes = Engine.calcGod(params);
+    var god = godRes.godInfo || {}, ritual = godRes.godRitual || {};
+    // ใช้เลขกระต่ายจากพื้นดวงตาม Engine โหรกระต่าย ไม่ใช้เลขเทพเป็นตัวเขียนคำทำนาย
+    var rabbitRes = Engine.calcPerson(Object.assign({}, params, {feature:'base'})) || {};
+    var rabbitNum = parseInt(rabbitRes.baseCode, 10) || 9;
+    var rabbitInfo = (Engine.RABBITS && Engine.RABBITS[rabbitNum]) || {name:'พบทางออก',desc:'ค่อย ๆ มองหาทางเลือกที่เหมาะกับตัวเอง'};
+    var rabbitMessages = {
+      1: {message:'ถึงเวลาลองเริ่มสิ่งที่คุณคิดไว้มานานแล้ว ไม่จำเป็นต้องรอให้ทุกอย่างพร้อม 100% เลือกก้าวเล็ก ๆ ที่ทำได้วันนี้ แล้วค่อยปรับระหว่างทาง แต่อย่าลืมบอกคนที่เกี่ยวข้องให้เข้าใจตรงกัน', action:'เลือกเป้าหมายหนึ่งอย่าง แล้วลงมือทำขั้นแรกภายในวันนี้ อย่าแบกทุกอย่างไว้คนเดียว'},
+      2: {message:'ตอนนี้คุณไม่จำเป็นต้องรีบตัดสินใจ ฟังข้อมูลให้ครบ สังเกตการกระทำมากกว่าคำพูด แล้วค่อยเลือกทางที่เหมาะกับตัวเอง การรออย่างมีสติไม่ใช่ความล่าช้า แต่ต้องรู้ด้วยว่ากำลังรออะไร', action:'รวบรวมข้อมูลที่ยังขาด ถามในสิ่งที่สงสัย และกำหนดเวลาทบทวนเพื่อตัดสินใจให้ชัด'},
+      3: {message:'ถ้าคุณเห็นโอกาสและอยากเดินหน้า ให้ใช้พลังนั้นลงมือทำได้เลย คุณไม่จำเป็นต้องทำทุกอย่างพร้อมกัน เลือกเรื่องที่สำคัญที่สุดก่อน แล้วพาตัวเองไปทีละขั้น ระวังอย่ารับหลายเรื่องจนหมดแรง', action:'จัดลำดับความสำคัญ เลือกหนึ่งเรื่องที่อยากให้คืบหน้า แล้วทำให้เห็นผลเป็นรูปธรรม'},
+      4: {message:'ก่อนจะเดินหน้าต่อ ขอให้ตรวจรายละเอียดให้รอบคอบอีกครั้ง โดยเฉพาะเรื่องเงิน ข้อตกลง และคำสัญญา การชะลอเพื่อตรวจสอบไม่ได้แปลว่าคุณพลาดโอกาส แต่ช่วยลดปัญหาที่แก้ทีหลังได้ยาก', action:'ตรวจข้อเท็จจริงและเงื่อนไขสำคัญ หากยังไม่แน่ใจให้ถามเพิ่มก่อนตกลงหรือลงทุน'},
+      5: {message:'ช่วงนี้คุณอาจต้องถอยออกมาพักและเก็บแรงก่อน ไม่จำเป็นต้องอธิบายทุกอย่างให้ทุกคนเข้าใจทันที ดูแลพื้นฐานของตัวเองให้ดี แล้วค่อยกลับไปจัดการเรื่องสำคัญเมื่อพร้อม อย่าปล่อยให้ความเงียบกลายเป็นการหลบปัญหานานเกินไป', action:'กันเวลาพัก จัดการเรื่องจำเป็นทีละอย่าง และเลือกคนที่ไว้ใจได้สักคนเพื่อพูดคุยเมื่อรู้สึกหนักใจ'},
+      6: {message:'ถ้าวิธีเดิมทำให้คุณติดอยู่ที่เดิม ลองเปลี่ยนวิธีหรือมุมมองดูได้ คุณไม่จำเป็นต้องฝืนเส้นทางเดิมเพียงเพราะเริ่มมาแล้ว แต่ก่อนเปลี่ยนแผน ควรดูผลกระทบและเลือกทางใหม่ที่ทำได้จริง', action:'ทบทวนว่าอะไรไม่ได้ผล แล้วปรับเพียงหนึ่งอย่างก่อนประเมินผล ไม่ต้องเปลี่ยนทุกอย่างพร้อมกัน'},
+      7: {message:'บางคำตอบอาจอยู่ในเรื่องที่คุณเคยผ่านมาก่อน ลองกลับไปดูว่าอะไรเคยได้ผล อะไรทำให้สะดุด และมีสิ่งไหนที่ยังแก้ไขได้ คุณไม่จำเป็นต้องโทษตัวเองกับอดีต ใช้ประสบการณ์เป็นข้อมูลเพื่อเลือกครั้งต่อไปให้ดีขึ้น', action:'ทบทวนบทเรียนจากเรื่องเดิมหนึ่งเรื่อง แล้วกำหนดว่าจะทำต่างจากเดิมอย่างไร'},
+      8: {message:'คุณไม่จำเป็นต้องเร่งให้ทุกอย่างเดินหน้าในทันที บางช่วงการรักษาสิ่งที่มีอยู่และดูแลใจตัวเองก็สำคัญพอ ๆ กับการเติบโต ใช้เวลานี้จัดระเบียบชีวิตและรักษาพลัง แต่ยังคงขยับเรื่องเล็ก ๆ ที่จำเป็นต่อไป', action:'ลดสิ่งที่ไม่จำเป็น จัดเวลาพัก และรักษากิจวัตรที่ช่วยให้ชีวิตมั่นคง'},
+      9: {message:'เรื่องที่ค้างคาอาจเริ่มเห็นทางออก หากคุณแยกปัญหาออกเป็นส่วน ๆ และจัดการทีละเรื่อง ไม่จำเป็นต้องแก้ทุกอย่างในวันเดียว ขอให้มองหาทางเลือกที่เป็นไปได้และกล้าขอความช่วยเหลือเมื่อจำเป็น', action:'เขียนปัญหาที่กังวลออกมา เลือกข้อที่จัดการได้ก่อนหนึ่งข้อ แล้วเริ่มลงมืออย่างเป็นขั้นตอน'}
+    };
+    var rabbitMessage = rabbitMessages[rabbitNum] || rabbitMessages[9];
+    // บทสนทนาจากองค์เทพประจำตัว เขียนเป็นภาษาพูดโดยอิงความหมายเลขโหรกระต่าย
+    var godConversation = {
+      1: 'ลูกเอ๋ย มีเรื่องหนึ่งที่เจ้าเก็บไว้ในใจและอยากเริ่มมานานแล้วใช่ไหม อย่ารอจนความกลัวหายไปหมด เพราะบางครั้งความมั่นใจจะเกิดขึ้นหลังจากได้ลงมือทำ เริ่มจากก้าวเล็ก ๆ ก่อน แล้วค่อยเรียนรู้ระหว่างทางนะ',
+      2: 'ข้าอยากให้เจ้าค่อย ๆ ฟังเสียงหัวใจตัวเอง และฟังสิ่งที่เกิดขึ้นรอบตัวให้ครบ อย่าเพิ่งตัดสินใครหรือรีบเลือกเพราะกลัวว่าจะไม่ทันเวลา เมื่อข้อมูลชัดขึ้น ใจเจ้าจะเห็นทางที่เหมาะสมกว่าเดิม',
+      3: 'ข้าเห็นว่าเจ้ามีพลังจะพาตัวเองไปข้างหน้า อย่าดูถูกก้าวเล็ก ๆ ของตัวเองเลย วันนี้ไม่ต้องชนะทุกเรื่องก็ได้ ขอเพียงเลือกสิ่งสำคัญสักอย่างแล้วทำให้สำเร็จ ระวังอย่ารับภาระมากจนลืมดูแลตัวเอง',
+      4: 'ก่อนจะตอบตกลงหรือฝากความหวังไว้กับใคร ข้าอยากให้เจ้าหยุดตรวจดูรายละเอียดอีกครั้ง โดยเฉพาะเรื่องเงิน คำพูด และข้อตกลง การรอบคอบไม่ใช่ความกลัว แต่เป็นการปกป้องตัวเองอย่างมีสติ',
+      5: 'เจ้าเหนื่อยมามากแล้วหรือเปล่า ถ้าใช่ ก็พักได้ ไม่จำเป็นต้องเข้มแข็งให้ทุกคนเห็นตลอดเวลา ดูแลใจและกำลังของตัวเองก่อน แล้วค่อยกลับไปจัดการเรื่องที่ค้างอยู่ หากหนักเกินไป อย่าเก็บไว้คนเดียว ลองพูดกับคนที่ไว้ใจนะ',
+      6: 'หากทางเดิมทำให้เจ้าติดอยู่ที่เดิม ก็ไม่จำเป็นต้องฝืนเพียงเพราะเดินมาไกลแล้ว ลองมองอีกมุมและปรับทีละอย่าง ไม่ต้องพลิกชีวิตทั้งหมดในวันเดียว ขอให้เลือกทางที่เป็นไปได้และเหมาะกับตัวเจ้า',
+      7: 'ลองหันกลับไปมองสิ่งที่เจ้าเคยผ่านมาสักนิดนะ ไม่ใช่เพื่อโทษตัวเอง แต่เพื่อเห็นว่าเจ้าผ่านอะไรมาบ้างและเรียนรู้อะไรได้แล้ว บทเรียนเก่าอาจช่วยให้การตัดสินใจครั้งต่อไปเบาขึ้นและชัดเจนขึ้น',
+      8: 'ไม่ต้องรีบพิสูจน์ตัวเองกับทุกคนหรอก บางช่วงของชีวิต การประคองสิ่งดี ๆ ที่มีอยู่และพักให้พอ ก็เป็นความก้าวหน้าเหมือนกัน ค่อย ๆ จัดระเบียบสิ่งรอบตัว แล้วรักษาแรงใจไว้สำหรับเรื่องที่สำคัญจริง ๆ',
+      9: 'ข้าอยากให้เจ้ารู้ว่า ปัญหาที่ดูใหญ่ไม่ได้จำเป็นต้องแก้ให้หมดในคราวเดียว ลองแยกมันออกเป็นเรื่องเล็ก ๆ แล้วเริ่มจากเรื่องที่พอจัดการได้ก่อน การขอความช่วยเหลือไม่ใช่ความอ่อนแอ เจ้าสามารถค่อย ๆ หาทางออกได้'
+    };
+    var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
+    h += '<div class="god-card god-card-main">';
+    h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
+    h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
+    h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
+    h += '<div class="god-lead"><b>🌿 ลองทำสิ่งนี้ต่อจากนี้</b><br/>' + rabbitMessage.action + '</div>';
+    h += '<div class="god-detail-box" style="margin-top:10px;"><div class="god-detail-title">✨ ความหมายขององค์เทพในความเชื่อ</div>' + (god.bless || 'ใช้สติและความตั้งใจเป็นแนวทางในการดำเนินชีวิต') + '</div>';
+    h += '</div>';
+    h += '<div class="pred-block god-conversation-block"><h4 style="color:#92400e;">🗣️ เทพประจำตัวอยากจะคุยกับเรา</h4>';
+    h += '<div class="answer-box good god-message-box"><b>⛩️ ' + (god.name || 'เทพประจำตัว') + ' พูดกับคุณว่า...</b><br/>' + (godConversation[rabbitNum] || godConversation[9]) + '</div>';
+    h += '<div class="pred-section-item" style="margin-top:10px;">ลองอ่านช้า ๆ แล้วเลือกเฉพาะส่วนที่ตรงกับชีวิตของคุณในตอนนี้ คำทำนายนี้เป็นแนวทางให้ทบทวนตัวเอง ไม่ใช่ข้อบังคับในการตัดสินใจ</div>';
+    h += '</div>';
+    h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
+    resultsBox.style.display = 'block';
+    resultsBox.innerHTML = h;
     improvePredictionReadability(resultsBox);
-    if(fromButton&&typeof resultsBox.scrollIntoView==='function') resultsBox.scrollIntoView({behavior:'smooth'}); return true;
+    if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
+    return true;
   }
 
   var btnCalcGod = document.getElementById("btnCalcGod");
   if (btnCalcGod) btnCalcGod.addEventListener("click", function(e){
     if(e)e.preventDefault(); if(resultsBox){resultsBox.style.display='none';resultsBox.innerHTML='';}
-    try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai god calculation error:",err);if(resultsBox){resultsBox.style.display='block';resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณองค์เทพขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>';}}
+    try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai personal deity calculation error:",err);if(resultsBox){resultsBox.style.display='block';resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบค้นหาองค์เทพประจำตัวขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>';}}
   });
 
   // ---------- Engine 3: ตำราโอเรกุรัม 60 คำถาม ----------
