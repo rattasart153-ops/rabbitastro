@@ -5493,20 +5493,39 @@ document.addEventListener("DOMContentLoaded", function () {
     return ascendantHtml(res, { noLucky: true, noChant: true });
   }
 
+  // เสียงสะท้อนเชิงใคร่ครวญจากเลขกระต่าย ใช้ถ้อยคำอบอุ่น ไม่ตัดสิน และไม่อ้างว่าอ่านใจได้แน่นอน
+  function rabbitSubconsciousVoice(num) {
+    var voices = {
+      1: { core:'ลึก ๆ คุณอาจอยากเริ่มต้นหรือพิสูจน์ตัวเองในบางเรื่อง แต่ก็อาจกลัวว่าจะยังไม่พร้อม', worry:'ฉันกำลังรอความพร้อมที่สมบูรณ์แบบอยู่หรือเปล่า', need:'คุณมีสิทธิ์เริ่มจากก้าวเล็ก ๆ โดยไม่ต้องทำทุกอย่างให้สำเร็จในครั้งเดียว', step:'เลือกสิ่งหนึ่งที่ทำได้วันนี้ แล้วอนุญาตให้ตัวเองเรียนรู้ระหว่างทาง' },
+      2: { core:'คุณอาจต้องการความมั่นใจและพื้นที่ปลอดภัยก่อนตัดสินใจ เพราะไม่อยากพลาดหรือทำให้ใครผิดหวัง', worry:'ข้อมูลอะไรที่ฉันยังต้องรู้ และอะไรคือความกลัวที่กำลังทำให้ฉันลังเล', need:'ความรู้สึกของคุณมีความหมาย แต่คุณไม่จำเป็นต้องรอให้ทุกอย่างแน่นอนทั้งหมด', step:'ค่อย ๆ ตรวจสอบข้อเท็จจริง รับฟังตัวเอง และกำหนดเวลาที่จะกลับมาตัดสินใจ' },
+      3: { core:'คุณอาจมีแรงอยากเดินหน้าและอยากเห็นผล แต่บางครั้งก็แบกหลายอย่างไว้พร้อมกันจนเหนื่อย', worry:'เรื่องไหนสำคัญกับฉันจริง ๆ และเรื่องไหนที่ฉันรับไว้เพราะเกรงใจ', need:'คุณไม่จำเป็นต้องทำทุกอย่างเพื่อพิสูจน์คุณค่าของตัวเอง', step:'เลือกเรื่องสำคัญที่สุดหนึ่งเรื่อง แล้วค่อย ๆ ทำให้เห็นความคืบหน้า' },
+      4: { core:'คุณอาจกำลังมองหาความมั่นคงและอยากให้ทุกอย่างอยู่ในแบบที่พอคาดเดาได้', worry:'ฉันกำลังจัดระเบียบเพื่อช่วยตัวเอง หรือกำลังพยายามควบคุมทุกอย่างเพราะไม่สบายใจ', need:'ความมั่นคงสร้างได้ทีละส่วน และไม่จำเป็นต้องแบกทุกอย่างไว้คนเดียว', step:'จัดการสิ่งที่ควบคุมได้ก่อน แล้วเผื่อพื้นที่ให้สิ่งที่ยังไม่แน่นอน' },
+      5: { core:'คุณอาจพยายามดูแลหลายด้านให้สมดุล จนบางครั้งลืมถามว่าตัวเองไหวแค่ไหน', worry:'ฉันกำลังฝืนต่อเพราะคิดว่าต้องเข้มแข็งอยู่ตลอดหรือเปล่า', need:'การพักและขอความช่วยเหลือไม่ได้ทำให้คุณอ่อนแอลง', step:'หยุดเช็กความรู้สึกและความต้องการของตัวเองสักนิด แล้วเลือกสิ่งที่ช่วยให้ใจและกายเบาลง' },
+      6: { core:'ส่วนหนึ่งของคุณอาจพร้อมเปลี่ยนแปลง แต่อีกส่วนยังผูกพันกับวิธีเดิมที่เคยทำให้รู้สึกปลอดภัย', worry:'อะไรที่ฉันยังทำแบบเดิมเพียงเพราะคุ้นเคย แม้มันไม่เหมาะกับฉันแล้ว', need:'คุณเปลี่ยนใจหรือปรับวิธีได้ โดยไม่จำเป็นต้องตำหนิตัวเองในอดีต', step:'ลองวิธีใหม่ในขนาดเล็ก แล้วดูจากผลจริงว่ามันเหมาะกับคุณแค่ไหน' },
+      7: { core:'คุณอาจมีเรื่องค้างใจหรือภาระบางอย่างที่ใช้พลังไปมากกว่าที่คนอื่นมองเห็น', worry:'มีเรื่องไหนที่ฉันควรวางขอบเขต ปิดให้จบ หรือยอมปล่อยลงบ้าง', need:'คุณไม่จำเป็นต้องแก้ทุกเรื่องด้วยตัวเอง และไม่จำเป็นต้องย้อนกลับไปแบกสิ่งเดิมเสมอ', step:'เลือกจัดการเรื่องค้างคาทีละเรื่อง พร้อมให้สิทธิ์ตัวเองพักระหว่างทาง' },
+      8: { core:'คุณอาจให้ความสำคัญกับความมั่นคงและผลลัพธ์ จนกดดันตัวเองให้ต้องทำได้ดีอย่างต่อเนื่อง', worry:'ฉันกำลังวัดคุณค่าของตัวเองจากผลงานหรือความสำเร็จมากเกินไปหรือไม่', need:'คุณมีคุณค่าแม้ในวันที่ผลลัพธ์ยังไม่เป็นอย่างหวัง', step:'วางแผนให้พอดีกับกำลังของตัวเอง และมองความคืบหน้าเล็ก ๆ ว่าเป็นความก้าวหน้าเช่นกัน' },
+      9: { core:'คุณอาจอยากให้เรื่องต่าง ๆ ดีขึ้นทั้งสำหรับตัวเองและคนรอบข้าง จนเผลอรับความรู้สึกของคนอื่นมาไว้กับตัว', worry:'อะไรคือสิ่งที่ฉันอยากทำจากใจ และอะไรที่ฉันทำเพราะรู้สึกว่าต้องช่วยทุกคน', need:'คุณดูแลคนอื่นได้โดยไม่ต้องละเลยความต้องการของตัวเอง', step:'เลือกสิ่งที่มีความหมายกับคุณจริง ๆ และแบ่งแรงไว้ให้ตัวเองด้วย' }
+    };
+    return voices[parseInt(num, 10)] || voices[9];
+  }
+
   function renderTopicShortSection(res, reading) {
     var pred = res.topicPred || {};
     var frame = reading && reading.frame ? reading.frame : null;
+    var rabbitNum = parseInt(res.R4, 10) || 9;
+    var voice = rabbitSubconsciousVoice(rabbitNum);
+    var topic = (res.categoryName || 'เรื่องที่เลือก') + (res.subTopicName ? ' · ' + res.subTopicName : '');
+    var focusText = frame && frame.focus ? frame.focus : (pred.answer || pred.easy || 'ค่อย ๆ มองสถานการณ์จริงและสิ่งที่สำคัญกับคุณ');
+    var questionText = frame && frame.question ? frame.question : 'อะไรคือสิ่งที่คุณต้องการและให้ความสำคัญที่สุดในเรื่องนี้';
+    var lookText = frame && frame.look ? frame.look : 'สังเกตข้อมูลจริง การกระทำของคนที่เกี่ยวข้อง และความรู้สึกของตัวเอง';
     var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายพื้นฐานเลข ' + res.R4);
-    h += '<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h += '<h4 style="color:#9a3412;">🎯 ภาพรวมเรื่อง' + (res.categoryName || '') + (res.subTopicName ? ' · ' + res.subTopicName : '') + '</h4>';
-    if (frame) {
-      h += '<div class="pred-section-item"><b>🔮 แนวโน้มของเรื่องที่เลือก:</b><br/>' + (frame.focus || 'พิจารณาเรื่องนี้จากสถานการณ์จริงและข้อมูลที่มี') + '</div>';
-      if (frame.question) h += '<div class="pred-section-item"><b>📌 ประเด็นที่ควรพิจารณา:</b><br/>' + frame.question + '</div>';
-      if (frame.look) h += '<div class="pred-section-item"><b>🔔 สิ่งที่ควรสังเกต:</b><br/>' + frame.look + '</div>';
-    } else {
-      h += '<div class="pred-section-item"><b>🔮 แนวโน้มหลัก:</b><br/>' + (pred.answer || pred.easy || 'ให้พิจารณาสถานการณ์โดยรวมจากข้อมูลจริง และค่อย ๆ เลือกแนวทางที่เหมาะสม') + '</div>';
-    }
-    h += '<div class="pred-section-item"><b>🧭 แนวทาง:</b><br/>ยึดข้อมูลจริง แล้วเริ่มจากสิ่งที่ควบคุมได้</div>';
+    h += '<div class="pred-block subconscious-shared-voice" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
+    h += '<h4 style="color:#9a3412;">🎯 ภาพรวมเรื่อง' + topic + ' · เสียงสะท้อนจากใจคุณ</h4>';
+    h += '<div class="pred-section-item"><b>💗 ภาพที่ใจอาจกำลังสะท้อน:</b><br/>' + voice.core + ' เมื่อมองเรื่อง' + topic + ' ลองใช้สิ่งนี้เป็นมุมหนึ่งในการทำความเข้าใจตัวเอง ไม่ใช่ข้อสรุปตายตัว</div>';
+    h += '<div class="pred-section-item"><b>🔮 แนวโน้มของเรื่องที่เลือก:</b><br/>' + focusText + '</div>';
+    h += '<div class="pred-section-item"><b>🫶 สิ่งที่ใจอาจกำลังกังวลหรือถามหา:</b><br/>' + voice.worry + ' ลองเชื่อมโยงกับคำถามนี้อย่างอ่อนโยน: ' + questionText + '</div>';
+    h += '<div class="pred-section-item"><b>🔔 สิ่งที่อยากชวนให้สังเกต:</b><br/>' + lookText + ' ลองสังเกตทั้งเหตุการณ์จริงและความรู้สึกของคุณ โดยไม่ต้องรีบตัดสินตัวเอง</div>';
+    h += '<div class="pred-section-item"><b>🧭 ก้าวเล็ก ๆ ที่ดูแลใจตัวเองได้:</b><br/>' + voice.need + ' ' + voice.step + '</div>';
     h += '</div>';
     return h;
   }
@@ -6031,7 +6050,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
-  function improvePredictionReadability(root) {
+  function improvePredictionReadability(root, rabbitNum, featureKey) {
     if (!root) return;
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
     var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
@@ -6120,6 +6139,21 @@ document.addEventListener("DOMContentLoaded", function () {
     walk(root);
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
+    // ใช้กรอบสะท้อนใจแบบเดียวกันใน Engine 1, 3 และ 4; ไม่แตะ Engine 2 หรือโครงสร้างเฉพาะของ RHD
+    var n = parseInt(rabbitNum, 10);
+    if (n >= 1 && n <= 9 && featureKey !== 'rhd' && !root.querySelector('.subconscious-shared-voice')) {
+      var voice = rabbitSubconsciousVoice(n);
+      var box = document.createElement('div');
+      box.className = 'pred-block subconscious-shared-voice';
+      box.style.cssText = 'background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;';
+      box.innerHTML = '<h4 style="color:#9a3412;">💗 เสียงสะท้อนจากใจคุณ · เลขกระต่าย ' + n + '</h4>' +
+        '<div class="pred-section-item"><b>สิ่งที่ใจอาจกำลังบอก:</b><br/>' + voice.core + '</div>' +
+        '<div class="pred-section-item"><b>คำถามที่ลองถามตัวเองได้:</b><br/>' + voice.worry + '</div>' +
+        '<div class="pred-section-item"><b>สิ่งที่คุณอาจต้องการในตอนนี้:</b><br/>' + voice.need + '</div>' +
+        '<div class="pred-section-item"><b>ก้าวเล็ก ๆ ที่อ่อนโยนกับตัวเอง:</b><br/>' + voice.step + '</div>' +
+        '<div style="font-size:12px;color:#7c5b46;margin-top:8px;">ข้อความนี้เป็นมุมสะท้อนเพื่อชวนสำรวจใจ ไม่ใช่การสรุปความรู้สึกของคุณอย่างแน่นอน</div>';
+      root.appendChild(box);
+    }
   }
 
   // ---------- Engine 1: ดวงบุคคล ----------
@@ -6178,7 +6212,7 @@ document.addEventListener("DOMContentLoaded", function () {
     resultsBox.style.display = "block";
     var rhdBody = '';
     resultsBox.innerHTML = '<span class="card-title">' + titleText + '</span>' + body + rhdBody + featureCtaHtml(featureKey);
-    improvePredictionReadability(resultsBox);
+    improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
   }
@@ -6194,7 +6228,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     resultsBox.style.display = 'block';
     resultsBox.innerHTML = '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + renderTarotRuneSection(res) + featureCtaHtml('tarotRune');
-    improvePredictionReadability(resultsBox);
+    improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune');
     if (fromButton) resultsBox.scrollIntoView({behavior:'smooth'});
     return true;
   }
@@ -6295,7 +6329,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
     resultsBox.innerHTML = h;
-    improvePredictionReadability(resultsBox);
+    improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
     return true;
   }
@@ -6339,7 +6373,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
     resultsBox.innerHTML = h;
-    improvePredictionReadability(resultsBox);
+    improvePredictionReadability(resultsBox, res.R4, 'oreguram');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
   }
