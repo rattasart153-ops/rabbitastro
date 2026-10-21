@@ -3599,47 +3599,43 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
   // เลขศาสตร์ชื่อ-สกุล + วัน + เดือน + ปี + ชั่วโมง + นาที -> ลดเหลือ 1-9
   var RHD_CALCULATOR = {
     temporary: false,
+    // วิธีรับมือ: เลขศาสตร์ชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ) -> เลขเดียว 1-9
     calculateHabitNumber: function(params){
       params = params || {};
-      // แปลงค่าจาก input ให้เป็นจำนวนเต็มอย่างปลอดภัย รองรับทั้งตัวเลขและข้อความ
       function asInt(value) {
         if (value === null || value === undefined || String(value).trim() === '') return 0;
         var n = Number(value);
         return isFinite(n) ? Math.trunc(n) : 0;
       }
-      var nameNumber = asInt(params.nameNumber);
-      var day = asInt(params.bDay);
-      var month = asInt(params.bMonth);
-      var year = asInt(params.bYear);
+      var nameNumber = Math.max(0, asInt(params.nameNumber));
+      var day = Math.max(0, asInt(params.bDay));
+      var month = Math.max(0, asInt(params.bMonth));
+      var year = Math.max(0, asInt(params.bYear));
       var noBirthTime = params.noBirthTime === true || params.noBirthTime === 'true' || params.noBirthTime === 1;
-      var hour = noBirthTime ? 0 : asInt(params.bHour);
-      var minute = noBirthTime ? 0 : asInt(params.bMin);
-      // วันที่และเวลาจริงขณะกดคำนวณดวง ใช้ร่วมคำนวณ Habit Number
-      var queryDay = Math.max(1, Math.min(31, asInt(params.queryDay) || 1));
-      var queryMonth = Math.max(1, Math.min(12, asInt(params.queryMonth) || 1));
-      var queryYear = Math.max(0, asInt(params.queryYear));
-      var queryHour = Math.max(0, Math.min(23, asInt(params.queryHour)));
-      var queryMinute = Math.max(0, Math.min(59, asInt(params.queryMinute)));
-      // ป้องกันข้อมูลผิดรูปแบบทำให้ผลลัพธ์หลุดจากช่วง Habit Number 1-9
-      nameNumber = Math.max(0, nameNumber);
-      day = Math.max(0, day);
-      month = Math.max(0, month);
-      year = Math.max(0, year);
-      hour = Math.max(0, Math.min(23, hour));
-      minute = Math.max(0, Math.min(59, minute));
-      var total = nameNumber + day + month + year + hour + minute +
-        queryDay + queryMonth + queryYear + queryHour + queryMinute;
+      var hour = noBirthTime ? 0 : Math.max(0, Math.min(23, asInt(params.bHour)));
+      var minute = noBirthTime ? 0 : Math.max(0, Math.min(59, asInt(params.bMin)));
+      var total = nameNumber + day + month + year + hour + minute;
       var number = reduce1(total);
       if (!isFinite(number) || number < 1 || number > 9) number = 9;
-      return {
-        number: number,
-        total: total,
-        nameNumber: nameNumber,
-        day: day, month: month, year: year, hour: hour, minute: minute,
-        queryDay: queryDay, queryMonth: queryMonth, queryYear: queryYear,
-        queryHour: queryHour, queryMinute: queryMinute,
-        noBirthTime: noBirthTime
-      };
+      return { number:number, total:total, nameNumber:nameNumber, day:day, month:month, year:year, hour:hour, minute:minute, noBirthTime:noBirthTime };
+    },
+    // สถานการณ์: วันเดือนปีและเวลาจริง ณ ขณะที่ผู้ใช้กดปุ่มคำนวณ -> เลขเดียว 1-9
+    calculateSituationNumber: function(params){
+      params = params || {};
+      function asInt(value) {
+        if (value === null || value === undefined || String(value).trim() === '') return 0;
+        var n = Number(value);
+        return isFinite(n) ? Math.trunc(n) : 0;
+      }
+      var day = Math.max(1, Math.min(31, asInt(params.queryDay) || 1));
+      var month = Math.max(1, Math.min(12, asInt(params.queryMonth) || 1));
+      var year = Math.max(0, asInt(params.queryYear));
+      var hour = Math.max(0, Math.min(23, asInt(params.queryHour)));
+      var minute = Math.max(0, Math.min(59, asInt(params.queryMinute)));
+      var total = day + month + year + hour + minute;
+      var number = reduce1(total);
+      if (!isFinite(number) || number < 1 || number > 9) number = 9;
+      return { number:number, total:total, day:day, month:month, year:year, hour:hour, minute:minute };
     }
   };
 
@@ -4743,14 +4739,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  if (resultsBox && typeof MutationObserver !== 'undefined') {
-    var predictionLanguageObserver = new MutationObserver(function () {
-      simplifyPredictionOutput(resultsBox);
-    });
-    predictionLanguageObserver.observe(resultsBox, { childList: true, subtree: true, characterData: true });
-    // ปรับข้อความที่แสดงอยู่แล้วด้วย ไม่รอเฉพาะผลคำนวณรอบถัดไป
-    simplifyPredictionOutput(resultsBox);
-  }
+  // ไม่เฝ้าดู DOM ตลอดเวลา เพราะผลคำทำนายมีข้อความจำนวนมาก
+  // ปรับภาษาแบบครั้งเดียวตอนสร้างผลลัพธ์ใน improvePredictionReadability()
 
 
   var ogSelect = document.getElementById("oreguramQuestion");
@@ -5818,40 +5808,40 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---------- Rabbit’s Habit Design renderer ----------
-  // Renderer รับเฉพาะผล Rabbit Number ที่คำนวณเสร็จแล้ว จึงไม่แตะสูตร Rabbit Astrology เดิม
+  // Renderer แยกผลคำนวณ RHD ออกจาก Rabbit Astrology และสลับบทบาทเลขสถานการณ์/วิธีรับมือตามที่กำหนด
   function renderRHDSection(res, featureKey, inputData) {
     if (!Engine || !Engine.RHD || !res || (featureKey !== 'base' && featureKey !== 'rhd')) return '';
-    var rabbitNumber = 9;
-    try {
-      rabbitNumber = Engine.RHD.rabbitNumber(res, 'base');
-      rabbitNumber = parseInt(rabbitNumber, 10);
-      if (!isFinite(rabbitNumber) || rabbitNumber < 1 || rabbitNumber > 9) rabbitNumber = 9;
-    } catch (e) { rabbitNumber = 9; }
-    // ใช้เลขศาสตร์ชื่อ-นามสกุลที่คำนวณจากข้อมูลที่กรอกโดยตรง
-    // แล้วบวกกับวัน เดือน ปี และเวลาเกิด ก่อนลดผลรวมเป็น Habit Number 1-9
+    // บันทึกวันและเวลาจริง ณ จังหวะที่ผู้ใช้กดปุ่มคำนวณ
+    var rhdQueryTime = new Date();
     var nameResult = (inputData && inputData.fName && inputData.fLast && typeof calcNameNumber === 'function')
       ? calcNameNumber(inputData.fName, inputData.fLast)
       : null;
     var nameNumber = nameResult ? parseInt(nameResult.num, 10) : parseInt(res.N, 10);
     if (!isFinite(nameNumber) || nameNumber < 1 || nameNumber > 9) nameNumber = 5;
-    // เก็บวันที่และเวลาจริง ณ จังหวะที่คำนวณ RHD
-    var rhdQueryTime = new Date();
-    var calc = Engine.RHD.CALCULATOR.calculateHabitNumber({
+
+    // วิธีรับมือใช้ข้อมูลประจำตัว: เลขชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ)
+    var habitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
       nameNumber: nameNumber,
       bDay: inputData && inputData.bDay,
       bMonth: inputData && inputData.bMonth,
       bYear: inputData && inputData.bYear,
       bHour: inputData && inputData.bHour,
       bMin: inputData && inputData.bMin,
+      noBirthTime: !!(inputData && inputData.noBirthTime)
+    });
+    var habit = parseInt(habitCalc && habitCalc.number, 10);
+    if (!isFinite(habit) || habit < 1 || habit > 9) habit = 9;
+
+    // สถานการณ์ใช้วันเดือนปีและเวลาที่กดคำนวณในขณะนั้นเท่านั้น
+    var situationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
       queryDay: rhdQueryTime.getDate(),
       queryMonth: rhdQueryTime.getMonth() + 1,
       queryYear: rhdQueryTime.getFullYear(),
       queryHour: rhdQueryTime.getHours(),
-      queryMinute: rhdQueryTime.getMinutes(),
-      noBirthTime: !!(inputData && inputData.noBirthTime)
+      queryMinute: rhdQueryTime.getMinutes()
     });
-    var habit = parseInt(calc && calc.number, 10);
-    if (!isFinite(habit) || habit < 1 || habit > 9) habit = 9;
+    var rabbitNumber = parseInt(situationCalc && situationCalc.number, 10);
+    if (!isFinite(rabbitNumber) || rabbitNumber < 1 || rabbitNumber > 9) rabbitNumber = 9;
     var data = {};
     try {
       data = Engine.RHD.getCombined(rabbitNumber, habit) || {};
@@ -5868,8 +5858,8 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
     h += '<div class="rhd-grid">';
-    h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
     h += '<div class="rhd-tile"><div class="rhd-k">วิธีรับมือ</div><div class="rhd-v">'+(hd.name||'')+'</div><div class="rhd-d">'+(hd.response||'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง')+'</div></div>';
+    h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
     h += '</div>';
     h += '<div class="rhd-section"><b>🧩 ถ้าจิตใต้สำนึกกำลังบอกอะไรกับฉัน</b><br/><span style="font-style:italic;">“'+(data.description||'ลองกลับมาฟังตัวเอง แล้วค่อย ๆ เลือกแนวทางที่เหมาะกับใจ')+'”</span></div>';
     h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span></div>';
@@ -6001,6 +5991,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
   function improvePredictionReadability(root) {
     if (!root) return;
+    // RHD เป็นระบบเฉพาะที่ผู้ใช้กำหนดให้คงถ้อยคำเดิมไว้ จึงไม่แปลงภาษาในส่วนนี้
+    var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
+    var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
+    if (/RHD|Rabbit’s Habit Design|Rabbit's Habit Design/i.test(resultTitleText)) return;
+    var isEngineOne = /ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย|ผลการวิเคราะห์ดวงชะตาบุคคล/.test(resultTitleText);
     var replacements = [
       [/พลังงานขับเคลื่อนเปิดกว้าง/g, 'มีโอกาสเริ่มต้นสิ่งใหม่'],
       [/พลังบวกหนุนนำ/g, 'มีปัจจัยช่วยสนับสนุน'],
@@ -6046,17 +6041,43 @@ document.addEventListener("DOMContentLoaded", function () {
       [/โดยสังเขป/g, 'แบบสั้น ๆ'],
       [/ให้ถือเป็นสัญญาณ/g, 'ให้มองว่าเป็นสัญญาณ']
     ];
+    // ปรับคำที่ฟังเหมือนตำราให้เป็นภาษาพูดที่อ่อนโยน เฉพาะ Engine 1 และไม่แตะ RHD
+    if (isEngineOne) {
+      replacements = replacements.concat([
+        [/พื้นดวงนี้เป็นโครงของคนที่/g, 'ถ้ามองจากพื้นดวง คุณอาจเป็นคนที่'],
+        [/ตัวตนที่แท้จริงของคุณคือ/g, 'ลึก ๆ แล้ว คุณอาจเป็นคนที่'],
+        [/พรสวรรค์ติดตัวคือ/g, 'สิ่งที่คุณทำได้ดีโดยธรรมชาติคือ'],
+        [/สิ่งที่อาจมองข้ามที่เจ้าตัวมองไม่เห็น/g, 'มุมที่คุณอาจยังไม่ทันสังเกต'],
+        [/บทบาทต่อคนรอบข้างคือ/g, 'คนรอบตัวอาจมองคุณเป็นคนที่'],
+        [/บทเรียนหลักของพื้นดวงนี้คือ/g, 'เรื่องสำคัญที่ชีวิตอาจกำลังชวนให้คุณเรียนรู้คือ'],
+        [/จุดเปลี่ยนสำคัญของชีวิตมักมาในรูปของ/g, 'การเปลี่ยนแปลงครั้งสำคัญอาจเริ่มจาก'],
+        [/จุดอ่อนของพื้นดวงนี้คือ/g, 'เรื่องที่คุณควรดูแลตัวเองเป็นพิเศษคือ'],
+        [/พื้นดวงนี้เหมาะกับงานที่/g, 'คุณอาจรู้สึกเป็นตัวเองมากขึ้นกับงานที่'],
+        [/ความรักของคุณจะยั่งยืนเมื่อ/g, 'ความรักน่าจะไปได้ดีเมื่อ'],
+        [/คุณจะมีความสุขที่สุดเมื่อ/g, 'คุณอาจรู้สึกอิ่มใจมากขึ้นเมื่อ'],
+        [/ต้องกำหนดวันพักล่วงหน้าเป็นวินัย ไม่ใช่รอให้เหนื่อยก่อน/g, 'ลองเผื่อเวลาพักไว้ก่อนที่จะหมดแรง ไม่ต้องรอให้ร่างกายประท้วง'],
+        [/ชีวิตจะเปลี่ยนระดับทันที/g, 'คุณอาจเห็นความเปลี่ยนแปลงชัดขึ้นทีละน้อย'],
+        [/โอกาสจะย้ายไปหาคนอื่น/g, 'โอกาสบางอย่างอาจผ่านไป จึงลองเริ่มจากก้าวเล็ก ๆ ที่ทำได้ตอนนี้'],
+        [/คุณไม่ทนต่อความซ้ำเดิม/g, 'คุณอาจรู้สึกอึดอัดเมื่อทุกอย่างวนอยู่แบบเดิมนานเกินไป'],
+        [/คุณมักไม่รู้ตัวว่า/g, 'บางครั้งคุณอาจไม่ทันสังเกตว่า'],
+        [/ดวงนี้เกิดมาเพื่อ/g, 'คุณอาจมีจุดแข็งในการ'],
+        [/บทบาทต่อคนรอบข้าง/g, 'สิ่งที่คนรอบตัวได้รับจากคุณ']
+      ]);
+    }
     function walk(node) {
       if (node.nodeType === 3) {
         var value = node.nodeValue;
         for (var i = 0; i < replacements.length; i++) value = value.replace(replacements[i][0], replacements[i][1]);
-        node.nodeValue = value;
+        // เปลี่ยน text node เฉพาะเมื่อข้อความต่างจากเดิมจริง ๆ เพื่อลด DOM mutation จำนวนมาก
+        if (value !== node.nodeValue) node.nodeValue = value;
         return;
       }
       if (node.nodeType !== 1 || /^(SCRIPT|STYLE|INPUT|TEXTAREA|SELECT|OPTION)$/i.test(node.tagName)) return;
       for (var child = node.firstChild; child; child = child.nextSibling) walk(child);
     }
     walk(root);
+    // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
+    if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
   }
 
   // ---------- Engine 1: ดวงบุคคล ----------
@@ -6207,15 +6228,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var rabbitMessage = rabbitMessages[rabbitNum] || rabbitMessages[9];
     // บทสนทนาจากองค์เทพประจำตัว เขียนเป็นภาษาพูดโดยอิงความหมายเลขโหรกระต่าย
     var godConversation = {
-      1: 'ลูกเอ๋ย มีเรื่องหนึ่งที่เจ้าเก็บไว้ในใจและอยากเริ่มมานานแล้วใช่ไหม อย่ารอจนความกลัวหายไปหมด เพราะบางครั้งความมั่นใจจะเกิดขึ้นหลังจากได้ลงมือทำ เริ่มจากก้าวเล็ก ๆ ก่อน แล้วค่อยเรียนรู้ระหว่างทางนะ',
-      2: 'ข้าอยากให้เจ้าค่อย ๆ ฟังเสียงหัวใจตัวเอง และฟังสิ่งที่เกิดขึ้นรอบตัวให้ครบ อย่าเพิ่งตัดสินใครหรือรีบเลือกเพราะกลัวว่าจะไม่ทันเวลา เมื่อข้อมูลชัดขึ้น ใจเจ้าจะเห็นทางที่เหมาะสมกว่าเดิม',
-      3: 'ข้าเห็นว่าเจ้ามีพลังจะพาตัวเองไปข้างหน้า อย่าดูถูกก้าวเล็ก ๆ ของตัวเองเลย วันนี้ไม่ต้องชนะทุกเรื่องก็ได้ ขอเพียงเลือกสิ่งสำคัญสักอย่างแล้วทำให้สำเร็จ ระวังอย่ารับภาระมากจนลืมดูแลตัวเอง',
-      4: 'ก่อนจะตอบตกลงหรือฝากความหวังไว้กับใคร ข้าอยากให้เจ้าหยุดตรวจดูรายละเอียดอีกครั้ง โดยเฉพาะเรื่องเงิน คำพูด และข้อตกลง การรอบคอบไม่ใช่ความกลัว แต่เป็นการปกป้องตัวเองอย่างมีสติ',
-      5: 'เจ้าเหนื่อยมามากแล้วหรือเปล่า ถ้าใช่ ก็พักได้ ไม่จำเป็นต้องเข้มแข็งให้ทุกคนเห็นตลอดเวลา ดูแลใจและกำลังของตัวเองก่อน แล้วค่อยกลับไปจัดการเรื่องที่ค้างอยู่ หากหนักเกินไป อย่าเก็บไว้คนเดียว ลองพูดกับคนที่ไว้ใจนะ',
-      6: 'หากทางเดิมทำให้เจ้าติดอยู่ที่เดิม ก็ไม่จำเป็นต้องฝืนเพียงเพราะเดินมาไกลแล้ว ลองมองอีกมุมและปรับทีละอย่าง ไม่ต้องพลิกชีวิตทั้งหมดในวันเดียว ขอให้เลือกทางที่เป็นไปได้และเหมาะกับตัวเจ้า',
-      7: 'ลองหันกลับไปมองสิ่งที่เจ้าเคยผ่านมาสักนิดนะ ไม่ใช่เพื่อโทษตัวเอง แต่เพื่อเห็นว่าเจ้าผ่านอะไรมาบ้างและเรียนรู้อะไรได้แล้ว บทเรียนเก่าอาจช่วยให้การตัดสินใจครั้งต่อไปเบาขึ้นและชัดเจนขึ้น',
-      8: 'ไม่ต้องรีบพิสูจน์ตัวเองกับทุกคนหรอก บางช่วงของชีวิต การประคองสิ่งดี ๆ ที่มีอยู่และพักให้พอ ก็เป็นความก้าวหน้าเหมือนกัน ค่อย ๆ จัดระเบียบสิ่งรอบตัว แล้วรักษาแรงใจไว้สำหรับเรื่องที่สำคัญจริง ๆ',
-      9: 'ข้าอยากให้เจ้ารู้ว่า ปัญหาที่ดูใหญ่ไม่ได้จำเป็นต้องแก้ให้หมดในคราวเดียว ลองแยกมันออกเป็นเรื่องเล็ก ๆ แล้วเริ่มจากเรื่องที่พอจัดการได้ก่อน การขอความช่วยเหลือไม่ใช่ความอ่อนแอ เจ้าสามารถค่อย ๆ หาทางออกได้'
+      1: 'ลูกเอ๋ย… มีความฝันบางอย่างที่เจ้าเก็บเงียบ ๆ ไว้ในใจมานานหรือไม่ บางทีสิ่งที่ทำให้เจ้ายังไม่เริ่ม อาจไม่ใช่เพราะเจ้าไม่เก่งพอ แต่เป็นเพราะกลัวว่าจะผิดหวังอีกครั้ง ข้าอยากให้เจ้ารู้ว่า เจ้าไม่ต้องมั่นใจเต็มร้อยจึงจะเริ่มได้ แค่ซื่อตรงกับสิ่งที่หัวใจต้องการ แล้วค่อย ๆ ก้าวไปทีละก้าวก็พอ วันนี้ขอเพียงอย่าทอดทิ้งความหวังของตัวเองนะ',
+      2: 'ลูกเอ๋ย… เจ้าไม่จำเป็นต้องรีบหาคำตอบเพื่อทำให้ทุกคนพอใจ บางครั้งเสียงรอบตัวก็ดังจนเราแทบไม่ได้ยินใจตัวเอง ลองให้เวลาตัวเองได้สงบลง แล้วถามอย่างอ่อนโยนว่า “จริง ๆ แล้ว ฉันต้องการอะไร และอะไรคือสิ่งที่ดีต่อฉัน” เจ้าไม่จำเป็นต้องตัดสินใจในวันที่ใจยังวุ่นวาย ค่อย ๆ ดูให้ชัด แล้วเลือกด้วยความเข้าใจ ไม่ใช่ด้วยความกลัวนะ',
+      3: 'ข้าอยากให้เจ้ามองตัวเองด้วยสายตาที่เมตตากว่านี้หน่อย เจ้ามักเห็นสิ่งที่ยังทำไม่สำเร็จ จนลืมมองว่าตัวเองเดินมาไกลแค่ไหนแล้ว เจ้าไม่จำเป็นต้องเก่งทุกเรื่อง หรือทำให้ทุกคนพอใจในวันเดียว เลือกสิ่งสำคัญสักอย่าง แล้วลงมือด้วยแรงที่มี หากวันนี้ทำได้เพียงนิดเดียว นั่นก็ยังเป็นความก้าวหน้า จงอย่าลืมดูแลคนที่พาเจ้ามาถึงตรงนี้ด้วย… ก็คือตัวเจ้าเอง',
+      4: 'ลูกเอ๋ย… ความใจดีของเจ้าเป็นสิ่งงดงาม แต่ไม่จำเป็นต้องแลกด้วยการยอมทุกอย่าง หากมีเรื่องใดทำให้ใจเจ้าไม่สบายใจ เจ้าสามารถหยุดถามให้ชัด และขอเวลาคิดได้ การตั้งขอบเขตไม่ได้แปลว่าเจ้าใจร้าย มันคือการดูแลตัวเองอย่างที่เจ้าสมควรได้รับ ก่อนฝากความหวังไว้กับคำพูดของใคร ขอให้ดูการกระทำและข้อเท็จจริงด้วยนะ',
+      5: 'มานี่ก่อนลูก… หากช่วงนี้เจ้าเหนื่อย ก็ไม่ต้องฝืนยิ้มให้ใครเห็นตลอดเวลาก็ได้ เจ้าไม่จำเป็นต้องเป็นคนเข้มแข็งอยู่ฝ่ายเดียว และไม่ต้องแก้ทุกปัญหาให้เสร็จในวันนี้ ลองหายใจช้า ๆ ให้ตัวเองได้พัก โดยไม่ต้องรู้สึกผิด แล้วค่อยเริ่มจากสิ่งเล็กที่สุดที่ไหว หากความหนักในใจมากเกินกว่าจะรับไว้คนเดียว ขอให้เอื้อมมือหาคนที่เจ้าไว้ใจ เจ้าเองก็สมควรได้รับการดูแลเช่นกัน',
+      6: 'ลูกเอ๋ย… การที่บางอย่างไม่เป็นไปตามที่หวัง ไม่ได้หมายความว่าเจ้าล้มเหลวเสมอไป บางครั้งมันกำลังบอกว่าวิธีเดิมอาจไม่เหมาะกับเจ้าอีกแล้ว เจ้าไม่จำเป็นต้องฝืนเพียงเพราะลงทุนลงแรงมาเยอะ ลองถามตัวเองว่า “ถ้าไม่ต้องกลัวคำตัดสินของใคร ฉันอยากปรับอะไรให้ชีวิตดีขึ้น” ไม่ต้องเปลี่ยนทุกอย่างในคราวเดียว เลือกก้าวใหม่ที่เป็นไปได้ แล้วอนุญาตให้ตัวเองเรียนรู้ระหว่างทางนะ',
+      7: 'ข้าอยากให้เจ้าหยุดตำหนิตัวเองกับเรื่องที่ผ่านไปแล้วสักครู่ สิ่งที่เกิดขึ้นอาจมีทั้งความเสียใจและบทเรียน แต่ไม่ได้เป็นคำตัดสินว่าตัวเจ้าไม่มีค่า ลองมองอดีตด้วยความเข้าใจแบบที่เจ้าจะมอบให้คนที่รัก แล้วถามว่า “จากนี้ฉันอยากดูแลตัวเองให้ดีขึ้นอย่างไร” เจ้าเปลี่ยนสิ่งที่ผ่านมาไม่ได้ แต่ยังเลือกได้ว่าจะพาตัวเองเดินต่อไปแบบไหน ขอให้ใช้บทเรียนเป็นแสงนำทาง ไม่ใช่โซ่ที่ล่ามตัวเองไว้นะ',
+      8: 'ลูกเอ๋ย… เจ้าไม่จำเป็นต้องพิสูจน์คุณค่าของตัวเองด้วยการทำงานไม่หยุด หรือรับทุกเรื่องไว้บนบ่า คุณมีคุณค่าแม้ในวันที่พัก แม้ในวันที่ยังไม่มีคำตอบ และแม้ในวันที่ทำได้ไม่เท่าที่ตั้งใจ ลองวางสิ่งที่ไม่จำเป็นลงบ้าง แล้วกลับมาดูแลสิ่งพื้นฐานในชีวิตทีละอย่าง การค่อย ๆ ประคองตัวเองให้มั่นคงไม่ใช่การถอยหลัง แต่เป็นการให้ใจมีแรงเดินต่อเมื่อถึงเวลา',
+      9: 'ลูกเอ๋ย… หากตอนนี้ทุกอย่างดูพันกันยุ่งไปหมด อย่าเพิ่งตัดสินว่าตัวเองไม่มีทางออกนะ เมื่อใจเหนื่อย ปัญหาทุกเรื่องอาจดูใหญ่กว่าที่เป็นจริง ลองหยุดพัก แล้วแยกสิ่งที่กังวลออกมาทีละข้อ เลือกจัดการเพียงเรื่องเดียวที่พอเริ่มได้ก่อน เจ้าสามารถขอความช่วยเหลือได้ ไม่จำเป็นต้องผ่านทุกอย่างลำพัง แม้วันนี้ยังมองไม่เห็นทางทั้งหมด ก็ไม่เป็นไร ขอเพียงอย่าลืมว่าตัวเองยังมีสิทธิ์เริ่มต้นใหม่ทีละนิด'
     };
     var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
     h += '<div class="god-card god-card-main">';
@@ -6225,9 +6246,9 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="god-lead"><b>🌿 ลองทำสิ่งนี้ต่อจากนี้</b><br/>' + rabbitMessage.action + '</div>';
     h += '<div class="god-detail-box" style="margin-top:10px;"><div class="god-detail-title">✨ ความหมายขององค์เทพในความเชื่อ</div>' + (god.bless || 'ใช้สติและความตั้งใจเป็นแนวทางในการดำเนินชีวิต') + '</div>';
     h += '</div>';
-    h += '<div class="pred-block god-conversation-block"><h4 style="color:#92400e;">🗣️ เทพประจำตัวอยากจะคุยกับเรา</h4>';
+    h += '<div class="pred-block god-conversation-block"><h4 style="color:#92400e;">🗣️ ข้อความจากองค์เทพถึงหัวใจของคุณ</h4>';
     h += '<div class="answer-box good god-message-box"><b>⛩️ ' + (god.name || 'เทพประจำตัว') + ' พูดกับคุณว่า...</b><br/>' + (godConversation[rabbitNum] || godConversation[9]) + '</div>';
-    h += '<div class="pred-section-item" style="margin-top:10px;">ลองอ่านช้า ๆ แล้วเลือกเฉพาะส่วนที่ตรงกับชีวิตของคุณในตอนนี้ คำทำนายนี้เป็นแนวทางให้ทบทวนตัวเอง ไม่ใช่ข้อบังคับในการตัดสินใจ</div>';
+    h += '<div class="pred-section-item" style="margin-top:10px;">ลองอ่านช้า ๆ แล้วสังเกตว่าประโยคไหนทำให้คุณหยุดคิดหรือรู้สึกบางอย่าง ไม่จำเป็นต้องเชื่อทุกคำ เลือกเก็บไว้เฉพาะสิ่งที่ช่วยให้เข้าใจตัวเองและดูแลชีวิตได้ดีขึ้น</div>';
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
@@ -6392,23 +6413,90 @@ document.addEventListener("DOMContentLoaded", function () {
       return !!(title && /คำทำนายมูเทพ/.test(title.textContent || ''));
     }
 
+    function isEngineOneNonRHD() {
+      var title = box.querySelector('.card-title');
+      if (!title) return false;
+      var t = (title.textContent || '').trim();
+      if (/RHD|Rabbit’s Habit Design|Rabbit's Habit Design/i.test(t)) return false;
+      return /ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย|ผลการวิเคราะห์ดวงชะตาบุคคล/.test(t);
+    }
+
+    function softenTextNodes(root) {
+      var replacements = [
+        [/เจ้าชะตา/g, 'คุณ'], [/ดวงชะตา/g, 'ภาพรวมชีวิต'], [/ชะตากรรม/g, 'เส้นทางชีวิต'],
+        [/พึงระวัง/g, 'ลองใส่ใจเรื่องนี้เป็นพิเศษ'], [/พึงกระทำ/g, 'สิ่งที่ลองทำได้คือ'],
+        [/มีเกณฑ์/g, 'มีแนวโน้ม'], [/เกื้อหนุน/g, 'ช่วยส่งเสริม'], [/บั่นทอน/g, 'ทำให้เหนื่อยใจ'],
+        [/บริวาร/g, 'คนรอบตัว'], [/มิตรสหาย/g, 'เพื่อนและคนรอบตัว'], [/ศัตรูคู่แข่ง/g, 'คนที่เห็นต่างหรือคู่แข่ง'],
+        [/ลาภผลเงินทอง/g, 'รายรับและโอกาสทางการเงิน'], [/อสังหาริมทรัพย์/g, 'บ้านหรือที่ดิน'],
+        [/โดยพลัน/g, 'อย่างรวดเร็ว'], [/อันควร/g, 'ที่เหมาะกับคุณ'], [/จงระวัง/g, 'ลองสังเกตให้ดี'],
+        [/ศักยภาพ/g, 'ความสามารถที่มี'], [/จงเชื่อมั่นในตนเอง/g, 'ค่อย ๆ เชื่อมั่นในตัวเองนะ'],
+        [/อย่าท้อถอย/g, 'อย่าเพิ่งหมดกำลังใจนะ'], [/อดทนอดกลั้น/g, 'ให้เวลาตัวเองได้พักและตั้งหลัก'],
+        [/ใช้สติปัญญาไตร่ตรอง/g, 'ค่อย ๆ คิดและดูข้อเท็จจริงให้รอบด้าน'],
+        [/ความสำเร็จ/g, 'ความก้าวหน้า'], [/อุปสรรค/g, 'เรื่องที่ต้องค่อย ๆ รับมือ'],
+        [/จังหวะชีวิต/g, 'ช่วงชีวิต'], [/พลังงาน/g, 'แรงใจและกำลัง']
+      ];
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      var nodes = [], node;
+      while ((node = walker.nextNode())) nodes.push(node);
+      nodes.forEach(function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return;
+        var value = n.nodeValue;
+        replacements.forEach(function (pair) { value = value.replace(pair[0], pair[1]); });
+        if (value !== n.nodeValue) n.nodeValue = value;
+      });
+    }
+
+    function reflectionFor(n) {
+      var messages = {
+        1: 'บางครั้งคุณอาจรู้สึกว่าต้องเข้มแข็งและจัดการทุกอย่างด้วยตัวเอง จนลืมถามว่าจริง ๆ แล้วตัวเองเหนื่อยแค่ไหน การขอความช่วยเหลือไม่ได้ทำให้คุณอ่อนแอ และคุณไม่จำเป็นต้องพิสูจน์คุณค่าของตัวเองตลอดเวลา',
+        2: 'คุณอาจรับความรู้สึกของคนอื่นเก่ง จนเผลอเก็บความต้องการของตัวเองไว้ทีหลัง ลองถามตัวเองอย่างอ่อนโยนว่า สิ่งที่กำลังยอมอยู่เป็นเพราะคุณเต็มใจ หรือเพราะกลัวทำให้ใครผิดหวัง',
+        3: 'เวลาที่ไม่แน่ใจ คุณอาจพยายามทำอะไรให้มากขึ้นเพื่อกลบความกังวล แต่บางครั้งการหยุดฟังใจตัวเองสักนิดอาจช่วยให้เห็นว่าอะไรสำคัญจริง ๆ คุณไม่จำเป็นต้องรีบไปให้ทันทุกคน',
+        4: 'คุณอาจต้องการความแน่นอนมาก เพราะไม่อยากกลับไปเจ็บจากเรื่องเดิม การระวังตัวช่วยปกป้องคุณได้ แต่ถ้าระวังจนไม่กล้าขยับเลย ก็อาจทำให้พลาดสิ่งดี ๆ ที่ค่อย ๆ เข้ามา',
+        5: 'คุณอาจคุ้นเคยกับการเป็นคนที่ทุกคนพึ่งพา จนรู้สึกผิดเวลาตัวเองต้องการพัก ลองจำไว้ว่าการหยุดพักไม่ใช่การถอยหลัง และคุณมีสิทธิ์ดูแลตัวเองโดยไม่ต้องรอให้ทุกอย่างเสร็จก่อน',
+        6: 'ลึก ๆ คุณอาจรู้อยู่แล้วว่าบางอย่างไม่เหมือนเดิม แต่ยังลังเลเพราะเสียดายเวลา ความผูกพัน หรือสิ่งที่ลงทุนไป ลองแยกให้ออกว่าอะไรยังมีความหมายกับคุณ และอะไรที่คุณฝืนเก็บไว้เพราะไม่อยากยอมรับว่าถึงเวลาปรับเปลี่ยน',
+        7: 'คุณอาจคิดทบทวนเรื่องเดิมซ้ำ ๆ เพราะอยากเข้าใจว่าตัวเองพลาดตรงไหน แต่อย่าลืมว่าการเรียนรู้ไม่จำเป็นต้องมาพร้อมการตำหนิตัวเอง คุณสามารถยอมรับสิ่งที่เกิดขึ้นและยังอ่อนโยนกับตัวเองได้',
+        8: 'คุณอาจเก็บความรู้สึกไว้เงียบ ๆ เพราะไม่อยากเป็นภาระของใคร แต่การเงียบไม่ได้แปลว่าคุณต้องรับทุกอย่างคนเดียว ลองเริ่มจากบอกความรู้สึกจริง ๆ กับคนที่คุณไว้ใจสักคน',
+        9: 'เมื่อเจอเรื่องที่หาทางออกยาก คุณอาจคิดว่าต้องแก้ทุกอย่างให้ได้ในครั้งเดียว ลองลดขนาดปัญหาให้เหลือเพียงก้าวถัดไปที่ทำได้ก่อน คุณไม่จำเป็นต้องเห็นทางทั้งหมด ถึงจะเริ่มเดินได้'
+      };
+      return messages[n] || 'ลองสังเกตความรู้สึกที่เกิดขึ้นระหว่างอ่านคำทำนาย บางครั้งสิ่งที่สะกิดใจเราอาจช่วยให้เห็นความต้องการที่ยังไม่ได้พูดออกมา';
+    }
+
     function apply() {
       if (processing || !box || !box.innerHTML.trim()) return;
       var source = box.innerHTML;
       if (source === lastSource) return;
       lastSource = source;
       if (isEngineTwo()) return;
-      // ไม่เพิ่มส่วนคำถามสะท้อนตนเองในคำทำนายของทุก Engine
       processing = true;
-      Array.prototype.forEach.call(box.querySelectorAll('.subconscious-prompt'), function (el) {
-        el.remove();
-      });
+      Array.prototype.forEach.call(box.querySelectorAll('.subconscious-prompt'), function (el) { el.remove(); });
+      if (isEngineOneNonRHD()) {
+        softenTextNodes(box);
+        var fullText = box.textContent || '';
+        var match = fullText.match(/รหัส(?:พื้นดวง|คำทำนายพื้นฐาน|คำทำนาย)\s*เลข\s*([1-9])/);
+        var num = match ? parseInt(match[1], 10) : 0;
+        if (num) {
+          var panel = document.createElement('div');
+          panel.className = 'subconscious-prompt pred-block';
+          panel.style.cssText = 'margin-top:12px;background:#fffaf5;border:1px solid #f3d6c5;border-left:5px solid #c27855;border-radius:12px;padding:14px;color:#513b32;line-height:1.8;';
+          panel.innerHTML = '<h4 style="margin:0 0 8px;color:#8b4a32;">💗 ลองฟังอีกเสียงหนึ่งในใจของคุณ</h4><p style="margin:0 0 8px;">' + reflectionFor(num) + '</p><p style="margin:0;font-size:0.95em;">ข้อความนี้ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน แค่ชวนสำรวจใจอย่างอ่อนโยน: ตอนนี้คุณต้องการอะไร และมีอะไรที่ทำให้ยังไม่กล้าบอกความต้องการนั้นกับตัวเองหรือคนอื่น?</p>';
+          box.appendChild(panel);
+        }
+      }
       processing = false;
       lastSource = box.innerHTML;
     }
 
+    // ตัดวงจร MutationObserver: หยุดสังเกตระหว่างที่ apply แก้ DOM ของตัวเอง
     var observer = new MutationObserver(function () {
-      if (!processing) apply();
+      if (processing) return;
+      observer.disconnect();
+      try {
+        apply();
+      } catch (err) {
+        console.warn("Subconscious presentation skipped:", err);
+      } finally {
+        observer.observe(box, { childList: true, subtree: true, characterData: true });
+      }
     });
     observer.observe(box, { childList: true, subtree: true, characterData: true });
     apply();
