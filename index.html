@@ -4281,13 +4281,13 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
   // ---------- Engine 4: ใช้สูตรโหรกระต่ายเป็นแกนคำนวณหลัก ----------
   // ไพ่และรูนที่ยังแสดงในหน้าผลเป็นข้อมูลประกอบเท่านั้น ไม่ใช้กำหนดรหัสกระต่ายสุดท้าย
   var TAROT_MAJOR={1:['The Magician','นักมายากล','พลังเริ่มต้นและการใช้ความสามารถ'],2:['The High Priestess','มหาปุโรหิตหญิง','สัญชาตญาณและสิ่งที่ยังไม่เปิดเผย'],3:['The Empress','จักรพรรดินี','การเติบโตและความอุดมสมบูรณ์'],4:['The Emperor','จักรพรรดิ','โครงสร้าง อำนาจ และความรับผิดชอบ'],5:['The Hierophant','พระสังฆราช','ความรู้ กฎ และคำแนะนำ'],6:['The Lovers','คู่รัก','ความสัมพันธ์และทางเลือก'],7:['The Chariot','รถศึก','การเดินหน้า'],8:['Strength','พละกำลัง','ความกล้าและการควบคุมอารมณ์'],9:['The Hermit','ฤๅษี','การค้นหาคำตอบภายใน'],10:['Wheel of Fortune','กงล้อแห่งโชคชะตา','การเปลี่ยนแปลงและโอกาส'],11:['Justice','ความยุติธรรม','เหตุผลและความสมดุล'],12:['The Hanged Man','คนแขวนคอ','การหยุดและมองมุมใหม่'],13:['Death','ความตาย','การจบของเก่าและเริ่มบทใหม่'],14:['Temperance','พอดี','การปรับสมดุล'],15:['The Devil','ปีศาจ','แรงยึดติดและสิ่งที่ต้องรู้เท่าทัน'],16:['The Tower','หอคอย','การเปลี่ยนฉับพลัน'],17:['The Star','ดาว','ความหวัง'],18:['The Moon','ดวงจันทร์','ความไม่แน่ใจ'],19:['The Sun','ดวงอาทิตย์','ความชัดเจน'],20:['Judgement','พิพากษา','การตื่นรู้'],21:['The World','โลก','ความสมบูรณ์และการปิดวงจร']};
-  var TAROT_MINOR_NAMES=['Ace','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Page','Knight','Queen'];
+  var TAROT_MINOR_NAMES=['Ace','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Page','Knight','Queen','King'];
   var RUNE_DATA=[['Fehu','ᚠ','ทรัพย์สินและการเริ่มสร้างคุณค่า','ใช้ทรัพยากรให้เกิดผล'],['Uruz','ᚢ','พลังชีวิตและความแข็งแรง','ลงมือจริงและพัฒนาศักยภาพ'],['Thurisaz','ᚦ','การป้องกัน','ใช้สติและขอบเขต'],['Ansuz','ᚨ','การสื่อสารและปัญญา','พูดให้ตรงประเด็น'],['Raidho','ᚱ','การเดินทางและทิศทางชีวิต','จัดเส้นทางให้ชัด'],['Kenaz','ᚲ','แสงสว่างและความเข้าใจ','เรียนรู้สิ่งที่ทำให้ชัด'],['Gebo','ᚷ','การให้และความสัมพันธ์','สร้างสมดุล'],['Wunjo','ᚹ','ความสุขและความลงตัว','รักษาสิ่งที่ทำให้ใจมีพลัง'],['Hagalaz','ᚺ','การเปลี่ยนแปลงฉับพลัน','ยอมรับสิ่งที่ควบคุมไม่ได้'],['Nauthiz','ᚾ','ข้อจำกัด','จัดลำดับสิ่งจำเป็น'],['Isa','ᛁ','การหยุดนิ่ง','ชะลอเพื่อมองให้ชัด'],['Jera','ᛃ','ผลจากความพยายาม','ทำต่อเนื่องแล้วเก็บเกี่ยว'],['Eihwaz','ᛇ','ความอดทนและการเปลี่ยนผ่าน','ยืนหยัด'],['Perthro','ᛈ','สิ่งที่ยังไม่เปิดเผย','รอข้อมูลที่ขาด'],['Algiz','ᛉ','การปกป้อง','ตั้งขอบเขต'],['Sowilo','ᛋ','ชัยชนะและความชัดเจน','แสดงจุดแข็ง'],['Tiwaz','ᛏ','ความยุติธรรมและเป้าหมาย','ยึดหลัก'],['Berkano','ᛒ','การเติบโต','ดูแลสิ่งที่เริ่ม'],['Ehwaz','ᛖ','การเคลื่อนที่และความร่วมมือ','ปรับจังหวะ'],['Mannaz','ᛗ','ตัวตนและสังคม','เข้าใจตัวเอง'],['Laguz','ᛚ','สัญชาตญาณ','ฟังความรู้สึกควบคู่เหตุผล'],['Ingwaz','ᛜ','ความพร้อม','สะสมพลัง'],['Dagaz','ᛞ','รุ่งอรุณและมุมมองใหม่','เปิดรับทางเลือก'],['Othala','ᛟ','บ้านและรากฐาน','รักษาสิ่งที่มีคุณค่า']];
-  function tarotMajorNum(n){n=Math.abs(parseInt(n,10)||1);while(n>21)n-=20;return n<1?1:n;}
-  function tarotMinorNum(n){n=Math.abs(parseInt(n,10)||1);while(n>52)n-=30;return n<1?1:n;}
+  function tarotMajorNum(n){n=Math.abs(parseInt(n,10)||1);return ((n-1)%21)+1;}
+  function tarotMinorNum(n){n=Math.abs(parseInt(n,10)||1);return ((n-1)%56)+1;}
   function tarotCardFromNumber(n){n=tarotMajorNum(n);var c=TAROT_MAJOR[n];return {number:n,group:'Major Arcana',name:c[0],thai:c[1],meaning:c[2]};}
-  function tarotMinorFromNumber(n){n=tarotMinorNum(n);var suit=n<=13?'Wands':n<=26?'Cups':n<=39?'Pentacles':'Swords',local=n<=13?n:n<=26?n-13:n<=39?n-26:n-39,thai=suit==='Wands'?'ไม้เท้า':suit==='Cups'?'ถ้วย':suit==='Pentacles'?'เหรียญ':'ดาบ',rank=TAROT_MINOR_NAMES[local-1];return {number:n,group:'Minor Arcana',suit:suit,thaiSuit:thai,rank:rank,name:rank+' of '+suit,thai:rank+' '+thai,meaning:'แนวโน้มและรูปแบบของเหตุการณ์ที่กำลังเกิดขึ้น'};}
-  function rune24(n){n=Math.abs(parseInt(n,10)||1);while(n>24)n-=20;return n<1?1:n;}
+  function tarotMinorFromNumber(n){n=tarotMinorNum(n);var suit=n<=14?'Wands':n<=28?'Cups':n<=42?'Pentacles':'Swords',local=n<=14?n:n<=28?n-14:n<=42?n-28:n-42,thai=suit==='Wands'?'ไม้เท้า':suit==='Cups'?'ถ้วย':suit==='Pentacles'?'เหรียญ':'ดาบ',rank=TAROT_MINOR_NAMES[local-1]||'Ace';return {number:n,group:'Minor Arcana',suit:suit,thaiSuit:thai,rank:rank,name:rank+' of '+suit,meaning:'แนวโน้มและรูปแบบของเหตุการณ์ที่กำลังเกิดขึ้น',thai:rank+' '+thai};}
+  function rune24(n){n=Math.abs(parseInt(n,10)||1);return ((n-1)%24)+1;}
   var CRYSTAL_DATA={
     1:{name:'Rose Quartz',healing:'เตือนให้ใจดีกับตัวเอง เปิดรับความรัก และให้ความสำคัญกับความรู้สึกของตัวเอง',support:'ความรัก ความเมตตาต่อตัวเอง ความสัมพันธ์ และการเยียวยาใจ'},
     2:{name:'Citrine',healing:'ชวนให้มองเห็นโอกาส เชื่อมั่นในความสามารถ และค่อย ๆ ลงมือทำสิ่งที่ตั้งใจ',support:'ความมั่นใจ การมองโลกในแง่ดี ความสุข และแรงบันดาลใจ'},
@@ -4300,7 +4300,36 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
     9:{name:'Clear Quartz',healing:'ชวนให้กลับมามองเป้าหมายให้ชัด และจัดลำดับความคิดก่อนลงมือ',support:'ความชัดเจน การตั้งเจตนา สมาธิ และการทบทวนเป้าหมาย'}
   };
   function crystalFromNumber(n){var num=reduce1(n);var c=CRYSTAL_DATA[num]||CRYSTAL_DATA[9];return {number:num,name:c.name,healing:c.healing,support:c.support};}
-  function calcTarotRuneFeature(params){var b=readBirthInput(params),j=calcRabbitJoint(params),birthSum=b.bDay+b.bMonth+b.bYear,birthCard=tarotCardFromNumber(birthSum),now=params.nowDate||new Date(),dateSum=now.getDate()+(now.getMonth()+1)+now.getFullYear(),dateDigit=reduce1(dateSum),birthDigit=reduce1(birthSum),eventCard=tarotMinorFromNumber(dateDigit*birthDigit),runeNum=b.noBirthTime?null:rune24(b.bHour+b.bMin),rune=b.noBirthTime?null:RUNE_DATA[runeNum-1],dailyRuneNum=rune24(birthSum+dateSum),dailyRune=RUNE_DATA[dailyRuneNum-1],fusion=(j.R4||9),dailyElement=calcDailyElement(now),dailyCrystalDateNumber=reduce1(dateSum*6),dailyCrystalRabbitElementNumber=reduce1(j.R4+getElement(j.R4).number);return {feature:'tarotRune',noBirthTime:b.noBirthTime,birthSum:birthSum,birthCard:birthCard,dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,rabbitJoint:j,rabbitFusionCode:fusion,rabbitFusionRabbit:RABBITS[fusion]||RABBITS[9],element:getElement(fusion),nameRes:birthNameParts(b).nameRes,ownerElement:birthNameParts(b).ownerElement,dailyElement:dailyElement,dailyCrystalDateNumber:dailyCrystalDateNumber,dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber)};}
+  // Engine 4: ตีความไพ่และรูนให้เชื่อมกับการเข้าใจตัวเอง โดยยึดไพ่/รูนที่คำนวณได้จริง
+  var TAROT_SELF_REFLECTION={
+    1:'คุณอาจมีความสามารถหรือไอเดียอยู่แล้ว แต่ยังรอให้มั่นใจกว่านี้ ไพ่ใบนี้ชวนให้ถามตัวเองว่า วันนี้มีอะไรเล็ก ๆ ที่คุณเริ่มได้ด้วยสิ่งที่มีอยู่',
+    2:'อาจมีความรู้สึกบางอย่างที่คุณยังอธิบายไม่ได้ ไม่จำเป็นต้องรีบหาคำตอบ ลองฟังใจตัวเองพร้อมตรวจสอบข้อเท็จจริงไปด้วย',
+    3:'คุณอาจทุ่มเทดูแลสิ่งอื่นจนลืมดูแลตัวเอง ไพ่ใบนี้ชวนให้สังเกตว่าอะไรทำให้คุณรู้สึกเติบโต และคุณต้องการการดูแลแบบไหน',
+    4:'คุณอาจพยายามจัดการทุกอย่างให้มั่นคง เพราะไม่อยากให้สิ่งต่าง ๆ หลุดมือ ลองแยกดูว่าอะไรควบคุมได้ และอะไรไม่จำเป็นต้องแบกไว้คนเดียว',
+    5:'คุณอาจกำลังมองหาคำตอบจากกฎเกณฑ์หรือคำแนะนำของคนอื่น ลองถามตัวเองด้วยว่าอะไรสอดคล้องกับคุณค่าที่คุณเชื่อจริง ๆ',
+    6:'เรื่องนี้อาจเกี่ยวกับการเลือกให้ตรงกับหัวใจ โดยไม่ละเลยผลกระทบต่อคนอื่น ลองสำรวจว่าคุณกำลังเลือกจากความต้องการจริงหรือจากความกลัวว่าจะทำให้ใครผิดหวัง',
+    7:'คุณมีแรงผลักดันให้เดินหน้า แต่ไม่จำเป็นต้องเร่งจนเหนื่อย ไพ่ใบนี้ชวนให้เลือกทิศทางที่สำคัญ แล้วค่อย ๆ ไปในจังหวะที่ดูแลตัวเองได้',
+    8:'ความเข้มแข็งไม่ใช่การเก็บทุกอย่างไว้คนเดียว ลองยอมรับความรู้สึกที่เกิดขึ้นโดยไม่ตำหนิตัวเอง แล้วเลือกตอบสนองอย่างที่คุณภูมิใจได้',
+    9:'บางทีคุณอาจต้องการพื้นที่เงียบ ๆ เพื่อฟังเสียงตัวเอง การพักหรือถอยออกมาทบทวนไม่ใช่ความล้มเหลว แต่เป็นส่วนหนึ่งของการรู้จักตัวเอง',
+    10:'ชีวิตมีจังหวะที่เปลี่ยนไปโดยเราไม่ได้เลือกทั้งหมด ลองสังเกตว่าคุณกำลังยึดกับแผนเดิมเพราะยังเหมาะอยู่ หรือเพราะกลัวการเริ่มใหม่',
+    11:'คุณอาจกำลังตัดสินตัวเองเข้มงวดเกินไป ไพ่ใบนี้ชวนให้มองเรื่องเดียวกันอย่างเป็นธรรม ทั้งต่อคนอื่นและต่อตัวคุณเอง',
+    12:'หากตอนนี้อะไรยังไม่เดินหน้า อาจถึงเวลาลองมองจากอีกมุม ไม่จำเป็นต้องฝืนแก้ทุกอย่างในทันที',
+    13:'การจบลงบางอย่างอาจทำให้ใจเสียดาย แม้รู้ว่าถึงเวลาปล่อยแล้ว คุณไม่จำเป็นต้องลืมอดีต แค่ค่อย ๆ ให้พื้นที่กับสิ่งใหม่',
+    14:'คุณอาจกำลังพยายามทำหลายเรื่องให้ลงตัว ไพ่ใบนี้เตือนอย่างอ่อนโยนว่า คุณไม่จำเป็นต้องแก้ทุกอย่างพร้อมกัน ค่อย ๆ ปรับทีละส่วนได้',
+    15:'ลองสังเกตสิ่งที่คุณรู้สึกว่าขาดไม่ได้ ทั้งความคาดหวัง ความสัมพันธ์ หรือความสำเร็จ โดยไม่ต้องตำหนิตัวเอง การเห็นมันชัดคือจุดเริ่มต้นของการเลือกใหม่',
+    16:'เมื่อสิ่งที่เคยมั่นคงเปลี่ยนไป คุณอาจรู้สึกเสียหลักได้ ให้เวลาตัวเองตั้งตัว แล้วค่อยดูว่าอะไรยังสำคัญและอะไรควรสร้างขึ้นใหม่',
+    17:'แม้คุณยังไม่เห็นคำตอบทั้งหมด ความหวังเล็ก ๆ ก็มีความหมาย ลองจำไว้ว่าสิ่งที่คุณผ่านมาบอกถึงความพยายามของคุณด้วย',
+    18:'ความไม่แน่ใจอาจทำให้ใจเติมเรื่องราวขึ้นมาเอง ลองแยกสิ่งที่รู้จริงออกจากสิ่งที่กลัว แล้วอ่อนโยนกับตัวเองระหว่างรอความชัดเจน',
+    19:'คุณมีสิทธิ์ยอมรับความสุขและความสำเร็จของตัวเองโดยไม่ต้องรู้สึกผิด ลองสังเกตว่าอะไรทำให้คุณรู้สึกเป็นตัวเองอย่างสบายใจ',
+    20:'บางเรื่องกำลังชวนให้คุณกลับมาทบทวนตัวเอง ไม่ใช่เพื่อโทษอดีต แต่เพื่อเข้าใจว่าคุณเรียนรู้อะไรและอยากเลือกต่างไปอย่างไร',
+    21:'คุณอาจมาถึงจุดที่ควรเห็นคุณค่าของสิ่งที่ผ่านมาด้วย ไม่ต้องรอให้ทุกอย่างสมบูรณ์แบบก่อนจึงจะภูมิใจในตัวเองได้'
+  };
+  var TAROT_SUIT_SELF={Wands:'เรื่องนี้ชวนให้ดูว่าความอยากลงมือทำของคุณมาจากความตื่นเต้นและความหมายจริง ๆ หรือมาจากความกดดันที่ต้องพิสูจน์ตัวเอง',Cups:'ลองให้พื้นที่กับความรู้สึกของตัวเองและคนอื่น โดยไม่ต้องเดาใจใครทั้งหมดหรือรับผิดชอบความรู้สึกของทุกคน',Pentacles:'ลองมองความมั่นคงและคุณค่าของตัวเองให้กว้างกว่าเงินหรืองาน แล้วเลือกก้าวที่ทำได้จริงและดูแลชีวิตระยะยาว',Swords:'ความคิดอาจช่วยให้คุณเห็นทาง แต่ถ้าคิดวนจนเหนื่อย ลองแยกข้อเท็จจริงออกจากความกังวลและพูดกับตัวเองอย่างเป็นธรรม'};
+  var TAROT_RANK_SELF={Ace:'นี่อาจเป็นจุดเริ่มต้นเล็ก ๆ ให้คุณทดลองสิ่งใหม่โดยไม่ต้องคาดหวังว่าต้องสำเร็จทันที',Two:'คุณอาจกำลังชั่งใจระหว่างสองทาง ลองดูว่าทางไหนสอดคล้องกับความต้องการและข้อจำกัดจริงของคุณ',Three:'การเติบโตอาจเกิดจากการแบ่งปันหรือร่วมมือ คุณไม่จำเป็นต้องทำทุกอย่างด้วยตัวเอง',Four:'การหยุดพักและทบทวนอาจจำเป็นพอ ๆ กับการเดินหน้า ลองดูว่าคุณต้องการพักหรือกำลังหลีกเลี่ยงบางเรื่อง',Five:'ความขัดแย้งหรือความผิดหวังไม่ได้แปลว่าคุณล้มเหลว ลองมองว่ามีอะไรที่ควรเรียนรู้และอะไรที่ควรวางลง',Six:'ลองรับรู้ความคืบหน้าที่เกิดขึ้นแล้ว แม้ยังไม่ถึงจุดหมาย คุณก็มีสิทธิ์ให้เครดิตกับความพยายามของตัวเอง',Seven:'อย่าเพิ่งตัดสินตัวเองจากผลลัพธ์ครั้งเดียว ลองตรวจดูว่ากำลังใช้พลังไปกับสิ่งที่สำคัญจริงหรือไม่',Eight:'การฝึกฝนทีละนิดมีความหมายกว่าการกดดันให้เก่งทันที เลือกสิ่งหนึ่งที่ทำต่อเนื่องได้',Nine:'คุณอาจใกล้ถึงจุดที่เห็นผล แต่ก็อย่าลืมถามตัวเองว่าความสำเร็จแบบไหนที่ทำให้ใจคุณอิ่มจริง ๆ',Ten:'หากรู้สึกว่ามีเรื่องมากเกินไป ลองแบ่งภาระและจัดลำดับ ไม่จำเป็นต้องแบกทุกอย่างไว้คนเดียว',Page:'ความอยากรู้อยากลองของคุณมีคุณค่า อนุญาตให้ตัวเองเป็นผู้เรียนรู้ได้โดยไม่ต้องรู้ทุกอย่างตั้งแต่แรก',Knight:'แรงผลักดันช่วยให้คุณไปข้างหน้า แต่ลองเช็กจังหวะและผลกระทบก่อนตอบตกลงหรือรีบตัดสินใจ',Queen:'ความเข้าใจและความอ่อนโยนเป็นจุดแข็ง แต่อย่าลืมใช้ความเมตตาแบบเดียวกันกับตัวเองด้วย',King:'คุณอาจต้องตัดสินใจหรือรับผิดชอบเรื่องสำคัญ ลองนำประสบการณ์มาใช้โดยไม่ต้องควบคุมทุกอย่างให้สมบูรณ์แบบ'};
+  function tarotSelfMeaning(card,context){if(!card)return '';if(card.group==='Major Arcana')return TAROT_SELF_REFLECTION[card.number]||card.meaning||'';return (TAROT_RANK_SELF[card.rank]||'ลองสังเกตว่าประสบการณ์นี้กำลังสอนอะไรคุณ')+' '+(TAROT_SUIT_SELF[card.suit]||'ลองฟังความรู้สึกของตัวเองควบคู่กับข้อเท็จจริง');}
+  var RUNE_SELF_REFLECTION={Fehu:'คุณค่าในตัวเองไม่จำเป็นต้องวัดจากสิ่งที่ครอบครอง ลองถามว่าทรัพยากรและความสามารถที่มีจะช่วยชีวิตคุณอย่างไร',Uruz:'คุณอาจเข้มแข็งกว่าที่คิด แต่ไม่จำเป็นต้องฝืนตลอดเวลา ลองฟังร่างกายและใจว่าต้องการพลังหรือการพัก',Thurisaz:'การปกป้องตัวเองไม่ใช่ความเห็นแก่ตัว คุณมีสิทธิ์ตั้งขอบเขตและคิดก่อนตอบสนอง',Ansuz:'มีบางอย่างที่ใจคุณอยากพูดให้ชัด ลองสื่อสารอย่างตรงไปตรงมาโดยไม่ต้องทำให้ความรู้สึกของตัวเองเล็กลง',Raidho:'คุณไม่จำเป็นต้องเดินตามจังหวะของคนอื่น ลองเลือกทิศทางที่ตรงกับเป้าหมายและชีวิตจริงของคุณ',Kenaz:'ความเข้าใจอาจเริ่มจากการยอมรับสิ่งที่เคยไม่อยากมอง เมื่อเห็นชัดขึ้น คุณจะมีทางเลือกมากขึ้น',Gebo:'ความสัมพันธ์ที่ดีไม่ควรมีเพียงฝ่ายเดียวที่ให้ ลองสำรวจว่าคุณให้และรับได้อย่างสมดุลหรือไม่',Wunjo:'อย่ามองข้ามสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้น ความสุขไม่จำเป็นต้องรอให้ทุกปัญหาหายไปก่อน',Hagalaz:'เมื่อแผนเปลี่ยน คุณอาจรู้สึกเสียการควบคุม ให้เวลาตัวเองตั้งหลัก แล้วค่อยแยกสิ่งที่เปลี่ยนไม่ได้จากสิ่งที่ยังเลือกได้',Nauthiz:'ข้อจำกัดไม่ได้แปลว่าคุณไม่เก่ง ลองเลือกสิ่งจำเป็นก่อน และไม่คาดหวังให้ตัวเองทำได้ทุกอย่างพร้อมกัน',Isa:'การหยุดนิ่งไม่จำเป็นต้องหมายถึงการถอยหลัง บางครั้งใจต้องการเวลาเพื่อเข้าใจว่าควรไปต่อแบบไหน',Jera:'ผลลัพธ์บางอย่างต้องใช้เวลา ลองเห็นคุณค่าของความสม่ำเสมอแทนการเร่งตัวเองให้เห็นผลทันที',Eihwaz:'การเปลี่ยนผ่านอาจไม่สบายใจ แต่คุณค่อย ๆ ปรับตัวได้โดยไม่ต้องรีบรู้คำตอบทั้งหมด',Perthro:'สิ่งที่ยังไม่ชัดไม่จำเป็นต้องรีบเติมด้วยความกลัว รอข้อมูลเพิ่มและเปิดพื้นที่ให้ความเป็นไปได้หลายแบบ',Algiz:'คุณดูแลคนอื่นได้โดยไม่ต้องเปิดรับทุกเรื่อง ขอบเขตที่ชัดช่วยให้คุณรักษาพลังของตัวเอง',Sowilo:'คุณมีสิทธิ์มองเห็นความสำเร็จของตัวเองอย่างเต็มใจ โดยไม่ต้องลดคุณค่าตัวเองเพื่อให้คนอื่นสบายใจ',Tiwaz:'ลองตัดสินใจจากสิ่งที่คุณเชื่อว่าถูกต้อง ไม่ใช่เพียงเพื่อเอาใจหรือหลีกเลี่ยงความขัดแย้ง',Berkano:'สิ่งใหม่ต้องการเวลาและการดูแล คุณเองก็เช่นกัน ไม่ต้องเร่งให้ตัวเองเติบโตตามกำหนดของใคร',Ehwaz:'การขอความช่วยเหลือและปรับจังหวะร่วมกับคนอื่นไม่ทำให้คุณอ่อนแอ ลองสังเกตว่าความร่วมมือแบบไหนปลอดภัยกับใจคุณ',Mannaz:'คุณไม่จำเป็นต้องเป็นตัวเองในแบบที่ทุกคนชอบ ลองแยกเสียงของคนอื่นออกจากสิ่งที่คุณเชื่อเกี่ยวกับตัวเอง',Laguz:'ความรู้สึกเป็นข้อมูลอย่างหนึ่ง ลองรับฟังมันอย่างอ่อนโยน แล้วใช้ข้อเท็จจริงช่วยตัดสินใจด้วย',Ingwaz:'การเตรียมตัวเงียบ ๆ ก็เป็นความก้าวหน้า คุณไม่จำเป็นต้องประกาศทุกแผนก่อนพร้อม',Dagaz:'มุมมองใหม่อาจช่วยให้คุณเห็นทางเลือกที่เคยมองข้าม อนุญาตให้ตัวเองเปลี่ยนใจเมื่อเรียนรู้มากขึ้น',Othala:'รากฐานและประสบการณ์เดิมมีคุณค่า แต่คุณก็เลือกได้ว่าส่วนไหนควรสานต่อและส่วนไหนไม่จำเป็นต้องแบก'};
+  function runeSelfMeaning(rune){return rune?(RUNE_SELF_REFLECTION[rune[0]]||rune[2]||'ลองใช้เรื่องนี้เป็นโอกาสทำความเข้าใจตัวเอง'):'';}
+  function calcTarotRuneFeature(params){params=params||{};var b=readBirthInput(params),j=calcRabbitJoint(params),birthSum=b.bDay+b.bMonth+b.bYear,birthCard=tarotCardFromNumber(birthSum),now=params.nowDate instanceof Date?params.nowDate:new Date(),dateSum=now.getDate()+(now.getMonth()+1)+now.getFullYear(),dateDigit=reduce1(dateSum),birthDigit=reduce1(birthSum),eventCard=tarotMinorFromNumber(dateDigit*birthDigit),runeNum=b.noBirthTime?null:rune24(b.bHour+b.bMin),rune=b.noBirthTime?null:RUNE_DATA[runeNum-1],dailyRuneNum=rune24(birthSum+dateSum),dailyRune=RUNE_DATA[dailyRuneNum-1],fusion=(j.R4||9),dailyElement=calcDailyElement(now),dailyCrystalDateNumber=reduce1(dateSum*6),dailyCrystalRabbitElementNumber=reduce1((j.R4||9)+(dailyElement.finalNum||9)),personalCrystalNumber=reduce1(birthSum);return {feature:'tarotRune',noBirthTime:b.noBirthTime,birthSum:birthSum,birthCard:birthCard,dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,rabbitJoint:j,rabbitFusionCode:fusion,rabbitFusionRabbit:RABBITS[fusion]||RABBITS[9],element:getElement(fusion),nameRes:birthNameParts(b).nameRes,ownerElement:birthNameParts(b).ownerElement,dailyElement:dailyElement,dailyCrystalDateNumber:dailyCrystalDateNumber,dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber),personalCrystalNumber:personalCrystalNumber,personalCrystal:crystalFromNumber(personalCrystalNumber)};}
 
   var PERSON_FEATURES = {
     identity: calcIdentityFeature,
@@ -4540,6 +4569,11 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
     calcElementRelation: calcElementRelation,
     calcPerson: calcPerson,
     calcTarotRuneFeature: calcTarotRuneFeature,
+    // Public interpretation helpers: the UI renderer runs outside the Engine IIFE.
+    // Export these explicitly to avoid ReferenceError in the detailed Tarot/Rune view.
+    tarotSelfMeaning: tarotSelfMeaning,
+    runeSelfMeaning: runeSelfMeaning,
+    crystalFromNumber: crystalFromNumber,
     calcGod: calcGod,
     calcOreguram: calcOreguram,
     OREGURAM_QUESTIONS: OREGURAM_QUESTIONS,
@@ -5715,36 +5749,45 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderTarotRuneSection(res) {
     var birth=res.birthCard||{}, event=res.eventCard||res.dailyCard||{}, rune=res.rune||[], dailyRune=res.dailyRune||[];
     var joint=res.rabbitJoint||{}, rabbit=joint.rabbit||res.rabbitFusionRabbit||{}, code=joint.R4||9;
-    var minorRankThai={Ace:"เอซ",Two:"สอง",Three:"สาม",Four:"สี่",Five:"ห้า",Six:"หก",Seven:"เจ็ด",Eight:"แปด",Nine:"เก้า",Ten:"สิบ",Page:"เพจ",Knight:"ไนท์",Queen:"ควีน",King:"คิง"};
+    var minorRankThai={Ace:'เอซ',Two:'สอง',Three:'สาม',Four:'สี่',Five:'ห้า',Six:'หก',Seven:'เจ็ด',Eight:'แปด',Nine:'เก้า',Ten:'สิบ',Page:'เพจ',Knight:'ไนท์',Queen:'ควีน',King:'คิง'};
     var suitThai=event.thaiSuit||(event.suit==='Wands'?'ไม้เท้า':event.suit==='Cups'?'ถ้วย':event.suit==='Pentacles'?'เหรียญ':event.suit==='Swords'?'ดาบ':'');
-    var eventName=event.group==='Minor Arcana'?((minorRankThai[event.rank]||event.rank||'')+suitThai).trim():(event.name||'ไพ่เหตุการณ์');
+    var eventName=event.name||'Daily Tarot Card';
     var birthName=birth.name||'-', runeName=rune[0]||'รูน', runeSymbol=rune[1]||'', dailyName=dailyRune[0]||'รูนประจำวัน', dailySymbol=dailyRune[1]||'';
-    var birthMeaning=birth.meaning||'', eventMeaning=event.meaning||'', runeMeaning=rune[2]||'', runeAction=rune[3]||'', dailyMeaning=dailyRune[2]||'', dailyAction=dailyRune[3]||'';
-    var rabbitText=rabbit.short||rabbit.desc||'';
-    var dailyElement=res.dailyElement||calcDailyElement(new Date());
+    var birthMeaning=(Engine && typeof Engine.tarotSelfMeaning==='function' ? Engine.tarotSelfMeaning(birth,'personal') : '')||'ใช้ความหมายของไพ่ใบนี้เป็นจุดเริ่มต้นในการทบทวนตัวเองอย่างอ่อนโยน', eventMeaning=(Engine && typeof Engine.tarotSelfMeaning==='function' ? Engine.tarotSelfMeaning(event,'daily') : '')||'ลองสังเกตว่าเหตุการณ์วันนี้สะท้อนความต้องการหรือความกังวลอะไรในใจ', runeMeaning=(Engine && typeof Engine.runeSelfMeaning==='function' ? Engine.runeSelfMeaning(rune) : (rune && rune[2] || 'ใช้รูนเป็นจุดเริ่มต้นในการทบทวนตัวเอง')), dailyMeaning=(Engine && typeof Engine.runeSelfMeaning==='function' ? Engine.runeSelfMeaning(dailyRune) : (dailyRune && dailyRune[2] || 'ลองใช้ความหมายของรูนเป็นแนวทางทบทวนวันนี้'));
+    var personalCrystal=res.personalCrystal||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber(res.birthSum||1) : {name:'คริสตัลประจำตัว',healing:'ใช้เป็นสัญลักษณ์เตือนใจในการดูแลตัวเอง'});
+    var dailyElement=res.dailyElement||(Engine && typeof Engine.calcDailyElement==='function' ? Engine.calcDailyElement(new Date()) : {dateSum:0,finalNum:9});
     var dateSum=dailyElement.dateSum||((new Date()).getDate()+(new Date()).getMonth()+1+(new Date()).getFullYear());
-    var dailyCrystalDate=res.dailyCrystalDate||crystalFromNumber(dateSum*6);
-    var dailyCrystalRabbitElement=res.dailyCrystalRabbitElement||crystalFromNumber((res.rabbitJoint&&res.rabbitJoint.R4||9)+dailyElement.finalNum);
-    var dailyElementName=dailyElement.element&&dailyElement.element.name ? dailyElement.element.name : '-';
-    var dailyElementSymbol=dailyElement.element&&dailyElement.element.symbol ? dailyElement.element.symbol : '';
+    var dailyCrystalDate=res.dailyCrystalDate||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber(dateSum*6) : {name:'คริสตัลประจำวัน',healing:'ใช้เป็นเครื่องเตือนใจให้กลับมาอยู่กับปัจจุบัน'});
+    var dailyCrystalRabbitElement=res.dailyCrystalRabbitElement||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber((res.rabbitJoint&&res.rabbitJoint.R4||9)+(dailyElement.finalNum||9)) : {name:'คริสตัลเชื่อมโหรกระต่าย',healing:'ใช้เป็นสัญลักษณ์เตือนใจให้เข้าใจตัวเอง'});
+    var rabbitReflection={
+      1:'คุณอาจกำลังรอความมั่นใจเพื่อเริ่มต้น ไพ่ รูน และคริสตัลวันนี้ชวนให้เชื่อในก้าวเล็ก ๆ โดยไม่ต้องพิสูจน์ทุกอย่างให้ใครเห็น',
+      2:'คุณอาจรับรู้ความรู้สึกละเอียดอ่อนของตัวเองและคนรอบข้างได้มาก ลองให้เวลากับใจ พร้อมแยกความรู้สึกออกจากข้อเท็จจริงอย่างอ่อนโยน',
+      3:'การสื่อสารและการแสดงตัวตนเป็นประเด็นสำคัญ ลองถามตัวเองว่าคุณได้พูดสิ่งที่ต้องการจริง ๆ หรือกำลังพูดเพื่อให้ทุกคนพอใจ',
+      4:'คุณอาจต้องการความมั่นคงและความชัดเจน ลองจัดระบบในสิ่งที่ควบคุมได้ พร้อมยอมให้บางเรื่องค่อย ๆ คลี่คลายตามเวลา',
+      5:'คุณอาจกำลังปรับตัวกับทางเลือกหรือการเปลี่ยนแปลง ไม่จำเป็นต้องรู้คำตอบทั้งหมดในวันนี้ เลือกก้าวที่เหมาะกับตัวเองตอนนี้ก็พอ',
+      6:'คุณอาจดูแลความต้องการของคนอื่นจนลืมถามใจตัวเอง ลองให้ความสำคัญกับขอบเขตและความต้องการของตัวเองเท่า ๆ กับคนที่คุณรัก',
+      7:'คุณอาจต้องการความแน่ใจและข้อมูลที่ครบถ้วน ลองใช้การทบทวนเพื่อช่วยตัดสินใจ ไม่ใช่เพื่อทำให้ตัวเองติดอยู่กับความคิดวนซ้ำ',
+      8:'เป้าหมายและความสำเร็จอาจมีน้ำหนักมากในใจ ลองถามว่าคุณกำลังสร้างชีวิตที่ต้องการจริง ๆ หรือกำลังเหนื่อยกับการต้องดูเข้มแข็งตลอดเวลา',
+      9:'คุณอาจอยู่ในช่วงทบทวนหรือปล่อยบางสิ่งที่หมดความหมาย ให้พื้นที่กับความรู้สึกเสียดายได้ โดยไม่จำเป็นต้องกลับไปแบกสิ่งเดิมอีก'
+    };
+    var rabbitAdvice={1:'เริ่มจากสิ่งเล็กที่ทำได้จริง',2:'ฟังใจตัวเองและตรวจสอบข้อเท็จจริง',3:'สื่อสารความต้องการอย่างตรงไปตรงมา',4:'แบ่งเรื่องใหญ่เป็นขั้นตอนเล็ก ๆ',5:'เปิดรับทางเลือกโดยไม่เร่งตัดสิน',6:'ดูแลตัวเองพร้อมกับดูแลคนอื่น',7:'หยุดคิดวนเมื่อมีข้อมูลเพียงพอ',8:'ให้คุณค่ากับตัวเองนอกเหนือจากผลงาน',9:'ค่อย ๆ วางสิ่งที่ไม่จำเป็นต้องแบก'};
+    var rabbitText=rabbitReflection[code]||'ใช้สัญลักษณ์เหล่านี้เป็นจุดเริ่มต้นในการสำรวจความรู้สึก แล้วเลือกสิ่งที่สอดคล้องกับชีวิตจริงของคุณ';
     var h='';
-
-    /* ช่องที่ 1: ไพ่ประจำตัว + รูนประจำตัว + โหรกระต่าย */
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">🌙 พลังประจำตัว · ไพ่ + รูน + โหรกระต่าย</h4>';
+    h+='<h4 style="color:#9a3412;">🌙 พลังประจำตัว · ไพ่ + รูน + คริสตัล + โหรกระต่าย</h4>';
     h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+birthName+'</b><br/>'+birthMeaning+'</div>';
-    if (res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+runeName+' '+runeSymbol+'</b><br/>'+runeMeaning+' · '+runeAction+'</div>';
-    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว:</b><br/>ไม่ได้คำนวณ เนื่องจากไม่ได้ระบุเวลาเกิด</div>';
-    h+='<div class="pred-section-item"><b>🔮 คำทำนายส่วนตัว:</b><br/>ใช้จุดแข็งและสัญชาตญาณนำทาง ควบคู่กับข้อเท็จจริง และเลือกจังหวะที่เหมาะกับตัวเอง</div>';
+    if (res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+runeName+' '+runeSymbol+'</b><br/>'+runeMeaning+'</div>';
+    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว:</b><br/>ไม่ได้คำนวณเพราะไม่ได้ระบุเวลาเกิด คุณยังใช้ไพ่และคริสตัลเป็นจุดเริ่มต้นในการทบทวนตัวเองได้</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+personalCrystal.name+'</b><br/>'+personalCrystal.healing+' ใช้เป็นสัญลักษณ์เตือนใจ ไม่ใช่สิ่งที่กำหนดตัวตนของคุณ</div>';
+    h+='<div class="pred-section-item"><b>🐇 โหรกระต่ายกับการเข้าใจตัวเอง (เลข '+code+'):</b><br/>'+rabbitText+'<br/><b>ก้าวที่อาจช่วยได้:</b> '+(rabbitAdvice[code]||'ค่อย ๆ เลือกสิ่งที่เหมาะกับตัวเอง')+'</div>';
     h+='</div>';
-
-    /* ช่องที่ 2: ไพ่ประจำวัน + รูนประจำวัน + โหรกระต่าย */
     h+='<div class="pred-block" style="background:#ecfeff;border-color:#a5f3fc;border-left:5px solid #0891b2;">';
-    h+='<h4 style="color:#0e7490;">☀️ พลังประจำวัน · ไพ่ + รูน + โหรกระต่าย</h4>';
+    h+='<h4 style="color:#0e7490;">☀️ พลังประจำวัน · ไพ่ + รูน + คริสตัล + โหรกระต่าย</h4>';
     h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำวัน / ไพ่เหตุการณ์: '+eventName+'</b><br/>'+eventMeaning+'</div>';
     h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+dailyName+' '+dailySymbol+'</b><br/>'+dailyMeaning+'</div>';
-    h+='<div class="pred-section-item"><b>🌤️ คำทำนายรวมของวันนี้:</b><br/>สังเกตความเปลี่ยนแปลงก่อนตอบสนอง ไม่ต้องรีบตัดสินใจ คริสตัล '+dailyCrystalRabbitElement.name+' ชวนให้ใส่ใจเรื่อง'+dailyCrystalRabbitElement.support+' ส่วน '+dailyCrystalDate.name+' เสริมธีม'+dailyCrystalDate.support+' ใช้เป็นแนวทางทบทวนตัวเอง</div>';
-    // รวมการตีความคริสตัลไว้ในคำทำนายหลักด้านบน ไม่แสดงเป็นส่วนแยก
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+dailyCrystalDate.name+'</b><br/>'+dailyCrystalDate.healing+'</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับโหรกระต่ายวันนี้: '+dailyCrystalRabbitElement.name+'</b><br/>'+dailyCrystalRabbitElement.healing+'</div>';
+    h+='<div class="pred-section-item"><b>🌤️ คำทำนายรวมกับโหรกระต่าย (เลข '+code+'):</b><br/>'+rabbitText+' วันนี้ลองนำสิ่งที่ไพ่และรูนสะท้อนมาเทียบกับความรู้สึกและเหตุการณ์จริง ไม่จำเป็นต้องเชื่อทุกอย่างหรือรีบหาคำตอบทันที</div>';
     h+='</div>';
     return h;
   }
@@ -6230,18 +6273,57 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderTarotRuneStandaloneResult(data, fromButton) {
-    if (!Engine || typeof Engine.calcPerson !== 'function') throw new Error('TAROT_RUNE_ENGINE_MISSING');
-    var res = Engine.calcPerson({
-      feature: 'tarotRune',
-      fName: data.fName, fLast: data.fLast,
-      bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear,
-      bHour: data.bHour, bMin: data.bMin,
-      noBirthTime: data.noBirthTime
-    });
+    var stage = 'เตรียมระบบ';
+    if (!Engine || typeof Engine.calcPerson !== 'function') throw new Error('TAROT_RUNE_ENGINE_MISSING: ไม่พบฟังก์ชันคำนวณของ Engine 4');
+    // ตรวจวันที่จริงด้วย ไม่ใช่ตรวจเพียงช่วงตัวเลข เพื่อกันวันอย่าง 31 ก.พ. ที่ทำให้สูตรรับค่าผิด
+    stage = 'ตรวจสอบข้อมูลวันเกิด';
+    var day = parseInt(data.bDay, 10), month = parseInt(data.bMonth, 10), year = parseInt(data.bYear, 10);
+    if (!Number.isFinite(day) || !Number.isFinite(month) || !Number.isFinite(year) || year < 1 || month < 1 || month > 12 || day < 1 || day > 31) {
+      throw new Error('INVALID_BIRTH_DATE: กรุณาตรวจสอบวัน เดือน และปีเกิด (ปี ค.ศ.)');
+    }
+    var dateCheck = new Date(year, month - 1, day);
+    if (dateCheck.getFullYear() !== year || dateCheck.getMonth() !== month - 1 || dateCheck.getDate() !== day) {
+      throw new Error('INVALID_BIRTH_DATE: วันที่นี้ไม่มีอยู่จริง กรุณาตรวจสอบวันและเดือนเกิด');
+    }
+    stage = 'คำนวณไพ่ รูน และคริสตัล';
+    var hour = data.noBirthTime ? 0 : parseInt(data.bHour || 0, 10);
+    var minute = data.noBirthTime ? 0 : parseInt(data.bMin || 0, 10);
+    if (!Number.isFinite(hour) || hour < 0 || hour > 23 || !Number.isFinite(minute) || minute < 0 || minute > 59) {
+      throw new Error('INVALID_BIRTH_TIME: เวลาเกิดต้องอยู่ระหว่าง 00:00 ถึง 23:59 หรือเลือกไม่ทราบเวลาเกิด');
+    }
+    var res;
+    try {
+      res = Engine.calcPerson({
+        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '',
+        bDay: day, bMonth: month, bYear: year, bHour: hour, bMin: minute,
+        noBirthTime: !!data.noBirthTime
+      });
+    } catch (calculationError) {
+      calculationError.message = 'ขั้นตอน ' + stage + ' ล้มเหลว: ' + (calculationError.message || String(calculationError));
+      throw calculationError;
+    }
+    stage = 'ตรวจสอบผลคำนวณ';
+    if (!res || !res.birthCard || !res.eventCard || !res.dailyCrystalDate || !res.personalCrystal) {
+      throw new Error('TAROT_RUNE_RESULT_INCOMPLETE: Engine 4 ส่งข้อมูลไพ่/คริสตัลกลับมาไม่ครบ');
+    }
+    stage = 'แสดงผลคำทำนาย';
     resultsBox.style.display = 'block';
-    resultsBox.innerHTML = '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + renderTarotRuneSection(res) + featureCtaHtml('tarotRune');
-    improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune');
-    if (fromButton) resultsBox.scrollIntoView({behavior:'smooth'});
+    var body = '';
+    try {
+      body = renderTarotRuneSection(res);
+    } catch (renderError) {
+      // ป้องกันข้อผิดพลาดในส่วนตกแต่ง/คำอธิบายทำให้ผลคำนวณทั้งหมดหายไป
+      console.error('Tarot/Rune detailed renderer failed; using safe fallback:', renderError);
+      var bc = res.birthCard || {}, ec = res.eventCard || {}, pr = res.personalCrystal || {}, dc = res.dailyCrystalDate || {};
+      var esc = function(v){return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+      body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
+        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
+    }
+    resultsBox.innerHTML = '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune');
+    try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
+    catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
+    // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
+    if (fromButton && resultsBox.scrollIntoView) { try { resultsBox.scrollIntoView({behavior:'smooth'}); } catch (scrollError) { console.warn('Tarot/Rune auto-scroll skipped:', scrollError); } }
     return true;
   }
 
@@ -6285,7 +6367,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if(resultsBox){ resultsBox.style.display='none'; resultsBox.innerHTML=''; }
     try { showResultFor('tabTarotRune', true); } catch(err) {
       console.error('Horakratai Tarot/Rune calculation error:',err);
-      if(resultsBox){ resultsBox.style.display='block'; resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>'; }
+      var tarotRuneError = (err && err.message) ? String(err.message) : String(err || 'ไม่ทราบสาเหตุ'); if (err && err.stack) console.error('Engine 4 Tarot/Rune error stack:', err.stack);
+      if(resultsBox){
+        var safeError = tarotRuneError.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        resultsBox.style.display='block';
+        resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ขั้นตอนที่ผิดพลาด: <code style="white-space:pre-wrap;overflow-wrap:anywhere;">'+safeError+'</code><br/><small>ระบบได้แยกข้อผิดพลาดจากการคำนวณ การแสดงผล และการเลื่อนหน้าจอแล้ว กรุณาใช้ข้อความนี้เพื่อตรวจจุดที่เหลือ</small></div>';
+      }
     }
   });
 
