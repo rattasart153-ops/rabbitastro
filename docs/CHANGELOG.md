@@ -13,6 +13,11 @@
 ## 2026-11-04
 
 ### Audit
+- ทำ XSS Deep Inspection รอบที่ 4 จาก Source เต็ม พบ unsafe HTML construction หลายกลุ่ม, warmOreguramText ไม่ได้ escape และ error message บางเส้นทางถูกต่อเข้า innerHTML
+- เพิ่มรายงาน `docs/06_AUDIT4_XSS_DEEP_INSPECTION.md` และ Test Cases XSS-01 ถึง XSS-07
+- ยังไม่ยืนยัน exploitable DOM XSS เนื่องจากยังไม่ได้ทำ Browser payload test และ complete taint verification
+
+### Audit
 - ทำ Static Security Review รอบที่ 3: พบ dynamic HTML sinks ที่ต้อง trace ต่อ, Local Storage ที่เก็บข้อมูลฟอร์ม, validation ที่ไม่สม่ำเสมอ และ error handling ที่ต้องตรวจเพิ่ม
 - บันทึกข้อค้นพบและ Test Cases RT-01 ถึง RT-12 ใน `docs/05_AUDIT3_STATIC_SECURITY.md`
 - Runtime/Browser Test และการยืนยัน XSS exploitability ยังไม่ได้รัน
