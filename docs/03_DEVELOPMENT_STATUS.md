@@ -71,3 +71,4 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | Audit 2 | ตรวจสูตร/ตัวอย่างจาก Source | เสร็จ |
 | Audit 3 | Static Security Review | เบื้องต้นเสร็จ; Runtime/Browser ยัง Not Run |
 | Audit 4 | XSS Deep Inspection | Static review เสร็จ; exploitability และ runtime ยังไม่ยืนยัน |
+| Audit 5 | Data Flow Trace | Trace เส้นทาง form → Engine → renderer → HTML sink แล้ว; runtime ยัง Not Run |
