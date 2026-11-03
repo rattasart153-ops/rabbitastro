@@ -5169,7 +5169,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Array.prototype.slice.call(node.attributes).forEach(function(attr) {
           var name = attr.name.toLowerCase(), value = attr.value;
           if (name === 'class') {
-            var safeClass = value.replace(/[^a-zA-Z0-9_ -]/g, '').trim();
+            var safeClass = value.replace(/[^a-zA-Z0-9ก-๙_ -]/g, '').trim();
             if (safeClass) node.setAttribute('class', safeClass); else node.removeAttribute('class');
           } else if (name === 'style') {
             var declarations = [];
@@ -5178,19 +5178,19 @@ document.addEventListener("DOMContentLoaded", function () {
               if (splitAt < 1) return;
               var prop = part.slice(0, splitAt).trim().toLowerCase();
               var val = part.slice(splitAt + 1).trim();
-              if (allowedStyles.indexOf(prop) === -1 || !val || /url\\s*\\(|expression|javascript:|@import|behavior|binding|[<>\\\\]/i.test(val)) return;
+              if (allowedStyles.indexOf(prop) === -1 || !val || /url\s*\(|expression|javascript:|@import|behavior|binding|[<>\\]/i.test(val)) return;
               declarations.push(prop + ':' + val);
             });
             if (declarations.length) node.setAttribute('style', declarations.join(';')); else node.removeAttribute('style');
           } else if (name === 'href' && tag === 'A') {
             var trimmed = value.trim();
-            if (!/^(https?:\\/\\/|mailto:|tel:|#|\\/(?!\\/))/i.test(trimmed)) node.removeAttribute(name);
+            if (!/^(https?:\/\/|mailto:|tel:|#|\/(?!\/))/i.test(trimmed)) node.removeAttribute(name);
           } else if (name === 'target' && tag === 'A') {
             if (value !== '_blank' && value !== '_self') node.removeAttribute(name);
           } else if (name === 'rel' && tag === 'A') {
             node.setAttribute('rel', 'noopener noreferrer');
           } else if (['title','role','aria-label','colspan','rowspan','scope'].indexOf(name) !== -1) {
-            if ((name === 'colspan' || name === 'rowspan') && !/^\\d{1,2}$/.test(value)) node.removeAttribute(name);
+            if ((name === 'colspan' || name === 'rowspan') && !/^\d{1,2}$/.test(value)) node.removeAttribute(name);
           } else {
             node.removeAttribute(name);
           }
