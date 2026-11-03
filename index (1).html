@@ -3736,8 +3736,14 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
     ]
   };
 
-  // เปิดเผยคำถามให้ renderer หลักที่อยู่คนละ script scope เรียกใช้ได้
-  if (typeof window !== "undefined") window.RHD_SELF_QUESTIONS = RHD_SELF_QUESTIONS;
+  // เปิดเผยชุดคำถามแบบอ่านอย่างเดียว เพื่อป้องกันการแก้ไข array ภายในโดยไม่ตั้งใจ
+  if (typeof window !== "undefined") {
+    Object.keys(RHD_SELF_QUESTIONS).forEach(function(key) {
+      if (Array.isArray(RHD_SELF_QUESTIONS[key])) Object.freeze(RHD_SELF_QUESTIONS[key]);
+    });
+    Object.freeze(RHD_SELF_QUESTIONS);
+    window.RHD_SELF_QUESTIONS = RHD_SELF_QUESTIONS;
+  }
 
   function buildRHDMatrix(){
     var matrix={};
@@ -6211,10 +6217,13 @@ document.addEventListener("DOMContentLoaded", function () {
       9:'คุณไม่จำเป็นต้องเป็นคนแก้ปัญหาหรือเข้าใจทุกฝ่ายเสมอไป เลือกดูแลสิ่งที่สำคัญกับคุณก่อนก็ได้ คุณมีสิทธิ์วางภาระบางอย่างลงและใช้ชีวิตที่เบาขึ้น'
     };
     h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+'”</span><div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
-    var questionBank = window.RHD_SELF_QUESTIONS || {};
-    var selfQuestions = questionBank[habit] || questionBank[1] || [];
+    var questionBank = (window.RHD_SELF_QUESTIONS && typeof window.RHD_SELF_QUESTIONS === 'object' && !Array.isArray(window.RHD_SELF_QUESTIONS)) ? window.RHD_SELF_QUESTIONS : {};
+    var candidateQuestions = Object.prototype.hasOwnProperty.call(questionBank, habit) ? questionBank[habit] : questionBank[1];
+    var selfQuestions = Array.isArray(candidateQuestions)
+      ? candidateQuestions.filter(function(question) { return typeof question === 'string'; }).slice(0, 2).map(function(question) { return question.slice(0, 300); })
+      : [];
     h += '<div class="rhd-section rhd-self-questions"><b>❓ คำถามสำรวจแนวทางของตัวเอง</b><ol style="margin:6px 0 0;padding-left:22px;">';
-    for (var qi = 0; qi < Math.min(2, selfQuestions.length); qi++) { h += '<li style="margin:4px 0;">' + selfQuestions[qi] + '</li>'; }
+    for (var qi = 0; qi < selfQuestions.length; qi++) { h += '<li style="margin:4px 0;">' + escapeHTML(selfQuestions[qi]) + '</li>'; }
     h += '</ol></div>';
     h += '<div class="rhd-note">ข้อความเหล่านี้เป็นเพียงกระจกสะท้อนให้คุณสำรวจใจ ไม่ใช่การอ่านใจหรือคำตัดสินตายตัว คุณเป็นคนที่รู้จักตัวเองได้ลึกที่สุด และเลือกตอบกลับเสียงข้างในในแบบของคุณได้เสมอ</div>';
     h += '</div>';
@@ -6907,7 +6916,18 @@ document.addEventListener("DOMContentLoaded", function () {
           var panel = document.createElement('div');
           panel.className = 'subconscious-prompt pred-block';
           panel.style.cssText = 'margin-top:12px;background:#fffaf5;border:1px solid #f3d6c5;border-left:5px solid #c27855;border-radius:12px;padding:14px;color:#513b32;line-height:1.8;';
-          panel.innerHTML = '<h4 style="margin:0 0 8px;color:#8b4a32;">💗 ลองฟังอีกเสียงหนึ่งในใจของคุณ</h4><p style="margin:0 0 8px;">' + reflectionFor(num) + '</p><p style="margin:0;font-size:0.95em;">ข้อความนี้ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน แค่ชวนสำรวจใจอย่างอ่อนโยน: ตอนนี้คุณต้องการอะไร และมีอะไรที่ทำให้ยังไม่กล้าบอกความต้องการนั้นกับตัวเองหรือคนอื่น?</p>';
+          var panelTitle = document.createElement('h4');
+          panelTitle.style.cssText = 'margin:0 0 8px;color:#8b4a32;';
+          panelTitle.textContent = '💗 ลองฟังอีกเสียงหนึ่งในใจของคุณ';
+          var reflectionText = document.createElement('p');
+          reflectionText.style.cssText = 'margin:0 0 8px;';
+          reflectionText.textContent = reflectionFor(num);
+          var panelNote = document.createElement('p');
+          panelNote.style.cssText = 'margin:0;font-size:0.95em;';
+          panelNote.textContent = 'ข้อความนี้ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน แค่ชวนสำรวจใจอย่างอ่อนโยน: ตอนนี้คุณต้องการอะไร และมีอะไรที่ทำให้ยังไม่กล้าบอกความต้องการนั้นกับตัวเองหรือคนอื่น?';
+          panel.appendChild(panelTitle);
+          panel.appendChild(reflectionText);
+          panel.appendChild(panelNote);
           box.appendChild(panel);
         }
       }
