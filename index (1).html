@@ -5139,6 +5139,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
+  // Escape ข้อความทุกชนิดก่อนนำไปประกอบ HTML; ไม่ใช้แทน HTML sanitizer สำหรับ markup ทั้งก้อน
+  function escapeHTML(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   // ---------- ส่วนประกอบ HTML ที่ใช้ร่วมกันทุก engine ----------
   function tileHtml(k, v, desc, hl) {
     return '<div class="num-tile' + (hl ? ' hl' : '') + '">' +
@@ -6398,7 +6405,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai main calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + (err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>';
+        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + escapeHTML(err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>';
       }
     } finally {
       setTimeout(function(){ target.__horakHandled = false; }, 0);
@@ -6676,7 +6683,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + String(err && err.message ? err.message : err) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>';
+        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(err && err.message ? err.message : err) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>';
       }
     }
   });
