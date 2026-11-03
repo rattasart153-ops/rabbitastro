@@ -12,6 +12,15 @@
 
 ## 2026-11-04
 
+### Security
+- เพิ่ม escapeHTML() และ sanitizer แบบ allowlist พร้อม setSafeHTML() เพื่อควบคุม dynamic HTML ในผลลัพธ์ของ Person, God, Oreguram, Tarot/Rune และ shared voice
+- ปรับ shared HTML helpers ให้ sanitize ข้อความ/fragment, จำกัด CSS color และ class token
+- ปรับ Error Handler ให้ escape ข้อความ error ก่อน render
+- Freeze RHD question dataset, validate รูปแบบ/ชนิด/จำนวน/ความยาวข้อมูล และเปลี่ยน subconscious panel เป็น DOM createElement/textContent
+- เพิ่ม `docs/08_SECURITY_REMEDIATION.md`; สูตรคำนวณและชุดคำทำนายไม่เปลี่ยน
+- Static JavaScript syntax check ผ่านครบ 6 inline scripts; Browser/runtime/payload tests ยัง Not Run
+
+
 ### Audit
 - เพิ่มรายงาน Data Flow Trace รอบที่ 5 ครอบคลุมข้อมูลฟอร์ม การคำนวณ การเลือกชุดคำทำนาย และจุดแสดงผล
 - ไม่พบการสะท้อนข้อมูลชื่อและวันเกิดดิบโดยตรงในเส้นทางหลักที่ตรวจ แต่ยังมีจุดประกอบ HTML และข้อความข้อผิดพลาดที่ควรปรับปรุง
