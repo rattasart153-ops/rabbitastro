@@ -6758,7 +6758,8 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(err && err.message ? err.message : err) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>');
+        var errorMessage = err && err.message != null && String(err.message).trim() ? String(err.message) : (typeof err === "string" && err.trim() ? err : "เกิดข้อผิดพลาดระหว่างคำนวณโอเรกุรัม");
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(errorMessage) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>');
       }
     }
   });
