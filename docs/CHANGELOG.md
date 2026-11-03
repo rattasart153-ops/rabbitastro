@@ -12,6 +12,12 @@
 
 ## 2026-11-04
 
+### Test
+- Static XSS encoding checks ผ่าน 7/7 payloads และ Error Handler encoding checks ผ่าน 4/4 cases
+- ตรวจ routing ของ result renderers ทั้ง 4 Engine ผ่าน setSafeHTML และทดสอบ URL protocol allowlist 10 รูปแบบ; LINE CTA URL อยู่ใน allowlist
+- Browser visual/interaction/payload tests ยัง Not Run; ยังไม่ยืนยัน runtime DOM behavior
+
+
 ### Security
 - เพิ่ม escapeHTML() และ sanitizer แบบ allowlist พร้อม setSafeHTML() เพื่อควบคุม dynamic HTML ในผลลัพธ์ของ Person, God, Oreguram, Tarot/Rune และ shared voice
 - ปรับ shared HTML helpers ให้ sanitize ข้อความ/fragment, จำกัด CSS color และ class token
