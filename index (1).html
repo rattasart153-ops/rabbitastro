@@ -5210,14 +5210,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- ส่วนประกอบ HTML ที่ใช้ร่วมกันทุก engine ----------
   function tileHtml(k, v, desc, hl) {
     return '<div class="num-tile' + (hl ? ' hl' : '') + '">' +
-      '<div class="k">' + k + '</div>' +
-      '<div class="v">' + v + '</div>' +
-      (desc ? '<div class="desc">' + desc + '</div>' : '') +
+      '<div class="k">' + sanitizeHTML(k) + '</div>' +
+      '<div class="v">' + sanitizeHTML(v) + '</div>' +
+      (desc ? '<div class="desc">' + sanitizeHTML(desc) + '</div>' : '') +
       '</div>';
   }
 
   function elementTag(element) {
-    return '<span class="element-tag elem-' + element.name + '">ธาตุ' + element.name + ' ' + element.symbol + '</span>';
+    element = element || {};
+    var name = String(element.name == null ? '' : element.name);
+    var safeClass = name.replace(/[^a-zA-Z0-9ก-๙_-]/g, '');
+    return '<span class="element-tag elem-' + safeClass + '">ธาตุ' + escapeHTML(name) + ' ' + escapeHTML(element.symbol) + '</span>';
   }
 
   function rabbitTileHtml(num, rabbit, element, label) {
@@ -5242,17 +5245,19 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function listHtml(items) {
-    if (!items || !items.length) return '';
+    if (!Array.isArray(items) || !items.length) return '';
     var h = '<ul>';
-    items.forEach(function (it) { h += '<li>' + it + '</li>'; });
+    items.forEach(function (it) { h += '<li>' + sanitizeHTML(it) + '</li>'; });
     return h + '</ul>';
   }
 
   function stepsHtml(steps, color) {
-    if (!steps || !steps.length) return '';
+    if (!Array.isArray(steps) || !steps.length) return '';
+    var safeColor = String(color || '').trim();
+    if (!/^(#[0-9a-f]{3,8}|[a-z]+|rgba?\\([0-9.,% ]+\\)|var\\(--[a-zA-Z0-9_-]+\\))$/i.test(safeColor)) safeColor = '';
     var h = '<ul class="step-list">';
     steps.forEach(function (s) {
-      h += '<li>' + (color ? '<b style="color:' + color + ';">◆</b> ' : '◆ ') + s + '</li>';
+      h += '<li>' + (safeColor ? '<b style="color:' + safeColor + ';">◆</b> ' : '◆ ') + sanitizeHTML(s) + '</li>';
     });
     return h + '</ul>';
   }
@@ -5274,7 +5279,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (lucky.day) chips.push('📅 วัน: ' + lucky.day);
     if (!chips.length) return '';
     var h = '<div class="lucky-grid">';
-    chips.forEach(function (c) { h += '<span class="lucky-chip">' + c + '</span>'; });
+    chips.forEach(function (c) { h += '<span class="lucky-chip">' + sanitizeHTML(c) + '</span>'; });
     return h + '</div>';
   }
 
