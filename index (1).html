@@ -5259,7 +5259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function stepsHtml(steps, color) {
     if (!Array.isArray(steps) || !steps.length) return '';
-    var safeColor = String(color || '').trim();
+    if (!/^(#[0-9a-f]{3,8}|[a-z]+|rgba?\([0-9.,% ]+\)|var\(--[a-zA-Z0-9_-]+\))$/i.test(safeColor)) safeColor = '';
     if (!/^(#[0-9a-f]{3,8}|[a-z]+|rgba?\\([0-9.,% ]+\\)|var\\(--[a-zA-Z0-9_-]+\\))$/i.test(safeColor)) safeColor = '';
     var h = '<ul class="step-list">';
     steps.forEach(function (s) {
