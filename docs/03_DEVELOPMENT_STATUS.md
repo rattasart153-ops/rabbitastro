@@ -12,8 +12,8 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | Reverse Engineering สูตรหลัก | เบื้องต้นเสร็จ | ยังมีรายละเอียดต้องยืนยัน |
 | ตรวจระบบคำทำนาย | เบื้องต้นเสร็จ | ต้องทดสอบ Runtime |
 | ตรวจ Local Storage | Source review แล้ว | ยังไม่ทดสอบ Browser |
-| Runtime/Browser test | Blocked / Not Run | ยังไม่ได้เปิดเว็บไซต์ใน Browser; ต้องรัน RT-01 ถึง RT-12 |
-| Static Security Review | เบื้องต้นเสร็จ | พบ dynamic innerHTML sinks, Local Storage และ validation risks; exploitability ยังไม่ยืนยัน |
+| Runtime/Browser test | Not Run | ยังไม่ได้เปิดเว็บไซต์ใน Browser; ต้องรัน RT-01 ถึง RT-12 และ XSS-01 ถึง XSS-07 |
+| Static Security Review | เบื้องต้นเสร็จ | Audit 3–4 พบ HTML sinks และ escaping gaps; exploitability ยังไม่ยืนยัน |
 | Automated regression tests | ยังไม่เริ่ม | ต้องออกแบบ golden cases |
 | เอกสาร Markdown ชุดเริ่มต้น | เสร็จแล้ว | รวม Audit รอบที่ 3 แบบ Static Review |
 
@@ -70,3 +70,4 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | Audit 1 | Reverse Engineering จาก Source | เสร็จ |
 | Audit 2 | ตรวจสูตร/ตัวอย่างจาก Source | เสร็จ |
 | Audit 3 | Static Security Review | เบื้องต้นเสร็จ; Runtime/Browser ยัง Not Run |
+| Audit 4 | XSS Deep Inspection | Static review เสร็จ; exploitability และ runtime ยังไม่ยืนยัน |
