@@ -12,10 +12,11 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | Reverse Engineering สูตรหลัก | เบื้องต้นเสร็จ | ยังมีรายละเอียดต้องยืนยัน |
 | ตรวจระบบคำทำนาย | เบื้องต้นเสร็จ | ต้องทดสอบ Runtime |
 | ตรวจ Local Storage | Source review แล้ว | ยังไม่ทดสอบ Browser |
-| Runtime/Browser test | Not Run | ยังไม่ได้เปิดเว็บไซต์ใน Browser; ต้องรัน RT-01 ถึง RT-12 และ XSS-01 ถึง XSS-07 |
+| Runtime/Browser test | Not Run | Static payload encoding checks ผ่าน; ต้องรัน RT-01 ถึง RT-12 และ XSS-01 ถึง XSS-07 ใน Browser จริง |
 | Static Security Review | เบื้องต้นเสร็จ | Audit 3–5 และ remediation รอบ 6; Browser payload tests ยังไม่รัน |
 | Security Remediation | Source changes เสร็จ | แก้ Error Handler, Prediction Renderer, HTML Helpers และ RHD data บน Sandbox; syntax check ผ่าน 6 scripts |
-| Automated regression tests | ยังไม่เริ่ม | ต้องออกแบบ golden cases |
+| Static security regression checks | เบื้องต้นผ่าน | escapeHTML payload 7/7, error message 4/4, renderer routing และ CTA URL allowlist ผ่าน source/unit checks |
+| Browser visual/interaction regression | Not Run | ยังต้องทดสอบ DOM จริง, CTA click, UI, tab switching และ console |
 | เอกสาร Markdown ชุดเริ่มต้น | เสร็จแล้ว | รวม Audit รอบที่ 3 แบบ Static Review |
 
 ## 2. งานที่ทำเสร็จแล้วก่อนเริ่ม Sandbox
