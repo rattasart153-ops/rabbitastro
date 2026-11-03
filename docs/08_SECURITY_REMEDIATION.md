@@ -89,3 +89,30 @@ Source baseline: index branch commit da06441acbc3456f6feb33cbe5a415cfe1399eb9
 - UI flow และการเลือกแท็บ/หมวด/คำถาม
 - Branch index และ main
 - ไม่มีการ merge
+
+## 9. Follow-up Static Regression Checks (2026-11-04)
+
+### Step 1 — XSS payload encoding
+- ทดสอบ escapeHTML() กับ payload 7 แบบ: img/onerror, svg/onload, script tag, javascript: link, quote/attribute breakout, HTML entity input และ iframe/srcdoc
+- ผล: 7/7 ถูก encode โดยไม่มี literal angle brackets หรือ quote characters เหลือใน output
+- ขอบเขต: เป็น unit check ของ HTML encoding เท่านั้น ไม่ใช่ DOM/browser exploit test
+
+### Step 2 — Error Handler encoding
+- ทดสอบ error.message 4 กรณี รวม markup-like error strings และข้อความปกติ
+- ผล: 4/4 ถูก encode ก่อนประกอบ error markup
+- Static source inspection พบ Main และ Oreguram ใช้ escapeHTML(); Tarot/Rune escape special HTML characters ก่อนส่งเข้า setSafeHTML()
+
+### Step 3 — Prediction Renderer routing
+- ตรวจ source ของ renderPersonResult, renderGodResult, renderOreguramResult และ renderTarotRuneStandaloneResult
+- ทั้ง 4 renderer มีเส้นทางส่งผลลัพธ์ผ่าน setSafeHTML(resultsBox, ...)
+- ตรวจ assignment innerHTML ทั้งไฟล์: เหลือการ clear ด้วย string ว่างและ assignment ภายใน setSafeHTML() เท่านั้น ไม่พบการ assign dynamic result string ตรง ๆ จาก renderer
+
+### Step 4 — CTA link protocol
+- ตรวจ allowlist URL pattern ด้วยชุด URL 10 แบบ
+- อนุญาต https/http, mailto, tel, fragment และ relative path; ปฏิเสธ protocol-relative URL, javascript:, data: และ vbscript:
+- LINE CTA ใช้ https://lin.ee/6Jwz5RD ซึ่งอยู่ใน allowlist
+- ยังไม่ได้คลิก CTA ใน Browser จริง
+
+### Step 5 — Browser visual/interaction regression
+- Blocked / Not Run: ไม่มี Browser automation หรือ live DOM runtime ในสภาพแวดล้อมการตรวจครั้งนี้
+- ต้องทดสอบหน้าตา, การคำนวณ, CTA click, tab switching, repeated calculation และ browser console บน deployed preview ก่อนอนุมัติ release
