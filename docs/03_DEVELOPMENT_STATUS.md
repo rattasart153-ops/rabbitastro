@@ -13,7 +13,8 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | ตรวจระบบคำทำนาย | เบื้องต้นเสร็จ | ต้องทดสอบ Runtime |
 | ตรวจ Local Storage | Source review แล้ว | ยังไม่ทดสอบ Browser |
 | Runtime/Browser test | Not Run | ยังไม่ได้เปิดเว็บไซต์ใน Browser; ต้องรัน RT-01 ถึง RT-12 และ XSS-01 ถึง XSS-07 |
-| Static Security Review | เบื้องต้นเสร็จ | Audit 3–4 พบ HTML sinks และ escaping gaps; exploitability ยังไม่ยืนยัน |
+| Static Security Review | เบื้องต้นเสร็จ | Audit 3–5 และ remediation รอบ 6; Browser payload tests ยังไม่รัน |
+| Security Remediation | Source changes เสร็จ | แก้ Error Handler, Prediction Renderer, HTML Helpers และ RHD data บน Sandbox; syntax check ผ่าน 6 scripts |
 | Automated regression tests | ยังไม่เริ่ม | ต้องออกแบบ golden cases |
 | เอกสาร Markdown ชุดเริ่มต้น | เสร็จแล้ว | รวม Audit รอบที่ 3 แบบ Static Review |
 
@@ -37,7 +38,7 @@ Branch ทำงาน: `rabbitastro-sandbox`
 ### P0 — ความถูกต้องและความปลอดภัยพื้นฐาน
 
 1. ตรวจ validation ของวัน/เดือน/ปีและเวลาในทุกโมดูล
-2. ตรวจ XSS risk โดยเฉพาะการนำข้อมูลผู้ใช้/คำทำนายไปใส่ HTML
+2. รัน Browser payload tests XSS-01 ถึง XSS-07 และ regression ของ UI หลัง Security Remediation
 3. ตรวจ Local Storage ว่าบันทึกข้อมูลใดบ้างและล้างได้อย่างไร
 4. ตรวจ error handling เมื่อข้อมูลไม่ครบ/ผิดรูปแบบ
 
@@ -72,3 +73,4 @@ Branch ทำงาน: `rabbitastro-sandbox`
 | Audit 3 | Static Security Review | เบื้องต้นเสร็จ; Runtime/Browser ยัง Not Run |
 | Audit 4 | XSS Deep Inspection | Static review เสร็จ; exploitability และ runtime ยังไม่ยืนยัน |
 | Audit 5 | Data Flow Trace | Trace เส้นทาง form → Engine → renderer → HTML sink แล้ว; runtime ยัง Not Run |
+| Audit 6 | Security Remediation | แก้ 4 กลุ่มเสี่ยงแล้ว; JavaScript syntax check ผ่าน 6 scripts; Browser/runtime ยัง Not Run |
