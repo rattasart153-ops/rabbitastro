@@ -12,6 +12,11 @@
 
 ## 2026-11-04
 
+### Audit
+- ทำ Static Security Review รอบที่ 3: พบ dynamic HTML sinks ที่ต้อง trace ต่อ, Local Storage ที่เก็บข้อมูลฟอร์ม, validation ที่ไม่สม่ำเสมอ และ error handling ที่ต้องตรวจเพิ่ม
+- บันทึกข้อค้นพบและ Test Cases RT-01 ถึง RT-12 ใน `docs/05_AUDIT3_STATIC_SECURITY.md`
+- Runtime/Browser Test และการยืนยัน XSS exploitability ยังไม่ได้รัน
+
 ### Added
 - สร้างโครงสร้างเอกสาร Markdown เริ่มต้นบน Branch `rabbitastro-sandbox`
 - เพิ่ม README และเอกสารภาพรวมโครงการ
