@@ -5140,6 +5140,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Escape ข้อความทุกชนิดก่อนนำไปประกอบ HTML; ไม่ใช้แทน HTML sanitizer สำหรับ markup ทั้งก้อน
+  // Sanitizer สำหรับ markup ที่ประกอบจาก datasets/ผลคำนวณ: allowlist tags, attributes และ CSS properties เท่านั้น
+  function sanitizeHTML(markup) {
+    var source = String(markup == null ? '' : markup);
+    if (typeof DOMParser === 'undefined') return escapeHTML(source);
+    var parsed = new DOMParser().parseFromString(source, 'text/html');
+    var allowedTags = 'A B BLOCKQUOTE BR CODE DIV EM H3 H4 H5 I LI OL P SECTION SMALL SPAN STRONG SUB SUP TABLE TBODY TD TH THEAD TR U UL'.split(' ');
+    var blockedTags = ['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','SVG','MATH','FORM','INPUT','BUTTON','META','LINK','BASE'];
+    var allowedStyles = 'background background-color border border-color border-left border-left-color border-left-style border-left-width border-radius border-style border-width color display flex flex-direction font-size font-style font-weight gap grid-template-columns justify-content align-items line-height margin margin-top margin-bottom margin-left margin-right max-width min-width overflow-wrap padding padding-left padding-right padding-top padding-bottom text-align vertical-align white-space'.split(' ');
+    function clean(parent) {
+      Array.prototype.slice.call(parent.childNodes).forEach(function(node) {
+        if (node.nodeType === 8) { parent.removeChild(node); return; }
+        if (node.nodeType !== 1) return;
+        var tag = node.tagName;
+        if (blockedTags.indexOf(tag) !== -1) { parent.removeChild(node); return; }
+        if (allowedTags.indexOf(tag) === -1) {
+          clean(node);
+          while (node.firstChild) parent.insertBefore(node.firstChild, node);
+          parent.removeChild(node);
+          return;
+        }
+        Array.prototype.slice.call(node.attributes).forEach(function(attr) {
+          var name = attr.name.toLowerCase(), value = attr.value;
+          if (name === 'class') {
+            var safeClass = value.replace(/[^a-zA-Z0-9_ -]/g, '').trim();
+            if (safeClass) node.setAttribute('class', safeClass); else node.removeAttribute('class');
+          } else if (name === 'style') {
+            var declarations = [];
+            value.split(';').forEach(function(part) {
+              var splitAt = part.indexOf(':');
+              if (splitAt < 1) return;
+              var prop = part.slice(0, splitAt).trim().toLowerCase();
+              var val = part.slice(splitAt + 1).trim();
+              if (allowedStyles.indexOf(prop) === -1 || !val || /url\\s*\\(|expression|javascript:|@import|behavior|binding|[<>\\\\]/i.test(val)) return;
+              declarations.push(prop + ':' + val);
+            });
+            if (declarations.length) node.setAttribute('style', declarations.join(';')); else node.removeAttribute('style');
+          } else if (name === 'href' && tag === 'A') {
+            var trimmed = value.trim();
+            if (!/^(https?:\\/\\/|mailto:|tel:|#|\\/(?!\\/))/i.test(trimmed)) node.removeAttribute(name);
+          } else if (name === 'target' && tag === 'A') {
+            if (value !== '_blank' && value !== '_self') node.removeAttribute(name);
+          } else if (name === 'rel' && tag === 'A') {
+            node.setAttribute('rel', 'noopener noreferrer');
+          } else if (['title','role','aria-label','colspan','rowspan','scope'].indexOf(name) !== -1) {
+            if ((name === 'colspan' || name === 'rowspan') && !/^\\d{1,2}$/.test(value)) node.removeAttribute(name);
+          } else {
+            node.removeAttribute(name);
+          }
+        });
+        if (tag === 'A' && node.getAttribute('target') === '_blank') node.setAttribute('rel', 'noopener noreferrer');
+        clean(node);
+      });
+    }
+    clean(parsed.body);
+    return parsed.body.innerHTML;
+  }
+
+  function setSafeHTML(target, markup) {
+    if (target) target.innerHTML = sanitizeHTML(markup);
+  }
+
   function escapeHTML(value) {
     return String(value == null ? '' : value)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -6252,7 +6313,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var box = document.createElement('div');
       box.className = 'pred-block subconscious-shared-voice';
       box.style.cssText = 'background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;';
-      box.innerHTML = '<h4 style="color:#9a3412;">💗 เสียงสะท้อนจากใจคุณ · เลขกระต่าย ' + n + '</h4>' +
+      setSafeHTML(box, '<h4 style="color:#9a3412;">💗 เสียงสะท้อนจากใจคุณ · เลขกระต่าย ' + n + '</h4>' +
         '<div class="pred-section-item"><b>สิ่งที่ใจอาจกำลังบอก:</b><br/>' + voice.core + '</div>' +
         '<div class="pred-section-item"><b>คำถามที่ลองถามตัวเองได้:</b><br/>' + voice.worry + '</div>' +
         '<div class="pred-section-item"><b>สิ่งที่คุณอาจต้องการในตอนนี้:</b><br/>' + voice.need + '</div>' +
@@ -6317,7 +6378,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsBox.style.display = "block";
     var rhdBody = '';
-    resultsBox.innerHTML = '<span class="card-title">' + titleText + '</span>' + body + rhdBody + featureCtaHtml(featureKey);
+    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + body + rhdBody + featureCtaHtml(featureKey));
     improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
@@ -6370,7 +6431,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
-    resultsBox.innerHTML = '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune');
+    setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
     // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
@@ -6390,7 +6451,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!isSharedComplete(data)) {
         if (resultsBox) {
           resultsBox.style.display = "block";
-          resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ กรุณากรอกข้อมูลให้ครบ</b><br/>กรอกชื่อ นามสกุล วัน เดือน และปีเกิด ก่อนกดคำนวณ</div>';
+          setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ กรุณากรอกข้อมูลให้ครบ</b><br/>กรอกชื่อ นามสกุล วัน เดือน และปีเกิด ก่อนกดคำนวณ</div>');
           resultsBox.scrollIntoView({behavior:"smooth"});
         }
         return;
@@ -6399,13 +6460,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var ok = showResultFor(active || "tabPerson", true);
       if (!ok && resultsBox) {
         resultsBox.style.display = "block";
-        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ยังไม่สามารถแสดงคำทำนายได้</b><br/>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>';
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ยังไม่สามารถแสดงคำทำนายได้</b><br/>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>');
       }
     } catch (err) {
       console.error("Horakratai main calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + escapeHTML(err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>';
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + escapeHTML(err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>');
       }
     } finally {
       setTimeout(function(){ target.__horakHandled = false; }, 0);
@@ -6422,7 +6483,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(resultsBox){
         var safeError = tarotRuneError.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         resultsBox.style.display='block';
-        resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ขั้นตอนที่ผิดพลาด: <code style="white-space:pre-wrap;overflow-wrap:anywhere;">'+safeError+'</code><br/><small>ระบบได้แยกข้อผิดพลาดจากการคำนวณ การแสดงผล และการเลื่อนหน้าจอแล้ว กรุณาใช้ข้อความนี้เพื่อตรวจจุดที่เหลือ</small></div>';
+        setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ขั้นตอนที่ผิดพลาด: <code style="white-space:pre-wrap;overflow-wrap:anywhere;">'+safeError+'</code><br/><small>ระบบได้แยกข้อผิดพลาดจากการคำนวณ การแสดงผล และการเลื่อนหน้าจอแล้ว กรุณาใช้ข้อความนี้เพื่อตรวจจุดที่เหลือ</small></div>');
       }
     }
   });
@@ -6575,7 +6636,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
-    resultsBox.innerHTML = h;
+    setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
     return true;
@@ -6584,7 +6645,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var btnCalcGod = document.getElementById("btnCalcGod");
   if (btnCalcGod) btnCalcGod.addEventListener("click", function(e){
     if(e)e.preventDefault(); if(resultsBox){resultsBox.style.display='none';resultsBox.innerHTML='';}
-    try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai personal deity calculation error:",err);if(resultsBox){resultsBox.style.display='block';resultsBox.innerHTML='<div class="god-detail-box warn"><b>⚠️ ระบบค้นหาองค์เทพประจำตัวขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>';}}
+    try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai personal deity calculation error:",err);if(resultsBox){resultsBox.style.display='block';setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบค้นหาองค์เทพประจำตัวขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>');}}
   });
 
   // ---------- Engine 3: ตำราโอเรกุรัม — คำทำนายที่อบอุ่นและชวนเข้าใจตัวเอง ----------
@@ -6659,7 +6720,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
-    resultsBox.innerHTML = h;
+    setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, res.R4, 'oreguram');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
@@ -6683,7 +6744,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        resultsBox.innerHTML = '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(err && err.message ? err.message : err) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>';
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(err && err.message ? err.message : err) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>');
       }
     }
   });
