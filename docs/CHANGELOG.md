@@ -13,6 +13,11 @@
 ## 2026-11-04
 
 ### Audit
+- เพิ่มรายงาน Data Flow Trace รอบที่ 5 ครอบคลุมข้อมูลฟอร์ม การคำนวณ การเลือกชุดคำทำนาย และจุดแสดงผล
+- ไม่พบการสะท้อนข้อมูลชื่อและวันเกิดดิบโดยตรงในเส้นทางหลักที่ตรวจ แต่ยังมีจุดประกอบ HTML และข้อความข้อผิดพลาดที่ควรปรับปรุง
+- การตรวจครั้งนี้เป็น Static Review ไม่มีการแก้ไข Source Code และยังไม่ได้ทดสอบ Runtime
+
+### Audit
 - ทำ XSS Deep Inspection รอบที่ 4 จาก Source เต็ม พบ unsafe HTML construction หลายกลุ่ม, warmOreguramText ไม่ได้ escape และ error message บางเส้นทางถูกต่อเข้า innerHTML
 - เพิ่มรายงาน `docs/06_AUDIT4_XSS_DEEP_INSPECTION.md` และ Test Cases XSS-01 ถึง XSS-07
 - ยังไม่ยืนยัน exploitable DOM XSS เนื่องจากยังไม่ได้ทำ Browser payload test และ complete taint verification
