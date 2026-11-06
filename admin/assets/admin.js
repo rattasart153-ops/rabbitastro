@@ -19,7 +19,7 @@ $("logoutButton").addEventListener("click",()=>logout());
 $("refreshButton").addEventListener("click",loadBookings);
 $("searchInput").addEventListener("input",render);
 $("statusFilter").addEventListener("change",render);
-async function loadBookings(){ $("bookingList").textContent="กำลังโหลดข้อมูล…";try{const r=await api({action:"adminListBookings"});bookings=r.bookings||[];render();}catch(err){$("bookingList").textContent=err.message;} }
+async function loadBookings(){ $("bookingList").textContent="กำลังโหลดข้อมูล…";try{const r=await api({action:"adminListBookings"});bookings=r.bookings||[];render();}catch(err){if(!token){dashboard.hidden=true;loginPanel.hidden=false;$("loginMessage").textContent=err.message||"ไม่สามารถยืนยันเซสชันได้ กรุณาเข้าสู่ระบบใหม่";}else{$("bookingList").textContent=err.message;}} }
 function render(){
  const q=$("searchInput").value.trim().toLowerCase(),status=$("statusFilter").value;
  $("totalCount").textContent=bookings.length;$("pendingCount").textContent=bookings.filter(x=>x.status==="รอตรวจสอบ").length;$("confirmedCount").textContent=bookings.filter(x=>x.status==="ยืนยันแล้ว").length;
