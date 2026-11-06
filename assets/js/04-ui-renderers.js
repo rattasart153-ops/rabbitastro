@@ -232,13 +232,15 @@ document.addEventListener("DOMContentLoaded", function () {
     tabPerson: document.getElementById("enginePerson"),
     tabGod: document.getElementById("engineGod"),
     tabOreguram: document.getElementById("engineOreguram"),
-    tabTarotRune: document.getElementById("engineTarotRune")
+    tabTarotRune: document.getElementById("engineTarotRune"),
+    tabBooking: document.getElementById("engineBooking")
   };
   var tabBtns = {
     tabPerson: document.getElementById("tabPerson"),
     tabGod: document.getElementById("tabGod"),
     tabOreguram: document.getElementById("tabOreguram"),
-    tabTarotRune: document.getElementById("tabTarotRune")
+    tabTarotRune: document.getElementById("tabTarotRune"),
+    tabBooking: document.getElementById("tabBooking")
   };
 
   // ---------- ฟอร์มข้อมูลร่วม: กรอกครั้งเดียว ใช้ได้ทุกแท็บ ----------
@@ -262,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tabs.tabGod && tabs.tabGod.style.display === "block") return "tabGod";
     if (tabs.tabOreguram && tabs.tabOreguram.style.display === "block") return "tabOreguram";
     if (tabs.tabTarotRune && tabs.tabTarotRune.style.display === "block") return "tabTarotRune";
+    if (tabs.tabBooking && tabs.tabBooking.style.display === "block") return "tabBooking";
     return "tabPerson";
   }
 
@@ -278,6 +281,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function switchTab(activeId) {
+    var sharedForm = document.getElementById("sharedForm");
+    var dailyElement = document.getElementById("dailyElementBox");
+    var references = document.querySelector(".refs");
+    if (sharedForm) sharedForm.style.display = activeId === "tabBooking" ? "none" : "";
+    if (dailyElement) dailyElement.style.display = activeId === "tabBooking" ? "none" : "";
+    if (references) references.style.display = activeId === "tabBooking" ? "none" : "";
     Object.keys(tabs).forEach(function (key) {
       if (key === activeId) {
         tabs[key].style.display = "block";
@@ -299,6 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (tabBtns.tabGod) tabBtns.tabGod.addEventListener("click", function () { switchTab("tabGod"); });
   if (tabBtns.tabOreguram) tabBtns.tabOreguram.addEventListener("click", function () { switchTab("tabOreguram"); });
   if (tabBtns.tabTarotRune) tabBtns.tabTarotRune.addEventListener("click", function () { switchTab("tabTarotRune"); });
+  if (tabBtns.tabBooking) tabBtns.tabBooking.addEventListener("click", function () { switchTab("tabBooking"); });
 
   // แต่ละแถบเลือกได้ทีละส่วน และแสดงผลเฉพาะส่วนนั้นเพียงอย่างเดียว
   var currentBaseView = "natal";
