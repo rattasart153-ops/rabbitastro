@@ -1,5 +1,5 @@
 const SHEET_NAME = "Bookings";
-const HEADERS = ["bookingId","createdAt","customerName","phone","lineId","service","bookingDate","bookingTime","note","status","updatedAt","updatedBy"];
+const HEADERS = ["bookingId","createdAt","customerName","phone","lineId","service","bookingDate","bookingTime","note","status","updatedAt","updatedBy","birthDate","birthTime","noBirthTime","consultationCategory","consultationTopic"];
 
 function doPost(e) {
   try {
@@ -58,7 +58,7 @@ function createBooking(b) {
     if (occupied) return { ok:false, code:"SLOT_TAKEN", message:"ช่วงเวลานี้มีผู้จองแล้ว กรุณาเลือกเวลาอื่น" };
     const id = "RAB-" + Utilities.getUuid().replace(/-/g,"").slice(0,10).toUpperCase();
     const now = new Date();
-    sh.appendRow([id,now,sheetText_(name),sheetText_(phone),sheetText_(lineId),sheetText_(service),date,time,sheetText_(note),"รอตรวจสอบ",now,""]);
+    sh.appendRow([id,now,sheetText_(name),sheetText_(phone),sheetText_(lineId),sheetText_(service),date,time,sheetText_(note),"รอตรวจสอบ",now,"",birthDate,birthTime,noBirthTime ? "ใช่" : "ไม่ใช่",sheetText_(category),sheetText_(topic)]);
     return { ok:true, bookingId:id, status:"รอตรวจสอบ", message:"ส่งคำขอจองคิวเรียบร้อยแล้ว กรุณารอผู้ดูแลยืนยันคิว" };
   } finally {
     lock.releaseLock();
