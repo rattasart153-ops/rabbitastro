@@ -8,7 +8,12 @@ async function api(payload){
  if(!response.ok||!data.ok)throw new Error(data.message||"เกิดข้อผิดพลาด"); return data;
 }
 function showDashboard(){loginPanel.hidden=true;dashboard.hidden=false;loadBookings();}
-function logout(show=true){token="";sessionStorage.removeItem("rabbitastro_admin_token");dashboard.hidden=true;loginPanel.hidden=false;if(show)$("loginMessage").textContent="ออกจากระบบแล้ว";}
+function logout(show=true){
+ const oldToken=token;
+ if(oldToken)fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"adminLogout",token:oldToken})}).catch(()=>{});
+ token="";sessionStorage.removeItem("rabbitastro_admin_token");dashboard.hidden=true;loginPanel.hidden=false;
+ if(show)$("loginMessage").textContent="ออกจากระบบแล้ว";
+}
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMessage").textContent="กำลังตรวจสอบ…";try{const r=await api({action:"adminLogin",username:$("username").value,password:$("password").value});token=r.token;sessionStorage.setItem("rabbitastro_admin_token",token);$("password").value="";$("loginMessage").textContent="";showDashboard();}catch(err){$("loginMessage").textContent=err.message;}});
 $("logoutButton").addEventListener("click",()=>logout());
 $("refreshButton").addEventListener("click",loadBookings);
