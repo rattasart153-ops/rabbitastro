@@ -32,16 +32,38 @@ function sheet_() {
   if (sh.getLastRow() === 0) {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
+  } else {
+    const existing = sh.getRange(1,1,1,sh.getLastColumn()).getValues()[0].map(String);
+    HEADERS.forEach(function(header) {
+      if (existing.indexOf(header) === -1) {
+        sh.getRange(1,sh.getLastColumn()+1).setValue(header);
+        existing.push(header);
+      }
+    });
   }
   return sh;
 }
 
 function createBooking(b) {
-  const name = clean_(b.name, 100), phone = clean_(b.phone, 30);
-  const lineId = clean_(b.lineId, 80), service = clean_(b.service, 100);
-  const date = clean_(b.date, 10), time = clean_(b.time, 5), note = clean_(b.note, 1000);
-  if (!name || !phone || !service || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
-    return { ok:false, message:"กรุณากรอกชื่อ เบอร์โทร บริการ วันที่ และเวลาให้ครบถ้วน" };
+  const firstName = clean_(b.firstName,60), lastName = clean_(b.lastName,60);
+  const name = firstName + " " + lastName, phone = clean_(b.phone,30);
+  const lineId = clean_(b.lineId,80), service = clean_(b.service,100);
+  const birthDay = Number(b.birthDay), birthMonth = Number(b.birthMonth), birthYear = Number(b.birthYear);
+  const birthCheck = new Date(birthYear,birthMonth-1,birthDay);
+  const noBirthTime = b.noBirthTime === true;
+  const birthHour = noBirthTime ? "" : clean_(b.birthHour,2);
+  const birthMinute = noBirthTime ? "" : clean_(b.birthMinute,2);
+  const birthDate = birthYear + "-" + String(birthMonth).padStart(2,"0") + "-" + String(birthDay).padStart(2,"0");
+  const birthTime = noBirthTime ? "ไม่ทราบเวลาเกิด" : String(birthHour).padStart(2,"0") + ":" + String(birthMinute).padStart(2,"0");
+  const category = clean_(b.category,80), topic = clean_(b.topic,120);
+  const date = clean_(b.date,10), time = clean_(b.time,5), note = clean_(b.note,1000);
+  if (!firstName || !lastName || !phone || !service || !category || !topic ||
+      !Number.isInteger(birthDay) || !Number.isInteger(birthMonth) || !Number.isInteger(birthYear) ||
+      birthYear < 1900 || birthYear > 2100 || birthCheck.getFullYear() !== birthYear ||
+      birthCheck.getMonth() !== birthMonth-1 || birthCheck.getDate() !== birthDay ||
+      (!noBirthTime && (!/^(?:[01]\d|2[0-3])$/.test(birthHour) || !/^[0-5]\d$/.test(birthMinute))) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+    return { ok:false, message:"กรุณากรอกข้อมูลส่วนตัว วันเกิด บริการ เรื่องที่ปรึกษา และวันเวลาจองให้ครบถ้วน" };
   }
   if (b.website) return { ok:false, message:"ไม่สามารถรับรายการนี้ได้" };
   const selected = new Date(date + "T" + time + ":00+07:00");
@@ -100,7 +122,7 @@ function adminListBookings(input) {
   const bookings = values.slice(1).reverse().map(r => ({
     bookingId:String(r[0]), createdAt:dateText_(r[1]), name:String(r[2]), phone:String(r[3]),
     lineId:String(r[4]), service:String(r[5]), date:String(r[6]), time:String(r[7]),
-    note:String(r[8]), status:String(r[9]), updatedAt:dateText_(r[10]), updatedBy:String(r[11])
+    note:String(r[8]), status:String(r[9]), updatedAt:dateText_(r[10]), updatedBy:String(r[11]),\n    birthDate:String(r[12] || ""), birthTime:String(r[13] || ""), noBirthTime:String(r[14] || ""), category:String(r[15] || ""), topic:String(r[16] || "")
   }));
   return { ok:true, bookings:bookings };
 }
