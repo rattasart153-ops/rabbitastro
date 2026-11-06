@@ -21,13 +21,13 @@
    Copy the Web app URL ending in `/exec`.
 8. In Vercel Project → Settings → Environment Variables, add `GAS_WEB_APP_URL` with that URL for Production and Preview, then redeploy.
 
-The public web app endpoint accepts booking submissions only; admin operations require a username/password login and an expiring server-side token. Do not put the admin password or Sheet ID in the website source.
+After updating Code.gs, save the project and deploy a new Web App version using the existing deployment URL. Existing booking sheet columns are preserved; new birth and consultation fields are appended automatically when the sheet is accessed. The public web app endpoint accepts booking submissions only; admin operations require a username/password login and an expiring server-side token. Do not put the admin password or Sheet ID in the website source.
 
 ## Booking behavior
 - All requests start in `รอตรวจสอบ`.
 - A booking is rejected if an active booking already occupies the same date and time. `LockService` serializes the check-and-insert operation.
 - Admin can set status to `รอตรวจสอบ`, `ยืนยันแล้ว`, `เสร็จสิ้น`, or `ยกเลิก`. Cancelled slots become available again.
-- The form collects only name, phone, optional LINE ID, service, requested date/time and optional note. It does not copy birth details from the astrology calculator form.
+- The booking form collects first/last name, phone, optional LINE ID, birth date and birth time (or an explicit unknown-time choice), selected service, consultation category and topic (aligned with the main astrology UI), requested appointment date/time, and optional note. After successful submission, customers are instructed to save a screenshot showing the booking reference and send it through https://lin.ee/ZMzIbrN.
 - Customers see a reference number after submission. This initial version does not send automatic confirmation messages; Admin must contact the customer.
 
 ## Important deployment note
