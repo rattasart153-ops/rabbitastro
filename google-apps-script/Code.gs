@@ -139,7 +139,8 @@ function passwordHash_(value) {
   let result = value;
   for (let i=0;i<12000;i++) result = hash_(result);
   return result;
-}\nfunction hash_(value) {
+}
+function hash_(value) {
   const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, value, Utilities.Charset.UTF_8);
   return bytes.map(b => ("0" + ((b + 256) % 256).toString(16)).slice(-2)).join("");
 }
