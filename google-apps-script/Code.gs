@@ -135,7 +135,11 @@ function sheetText_(value) {
 function clean_(value, max) {
   return String(value == null ? "" : value).replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,max);
 }
-function passwordHash_(value) {\n  let result = value;\n  for (let i=0;i<12000;i++) result = hash_(result);\n  return result;\n}\nfunction hash_(value) {
+function passwordHash_(value) {
+  let result = value;
+  for (let i=0;i<12000;i++) result = hash_(result);
+  return result;
+}\nfunction hash_(value) {
   const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, value, Utilities.Charset.UTF_8);
   return bytes.map(b => ("0" + ((b + 256) % 256).toString(16)).slice(-2)).join("");
 }
