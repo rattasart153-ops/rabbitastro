@@ -30,7 +30,7 @@ function init(){
  document.getElementById("bookingForm").addEventListener("submit",async function(e){
   e.preventDefault();const form=e.currentTarget,button=document.getElementById("bookingSubmit"),message=document.getElementById("bookingMessage");
   if(!form.reportValidity())return;
-  const payload={name:form.name.value.trim(),phone:form.phone.value.trim(),lineId:form.lineId.value.trim(),service:form.service.value,date:form.date.value,time:form.time.value,note:form.note.value.trim(),website:form.website.value};
+  const payload={name:form.elements.namedItem("name").value.trim(),phone:form.elements.namedItem("phone").value.trim(),lineId:form.elements.namedItem("lineId").value.trim(),service:form.elements.namedItem("service").value,date:form.elements.namedItem("date").value,time:form.elements.namedItem("time").value,note:form.elements.namedItem("note").value.trim(),website:form.elements.namedItem("website").value};
   button.disabled=true;button.textContent="กำลังส่งคำขอ…";message.className="booking-message";message.textContent="กำลังบันทึกคำขอจองคิว";
   try{
    const response=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
