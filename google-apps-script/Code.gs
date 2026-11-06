@@ -108,7 +108,10 @@ function adminUpdateBooking(input) {
   } finally { lock.releaseLock(); }
 }
 
-function sheetText_(value) {\n  const text = String(value == null ? "" : value);\n  return /^[=+@\\-\\t\\r]/.test(text) ? "'" + text : text;\n}\nfunction clean_(value, max) {
+function sheetText_(value) {
+  const text = String(value == null ? "" : value);
+  return /^[=+@\\-\\t\\r]/.test(text) ? "'" + text : text;
+}\nfunction clean_(value, max) {
   return String(value == null ? "" : value).replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,max);
 }
 function hash_(value) {
