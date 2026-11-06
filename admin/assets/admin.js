@@ -32,8 +32,8 @@ function render(){
   const title=document.createElement("div"),h=document.createElement("h3");h.textContent=b.name+" · "+b.bookingId;title.append(h);
   const badge=document.createElement("span");badge.className="status "+(b.status==="ยืนยันแล้ว"?"confirm":b.status==="เสร็จสิ้น"?"done":b.status==="ยกเลิก"?"cancel":"");badge.textContent=b.status;head.append(title,badge);card.append(head);
   const meta=document.createElement("div");meta.className="booking-meta";
-  [["โทรศัพท์",b.phone],["LINE ID",b.lineId||"-"],["บริการ",b.service],["วันและเวลา",b.date+" เวลา "+b.time],["สร้างเมื่อ",b.createdAt]].forEach(([k,v])=>{const d=document.createElement("div");d.textContent=k+": "+v;meta.append(d);});card.append(meta);
-  if(b.note){const note=document.createElement("div");note.className="booking-note";note.textContent="รายละเอียด: "+b.note;card.append(note);}
+  [["โทรศัพท์",b.phone],["LINE ID",b.lineId||"-"],["วันเกิด",b.birthDate||"-"],["เวลาเกิด",b.birthTime||"-"],["บริการ",b.service],["เรื่องที่ปรึกษา",(b.category||"-")+" · "+(b.topic||"-")],["วันและเวลา",b.date+" เวลา "+b.time],["สร้างเมื่อ",b.createdAt]].forEach(([k,v])=>{const d=document.createElement("div");d.textContent=k+": "+v;meta.append(d);});card.append(meta);
+  if(b.note){const note=document.createElement("div");note.className="booking-note";note.textContent="รายละเอียดเพิ่มเติม: "+b.note;card.append(note);}
   const actions=document.createElement("div");actions.className="booking-actions";const select=document.createElement("select");
   ["รอตรวจสอบ","ยืนยันแล้ว","เสร็จสิ้น","ยกเลิก"].forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=s;o.selected=s===b.status;select.append(o);});
   const save=document.createElement("button");save.className="secondary";save.textContent="บันทึกสถานะ";save.addEventListener("click",async()=>{save.disabled=true;try{await api({action:"adminUpdateBooking",bookingId:b.bookingId,status:select.value});await loadBookings();}catch(err){alert(err.message);}finally{save.disabled=false;}});
