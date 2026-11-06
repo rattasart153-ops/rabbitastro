@@ -72,7 +72,7 @@ function adminLogin(input) {
   const cache = CacheService.getScriptCache(), failKey = "login_fail:" + hash_(username);
   const failures = Number(cache.get(failKey) || 0);
   if (failures >= 5) return { ok:false, code:"UNAUTHORIZED", message:"พยายามเข้าสู่ระบบหลายครั้งเกินไป กรุณารอ 15 นาที" };
-  if (!salt || !expected || username !== props.getProperty("ADMIN_USERNAME") || hash_(salt + password) !== expected) {
+  if (!salt || !expected || username !== props.getProperty("ADMIN_USERNAME") || passwordHash_(salt + password) !== expected) {
     cache.put(failKey,String(failures + 1),900);
     Utilities.sleep(700);
     return { ok:false, code:"UNAUTHORIZED", message:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง" };
@@ -114,6 +114,11 @@ function adminUpdateBooking(input) {
   try {
     const sh = sheet_(), values = sh.getDataRange().getValues();
     for (let i=1;i<values.length;i++) if (String(values[i][0]) === id) {
+      if (status === "ยืนยันแล้ว") {
+        const date = String(values[i][6]), time = String(values[i][7]);
+        const conflict = values.slice(1).some((row,index) => index !== i-1 && String(row[6]) === date && String(row[7]) === time && ["รอตรวจสอบ","ยืนยันแล้ว"].includes(String(row[9])));
+        if (conflict) return { ok:false, code:"SLOT_TAKEN", message:"ไม่สามารถยืนยันได้ เนื่องจากเวลานี้มีรายการจองอื่นอยู่แล้ว" };
+      }
       sh.getRange(i+1,10).setValue(status);
       sh.getRange(i+1,11).setValue(new Date());
       sh.getRange(i+1,12).setValue(user);
@@ -130,7 +135,7 @@ function sheetText_(value) {
 function clean_(value, max) {
   return String(value == null ? "" : value).replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,max);
 }
-function hash_(value) {
+function passwordHash_(value) {\n  let result = value;\n  for (let i=0;i<12000;i++) result = hash_(result);\n  return result;\n}\nfunction hash_(value) {
   const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, value, Utilities.Charset.UTF_8);
   return bytes.map(b => ("0" + ((b + 256) % 256).toString(16)).slice(-2)).join("");
 }
@@ -147,7 +152,7 @@ function initializeAdminCredentials() {
   const password = props.getProperty("INITIAL_ADMIN_PASSWORD");
   if (!username || !password || password.length < 12) throw new Error("กำหนด INITIAL_ADMIN_USERNAME และรหัสผ่านอย่างน้อย 12 ตัวอักษรก่อน");
   const salt = Utilities.getUuid() + Utilities.getUuid();
-  props.setProperties({ADMIN_USERNAME:username, ADMIN_SALT:salt, ADMIN_HASH:hash_(salt + password)});
+  props.setProperties({ADMIN_USERNAME:username, ADMIN_SALT:salt, ADMIN_HASH:passwordHash_(salt + password)});
   props.deleteProperty("INITIAL_ADMIN_USERNAME");
   props.deleteProperty("INITIAL_ADMIN_PASSWORD");
 }
