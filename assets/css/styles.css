@@ -477,3 +477,17 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
 .engine-tabs #tabBooking.active { color:#7c3aed; }
 #engineBooking .booking-section { margin-top:0; }
 @media(max-width:520px) { .booking-grid { grid-template-columns:1fr; gap:10px; } .booking-heading h2 { font-size:17px; } }
+
+
+/* Engine 5 booking form — aligned with the main astrology UI */
+.booking-subcard { margin: 12px 0; padding: 13px; border: 1px solid #edf2f7; border-radius: 12px; background: #fff; }
+.booking-subcard h3 { margin: 0 0 10px; font-size: 14px; color: #374151; }
+.booking-birth-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.booking-full { grid-column: 1 / -1; }
+.booking-form input:disabled { opacity: .55; background: #f3f4f6; }
+.booking-line-cta { display:flex; gap:12px; align-items:flex-start; margin-top:16px; padding:15px; border:1px solid #bbf7d0; border-radius:14px; background:#f0fdf4; }
+.booking-line-icon { flex:0 0 38px; width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#dcfce7; font-size:20px; }
+.booking-line-cta h3 { margin:0 0 5px; color:#166534; font-size:15px; }
+.booking-line-cta p { margin:0 0 11px; color:#365b45; font-size:12.5px; line-height:1.6; }
+.booking-line-cta .line-cta-btn { display:inline-flex; text-decoration:none; }
+@media(max-width:520px){.booking-birth-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.booking-line-cta{padding:12px;}}
