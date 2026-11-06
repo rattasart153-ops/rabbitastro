@@ -8,6 +8,7 @@ function doPost(e) {
     switch (input.action) {
       case "createBooking": result = createBooking(input.booking || {}); break;
       case "adminLogin": result = adminLogin(input); break;
+      case "adminLogout": result = adminLogout(input); break;
       case "adminListBookings": result = adminListBookings(input); break;
       case "adminUpdateBooking": result = adminUpdateBooking(input); break;
       default: result = { ok:false, message:"คำสั่งไม่ถูกต้อง" };
@@ -44,7 +45,11 @@ function createBooking(b) {
   }
   if (b.website) return { ok:false, message:"ไม่สามารถรับรายการนี้ได้" };
   const selected = new Date(date + "T" + time + ":00+07:00");
-  if (isNaN(selected.getTime()) || selected.getTime() < Date.now() - 60000) return { ok:false, message:"วันและเวลาที่เลือกต้องเป็นเวลาในอนาคต" };
+  if (isNaN(selected.getTime()) || Utilities.formatDate(selected,"Asia/Bangkok","yyyy-MM-dd HH:mm") !== date + " " + time || selected.getTime() < Date.now() - 60000) return { ok:false, message:"วันและเวลาที่เลือกต้องเป็นวันที่ถูกต้องและอยู่ในอนาคต" };
+  const minuteKey = "booking_rate:" + Utilities.formatDate(new Date(),"Asia/Bangkok","yyyyMMddHHmm");
+  const cache = CacheService.getScriptCache(), count = Number(cache.get(minuteKey) || 0);
+  if (count >= 30) return { ok:false, message:"ขณะนี้มีคำขอจำนวนมาก กรุณารอสักครู่แล้วลองใหม่" };
+  cache.put(minuteKey,String(count + 1),120);
   const lock = LockService.getScriptLock();
   lock.waitLock(15000);
   try {
@@ -64,13 +69,23 @@ function adminLogin(input) {
   const props = PropertiesService.getScriptProperties();
   const username = clean_(input.username,80), password = String(input.password || "");
   const salt = props.getProperty("ADMIN_SALT"), expected = props.getProperty("ADMIN_HASH");
+  const cache = CacheService.getScriptCache(), failKey = "login_fail:" + hash_(username);
+  const failures = Number(cache.get(failKey) || 0);
+  if (failures >= 5) return { ok:false, code:"UNAUTHORIZED", message:"พยายามเข้าสู่ระบบหลายครั้งเกินไป กรุณารอ 15 นาที" };
   if (!salt || !expected || username !== props.getProperty("ADMIN_USERNAME") || hash_(salt + password) !== expected) {
+    cache.put(failKey,String(failures + 1),900);
     Utilities.sleep(700);
     return { ok:false, code:"UNAUTHORIZED", message:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง" };
   }
+  cache.remove(failKey);
   const token = Utilities.getUuid() + Utilities.getUuid();
   CacheService.getScriptCache().put("admin:" + token, username, 21600);
   return { ok:true, token:token, username:username, expiresIn:21600 };
+}
+
+function adminLogout(input) {
+  if (typeof input.token === "string") CacheService.getScriptCache().remove("admin:" + input.token);
+  return { ok:true };
 }
 
 function requireAdmin_(token) {
