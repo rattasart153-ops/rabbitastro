@@ -53,7 +53,7 @@ function createBooking(b) {
     if (occupied) return { ok:false, code:"SLOT_TAKEN", message:"ช่วงเวลานี้มีผู้จองแล้ว กรุณาเลือกเวลาอื่น" };
     const id = "RAB-" + Utilities.getUuid().replace(/-/g,"").slice(0,10).toUpperCase();
     const now = new Date();
-    sh.appendRow([id,now,name,phone,lineId,service,date,time,note,"รอตรวจสอบ",now,""]);
+    sh.appendRow([id,now,sheetText_(name),sheetText_(phone),sheetText_(lineId),sheetText_(service),date,time,sheetText_(note),"รอตรวจสอบ",now,""]);
     return { ok:true, bookingId:id, status:"รอตรวจสอบ", message:"ส่งคำขอจองคิวเรียบร้อยแล้ว กรุณารอผู้ดูแลยืนยันคิว" };
   } finally {
     lock.releaseLock();
@@ -108,7 +108,7 @@ function adminUpdateBooking(input) {
   } finally { lock.releaseLock(); }
 }
 
-function clean_(value, max) {
+function sheetText_(value) {\n  const text = String(value == null ? "" : value);\n  return /^[=+@\\-\\t\\r]/.test(text) ? "'" + text : text;\n}\nfunction clean_(value, max) {
   return String(value == null ? "" : value).replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,max);
 }
 function hash_(value) {
