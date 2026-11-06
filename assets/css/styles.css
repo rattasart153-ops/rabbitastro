@@ -1,0 +1,453 @@
+:root {
+  --bg-color: #f8f8f8;
+  --card-bg: #ffffff;
+  --text-main: #2d3748;
+  --text-muted: #718096;
+  --primary-orange: #e66a00;
+  --primary-orange-light: #fff5eb;
+  --dark-btn: #1a1a1a;
+  --border-color: #edf2f7;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Sarabun", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+.wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 60px; }
+
+header.hero { text-align: center; padding: 10px 0 15px; }
+.hero .bunny-badge {
+  width: 50px; height: 50px; background: #fff5eb; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin: 0 auto 10px; border: 1px solid #fbd38d;
+}
+.hero h1 { margin: 0; font-size: 22px; font-weight: 800; color: #1a202c; }
+.hero p { margin: 4px 0 0; color: var(--text-muted); font-size: 13px; }
+
+.engine-tabs {
+  display: flex; gap: 4px; margin: 15px 0 12px; background: #e2e8f0; padding: 4px; border-radius: 14px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  flex: 1 1 30%; text-align: center; padding: 8px 6px; border: none; background: transparent;
+  border-radius: 10px; font-weight: 700; font-size: 12px; color: var(--text-muted); cursor: pointer;
+  transition: all .2s ease;
+}
+.tab-btn.active {
+  background: var(--card-bg); color: var(--primary-orange); box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.daily-element-card {
+  background: linear-gradient(135deg, #7a120a 0%, #a72318 100%);
+  color: #ffffff; border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(122, 18, 10, 0.25); position: relative; overflow: hidden;
+  transition: all 0.4s ease;
+}
+.daily-element-card.card-elem-น้ำ { background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 55%, #60a5fa 100%) !important; box-shadow: 0 8px 20px rgba(37,99,235,.18) !important; color: #1e3a8a; }
+.daily-element-card.card-elem-ไฟ { background: linear-gradient(135deg, #fee2e2 0%, #f87171 55%, #dc2626 100%) !important; box-shadow: 0 8px 20px rgba(220,38,38,.20) !important; color: #7f1d1d; }
+.daily-element-card.card-elem-ไม้ { background: linear-gradient(135deg, #dcfce7 0%, #86efac 55%, #16a34a 100%) !important; box-shadow: 0 8px 20px rgba(22,163,74,.18) !important; color: #14532d; }
+.daily-element-card.card-elem-เหล็ก { background: linear-gradient(135deg, #f3f4f6 0%, #9ca3af 55%, #6b7280 100%) !important; box-shadow: 0 8px 20px rgba(75,85,99,.20) !important; color: #1f2937; }
+.daily-element-card.card-elem-ดิน { background: linear-gradient(135deg, #f3e2d0 0%, #c89b72 55%, #8b5a2b 100%) !important; box-shadow: 0 8px 20px rgba(120,72,32,.20) !important; color: #4a2c16; }
+.daily-element-card.card-elem-ทอง { background: linear-gradient(135deg, #fff9b0 0%, #fde047 55%, #eab308 100%) !important; box-shadow: 0 8px 20px rgba(161,98,7,.20) !important; color: #713f12; }
+.daily-element-card.card-elem-น้ำ .daily-element-title,
+.daily-element-card.card-elem-น้ำ .daily-element-desc,
+.daily-element-card.card-elem-น้ำ .daily-element-warn,
+.daily-element-card.card-elem-ไฟ .daily-element-title,
+.daily-element-card.card-elem-ไฟ .daily-element-desc,
+.daily-element-card.card-elem-ไฟ .daily-element-warn,
+.daily-element-card.card-elem-ไม้ .daily-element-title,
+.daily-element-card.card-elem-ไม้ .daily-element-desc,
+.daily-element-card.card-elem-ไม้ .daily-element-warn,
+.daily-element-card.card-elem-เหล็ก .daily-element-title,
+.daily-element-card.card-elem-เหล็ก .daily-element-desc,
+.daily-element-card.card-elem-เหล็ก .daily-element-warn,
+.daily-element-card.card-elem-ดิน .daily-element-title,
+.daily-element-card.card-elem-ดิน .daily-element-desc,
+.daily-element-card.card-elem-ดิน .daily-element-warn,
+.daily-element-card.card-elem-ทอง .daily-element-title,
+.daily-element-card.card-elem-ทอง .daily-element-desc,
+.daily-element-card.card-elem-ทอง .daily-element-warn { color: inherit; }
+.daily-element-card.card-elem-น้ำ .daily-element-badge,
+.daily-element-card.card-elem-ไฟ .daily-element-badge,
+.daily-element-card.card-elem-ไม้ .daily-element-badge,
+.daily-element-card.card-elem-เหล็ก .daily-element-badge,
+.daily-element-card.card-elem-ดิน .daily-element-badge,
+.daily-element-card.card-elem-ทอง .daily-element-badge { background: rgba(255,255,255,.38); color: inherit; }
+
+.daily-element-card .top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.daily-element-title { font-size: 12px; opacity: 0.85; font-weight: 500; }
+.daily-element-icon { font-size: 26px; }
+.daily-element-value { font-size: 22px; font-weight: 800; margin: 2px 0 6px; }
+.daily-element-desc { font-size: 12.5px; opacity: 0.9; margin-bottom: 6px; }
+.daily-element-warn { font-size: 12px; opacity: 0.85; margin-bottom: 10px; }
+.daily-element-badge {
+  background: rgba(0, 0, 0, 0.25); border-radius: 8px; padding: 6px 10px; font-size: 12px;
+  display: inline-flex; align-items: center; gap: 6px; backdrop-filter: blur(4px);
+}
+
+.card {
+  background: var(--card-bg); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 14px;
+  box-shadow: var(--shadow); border: 1px solid var(--border-color);
+}
+.card-title { font-size: 12px; font-weight: 700; color: #a0aec0; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+.f-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.f-row .field { flex: 1; }
+label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+input, select {
+  width: 100%; font-family: inherit; font-size: 13.5px; color: var(--text-main);
+  border-radius: 10px; border: 1px solid #e2e8f0; padding: 8px 10px; background: #fdfdfd; outline: none;
+}
+input:focus, select:focus { border-color: var(--primary-orange); background: #fff; }
+
+.chk { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); cursor: pointer; margin-top: 4px; }
+
+.chip-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.chip-btn {
+  flex: 1; min-width: 0; padding: 10px 8px; border-radius: 10px; border: 1px solid #edf2f7; background: #f7fafc;
+  font-size: 13px; font-weight: 600; color: #4a5568; cursor: pointer; transition: all .15s; text-align: center;
+}
+.chip-btn.active {
+  background: var(--primary-orange); color: #fff; border-color: var(--primary-orange);
+  box-shadow: 0 3px 8px rgba(230, 106, 0, 0.25);
+}
+.chip-btn-sub {
+  padding: 6px 12px; border-radius: 8px; border: 1px solid #edf2f7; background: #f7fafc;
+  font-size: 12px; font-weight: 500; color: #4a5568; cursor: pointer;
+}
+.chip-btn-sub.active {
+  background: var(--primary-orange-light); color: var(--primary-orange); border-color: #fbd38d; font-weight: 700;
+}
+
+.btn-submit {
+  width: 100%; border: 0; cursor: pointer; font-weight: 700; font-size: 15px; padding: 13px;
+  border-radius: var(--radius-md); background: var(--dark-btn); color: #fff;
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background .2s;
+}
+.btn-submit:hover { background: #333; }
+
+.num-grid { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+.num-tile { background: #f7fafc; border: 1px solid #edf2f7; border-radius: 12px; padding: 12px; }
+.num-tile.hl { background: var(--primary-orange-light); border-color: #fbd38d; }
+.num-tile .k { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+.num-tile .v { font-size: 15px; font-weight: 800; color: var(--text-main); margin-top: 2px; }
+.num-tile .desc { font-size: 12px; color: #4a5568; margin-top: 4px; line-height: 1.4; }
+
+.month-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.month-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+.month-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.month-name { font-size: 14px; font-weight: 800; color: #2d3748; }
+
+.element-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 4px; }
+.elem-น้ำ { background: #e0f2fe; color: #0369a1; }
+.elem-ไฟ { background: #fee2e2; color: #b91c1c; }
+.elem-ไม้ { background: #dcfce7; color: #166534; }
+.elem-เหล็ก { background: #e5e7eb; color: #374151; }
+.elem-ดิน { background: #fef3c7; color: #92400e; }
+.elem-ทอง { background: #fef08a; color: #a16207; }
+
+.pred-block { margin: 10px 0; padding: 13px; background: #f7fafc; border-radius: 12px; border: 1px solid #edf2f7; }
+.pred-block h4 { margin: 0 0 8px; font-size: 16px; line-height: 1.45; color: var(--primary-orange); border-bottom: 1px solid #edf2f7; padding-bottom: 7px; }
+.pred-section-item { margin-top: 8px; font-size: 15px; line-height: 1.7; }
+.pred-section-item b { line-height: 1.6; }
+.answer-box { font-size: 15px; line-height: 1.7; }
+.step-list li { margin-bottom: 5px; font-size: 14px; line-height: 1.65; }
+.dd-box { font-size: 14px; line-height: 1.65; }
+/* อ่านง่ายบนหน้าจอมือถือ โดยคงขนาดตัวอักษรคำทำนายให้ชัดเจน */
+@media (max-width: 600px) {
+  .pred-block { padding: 12px; }
+  .pred-block h4 { font-size: 16px; }
+  .pred-section-item { font-size: 15px; line-height: 1.75; }
+}
+.pred-section-item b { color: #2d3748; }
+
+.answer-box { border-radius: 12px; padding: 12px 14px; margin: 10px 0; font-size: 13px; line-height: 1.55; border: 1px solid; }
+.verdict-good { background: #f0fff4; border-color: #9ae6b4; color: #22543d; }
+.verdict-mid { background: #fffaf0; border-color: #fbd38d; color: #744210; }
+.verdict-warn { background: #fff5f5; border-color: #feb2b2; color: #742a2a; }
+.verdict-chip { display: inline-block; font-size: 11.5px; font-weight: 800; padding: 3px 12px; border-radius: 20px; margin-bottom: 6px; }
+.chip-good { background: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
+.chip-mid { background: #fefcbf; color: #744210; border: 1px solid #faf089; }
+.chip-warn { background: #fed7d7; color: #742a2a; border: 1px solid #feb2b2; }
+.hint-box { font-size: 12px; color: var(--text-muted); background: #f7fafc; border: 1px dashed #e2e8f0; border-radius: 10px; padding: 10px; margin-top: 8px; }
+
+/* ---------- บล็อกรายละเอียดเชิงลึก ---------- */
+.step-list { margin: 6px 0 0; padding-left: 18px; }
+.step-list li { margin-bottom: 6px; font-size: 12.5px; line-height: 1.5; color: #2d3748; }
+.dd-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.dd-box { border-radius: 10px; padding: 9px 11px; font-size: 12.5px; line-height: 1.5; }
+.dd-do { background: #f0fff4; border: 1px solid #9ae6b4; color: #22543d; }
+.dd-dont { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
+.dd-box ul { margin: 4px 0 0; padding-left: 18px; }
+.dd-box li { margin-bottom: 3px; }
+.lucky-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.lucky-chip { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 3px 10px; font-size: 11.5px; color: #2d3748; font-weight: 600; }
+.chant-box { background: #ffffff; border: 1px dashed #d8b4fe; border-radius: 10px; padding: 9px 11px; margin-top: 8px; font-size: 12.5px; color: #4c1d95; line-height: 1.5; }
+.chant-box .mantra { font-family: monospace; white-space: pre-wrap; font-weight: 700; color: #581c87; display: block; margin-top: 3px; }
+.role-box { border-left: 4px solid #fbd38d; background: #fffaf0; border-radius: 8px; padding: 9px 11px; font-size: 12.5px; line-height: 1.5; margin-top: 8px; color: #744210; }
+
+/* ---------- Rabbit’s Habit Design (RHD) ---------- */
+.rhd-card { background: linear-gradient(135deg, #fffaf0 0%, #fff7ed 100%); border: 1px solid #fed7aa; }
+.rhd-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 9px; border-radius:999px; background:#fff; border:1px solid #fed7aa; color:#9a3412; font-size:11px; font-weight:800; margin-bottom:8px; }
+.rhd-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+.rhd-tile { background:#fff; border:1px solid #edf2f7; border-radius:10px; padding:9px 10px; }
+.rhd-tile .rhd-k { font-size:10.5px; color:#a0aec0; font-weight:800; text-transform:uppercase; }
+.rhd-tile .rhd-v { font-size:14px; font-weight:800; color:#2d3748; margin-top:2px; }
+.rhd-tile .rhd-d { font-size:11.5px; color:#4a5568; line-height:1.45; margin-top:3px; }
+.rhd-combined { background:#fff; border:1px solid #fdba74; border-left:4px solid #ea580c; border-radius:11px; padding:10px 11px; margin-top:9px; }
+.rhd-combined h4 { margin:0 0 5px; font-size:13.5px; color:#9a3412; }
+.rhd-section { margin-top:7px; font-size:12px; line-height:1.55; color:#2d3748; }
+.rhd-section b { color:#7c2d12; }
+.rhd-note { margin-top:8px; font-size:11px; color:#718096; background:#fff; border:1px dashed #fed7aa; border-radius:9px; padding:8px 10px; }
+.rhd-matrix-count { display:inline-block; margin-left:5px; padding:2px 7px; border-radius:999px; background:#ffedd5; color:#9a3412; font-size:10px; font-weight:800; }
+@media (max-width:360px){ .rhd-grid{grid-template-columns:1fr;} }
+.role-box b { color: #975a16; }
+.mini-h { font-size: 12.5px; font-weight: 800; color: #2d3748; margin-top: 10px; display: block; }
+.level-dots { margin-top: 8px; }
+.level-dots .dot { display: inline-block; width: 15px; height: 15px; border-radius: 50%; margin-right: 4px; background: #e2e8f0; }
+
+/* ---------- บล็อกยอดฮิต + ขั้นตอนที่ 9 ---------- */
+.tbl-scroll { overflow-x: auto; margin-top: 6px; }
+.num-tbl { min-width: 100%; }
+.num-tbl td, .num-tbl th { font-size: 11.5px; padding: 6px 7px; }
+.topic-line { font-size: 12.5px; color: #2d3748; background: #fffaf0; border: 1px solid #fbd38d; border-radius: 10px; padding: 7px 10px; margin-top: 8px; line-height: 1.55; }
+.num-badge { display: inline-block; min-width: 21px; text-align: center; background: #1e40af; color: #fff; border-radius: 6px; padding: 1px 5px; font-weight: 800; font-size: 12px; }
+.muted { color: #a0aec0; }
+.lucky-pill { display: inline-block; background: #fef3c7; border: 1px solid #fbd38d; color: #92400e; border-radius: 20px; padding: 1px 8px; font-weight: 800; font-size: 12px; margin-right: 4px; }
+.mth3 { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.mth { background: #f7fafc; border: 1px solid #edf2f7; border-radius: 10px; padding: 8px 10px; font-size: 12.5px; color: #4a5568; line-height: 1.5; }
+.mth b { display: block; color: #2d3748; font-size: 12px; margin-bottom: 2px; }
+
+.god-card {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a; border-radius: 16px; padding: 16px; margin-top: 10px;
+}
+.god-title { font-size: 18px; font-weight: 800; color: #78350f; display: flex; align-items: center; gap: 8px; }
+.god-type { font-size: 11px; background: #b45309; color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+.god-box { background: #ffffff; border-radius: 10px; padding: 10px; margin-top: 8px; font-size: 12.5px; color: #451a03; border: 1px solid #fef3c7; }
+.god-box b { color: #78350f; }
+
+/* ---------- รายละเอียดองค์เทพแบบเต็ม ---------- */
+.god-card-main { padding: 18px; }
+.god-message-box { font-size: 16px; line-height: 1.85; padding: 15px; border-radius: 14px; }
+.god-message-box b { display: inline-block; margin-bottom: 5px; font-size: 16px; color: #166534; }
+.god-card-main .god-lead { font-size: 15px; line-height: 1.8; }
+.god-code-row { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:12px; color:#92400e; margin-top:6px; }
+.god-lead { margin-top:10px; background:rgba(255,255,255,.78); border:1px solid #fde68a; border-radius:12px; padding:11px; font-size:12.5px; line-height:1.6; color:#451a03; }
+.god-prediction-block { background:#fffaf0; border-color:#fcd34d; }
+.god-role-block { background:#fffbeb; border-color:#fde68a; }
+.god-warning-block { background:#fff7ed; border-color:#fed7aa; }
+.god-detail-box { background:#fff; border:1px solid #fef3c7; border-radius:10px; padding:10px 11px; margin-top:8px; font-size:12.5px; line-height:1.55; color:#451a03; }
+.god-detail-box.good { background:#f0fdf4; border-color:#bbf7d0; color:#14532d; }
+.god-detail-box.warn { background:#fff5f5; border-color:#fecaca; color:#7f1d1d; }
+.god-detail-title { font-weight:800; color:#78350f; margin-bottom:3px; }
+.god-detail-box.good .god-detail-title { color:#166534; }
+.god-detail-box.warn .god-detail-title { color:#991b1b; }
+.god-list { margin:5px 0 0; padding-left:20px; font-size:12.5px; line-height:1.55; color:#451a03; }
+.god-list li { margin-bottom:5px; }
+
+table.tbl { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12px; }
+table.tbl th, table.tbl td { border: 1px solid #edf2f7; padding: 8px; text-align: left; }
+table.tbl th { background: #f7fafc; color: var(--text-muted); }
+
+.refs details { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin: 8px 0; padding: 10px 14px; }
+.refs summary { cursor: pointer; font-weight: 700; font-size: 13px; color: var(--text-main); }
+
+.oreguram-symbol {
+  font-family: monospace; font-size: 20px; letter-spacing: 4px; background: #2d3748; color: #fbd38d;
+  padding: 8px 16px; border-radius: 8px; display: inline-block; margin: 8px 0; text-align: center;
+}
+
+footer { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 20px; }
+
+/* ---------- CTA แอดไลน์ดูดวง ---------- */
+.line-cta {
+  margin: 14px 0 16px; padding: 15px 16px; border-radius: 16px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #fff; box-shadow: 0 8px 18px rgba(21,128,61,.20);
+  text-align: center;
+}
+.line-cta.home { margin-top: 4px; }
+.line-cta-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+.line-cta-text { font-size: 12px; line-height: 1.55; opacity: .96; margin-bottom: 10px; }
+.line-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 210px; padding: 10px 18px; border-radius: 999px;
+  background: #fff; color: #15803d; text-decoration: none;
+  font-size: 13px; font-weight: 800; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+}
+.line-cta-btn:active { transform: translateY(1px); }
+
+/* ---------- ปรับขนาดตัวอักษรให้อ่านง่ายขึ้น ---------- */
+body { font-size: 15px; line-height: 1.75; }
+.hero h1 { font-size: 24px; }
+.hero p { font-size: 14px; line-height: 1.65; }
+label, .card-title { font-size: 14px; }
+input, select, textarea { font-size: 16px; }
+button, .btn, .tab-btn { font-size: 15px; }
+.pred-block h4 { font-size: 17px; line-height: 1.55; }
+.pred-section-item { font-size: 16px; line-height: 1.8; }
+.answer-box { font-size: 15px; line-height: 1.75; }
+.step-list li, .dd-box, .dd-box li { font-size: 14.5px; line-height: 1.7; }
+.hint-box, .role-box, .chant-box { font-size: 14px; line-height: 1.7; }
+.lucky-chip { font-size: 13px; }
+.rhd-badge { font-size: 13px; }
+.rhd-tile .rhd-k { font-size: 12px; }
+.rhd-tile .rhd-v { font-size: 16px; }
+.rhd-tile .rhd-d, .rhd-section { font-size: 14.5px; line-height: 1.75; }
+.rhd-combined h4 { font-size: 16px; }
+.rhd-note { font-size: 13px; line-height: 1.65; }
+@media (max-width: 600px) {
+  .wrap { padding-left: 14px; padding-right: 14px; }
+  .pred-section-item { font-size: 15.5px; }
+  .rhd-section { font-size: 14.5px; }
+}
+
+
+/* ---------- ปรับ UI ให้ใช้งานง่ายขึ้น: อ่านง่าย แตะสะดวก และรองรับจอใหญ่ ---------- */
+:root {
+  --primary-orange: #c85a08;
+  --primary-orange-light: #fff4e8;
+  --border-color: #e7eaf0;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow: 0 5px 18px rgba(31, 41, 55, .055);
+}
+html { scroll-padding-top: 88px; }
+body {
+  background: #f5f7fb;
+  color: #253044;
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap {
+  width: min(100%, 860px);
+  max-width: 860px;
+  padding: 22px 20px 64px;
+}
+.hero { padding: 12px 0 18px !important; }
+.hero h1 { font-size: clamp(24px, 4vw, 30px); letter-spacing: -.3px; }
+.hero p { max-width: 560px; margin: 6px auto 0; }
+.line-cta { box-shadow: 0 5px 14px rgba(21,128,61,.13); }
+.line-cta-title { font-size: 16px; }
+.line-cta-text { font-size: 14px; }
+.engine-tabs {
+  position: sticky;
+  top: 6px;
+  z-index: 20;
+  gap: 6px;
+  margin: 16px 0 18px;
+  padding: 6px;
+  border: 1px solid rgba(226,232,240,.9);
+  background: rgba(238,242,247,.96);
+  box-shadow: 0 5px 16px rgba(15,23,42,.08);
+  backdrop-filter: blur(12px);
+}
+.tab-btn {
+  min-height: 46px;
+  flex: 1 1 calc(25% - 6px);
+  padding: 9px 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #526074;
+}
+.tab-btn.active { color: #a94705; }
+.card {
+  padding: clamp(16px, 3vw, 24px);
+  margin-bottom: 16px;
+  border-color: #e8ebf1;
+  box-shadow: 0 5px 18px rgba(31,41,55,.045);
+}
+.card-title {
+  color: #374151;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+label { color: #374151; font-size: 14px; margin-bottom: 6px; }
+input, select, textarea {
+  min-height: 46px;
+  padding: 11px 12px;
+  border: 1px solid #d7dde7;
+  border-radius: 11px;
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.4;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217,119,6,.13);
+  outline: none;
+}
+button, a, input, select, textarea { touch-action: manipulation; }
+button { -webkit-tap-highlight-color: transparent; }
+.btn-submit {
+  min-height: 50px;
+  padding: 13px 16px;
+  border-radius: 13px;
+  font-size: 16px;
+  box-shadow: 0 5px 12px rgba(0,0,0,.12);
+}
+.chip-group { gap: 8px; }
+.chip-btn {
+  min-height: 44px;
+  padding: 10px 12px;
+  border-color: #e1e6ee;
+  background: #f8fafc;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.chk { gap: 8px; font-size: 13px; }
+.chk input { width: 18px; min-height: 18px; height: 18px; padding: 0; }
+.daily-element-card { padding: 19px; margin-bottom: 18px; }
+.daily-element-title { font-size: 14px; }
+.daily-element-value { font-size: clamp(21px, 4vw, 27px); line-height: 1.35; }
+.daily-element-desc, .daily-element-warn, .daily-element-badge { font-size: 14px; line-height: 1.7; }
+.pred-block { padding: 16px; margin: 13px 0; }
+.pred-block h4 { font-size: 18px; }
+.pred-section-item { font-size: 16px; line-height: 1.85; overflow-wrap: anywhere; }
+.answer-box { padding: 14px 16px; font-size: 15.5px; }
+button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-visible {
+  outline: 3px solid rgba(217,119,6,.45);
+  outline-offset: 2px;
+}
+@media (min-width: 700px) {
+  .wrap { padding-top: 30px; }
+  .hero { margin-bottom: 6px; }
+  .engine-tabs { top: 10px; }
+  .f-row { gap: 14px; margin-bottom: 14px; }
+  .card { margin-bottom: 20px; }
+}
+@media (max-width: 600px) {
+  .wrap { padding: 14px 12px 44px; }
+  .hero { padding: 8px 0 14px !important; }
+  .hero h1 { font-size: 24px; }
+  .line-cta { padding: 14px; }
+  .line-cta-title { font-size: 15px; }
+  .line-cta-text { font-size: 13px; }
+  .engine-tabs { top: 4px; margin: 12px 0 14px; gap: 5px; padding: 5px; }
+  .tab-btn { flex: 1 1 calc(50% - 5px); min-height: 44px; padding: 9px 6px; font-size: 13px; }
+  .card { padding: 15px; border-radius: 16px; }
+  .f-row { flex-wrap: wrap; gap: 10px; }
+  .f-row .field { min-width: min(100%, 145px); }
+  .daily-element-card { padding: 16px; }
+  .pred-block { padding: 13px; }
+  .pred-section-item { font-size: 15.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

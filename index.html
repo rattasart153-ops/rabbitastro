@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐇 โหรกระต่ายเลข 9 · คำนวณดวงชะตา ตำราโอเรกุรัม และมูเทพเสริมดวง</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="bunny-badge">🐇</div>
+      <h1>ทำนายดวงกระต่าย 9</h1>
+      <p>คำนวณดวงชะตา ตำราโอเรกุรัม และมูเทพเสริมดวง</p>
+    </header>
+
+
+    <section class="line-cta home" aria-label="แอดไลน์ดูดวง">
+      <div class="line-cta-title">🐇 อยากรู้คำตอบที่ตรงกับเรื่องของคุณมากขึ้น?</div>
+      <div class="line-cta-text">แอดไลน์เพื่อดูดวงเจาะลึกแบบเฉพาะบุคคล ทั้งจุดแข็ง จังหวะชีวิต และแนวทางรับมือกับเรื่องที่คุณกำลังตัดสินใจ</div>
+      <a class="line-cta-btn" href="https://lin.ee/6Jwz5RD" target="_blank" rel="noopener noreferrer">💚 แอดไลน์ รับคำปรึกษาดูดวง</a>
+    </section>
+
+    <div class="engine-tabs">
+      <button class="tab-btn active" id="tabPerson">👤 ดวงบุคคล</button>
+      <button class="tab-btn" id="tabGod">⛩️ เทพประจำตัว</button>
+      <button class="tab-btn" id="tabOreguram">🔮 โอเรกุรัม</button>
+      <button class="tab-btn" id="tabTarotRune">🃏 ไพ่ทาโรต์ + รูน</button>
+    </div>
+
+    <div class="daily-element-card" id="dailyElementBox">
+      <div class="top-row">
+        <div>
+          <div class="daily-element-title">✨ พลังงานวันนี้ (<span id="dailyDateText">21 ก.ย. 2569</span>)</div>
+          <div class="daily-element-value" id="dailyElementVal">ธาตุน้ำ (💧)</div>
+        </div>
+        <div class="daily-element-icon" id="dailyElementIcon">💧</div>
+      </div>
+      <div class="daily-element-desc" id="dailyElementDesc">🐇 กระต่ายเลข 6 (เปลี่ยนทิศ)   การไหลขยับขยาย การสื่อสาร และโอกาสใหม่ๆ ที่เข้ามา · จุดเด่น: ยืดหยุ่น ปรับตัวเก่ง มีความคิดสร้างสรรค์ลื่นไหล</div>
+      <div class="daily-element-warn" id="dailyElementWarn">⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน: ลังเล เปลี่ยนใจง่าย ขาดความแน่นอน</div>
+      <div class="daily-element-badge">
+        📍 <span>คำแนะนำ:</span> <span id="dailyElementSuggest">ยืดหยุ่น ปรับตัวเก่ง มีความคิดสร้างสรรค์ลื่นไหล</span>
+      </div>
+      <div class="daily-element-badge" style="margin-top:8px;background:#faf5ff;border-color:#e9d5ff;color:#581c87;">
+        💎 <span>คริสตัลประจำวัน:</span> <b id="dailyCrystalName">-</b> <span id="dailyCrystalHealing"></span>
+      </div>
+      <div class="daily-element-desc" id="dailyCrystalSupport" style="margin-top:6px;color:#6b21a8;">ช่วยส่งเสริม: -</div>
+     </div>
+
+    <script src="assets/js/01-daily-r9.js"></script>
+
+    <!-- ===== ฟอร์มกรอกข้อมูลครั้งเดียว ใช้ร่วมกันทุกแท็บ (อยู่นอกแท็บ ข้อมูลจึงคงอยู่เมื่อสลับ) ===== -->
+    <div id="sharedForm">
+      <section class="card">
+        <span class="card-title">ข้อมูลส่วนตัว (กรอกครั้งเดียว ใช้ได้ทุกแท็บ)</span>
+        <div class="f-row">
+          <div class="field"><label for="fName">ชื่อ *</label><input id="fName" type="text" placeholder="ชื่อ" /></div>
+          <div class="field"><label for="fLast">นามสกุล *</label><input id="fLast" type="text" placeholder="นามสกุล" /></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <span class="card-title">วันเกิด</span>
+        <div class="f-row">
+          <div class="field"><label for="bDay">วัน</label><input id="bDay" type="number" min="1" max="31" placeholder="เช่น 15" /></div>
+          <div class="field"><label for="bMonth">เดือน</label><input id="bMonth" type="number" min="1" max="12" placeholder="เช่น 3" /></div>
+          <div class="field"><label for="bYear">ปี ค.ศ.</label><input id="bYear" type="number" placeholder="เช่น 1990" /></div>
+        </div>
+        <div style="margin-top: 8px;">
+          <label>เวลาเกิด (24 ชม.)   ใช้เป็นส่วน "จิตสำนึก" และลัคนาราศี</label>
+          <div class="f-row" style="margin-bottom:0;">
+            <div class="field"><input id="bHour" type="number" min="0" max="23" placeholder="ชม. (0-23)" /></div>
+            <div class="field"><input id="bMin" type="number" min="0" max="59" placeholder="นาที (0-59)" /></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="noBirthTime" /> ไม่ทราบเวลาเกิด</label>
+        </div>
+        <div class="hint-box">
+          💡 กรอกข้อมูลชุดนี้ครั้งเดียว ใช้ได้ทั้ง 3 แท็บ และข้อมูลจะคงอยู่เมื่อสลับแท็บ
+        </div>
+      </section>
+    </div>
+
+    <div id="enginePerson">
+      <section class="card">
+        <span class="card-title">🧭 เลือกว่าจะทำนายส่วนไหน</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+          แยกเป็น 2 ส่วนคนละชุด   <b>พื้นดวง</b> อ่านพื้นดวงกำเนิดตามหลักโหรกระต่าย<br/>
+          ส่วน <b>เรื่องที่ต้องการ</b> เจาะจงเรื่องที่อยากรู้ และแต่ละส่วนจะแสดงแถบตัวเลือกของตัวเองเท่านั้น
+        </p>
+        <div class="chip-group" id="modeGroup">
+          <div class="chip-btn active" data-mode="base">🐇 พื้นดวงตามโหรกระต่าย<br/><small style="font-weight:normal; font-size:10px;">พื้นดวงกำเนิด · ตัวตน · พรสวรรค์ · บทเรียนชีวิต</small></div>
+          <div class="chip-btn" data-mode="topic">🎯 เรื่องที่ต้องการ<br/><small style="font-weight:normal; font-size:10px;">เจาะจงเรื่องที่อยากรู้ 1 เรื่อง</small></div>
+        </div>
+      </section>
+
+      <!-- ===== Rabbit’s Habit Design (RHD) ===== -->
+      <section class="card rhd-card" id="rhdControl">
+        <span class="card-title">Rabbit’s Habit Design · RHD</span>
+        <div class="rhd-badge">🐇 HOW · รูปแบบการรับมือของบุคคล</div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 8px;">
+          RHD เป็นระบบที่ออกแบบเฉพาะสำหรับโหรกระต่าย ใช้แยกจาก Rabbit Astrology โดย Rabbit Number บอก <b>สถานการณ์</b> ส่วน Habit Number บอก <b>รูปแบบการตอบสนอง</b>
+        </p>
+        <div class="rhd-note">RHD แสดงรูปแบบการรับมือ การตอบสนอง และการตัดสินใจของบุคคล</div>
+      </section>
+
+      <!-- ===== แถบฟีเจอร์ของ "พื้นดวงตามโหรกระต่าย" ===== -->
+      <section class="card" id="baseBar">
+        <span class="card-title">🐇 แถบฟีเจอร์ · พื้นดวงตามโหรกระต่าย</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+          สำรวจพื้นดวงกำเนิด ตัวตน พรสวรรค์ และบทเรียนชีวิต โดยไม่ต้องเลือกหมวดเรื่อง
+        </p>
+        <label style="font-size:12.5px; font-weight:700; color:var(--text-muted);">เลือกส่วนที่จะแสดง (แสดงทีละส่วน ไม่รวมกัน)</label>
+        <div class="chip-group" id="baseViewGroup">
+          <div class="chip-btn active" data-view="natal">🐇 พื้นดวงกำเนิด<br/><small style="font-weight:normal; font-size:10px;">ตัวตน · พรสวรรค์ · บทเรียนชีวิต</small></div>
+          <div class="chip-btn" data-view="asc">🌅 ลัคนาราศี<br/><small style="font-weight:normal; font-size:10px;">ลัคนา · จิตสำนึก · ด้านสว่าง · ด้านมืด</small></div>
+          <div class="chip-btn" data-view="rhd">🐇 RHD<br/><small style="font-weight:normal; font-size:10px;">รูปแบบการรับมือ · การตอบสนอง · การตัดสินใจ</small></div>
+        </div>
+      </section>
+
+      <!-- ===== แถบฟีเจอร์ของ "เรื่องที่ต้องการ" ===== -->
+      <section class="card" id="topicBar" style="display:none;">
+        <span class="card-title">🎯 แถบฟีเจอร์ · เรื่องที่ต้องการ</span>
+        <div style="margin-top:4px;">
+          <label style="font-size:12.5px; font-weight:700; color:var(--text-muted);">เลือกส่วนที่จะแสดง (แสดงทีละส่วน ไม่รวมกัน)</label>
+          <div class="chip-group" id="topicViewGroup">
+            <div class="chip-btn active" data-view="short">🎯 ภาพรวมของเรื่อง<br/><small style="font-weight:normal; font-size:10px;">แนวโน้มหลักและคำแนะนำ</small></div>
+            <div class="chip-btn" data-view="month">📅 รายเดือน<br/><small style="font-weight:normal; font-size:10px;">แนวโน้มเฉพาะเรื่อง 3 เดือน</small></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <span class="card-title">หมวดเรื่อง</span>
+          <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+            เลือกเรื่องที่อยากรู้ คำทำนายจะสรุปภาพรวมของเรื่องที่เลือก พร้อมแนวโน้ม จุดที่ควรระวัง และคำแนะนำ (ภาพรวม · รายเดือน 3 เดือน)<br/>
+            เลือกหัวข้อที่ต้องการเพื่อดูคำทำนายเฉพาะเรื่อง
+          </p>
+          <div class="chip-group" id="catGroup">
+            <div class="chip-btn active" data-cat="work">การงาน</div>
+            <div class="chip-btn" data-cat="money">การเงิน</div>
+            <div class="chip-btn" data-cat="health">สุขภาพ</div>
+            <div class="chip-btn" data-cat="love">ความรัก</div>
+            <div class="chip-btn" data-cat="interest">เรื่องที่สนใจ</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <span class="card-title">รายละเอียดเรื่อง</span>
+          <div class="chip-group" id="subTopicGroup"></div>
+        </div>
+      </section>
+
+
+
+      <button type="button" class="btn-submit" id="btnCalc">🐇 คำนวณดวง</button>
+    </div>
+
+    <!-- Engine 2: ค้นหาองค์เทพประจำตัวจากเลขศาสตร์ชื่อและข้อมูลเกิด -->
+    <div id="engineGod" style="display:none;">
+      <section class="card">
+        <span class="card-title">⛩️ ค้นหาองค์เทพประจำตัว</span>
+        <p style="font-size:13px; color:var(--text-muted); margin:0; line-height:1.65;">
+          ระบบจะใช้เลขศาสตร์ชื่อ-สกุลร่วมกับวัน เดือน ปี และเวลาเกิด เพื่อหาเลขประจำตัว แล้วจับคู่กับองค์เทพตามตารางเลข 1–9
+        </p>
+        <div class="hint-box" style="margin-top:12px;">✨ กรุณากรอกข้อมูลส่วนตัวในแบบฟอร์มหลักด้านบนให้ครบ หากไม่ทราบเวลาเกิด สามารถเลือก “ไม่ทราบเวลาเกิด” ได้</div>
+      </section>
+      <button class="btn-submit" id="btnCalcGod" style="background: linear-gradient(135deg, #b45309 0%, #78350f 100%);">
+        ⛩️ คำนวณองค์เทพประจำตัว
+      </button>
+    </div>
+
+    <!-- Engine ตำราโอเรกุรัม 60 คำถาม -->
+    <div id="engineTarotRune" style="display:none;">
+  <section class="card">
+    <span class="card-title">🃏 ไพ่ทาโรต์ + ᚠ อักษรรูน</span>
+    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">วิเคราะห์ตัวตน สถานการณ์ปัจจุบัน แนวโน้มและทิศทางของสถานการณ์ โดยผสานไพ่ทาโรต์ อักษรรูน และโหรกระต่ายเข้าด้วยกัน</p>
+    <div class="hint-box">✨ เมื่อกดคำนวณ ระบบจะแสดงคำทำนายแบบละเอียด พร้อมไพ่ประจำตัว ไพ่ประจำวัน รูนประจำตัว รูนประจำวัน และคำทำนายร่วมกับโหรกระต่าย</div>
+  </section>
+  <button class="btn-submit" id="btnCalcTarotRune" style="background:linear-gradient(135deg,#7c3aed 0%,#312e81 100%);">🃏 คำนวณไพ่ทาโรต์ + อักษรรูน</button>
+</div>
+
+<div id="engineOreguram" style="display:none;">
+      <section class="card">
+        <span class="card-title">🔮 ตำราทำนายโอเรกุรัม · 60 คำถาม</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
+          คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
+        </p>
+        <div class="field">
+          <label for="oreguramQuestion">เลือกคำถามที่ต้องการคำทำนาย:</label>
+          <select id="oreguramQuestion" style="padding:10px; font-weight:600;"></select>
+        </div>
+        <div class="hint-box">
+          📖 แบ่งคำถามออกเป็น 3 หมวดหลัก หมวดละ 20 คำถาม เพื่อให้เลือกเรื่องที่ต้องการอ่านได้ง่ายขึ้น
+          <b style="color:#22543d;">การงาน</b> ·
+          <b style="color:#744210;">การเงิน</b> ·
+          <b style="color:#742a2a;">ความรักและชีวิต</b>
+        </div>
+      </section>
+
+      <button class="btn-submit" id="btnCalcOreguram" style="background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);">
+        🔮 ถอดรหัสคำทำนายโอเรกุรัม
+      </button>
+    </div>
+
+    <section id="results" class="card" style="display:none; margin-top:16px;"></section>
+
+    <section class="card refs" style="margin-top:16px;">
+      <span class="card-title">เอกสารอ้างอิง</span>
+      <details>
+        <summary>⛩️ 1. รายนามองค์เทพ 1–9 (พราหมณ์ & จีน)</summary>
+        <table class="tbl">
+          <thead><tr><th>เลข</th><th>องค์เทพ</th><th>เทพสาย</th><th>เด่นเรื่อง</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><b>ท้าวเวสสุวรรณ</b></td><td>พราหมณ์/พุทธ</td><td>โชคลาภ ทรัพย์สิน คุ้มครองขจัดภัย</td></tr>
+            <tr><td>2</td><td><b>พระศิวะ</b></td><td>พราหมณ์</td><td>ทำลายสิ่งแย่ๆ ตราบารมี อำนาจ</td></tr>
+            <tr><td>3</td><td><b>พระแม่ลักษมี</b></td><td>พราหมณ์</td><td>โชคลาภ เงินทอง ความรักความเสน่หา</td></tr>
+            <tr><td>4</td><td><b>พระพิฆเนศวร</b></td><td>พราหมณ์</td><td>ขจัดอุปสรรค ความสำเร็จในขวัญปัญญา</td></tr>
+            <tr><td>5</td><td><b>พระพรหม</b></td><td>พราหมณ์</td><td>ลิขิตชะตา เมตตามหานิยม ความก้าวหน้า</td></tr>
+            <tr><td>6</td><td><b>ไฉ่ซิงเอี้ย</b></td><td>จีน</td><td>เทพเจ้าแห่งโชคลาภ ขุมทรัพย์ ค้าขาย</td></tr>
+            <tr><td>7</td><td><b>องค์สุรัสวดี</b></td><td>พราหมณ์</td><td>ปัญญา ความรู้ ศิลปวิทยาการ การศึกษา</td></tr>
+            <tr><td>8</td><td><b>พระแม่กวนอิม</b></td><td>จีน</td><td>เมตตาบารมี ปลอดภัย พ้นทุกข์ สุขภาพ</td></tr>
+            <tr><td>9</td><td><b>พระแม่กาลี</b></td><td>พราหมณ์</td><td>ขจัดสิ่งชั่วร้าย สยบศัตรู ชัยชนะเด็ดขาด</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary>🐇 2. พฤติกรรมกระต่าย 1–9</summary>
+        <table class="tbl">
+          <thead><tr><th>เลข</th><th>พฤติกรรม</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><b>ออกจากรัง</b></td><td>เริ่มต้นใหม่ / เคลื่อนไหว</td></tr>
+            <tr><td>2</td><td><b>เงี่ยหูฟัง</b></td><td>ฟัง / สังเกต / รอสัญญาณ</td></tr>
+            <tr><td>3</td><td><b>กระโดดไปข้างหน้า</b></td><td>เดินหน้า / รุกเชิงรุก</td></tr>
+            <tr><td>4</td><td><b>หยุดระวัง</b></td><td>ชะลอ / ตรวจสอบความเสี่ยง</td></tr>
+            <tr><td>5</td><td><b>ซ่อนตัว</b></td><td>เก็บตัว / สะสมเสบียง</td></tr>
+            <tr><td>6</td><td><b>เปลี่ยนทิศ</b></td><td>ปรับแผน / จุดเปลี่ยน</td></tr>
+            <tr><td>7</td><td><b>วิ่งย้อนกลับ</b></td><td>ทบทวน / ปรับฐาน</td></tr>
+            <tr><td>8</td><td><b>อยู่ในโพรง</b></td><td>พัก / Sideway</td></tr>
+            <tr><td>9</td><td><b>พบทางออก</b></td><td>คลี่คลาย / เปิดทางใหม่</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary>🔮 3. เกณฑ์ระดับคำตอบของตำราโอเรกุรัม</summary>
+        <table class="tbl">
+          <thead><tr><th>รหัสกระต่าย</th><th>ระดับคำตอบ</th><th>ความหมายของคำตอบ</th></tr></thead>
+          <tbody>
+            <tr><td>1, 3, 9</td><td><b style="color:#22543d;">บวก</b></td><td>ออกจากรัง / กระโดดไปข้างหน้า / พบทางออก   คำตอบออกไปในทางสมปรารถนาและคลี่คลาย</td></tr>
+            <tr><td>2, 5, 6, 8</td><td><b style="color:#744210;">กลาง</b></td><td>เงี่ยหูฟัง / ซ่อนตัว / เปลี่ยนทิศ / อยู่ในโพรง   ยังไม่ฟันธง ต้องรอจังหวะหรือปรับวิธี</td></tr>
+             <tr><td>4, 7</td><td><b style="color:#742a2a;">ระวัง</b></td><td>หยุดระวัง / วิ่งย้อนกลับ   มีจุดเสี่ยงหรือปมเดิมที่ต้องแก้ก่อนจึงจะได้คำตอบที่ดี</td></tr>
+           </tbody>
+         </table>
+       </details>
+     </section>
+
+    <footer>
+      🐇 คำทำนายผสานพื้นดวง ลัคนา โหรกระต่าย โอเรกุรัม มูเทพ และไพ่ทาโรต์ + อักษรรูน เพื่อให้เห็นทั้งแนวโน้ม จุดเด่น จุดที่ต้องระวัง และแนวทางรับมือ
+    </footer>
+  </div>
+
+  <script src="assets/js/02-horakratai-engine.js"></script>
+
+  <script src="assets/js/03-daily-element.js"></script>
+
+  <script src="assets/js/04-ui-renderers.js"></script>
+  <script src="assets/js/05-form-storage.js"></script>
+<script src="assets/js/06-subconscious-presentation.js"></script>
+</body>
+</html>
