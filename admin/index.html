@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Rabbitastro · Admin</title><link rel="stylesheet" href="assets/admin.css"></head>
+<body><main class="admin-wrap">
+<header class="brand"><div class="bunny">🐇</div><div><h1>Rabbitastro Admin</h1><p>ระบบจัดการคิวดูดวง</p></div></header>
+<section id="loginPanel" class="panel login-panel"><h2>เข้าสู่ระบบผู้ดูแล</h2><p class="muted">กรุณาเข้าสู่ระบบเพื่อดูข้อมูลการจองของลูกค้า</p><form id="loginForm"><label for="username">ชื่อผู้ใช้</label><input id="username" name="username" autocomplete="username" required maxlength="80"><label for="password">รหัสผ่าน</label><input id="password" name="password" type="password" autocomplete="current-password" required><button class="primary">เข้าสู่ระบบ</button></form><p id="loginMessage" class="message" role="alert"></p></section>
+<section id="dashboard" hidden><div class="topbar"><div><h2>รายการจองคิว</h2><p class="muted">ข้อมูลจาก Google Sheets</p></div><button id="logoutButton" class="secondary">ออกจากระบบ</button></div>
+<div class="stats"><article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article><article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article><article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article></div>
+<div class="toolbar"><input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง"><select id="statusFilter"><option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option></select><button id="refreshButton" class="secondary">รีเฟรช</button></div>
+<div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div></section>
+<footer>Rabbitastro · Admin</footer></main><script src="assets/admin.js"></script></body></html>
