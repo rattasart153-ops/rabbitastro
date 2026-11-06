@@ -26,9 +26,9 @@ function init(){
  </section>
  <section class="booking-subcard"><h3>🔮 บริการและเรื่องที่ต้องการปรึกษา</h3>
  <div class="booking-grid">
- <div><label for="bookingService">บริการที่ต้องการ *</label><select id="bookingService" name="service" required><option value="">เลือกบริการ</option><option>ดวงบุคคล</option><option>เทพประจำตัว</option><option>โอเรกุรัม</option><option>ไพ่ทาโรต์ + รูน</option><option>ปรึกษาเรื่องเฉพาะด้าน</option><option>บริการอื่น ๆ</option></select></div>
- <div><label for="bookingCategory">หมวดเรื่องที่ต้องการปรึกษา *</label><select id="bookingCategory" name="category" required><option value="">เลือกหมวดเรื่อง</option><option value="work">การงาน</option><option value="money">การเงิน</option><option value="health">สุขภาพ</option><option value="love">ความรัก</option><option value="interest">เรื่องที่สนใจ</option><option value="other">เรื่องอื่นๆ</option></select></div>
- <div class="booking-full"><label for="bookingTopic">รายละเอียดเรื่องที่ต้องการปรึกษา *</label><select id="bookingTopic" name="topic" required disabled><option value="">เลือกหมวดเรื่องก่อน</option></select></div>
+ <div><label for="bookingService">บริการที่ต้องการ *</label><select id="bookingService" name="service" required><option value="">เลือกบริการ</option><option>ดวงบุคคล</option><option>เทพประจำตัว</option><option>โอเรกุรัม</option><option>ไพ่ทาโรต์ + รูน</option><option>RHD</option><option>ปรึกษาเรื่องเฉพาะด้าน</option><option>บริการอื่น ๆ</option></select></div>
+ <div id="bookingConsultationCategoryField"><label for="bookingCategory">หมวดเรื่องที่ต้องการปรึกษา *</label><select id="bookingCategory" name="category" required><option value="">เลือกหมวดเรื่อง</option><option value="work">การงาน</option><option value="money">การเงิน</option><option value="health">สุขภาพ</option><option value="love">ความรัก</option><option value="interest">เรื่องที่สนใจ</option><option value="other">เรื่องอื่นๆ</option></select></div>
+ <div class="booking-full" id="bookingConsultationTopicField"><label for="bookingTopic">รายละเอียดเรื่องที่ต้องการปรึกษา *</label><select id="bookingTopic" name="topic" required disabled><option value="">เลือกหมวดเรื่องก่อน</option></select></div>
  <div><label for="bookingDate">วันที่ต้องการจอง *</label><input id="bookingDate" name="date" type="date" required></div>
  <div><label for="bookingTime">เวลาที่ต้องการจอง *</label><input id="bookingTime" name="time" type="time" required></div>
  </div>
@@ -51,6 +51,9 @@ function init(){
   other:["เรื่องที่รอคำตอบ","การตัดสินใจทั่วไป","เรื่องส่วนตัว"]
  };
  const category=document.getElementById("bookingCategory"),topic=document.getElementById("bookingTopic");
+ const service=document.getElementById("bookingService"),categoryField=document.getElementById("bookingConsultationCategoryField"),topicField=document.getElementById("bookingConsultationTopicField");
+ function updateConsultationFields(){const required=!["โอเรกุรัม","เทพประจำตัว"].includes(service.value);categoryField.hidden=!required;topicField.hidden=!required;category.required=required;topic.required=required;if(!required){category.value="";topic.replaceChildren();const option=document.createElement("option");option.value="";option.textContent="ไม่จำเป็นสำหรับบริการนี้";topic.append(option);topic.disabled=true;}else{topic.disabled=!category.value;}}
+ service.addEventListener("change",updateConsultationFields);updateConsultationFields();
  category.addEventListener("change",function(){
   topic.replaceChildren();topic.disabled=!category.value;
   const first=document.createElement("option");first.value="";first.textContent=category.value?"เลือกรายละเอียดเรื่อง":"เลือกหมวดเรื่องก่อน";topic.append(first);
