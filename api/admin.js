@@ -3,7 +3,7 @@ module.exports = async function handler(req, res) {
   const url = process.env.GAS_WEB_APP_URL;
   if (!url) return res.status(503).json({ ok:false, message:"ระบบหลังบ้านยังไม่ได้ตั้งค่า" });
   const body = req.body && typeof req.body === "object" ? req.body : {};
-  const allowed = new Set(["adminLogin","adminListBookings","adminUpdateBooking"]);
+  const allowed = new Set(["adminLogin","adminListBookings","adminUpdateBooking","adminLogout"]);
   if (!allowed.has(body.action)) return res.status(400).json({ ok:false, message:"คำสั่งไม่ถูกต้อง" });
   if (body.action !== "adminLogin" && (typeof body.token !== "string" || body.token.length > 200)) return res.status(401).json({ ok:false, message:"กรุณาเข้าสู่ระบบใหม่" });
   try {
