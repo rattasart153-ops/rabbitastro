@@ -1,8 +1,8 @@
 (function(){
 "use strict";
 function init(){
- const anchor=document.querySelector(".engine-tabs");
- if(!anchor||document.getElementById("bookingSection"))return;
+ const engine=document.getElementById("engineBooking");
+ if(!engine||document.getElementById("bookingSection"))return;
  const section=document.createElement("section");
  section.id="bookingSection";section.className="booking-section card";
  section.innerHTML=`
@@ -23,7 +23,7 @@ function init(){
  <p class="booking-privacy">ข้อมูลการจองจะถูกส่งไปยังระบบจัดการคิวของ Rabbitastro เพื่อใช้ติดต่อและจัดการนัดหมายเท่านั้น</p>
  <div id="bookingMessage" class="booking-message" role="status" aria-live="polite"></div>
  </form>`;
- anchor.parentNode.insertBefore(section,anchor);
+ engine.appendChild(section);
  const date=document.getElementById("bookingDate");
  const localNow=new Date(),today=new Date(localNow.getTime()-localNow.getTimezoneOffset()*60000).toISOString().slice(0,10);
  date.min=today;
