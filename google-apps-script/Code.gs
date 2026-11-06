@@ -122,7 +122,8 @@ function adminListBookings(input) {
   const bookings = values.slice(1).reverse().map(r => ({
     bookingId:String(r[0]), createdAt:dateText_(r[1]), name:String(r[2]), phone:String(r[3]),
     lineId:String(r[4]), service:String(r[5]), date:String(r[6]), time:String(r[7]),
-    note:String(r[8]), status:String(r[9]), updatedAt:dateText_(r[10]), updatedBy:String(r[11]),\n    birthDate:String(r[12] || ""), birthTime:String(r[13] || ""), noBirthTime:String(r[14] || ""), category:String(r[15] || ""), topic:String(r[16] || "")
+    note:String(r[8]), status:String(r[9]), updatedAt:dateText_(r[10]), updatedBy:String(r[11]),
+    birthDate:String(r[12] || ""), birthTime:String(r[13] || ""), noBirthTime:String(r[14] || ""), category:String(r[15] || ""), topic:String(r[16] || "")
   }));
   return { ok:true, bookings:bookings };
 }
