@@ -1689,7 +1689,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
-      body = renderAscSection(res);
+      body = renderAscSection(res) + renderRHDSection(res, 'base', data);
     } else if (featureKey === 'loveEntrant') {
       body = renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
