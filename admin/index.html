@@ -5,26 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Rabbitastro · Admin</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/admin/assets/admin.css">
 </head>
 <body>
   <main class="admin-wrap">
     <header class="brand">
       <div class="bunny" aria-hidden="true">🐇</div>
-      <div class="brand-copy">
-        <h1>Rabbitastro</h1>
-        <p>ระบบจัดการคิวดูดวงและเครื่องมือวิเคราะห์</p>
-      </div>
+      <div class="brand-copy"><h1>Rabbitastro</h1><p>ระบบจัดการคิวดูดวงและเครื่องมือวิเคราะห์</p></div>
     </header>
 
     <section id="loginPanel" class="panel login-panel">
       <h2>เข้าสู่ระบบผู้ดูแล</h2>
       <p class="muted">กรุณาเข้าสู่ระบบเพื่อใช้งานระบบผู้ดูแล</p>
       <form id="loginForm">
-        <label for="username">ชื่อผู้ใช้</label>
-        <input id="username" name="username" autocomplete="username" required maxlength="80">
-        <label for="password">รหัสผ่าน</label>
-        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <label for="username">ชื่อผู้ใช้</label><input id="username" name="username" autocomplete="username" required maxlength="80">
+        <label for="password">รหัสผ่าน</label><input id="password" name="password" type="password" autocomplete="current-password" required>
         <button class="primary" type="submit">เข้าสู่ระบบ</button>
       </form>
       <p id="loginMessage" class="message" role="alert"></p>
@@ -34,48 +30,222 @@
       <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
         <div class="nav-heading">เมนูจัดการ</div>
         <button type="button" id="showBookings" class="nav-button active">📅 รายการจองคิว</button>
+        <button type="button" id="showEngines" class="nav-button">🔮 ระบบทำนาย · Engines</button>
         <button type="button" id="showCalculator" class="nav-button">🧠 Deep Self Calculator</button>
         <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
       </nav>
 
       <div class="admin-content">
         <section id="bookingsPanel">
-          <div class="page-heading">
-            <div>
-              <p class="eyebrow">RABBITASTRO · ADMIN</p>
-              <h2>รายการจองคิว</h2>
-              <p class="muted">ข้อมูลจาก Google Sheets</p>
-            </div>
-          </div>
-
+          <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ADMIN</p><h2>รายการจองคิว</h2><p class="muted">ข้อมูลจาก Google Sheets</p></div></div>
           <div class="stats">
             <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
             <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
             <article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article>
           </div>
-
           <div class="toolbar panel">
             <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
             <select id="statusFilter" aria-label="กรองตามสถานะ">
-              <option value="">ทุกสถานะ</option>
-              <option>รอตรวจสอบ</option>
-              <option>ยืนยันแล้ว</option>
-              <option>เสร็จสิ้น</option>
-              <option>ยกเลิก</option>
+              <option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option>
             </select>
             <button id="refreshButton" class="secondary" type="button">รีเฟรช</button>
           </div>
           <div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div>
         </section>
 
-        <section id="calculatorPanel" hidden>
-          <div class="page-heading">
-            <div>
-              <p class="eyebrow">RABBITASTRO · ANALYSIS</p>
-              <h2>Deep Self Calculator</h2>
-              <p class="muted">สำรวจตัวตนและจิตใต้สำนึกด้วยสูตรคำนวณเดิมของ Rabbitastro</p>
+        <section id="enginesPanel" hidden>
+          <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · DIVINATION SYSTEM</p><h2>ระบบทำนาย</h2><p class="muted">รูปแบบและชุดคำทำนายเดียวกับหน้า Main</p></div></div>
+          <div class="engine-admin-shell">
+            <div class="wrap">
+              <header class="hero">
+      <div class="bunny-badge">🐇</div>
+      <h1>ทำนายดวงกระต่าย 9</h1>
+      <p>คำนวณดวงชะตา ตำราโอเรกุรัม และมูเทพเสริมดวง</p>
+    </header>
+              <div class="daily-element-card" id="dailyElementBox">
+      <div class="top-row">
+        <div>
+          <div class="daily-element-title">✨ พลังงานวันนี้ (<span id="dailyDateText">21 ก.ย. 2569</span>)</div>
+          <div class="daily-element-value" id="dailyElementVal">ธาตุน้ำ (💧)</div>
+        </div>
+        <div class="daily-element-icon" id="dailyElementIcon">💧</div>
+      </div>
+      <div class="daily-element-desc" id="dailyElementDesc">🐇 กระต่ายเลข 6 (เปลี่ยนทิศ)   การไหลขยับขยาย การสื่อสาร และโอกาสใหม่ๆ ที่เข้ามา · จุดเด่น: ยืดหยุ่น ปรับตัวเก่ง มีความคิดสร้างสรรค์ลื่นไหล</div>
+      <div class="daily-element-warn" id="dailyElementWarn">⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน: ลังเล เปลี่ยนใจง่าย ขาดความแน่นอน</div>
+      <div class="daily-element-badge">
+        📍 <span>คำแนะนำ:</span> <span id="dailyElementSuggest">ยืดหยุ่น ปรับตัวเก่ง มีความคิดสร้างสรรค์ลื่นไหล</span>
+      </div>
+      <div class="daily-element-badge" style="margin-top:8px;background:#faf5ff;border-color:#e9d5ff;color:#581c87;">
+        💎 <span>คริสตัลประจำวัน:</span> <b id="dailyCrystalName">-</b> <span id="dailyCrystalHealing"></span>
+      </div>
+      <div class="daily-element-desc" id="dailyCrystalSupport" style="margin-top:6px;color:#6b21a8;">ช่วยส่งเสริม: -</div>
+     </div>
+
+    
+              <div class="engine-tabs">
+      <button class="tab-btn active" id="tabPerson">👤 ดวงบุคคล</button>
+      <button class="tab-btn" id="tabGod">⛩️ เทพประจำตัว</button>
+      <button class="tab-btn" id="tabOreguram">🔮 โอเรกุรัม</button>
+      <button class="tab-btn" id="tabTarotRune">🃏 ไพ่ทาโรต์ + รูน</button>
+    </div>
+              <!-- ===== ฟอร์มกรอกข้อมูลครั้งเดียว ใช้ร่วมกันทุกแท็บ (อยู่นอกแท็บ ข้อมูลจึงคงอยู่เมื่อสลับ) ===== -->
+    <div id="sharedForm">
+      <section class="card">
+        <span class="card-title">ข้อมูลส่วนตัว (กรอกครั้งเดียว ใช้ได้ทุกแท็บ)</span>
+        <div class="f-row">
+          <div class="field"><label for="fName">ชื่อ *</label><input id="fName" type="text" placeholder="ชื่อ" /></div>
+          <div class="field"><label for="fLast">นามสกุล *</label><input id="fLast" type="text" placeholder="นามสกุล" /></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <span class="card-title">วันเกิด</span>
+        <div class="f-row">
+          <div class="field"><label for="bDay">วัน</label><input id="bDay" type="number" min="1" max="31" placeholder="เช่น 15" /></div>
+          <div class="field"><label for="bMonth">เดือน</label><input id="bMonth" type="number" min="1" max="12" placeholder="เช่น 3" /></div>
+          <div class="field"><label for="bYear">ปี ค.ศ.</label><input id="bYear" type="number" placeholder="เช่น 1990" /></div>
+        </div>
+        <div style="margin-top: 8px;">
+          <label>เวลาเกิด (24 ชม.)   ใช้เป็นส่วน "จิตสำนึก" และลัคนาราศี</label>
+          <div class="f-row" style="margin-bottom:0;">
+            <div class="field"><input id="bHour" type="number" min="0" max="23" placeholder="ชม. (0-23)" /></div>
+            <div class="field"><input id="bMin" type="number" min="0" max="59" placeholder="นาที (0-59)" /></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="noBirthTime" /> ไม่ทราบเวลาเกิด</label>
+        </div>
+        <div class="hint-box">
+          💡 กรอกข้อมูลชุดนี้ครั้งเดียว ใช้ได้ทั้ง 3 แท็บ และข้อมูลจะคงอยู่เมื่อสลับแท็บ
+        </div>
+      </section>
+    </div>
+
+    <div id="enginePerson">
+      <section class="card">
+        <span class="card-title">🧭 เลือกว่าจะทำนายส่วนไหน</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+          แยกเป็น 2 ส่วนคนละชุด   <b>พื้นดวง</b> อ่านพื้นดวงกำเนิดตามหลักโหรกระต่าย<br/>
+          ส่วน <b>เรื่องที่ต้องการ</b> เจาะจงเรื่องที่อยากรู้ และแต่ละส่วนจะแสดงแถบตัวเลือกของตัวเองเท่านั้น
+        </p>
+        <div class="chip-group" id="modeGroup">
+          <div class="chip-btn active" data-mode="base">🐇 พื้นดวงตามโหรกระต่าย<br/><small style="font-weight:normal; font-size:10px;">พื้นดวงกำเนิด · ตัวตน · พรสวรรค์ · บทเรียนชีวิต</small></div>
+          <div class="chip-btn" data-mode="topic">🎯 เรื่องที่ต้องการ<br/><small style="font-weight:normal; font-size:10px;">เจาะจงเรื่องที่อยากรู้ 1 เรื่อง</small></div>
+        </div>
+      </section>
+
+      <!-- ===== Rabbit’s Habit Design (RHD) ===== -->
+      <section class="card rhd-card" id="rhdControl">
+        <span class="card-title">Rabbit’s Habit Design · RHD</span>
+        <div class="rhd-badge">🐇 HOW · รูปแบบการรับมือของบุคคล</div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 8px;">
+          RHD เป็นระบบที่ออกแบบเฉพาะสำหรับโหรกระต่าย ใช้แยกจาก Rabbit Astrology โดย Rabbit Number บอก <b>สถานการณ์</b> ส่วน Habit Number บอก <b>รูปแบบการตอบสนอง</b>
+        </p>
+        <div class="rhd-note">RHD แสดงรูปแบบการรับมือ การตอบสนอง และการตัดสินใจของบุคคล</div>
+      </section>
+
+      <!-- ===== แถบฟีเจอร์ของ "พื้นดวงตามโหรกระต่าย" ===== -->
+      <section class="card" id="baseBar">
+        <span class="card-title">🐇 แถบฟีเจอร์ · พื้นดวงตามโหรกระต่าย</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+          สำรวจพื้นดวงกำเนิด ตัวตน พรสวรรค์ และบทเรียนชีวิต โดยไม่ต้องเลือกหมวดเรื่อง
+        </p>
+        <label style="font-size:12.5px; font-weight:700; color:var(--text-muted);">เลือกส่วนที่จะแสดง (แสดงทีละส่วน ไม่รวมกัน)</label>
+        <div class="chip-group" id="baseViewGroup">
+          <div class="chip-btn active" data-view="natal">🐇 พื้นดวงกำเนิด<br/><small style="font-weight:normal; font-size:10px;">ตัวตน · พรสวรรค์ · บทเรียนชีวิต</small></div>
+          <div class="chip-btn" data-view="asc">🌅 ลัคนาราศี<br/><small style="font-weight:normal; font-size:10px;">ลัคนา · จิตสำนึก · ด้านสว่าง · ด้านมืด</small></div>
+          <div class="chip-btn" data-view="rhd">🐇 RHD<br/><small style="font-weight:normal; font-size:10px;">รูปแบบการรับมือ · การตอบสนอง · การตัดสินใจ</small></div>
+        </div>
+      </section>
+
+      <!-- ===== แถบฟีเจอร์ของ "เรื่องที่ต้องการ" ===== -->
+      <section class="card" id="topicBar" style="display:none;">
+        <span class="card-title">🎯 แถบฟีเจอร์ · เรื่องที่ต้องการ</span>
+        <div style="margin-top:4px;">
+          <label style="font-size:12.5px; font-weight:700; color:var(--text-muted);">เลือกส่วนที่จะแสดง (แสดงทีละส่วน ไม่รวมกัน)</label>
+          <div class="chip-group" id="topicViewGroup">
+            <div class="chip-btn active" data-view="short">🎯 ภาพรวมของเรื่อง<br/><small style="font-weight:normal; font-size:10px;">แนวโน้มหลักและคำแนะนำ</small></div>
+            <div class="chip-btn" data-view="month">📅 รายเดือน<br/><small style="font-weight:normal; font-size:10px;">แนวโน้มเฉพาะเรื่อง 3 เดือน</small></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <span class="card-title">หมวดเรื่อง</span>
+          <p style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px;">
+            เลือกเรื่องที่อยากรู้ คำทำนายจะสรุปภาพรวมของเรื่องที่เลือก พร้อมแนวโน้ม จุดที่ควรระวัง และคำแนะนำ (ภาพรวม · รายเดือน 3 เดือน)<br/>
+            เลือกหัวข้อที่ต้องการเพื่อดูคำทำนายเฉพาะเรื่อง
+          </p>
+          <div class="chip-group" id="catGroup">
+            <div class="chip-btn active" data-cat="work">การงาน</div>
+            <div class="chip-btn" data-cat="money">การเงิน</div>
+            <div class="chip-btn" data-cat="health">สุขภาพ</div>
+            <div class="chip-btn" data-cat="love">ความรัก</div>
+            <div class="chip-btn" data-cat="interest">เรื่องที่สนใจ</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <span class="card-title">รายละเอียดเรื่อง</span>
+          <div class="chip-group" id="subTopicGroup"></div>
+        </div>
+      </section>
+
+
+
+      <button type="button" class="btn-submit" id="btnCalc">🐇 คำนวณดวง</button>
+    </div>
+
+    <!-- Engine 2: ค้นหาองค์เทพประจำตัวจากเลขศาสตร์ชื่อและข้อมูลเกิด -->
+    <div id="engineGod" style="display:none;">
+      <section class="card">
+        <span class="card-title">⛩️ ค้นหาองค์เทพประจำตัว</span>
+        <p style="font-size:13px; color:var(--text-muted); margin:0; line-height:1.65;">
+          ระบบจะใช้เลขศาสตร์ชื่อ-สกุลร่วมกับวัน เดือน ปี และเวลาเกิด เพื่อหาเลขประจำตัว แล้วจับคู่กับองค์เทพตามตารางเลข 1–9
+        </p>
+        <div class="hint-box" style="margin-top:12px;">✨ กรุณากรอกข้อมูลส่วนตัวในแบบฟอร์มหลักด้านบนให้ครบ หากไม่ทราบเวลาเกิด สามารถเลือก “ไม่ทราบเวลาเกิด” ได้</div>
+      </section>
+      <button class="btn-submit" id="btnCalcGod" style="background: linear-gradient(135deg, #b45309 0%, #78350f 100%);">
+        ⛩️ คำนวณองค์เทพประจำตัว
+      </button>
+    </div>
+
+    <!-- Engine ตำราโอเรกุรัม 60 คำถาม -->
+    <div id="engineTarotRune" style="display:none;">
+  <section class="card">
+    <span class="card-title">🃏 ไพ่ทาโรต์ + ᚠ อักษรรูน</span>
+    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">วิเคราะห์ตัวตน สถานการณ์ปัจจุบัน แนวโน้มและทิศทางของสถานการณ์ โดยผสานไพ่ทาโรต์ อักษรรูน และโหรกระต่ายเข้าด้วยกัน</p>
+    <div class="hint-box">✨ เมื่อกดคำนวณ ระบบจะแสดงคำทำนายแบบละเอียด พร้อมไพ่ประจำตัว ไพ่ประจำวัน รูนประจำตัว รูนประจำวัน และคำทำนายร่วมกับโหรกระต่าย</div>
+  </section>
+  <button class="btn-submit" id="btnCalcTarotRune" style="background:linear-gradient(135deg,#7c3aed 0%,#312e81 100%);">🃏 คำนวณไพ่ทาโรต์ + อักษรรูน</button>
+</div>
+
+<div id="engineOreguram" style="display:none;">
+      <section class="card">
+        <span class="card-title">🔮 ตำราทำนายโอเรกุรัม · 60 คำถาม</span>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
+          คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
+        </p>
+        <div class="field">
+          <label for="oreguramQuestion">เลือกคำถามที่ต้องการคำทำนาย:</label>
+          <select id="oreguramQuestion" style="padding:10px; font-weight:600;"></select>
+        </div>
+        <div class="hint-box">
+          📖 แบ่งคำถามออกเป็น 3 หมวดหลัก หมวดละ 20 คำถาม เพื่อให้เลือกเรื่องที่ต้องการอ่านได้ง่ายขึ้น
+          <b style="color:#22543d;">การงาน</b> ·
+          <b style="color:#744210;">การเงิน</b> ·
+          <b style="color:#742a2a;">ความรักและชีวิต</b>
+        </div>
+      </section>
+
+      <button class="btn-submit" id="btnCalcOreguram" style="background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);">
+        🔮 ถอดรหัสคำทำนายโอเรกุรัม
+      </button>
+    </div>
+
+    
+              <section id="results" class="card" style="display:none; margin-top:16px;"></section>
             </div>
           </div>
+        </section>
+
+        <section id="calculatorPanel" hidden>
+          <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · DEEP ANALYSIS</p><h2>Deep Self Calculator</h2><p class="muted">วิเคราะห์ตัวตนและจิตใต้สำนึกในทุกชั้นของความคิด</p></div></div>
           <div class="panel calculator-panel">
             <h3>ข้อมูลสำหรับคำนวณ</h3>
             <p class="muted">กรอกข้อมูลเกิดเพื่ออ่านแผนที่ตัวตนและจิตใต้สำนึก</p>
@@ -93,14 +263,20 @@
               <button class="primary" type="submit">คำนวณตัวตนและจิตใต้สำนึก</button>
             </form>
           </div>
+          
           <section id="deepCalcResult" class="insight-results" hidden aria-live="polite"></section>
         </section>
       </div>
     </section>
-
     <footer>Rabbitastro · Admin</footer>
   </main>
+
+  <script src="/assets/js/01-daily-r9.js"></script>
   <script src="/assets/js/02-horakratai-engine.js"></script>
+  <script src="/assets/js/03-daily-element.js"></script>
+  <script src="/assets/js/04-ui-renderers.js"></script>
+  <script src="/assets/js/05-form-storage.js"></script>
+  <script src="/assets/js/06-subconscious-presentation.js"></script>
   <script src="/admin/assets/admin.js"></script>
   <script src="/admin/assets/calculator.js"></script>
 </body>
