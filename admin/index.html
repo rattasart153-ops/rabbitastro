@@ -14,7 +14,7 @@
 <form id="deepCalcForm" class="calculator-form">
 <div class="form-grid"><div><label for="deepFirstName">ชื่อ</label><input id="deepFirstName" required maxlength="100" autocomplete="off"></div><div><label for="deepLastName">นามสกุล</label><input id="deepLastName" required maxlength="100" autocomplete="off"></div>
 <div><label for="deepBirthDay">วันเกิด</label><input id="deepBirthDay" type="number" min="1" max="31" required placeholder="วัน"></div><div><label for="deepBirthMonth">เดือนเกิด</label><input id="deepBirthMonth" type="number" min="1" max="12" required placeholder="เดือน"></div><div><label for="deepBirthYear">ปีเกิด ค.ศ.</label><input id="deepBirthYear" type="number" min="1" max="9999" required placeholder="เช่น 1990"></div>
-<div><label for="deepBirthHour">ชั่วโมงเกิด (0–23)</label><input id="deepBirthHour" type="number" min="0" max="23" placeholder="ชั่วโมง"></div><div><label for="deepBirthMinute">นาทีเกิด (0–59)</label><input id="deepBirthMinute" type="number" min="0" max="59" placeholder="นาที"></div></div>
+<div><label for="deepBirthHour">ชั่วโมงเกิด (0–23)</label><input id="deepBirthHour" type="number" min="0" max="23" required placeholder="ชั่วโมง"></div><div><label for="deepBirthMinute">นาทีเกิด (0–59)</label><input id="deepBirthMinute" type="number" min="0" max="59" required placeholder="นาที"></div></div>
 <label class="check-line"><input type="checkbox" id="deepNoBirthTime"> ไม่ทราบเวลาเกิด</label>
 <button class="primary" type="submit">คำนวณตัวตนและจิตใต้สำนึก</button></form></div>
 <section id="deepCalcResult" class="insight-results" hidden aria-live="polite"></section></section>
