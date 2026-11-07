@@ -4,22 +4,31 @@ const $=id=>document.getElementById(id), loginPanel=$("loginPanel"), dashboard=$
 let token=sessionStorage.getItem("rabbitastro_admin_token")||"", bookings=[];
 async function api(payload){
  const response=await fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.assign({},payload,{token:payload.action==="adminLogin"?undefined:token}))});
- const data=await response.json(); if(response.status===401){logout(false);throw new Error(data.message||"กรุณาเข้าสู่ระบบใหม่");}
- if(!response.ok||!data.ok)throw new Error(data.message||"เกิดข้อผิดพลาด"); return data;
+ const data=await response.json();if(response.status===401){logout(false);throw new Error(data.message||"กรุณาเข้าสู่ระบบใหม่");}
+ if(!response.ok||!data.ok)throw new Error(data.message||"เกิดข้อผิดพลาด");return data;
 }
 function showDashboard(){loginPanel.hidden=true;dashboard.hidden=false;loadBookings();}
+function showPanel(which){
+ const bookingsPanel=$("bookingsPanel"),calculatorPanel=$("calculatorPanel");
+ bookingsPanel.hidden=which!=="bookings";calculatorPanel.hidden=which!=="calculator";
+ $("showBookings").classList.toggle("active",which==="bookings");$("showCalculator").classList.toggle("active",which==="calculator");
+}
 function logout(show=true){
- const oldToken=token;
- if(oldToken)fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"adminLogout",token:oldToken})}).catch(()=>{});
+ const oldToken=token;if(oldToken)fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"adminLogout",token:oldToken})}).catch(()=>{});
  token="";sessionStorage.removeItem("rabbitastro_admin_token");dashboard.hidden=true;loginPanel.hidden=false;
  if(show)$("loginMessage").textContent="ออกจากระบบแล้ว";
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMessage").textContent="กำลังตรวจสอบ…";try{const r=await api({action:"adminLogin",username:$("username").value,password:$("password").value});token=r.token;sessionStorage.setItem("rabbitastro_admin_token",token);$("password").value="";$("loginMessage").textContent="";showDashboard();}catch(err){$("loginMessage").textContent=err.message;}});
 $("logoutButton").addEventListener("click",()=>logout());
+$("showBookings").addEventListener("click",()=>showPanel("bookings"));
+$("showCalculator").addEventListener("click",()=>showPanel("calculator"));
 $("refreshButton").addEventListener("click",loadBookings);
-$("searchInput").addEventListener("input",render);
-$("statusFilter").addEventListener("change",render);
-async function loadBookings(){ $("bookingList").textContent="กำลังโหลดข้อมูล…";try{const r=await api({action:"adminListBookings"});bookings=r.bookings||[];render();}catch(err){if(!token){dashboard.hidden=true;loginPanel.hidden=false;$("loginMessage").textContent=err.message||"ไม่สามารถยืนยันเซสชันได้ กรุณาเข้าสู่ระบบใหม่";}else{$("bookingList").textContent=err.message;}} }
+$("searchInput").addEventListener("input",render);$("statusFilter").addEventListener("change",render);
+async function loadBookings(){
+ $("bookingList").textContent="กำลังโหลดข้อมูล…";
+ try{const r=await api({action:"adminListBookings"});bookings=r.bookings||[];render();}
+ catch(err){if(!token){dashboard.hidden=true;loginPanel.hidden=false;$("loginMessage").textContent=err.message||"ไม่สามารถยืนยันเซสชันได้ กรุณาเข้าสู่ระบบใหม่";}else{$("bookingList").textContent=err.message;}}
+}
 function render(){
  const q=$("searchInput").value.trim().toLowerCase(),status=$("statusFilter").value;
  $("totalCount").textContent=bookings.length;$("pendingCount").textContent=bookings.filter(x=>x.status==="รอตรวจสอบ").length;$("confirmedCount").textContent=bookings.filter(x=>x.status==="ยืนยันแล้ว").length;
@@ -27,8 +36,7 @@ function render(){
  const root=$("bookingList");root.replaceChildren();
  if(!list.length){const p=document.createElement("p");p.className="muted";p.textContent="ยังไม่มีรายการจองที่ตรงกับเงื่อนไข";root.append(p);return;}
  list.forEach(b=>{
-  const card=document.createElement("article");card.className="booking-card";
-  const head=document.createElement("div");head.className="booking-head";
+  const card=document.createElement("article");card.className="booking-card";const head=document.createElement("div");head.className="booking-head";
   const title=document.createElement("div"),h=document.createElement("h3");h.textContent=b.name+" · "+b.bookingId;title.append(h);
   const badge=document.createElement("span");badge.className="status "+(b.status==="ยืนยันแล้ว"?"confirm":b.status==="เสร็จสิ้น"?"done":b.status==="ยกเลิก"?"cancel":"");badge.textContent=b.status;head.append(title,badge);card.append(head);
   const meta=document.createElement("div");meta.className="booking-meta";
