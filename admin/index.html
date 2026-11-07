@@ -29,29 +29,11 @@
     <section id="dashboard" class="dashboard-layout" hidden>
       <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
         <div class="nav-heading">เมนูจัดการ</div>
-        <button type="button" id="showBookings" class="nav-button active">📅 รายการจองคิว</button>
-        <button type="button" id="showEngines" class="nav-button">🔮 ระบบทำนาย · Engines</button>
+        <button type="button" id="showEngines" class="nav-button active">🔮 ระบบทำนาย · Engines</button>
         <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
       </nav>
 
       <div class="admin-content">
-        <section id="bookingsPanel">
-          <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ADMIN</p><h2>รายการจองคิว</h2><p class="muted">ข้อมูลจาก Google Sheets</p></div></div>
-          <div class="stats">
-            <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
-            <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
-            <article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article>
-          </div>
-          <div class="toolbar panel">
-            <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
-            <select id="statusFilter" aria-label="กรองตามสถานะ">
-              <option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option>
-            </select>
-            <button id="refreshButton" class="secondary" type="button">รีเฟรช</button>
-          </div>
-          <div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div>
-        </section>
-
         <section id="enginesPanel" hidden>
           <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · DIVINATION SYSTEM</p><h2>ระบบทำนาย</h2><p class="muted">รูปแบบและชุดคำทำนายเดียวกับหน้า Main</p></div></div>
           <div class="engine-admin-shell">
@@ -241,7 +223,24 @@
     
               <section id="results" class="card" style="display:none; margin-top:16px;"></section>
             </div>
-            <div id="engineBooking" style="display:none;"></div>
+            <div id="engineBooking" style="display:none;">
+  <section class="card">
+    <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ENGINE 5</p><h2>รายการจองคิวจากลูกค้า</h2><p class="muted">ตรวจสอบข้อมูลการจองและอัปเดตสถานะได้จากส่วนนี้</p></div></div>
+    <div class="stats">
+      <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
+      <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
+      <article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article>
+    </div>
+    <div class="toolbar panel">
+      <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
+      <select id="statusFilter" aria-label="กรองตามสถานะ">
+        <option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option>
+      </select>
+      <button id="refreshButton" class="secondary" type="button">รีเฟรช</button>
+    </div>
+    <div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div>
+  </section>
+</div>
           </div>
         </section>
 
@@ -257,7 +256,6 @@
   <script src="/assets/js/04-ui-renderers.js"></script>
   <script src="/assets/js/05-form-storage.js"></script>
   <script src="/assets/js/06-subconscious-presentation.js"></script>
-  <script src="/assets/js/07-booking.js"></script>
   <script src="/admin/assets/admin.js"></script>
 </body>
 </html>
