@@ -7,11 +7,11 @@ async function api(payload){
  const data=await response.json();if(response.status===401){logout(false);throw new Error(data.message||"กรุณาเข้าสู่ระบบใหม่");}
  if(!response.ok||!data.ok)throw new Error(data.message||"เกิดข้อผิดพลาด");return data;
 }
-function showDashboard(){loginPanel.hidden=true;dashboard.hidden=false;loadBookings();}
+function showDashboard(){loginPanel.hidden=true;dashboard.hidden=false;showPanel("engines");loadBookings();}
 function showPanel(which){
- const bookingsPanel=$("bookingsPanel"),enginesPanel=$("enginesPanel");
- bookingsPanel.hidden=which!=="bookings";enginesPanel.hidden=which!=="engines";
- $("showBookings").classList.toggle("active",which==="bookings");$("showEngines").classList.toggle("active",which==="engines");
+ const enginesPanel=$("enginesPanel");
+ enginesPanel.hidden=which!=="engines";
+ $("showEngines").classList.toggle("active",which==="engines");
 }
 function logout(show=true){
  const oldToken=token;if(oldToken)fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"adminLogout",token:oldToken})}).catch(()=>{});
@@ -20,9 +20,9 @@ function logout(show=true){
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMessage").textContent="กำลังตรวจสอบ…";try{const r=await api({action:"adminLogin",username:$("username").value,password:$("password").value});token=r.token;sessionStorage.setItem("rabbitastro_admin_token",token);$("password").value="";$("loginMessage").textContent="";showDashboard();}catch(err){$("loginMessage").textContent=err.message;}});
 $("logoutButton").addEventListener("click",()=>logout());
-$("showBookings").addEventListener("click",()=>showPanel("bookings"));
 $("showEngines").addEventListener("click",()=>showPanel("engines"));
 $("refreshButton").addEventListener("click",loadBookings);
+$("tabBooking").addEventListener("click",loadBookings);
 $("searchInput").addEventListener("input",render);$("statusFilter").addEventListener("change",render);
 async function loadBookings(){
  $("bookingList").textContent="กำลังโหลดข้อมูล…";
