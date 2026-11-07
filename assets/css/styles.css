@@ -453,3 +453,41 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
   
+
+/* ---------- Rabbitastro Booking ---------- */
+.booking-section { border:1px solid #f3d5b8; background:linear-gradient(180deg,#fff 0%,#fffaf5 100%); }
+.booking-heading { display:flex; gap:12px; align-items:flex-start; margin-bottom:16px; }
+.booking-mark { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; border-radius:13px; background:#fff1e4; font-size:21px; }
+.booking-heading .card-title { margin:0 0 3px; color:#a94705; }
+.booking-heading h2 { font-size:19px; line-height:1.4; margin:0 0 4px; color:#2d3748; }
+.booking-heading p { margin:0; font-size:13px; color:#718096; }
+.booking-form { display:grid; gap:12px; }
+.booking-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.booking-form input,.booking-form select,.booking-form textarea { width:100%; min-height:46px; border:1px solid #d7dde7; border-radius:11px; padding:11px 12px; background:#fff; font:inherit; color:#2d3748; }
+.booking-form textarea { resize:vertical; min-height:88px; }
+.booking-form input:focus,.booking-form select:focus,.booking-form textarea:focus { outline:3px solid rgba(217,119,6,.13); border-color:#d97706; }
+.booking-consent { display:flex; align-items:flex-start; gap:9px; font-size:12px; line-height:1.55; color:#4a5568; }
+.booking-consent input { width:18px; min-height:18px; height:18px; flex:0 0 18px; margin:2px 0 0; }
+.booking-privacy { margin:0; color:#718096; font-size:11px; line-height:1.6; }
+.booking-message { min-height:0; font-size:13px; font-weight:700; overflow-wrap:anywhere; }
+.booking-message.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; border-radius:10px; padding:11px; }
+.booking-message.error { background:#fff5f5; color:#b42318; border:1px solid #fecaca; border-radius:10px; padding:11px; }
+.booking-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.engine-tabs #tabBooking { flex-basis:100%; }
+.engine-tabs #tabBooking.active { color:#7c3aed; }
+#engineBooking .booking-section { margin-top:0; }
+@media(max-width:520px) { .booking-grid { grid-template-columns:1fr; gap:10px; } .booking-heading h2 { font-size:17px; } }
+
+
+/* Engine 5 booking form — aligned with the main astrology UI */
+.booking-subcard { margin: 12px 0; padding: 13px; border: 1px solid #edf2f7; border-radius: 12px; background: #fff; }
+.booking-subcard h3 { margin: 0 0 10px; font-size: 14px; color: #374151; }
+.booking-birth-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.booking-full { grid-column: 1 / -1; }
+.booking-form input:disabled { opacity: .55; background: #f3f4f6; }
+.booking-line-cta { display:flex; gap:12px; align-items:flex-start; margin-top:16px; padding:15px; border:1px solid #bbf7d0; border-radius:14px; background:#f0fdf4; }
+.booking-line-icon { flex:0 0 38px; width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#dcfce7; font-size:20px; }
+.booking-line-cta h3 { margin:0 0 5px; color:#166534; font-size:15px; }
+.booking-line-cta p { margin:0 0 11px; color:#365b45; font-size:12.5px; line-height:1.6; }
+.booking-line-cta .line-cta-btn { display:inline-flex; text-decoration:none; }
+@media(max-width:520px){.booking-birth-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.booking-line-cta{padding:12px;}}

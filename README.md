@@ -11,7 +11,7 @@
 - `assets/js/03-daily-element.js` — การแสดงผลธาตุประจำวัน
 - `assets/js/04-ui-renderers.js` — UI, การจัดการฟอร์ม และ renderer
 - `assets/js/05-form-storage.js` — การจัดเก็บข้อมูลฟอร์มใน Local Storage
-- `assets/js/06-subconscious-presentation.js` — ส่วนแสดงผล subconscious
+- `assets/js/06-subconscious-presentation.js` — ส่วนแสดงผล subconscious\n- `assets/js/07-booking.js` — ฟอร์มจองคิวดูดวงและส่งคำขอไปยัง API\n- `admin/` — หน้าระบบหลังบ้านจัดการรายการจอง\n- `api/` — Vercel serverless endpoints สำหรับจองคิวและ Admin\n- `google-apps-script/Code.gs` — API และการจัดเก็บข้อมูลใน Google Sheets
 
 JavaScript ใช้ classic script tags และต้องรักษาลำดับการโหลดตามหมายเลขไฟล์ เนื่องจากบางไฟล์ใช้ global ที่ประกาศโดยไฟล์ก่อนหน้า
 
@@ -25,7 +25,7 @@ JavaScript ใช้ classic script tags และต้องรักษาล
 - โครงสร้างแยกไฟล์และเอกสาร Audit จากงานใน `index` และ `rabbitastro-sandbox` ถูกรวมเข้าประวัติของ `main`
 - เอกสาร Audit เดิมเป็นบันทึกตามวันที่และ Source baseline ในขณะนั้น ไม่ใช่ผลยืนยัน Runtime ปัจจุบัน
 
-## Verification status
+## Booking system\n\nคู่มือเชื่อมต่อ Google Sheets, Apps Script และ Vercel อยู่ที่ [Booking System Setup](docs/BOOKING_SYSTEM_SETUP.md) ต้องตั้งค่า Apps Script และ Vercel environment variable ก่อนเปิดรับจองจริง\n\n## Verification status
 
 - ตรวจว่า HTML shell หลังแยกไฟล์ตรงกับ markup ของ Source ต้นฉบับ โดยไม่นับช่องว่างและการเยื้อง: ผ่าน
 - ตรวจว่า CSS และ JavaScript ถูกแยกจาก Source เดิมโดยไม่แก้เนื้อหา: ผ่าน

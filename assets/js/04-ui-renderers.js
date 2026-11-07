@@ -232,13 +232,15 @@ document.addEventListener("DOMContentLoaded", function () {
     tabPerson: document.getElementById("enginePerson"),
     tabGod: document.getElementById("engineGod"),
     tabOreguram: document.getElementById("engineOreguram"),
-    tabTarotRune: document.getElementById("engineTarotRune")
+    tabTarotRune: document.getElementById("engineTarotRune"),
+    tabBooking: document.getElementById("engineBooking")
   };
   var tabBtns = {
     tabPerson: document.getElementById("tabPerson"),
     tabGod: document.getElementById("tabGod"),
     tabOreguram: document.getElementById("tabOreguram"),
-    tabTarotRune: document.getElementById("tabTarotRune")
+    tabTarotRune: document.getElementById("tabTarotRune"),
+    tabBooking: document.getElementById("tabBooking")
   };
 
   // ---------- ฟอร์มข้อมูลร่วม: กรอกครั้งเดียว ใช้ได้ทุกแท็บ ----------
@@ -262,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tabs.tabGod && tabs.tabGod.style.display === "block") return "tabGod";
     if (tabs.tabOreguram && tabs.tabOreguram.style.display === "block") return "tabOreguram";
     if (tabs.tabTarotRune && tabs.tabTarotRune.style.display === "block") return "tabTarotRune";
+    if (tabs.tabBooking && tabs.tabBooking.style.display === "block") return "tabBooking";
     return "tabPerson";
   }
 
@@ -278,6 +281,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function switchTab(activeId) {
+    var sharedForm = document.getElementById("sharedForm");
+    var dailyElement = document.getElementById("dailyElementBox");
+    var references = document.querySelector(".refs");
+    if (sharedForm) sharedForm.style.display = activeId === "tabBooking" ? "none" : "";
+    if (dailyElement) dailyElement.style.display = activeId === "tabBooking" ? "none" : "";
+    if (references) references.style.display = activeId === "tabBooking" ? "none" : "";
     Object.keys(tabs).forEach(function (key) {
       if (key === activeId) {
         tabs[key].style.display = "block";
@@ -299,6 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (tabBtns.tabGod) tabBtns.tabGod.addEventListener("click", function () { switchTab("tabGod"); });
   if (tabBtns.tabOreguram) tabBtns.tabOreguram.addEventListener("click", function () { switchTab("tabOreguram"); });
   if (tabBtns.tabTarotRune) tabBtns.tabTarotRune.addEventListener("click", function () { switchTab("tabTarotRune"); });
+  if (tabBtns.tabBooking) tabBtns.tabBooking.addEventListener("click", function () { switchTab("tabBooking"); });
 
   // แต่ละแถบเลือกได้ทีละส่วน และแสดงผลเฉพาะส่วนนั้นเพียงอย่างเดียว
   var currentBaseView = "natal";
@@ -1675,7 +1685,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = renderBaseSection(res);
+      body = renderBaseSection(res) + renderRHDSection(res, 'base', data);
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
@@ -1743,6 +1753,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
+    body += renderRHDSection(res, 'base', data);
     setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -1948,6 +1959,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
+    h += renderRHDSection(rabbitRes, 'base', data);
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
@@ -2032,6 +2044,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
+    h += renderRHDSection(res, 'base', data);
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, res.R4, 'oreguram');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
