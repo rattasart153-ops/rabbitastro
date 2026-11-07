@@ -192,13 +192,13 @@
       field(rhdCard, "รูปแบบที่มักใช้รับมือ", habitInfo.description);
       field(rhdCard, "พฤติกรรมที่มักแสดงออก", habitInfo.response);
       field(rhdCard, "วิธีตัดสินใจเมื่อเจอสถานการณ์", habitInfo.decision || rhd.decision);
-      field(rhdCard, "จุดแข็งของวิธีรับมือ", habitInfo.strength || habitInfo.gift || "จุดแข็งจะเห็นชัดเมื่อคุณใช้รูปแบบนี้อย่างยืดหยุ่นและเหมาะกับสถานการณ์");
+      field(rhdCard, "จุดแข็งของวิธีรับมือ", habitInfo.response || "ใช้วิธีรับมือของตัวเองอย่างยืดหยุ่นและเหมาะกับสถานการณ์");
       field(rhdCard, "เงาหรือข้อจำกัดที่ควรระวัง", habitInfo.caution || rhd.caution);
       field(rhdCard, "สิ่งที่จิตใต้สำนึกกำลังสะท้อน", rhd.description);
       field(rhdCard, "สิ่งที่ใจอยากให้เข้าใจ", rhd.mind);
       field(rhdCard, "จังหวะที่เหมาะกับการลงมือ", rhd.timing);
       field(rhdCard, "ภาพรวมของการรับมือในช่วงนี้", rhd.overall);
-      field(rhdCard, "คำถามเพื่อสำรวจตัวเอง", (Engine.RHD_SELF_QUESTIONS && Engine.RHD_SELF_QUESTIONS[habitInfo.number] || [])[0] || "ตอนนี้ฉันกำลังตอบสนองต่อสิ่งที่เกิดขึ้น หรือกำลังตอบสนองต่อประสบการณ์เก่าของตัวเอง?");
+      field(rhdCard, "คำถามเพื่อสำรวจตัวเอง", (window.RHD_SELF_QUESTIONS && window.RHD_SELF_QUESTIONS[rhd.habitNumber] || [])[0] || "ตอนนี้ฉันกำลังตอบสนองต่อสิ่งที่เกิดขึ้น หรือกำลังตอบสนองต่อประสบการณ์เก่าของตัวเอง?");
       result.append(rhdCard);
 
       const note = document.createElement("p");
