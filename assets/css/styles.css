@@ -491,3 +491,26 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
 .booking-line-cta p { margin:0 0 11px; color:#365b45; font-size:12.5px; line-height:1.6; }
 .booking-line-cta .line-cta-btn { display:inline-flex; text-decoration:none; }
 @media(max-width:520px){.booking-birth-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.booking-line-cta{padding:12px;}}
+
+/* ---------- ปรับขนาดตัวอักษรในช่องกรอกข้อมูลให้พอดีกับ Text Box ---------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select,
+textarea,
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px !important;
+  line-height: 1.45;
+}
+textarea,
+.booking-form textarea {
+  overflow-wrap: anywhere;
+}
+input::placeholder,
+textarea::placeholder,
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+  font-size: 12.5px;
+}
