@@ -1344,6 +1344,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---------- Rabbit’s Habit Design renderer ----------
   // Renderer แยกผลคำนวณ RHD ออกจาก Rabbit Astrology และสลับบทบาทเลขสถานการณ์/วิธีรับมือตามที่กำหนด
+
+  function renderAdminDeepSelfSection(inputData, engineKey) {
+    if (!window.RABBITASTRO_ADMIN_MODE || !Engine || !inputData) return '';
+    var base=Engine.calcPerson(Object.assign({},inputData,{feature:'base'}))||{}, asc=inputData.noBirthTime?null:(Engine.calcPerson(Object.assign({},inputData,{feature:'asc'}))||{});
+    var d=base.baseDeep||{}, inner=asc&&Engine.ASC_INNER?Engine.ASC_INNER[asc.ascInner]||{}:{}, face=asc&&Engine.ASC_FACE?Engine.ASC_FACE[asc.ascFace]||{}:{}, shadow=asc&&Engine.ASC_DEEP?Engine.ASC_DEEP[asc.ascNum]||{}:{};
+    var map={
+      person:[['ตัวตนที่คนอื่นมองเห็น',[['ภาพแรกที่คนอื่นรับรู้',face.impression],['บทบาทในกลุ่ม',face.role],['สิ่งที่คนอื่นอาจเข้าใจผิด',face.misread]]],['ตัวตนที่อยู่ข้างใน',[['แก่นพื้นดวง',d.core],['ตัวตนที่แท้จริง',d.self]]],['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการเพื่อรู้สึกปลอดภัย',inner.need]]],['เงาที่อาจไม่อยากยอมรับ',[['เงาของจิตสำนึก',shadow.shadow],['จุดบอดจากพื้นดวง',d.blind]]],['ความขัดแย้งภายใน',[['สิ่งที่คุณอาจต้องการ',inner.need],['สิ่งที่พื้นดวงผลักดัน',d.self]]],['รูปแบบความรักและความผูกพัน',[['รูปแบบความผูกพัน',d.love],['สิ่งที่คนอื่นอาจรับรู้',face.impression]]],['ศักยภาพที่ยังใช้ไม่เต็มที่',[['พรสวรรค์พื้นฐาน',d.gift],['จุดแข็งของจิตสำนึก',shadow.strength]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['แรงปรารถนาที่อยู่ลึกที่สุด',inner.drive||d.core],['เสียงกระซิบในใจ',inner.whisper],['ความต้องการที่อาจไม่ค่อยกล้าขอ',inner.need]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนหลัก',d.lesson],['จุดเปลี่ยน',d.turn]]]],
+      god:[['แรงขับเคลื่อนที่ซ่อนอยู่',[['แรงขับภายใน',inner.drive||d.gift],['เสียงกระซิบในใจ',inner.whisper]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['ความต้องการที่อยู่ลึก',inner.need||d.core],['สิ่งที่ทำให้รู้สึกมีความหมาย',d.lesson]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนจากพื้นดวง',d.lesson],['จุดเปลี่ยน',d.turn]]]],
+      oreguram:[['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการเพื่อรู้สึกปลอดภัย',inner.need]]],['เงาที่อาจไม่อยากยอมรับ',[['จุดบอดจากพื้นดวง',d.blind],['ด้านที่ควรระวัง',base.baseElement&&base.baseElement.bad]]],['ความขัดแย้งภายใน',[['ความต้องการภายใน',inner.need],['แรงผลักดันจากพื้นดวง',d.self]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนหลัก',d.lesson],['แนวทางฝึกฝน',(d.questions||[]).slice(0,2).join(' · ')]]]],
+      tarotRune:[['ตัวตนที่อยู่ข้างใน',[['แก่นพื้นดวง',d.core],['ตัวตนที่แท้จริง',d.self]]],['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการ',inner.need]]],['รูปแบบความรักและความผูกพัน',[['รูปแบบความผูกพัน',d.love],['สิ่งที่คนอื่นอาจรับรู้',face.impression]]],['ศักยภาพที่ยังใช้ไม่เต็มที่',[['พรสวรรค์พื้นฐาน',d.gift],['จุดแข็งของจิตสำนึก',shadow.strength]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['แรงปรารถนาที่อยู่ลึกที่สุด',inner.drive||d.core],['เสียงกระซิบในใจ',inner.whisper],['จุดบอดที่อาจขวางตัวเอง',d.blind]]]]
+    };
+    var chosen=map[engineKey]||[], esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+    if(!chosen.length)return '';
+    var out='<div class="pred-block admin-deep-self"><h4>🧠 Deep Self · สำรวจตัวตนและจิตใต้สำนึก</h4><p>ใช้ผลจากสูตรเดิมของระบบ ไม่ใช่ข้อสรุปตายตัว</p>';
+    chosen.forEach(function(sec){var fields=sec[1].filter(function(pair){return pair[1]!=null&&String(pair[1]).trim()!=='';});if(!fields.length)return;out+='<div class="pred-section-item"><b>'+esc(sec[0])+'</b>';fields.forEach(function(pair){out+='<p><b>'+esc(pair[0])+':</b> '+esc(pair[1])+'</p>';});out+='</div>';});
+    if(inputData.noBirthTime)out+='<p>ไม่ทราบเวลาเกิด จึงไม่สร้างข้อมูลลัคนา/จิตสำนึกทดแทน</p>';
+    return out+'</div>';
+  }
+
   function renderRHDSection(res, featureKey, inputData) {
     if (!Engine || !Engine.RHD || !res || featureKey !== 'rhd') return '';
     // บันทึกวันและเวลาจริง ณ จังหวะที่ผู้ใช้กดปุ่มคำนวณ
@@ -1533,6 +1552,12 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="rhd-section rhd-self-questions"><b>❓ คำถามสำรวจแนวทางของตัวเอง</b><ol style="margin:6px 0 0;padding-left:22px;">';
     for (var qi = 0; qi < selfQuestions.length; qi++) { h += '<li style="margin:4px 0;">' + escapeHTML(selfQuestions[qi]) + '</li>'; }
     h += '</ol></div>';
+    if (window.RABBITASTRO_ADMIN_MODE) {
+      var adminRhdPrompts=['ฉันกำลังหลีกเลี่ยงอะไรบางอย่างอยู่หรือเปล่า','ความกลัวหรือความกังวลที่ใหญ่ที่สุดที่เรากำลังแบกไว้อยู่ตอนนี้ คือเรื่องอะไรกันแน่','สิ่งใดที่ฉันกำลังทำอยู่ในชีวิตประจำวัน ที่ขัดแย้งกับความต้องการที่แท้จริงของเธอ','ฉันต้องปล่อยวางเรื่องอะไร เพื่อให้เราสองคนเป็นหนึ่งเดียวกันและเดินหน้าต่อได้','ตัวฉันในวัยเด็กกำลังรู้สึกอย่างไรกับชีวิตของฉันในตอนนี้ และเขาอยากบอกอะไรฉันมากที่สุด','ถ้าฉันไม่ต้องพยายามทำให้ใครยอมรับหรือประทับใจเลย ชีวิตที่ฉันต้องการจริงๆ จะมีหน้าตาอย่างไร','เรื่องอะไรในตอนนี้ที่สูบพลังงานชีวิตของฉันไปมากที่สุด และทำไมฉันถึงยังปล่อยมันไปไม่ได้'];
+      h+='<div class="rhd-section rhd-admin-reflections"><b>🪞 7 คำถามเจาะลึกเพื่อฟังเสียงข้างใน</b><ol>';
+      adminRhdPrompts.forEach(function(q){h+='<li>'+escapeHTML(q)+'</li>';});
+      h+='</ol></div>';
+    }
     h += '<div class="rhd-note">ข้อความเหล่านี้เป็นเพียงกระจกสะท้อนให้คุณสำรวจใจ ไม่ใช่การอ่านใจหรือคำตัดสินตายตัว คุณเป็นคนที่รู้จักตัวเองได้ลึกที่สุด และเลือกตอบกลับเสียงข้างในในแบบของคุณได้เสมอ</div>';
     h += '</div>';
     return h;
@@ -1686,6 +1711,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var body;
     if (featureKey === 'base') {
       body = renderBaseSection(res);
+      body += renderAdminDeepSelfSection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
@@ -1753,6 +1779,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
+    body += renderAdminDeepSelfSection(data, 'tarotRune');
     setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -1875,6 +1902,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
+    h += renderAdminDeepSelfSection(params, 'god');
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
@@ -1956,6 +1984,7 @@ document.addEventListener("DOMContentLoaded", function () {
       h += '<div class="answer-box" style="margin-top:8px;background:#faf5ff;border-color:#d8b4fe;"><b>' + res.pendulumDirection.symbol + ' ทิศที่เพนดูลัมชี้:</b><br/><span style="font-size:18px;color:#5b21b6;">' + res.pendulumDirection.name + '</span><br/><span style="font-size:12.5px;color:#4a5568;">เลขทิศทาง ' + res.pendulumDirectionNo + ' · ' + res.pendulumDirection.meaning + '</span></div>';
       h += '</div>';
     }
+    h += renderAdminDeepSelfSection(data, 'oreguram');
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
