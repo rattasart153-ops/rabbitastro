@@ -1345,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- Rabbit’s Habit Design renderer ----------
   // Renderer แยกผลคำนวณ RHD ออกจาก Rabbit Astrology และสลับบทบาทเลขสถานการณ์/วิธีรับมือตามที่กำหนด
   function renderRHDSection(res, featureKey, inputData) {
-    if (!Engine || !Engine.RHD || !res || (featureKey !== 'base' && featureKey !== 'rhd')) return '';
+    if (!Engine || !Engine.RHD || !res || featureKey !== 'rhd') return '';
     // บันทึกวันและเวลาจริง ณ จังหวะที่ผู้ใช้กดปุ่มคำนวณ
     var rhdQueryTime = new Date();
     var nameResult = (inputData && inputData.fName && inputData.fLast && typeof calcNameNumber === 'function')
@@ -1685,11 +1685,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = renderBaseSection(res) + renderRHDSection(res, 'base', data);
+      body = renderBaseSection(res);
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
-      body = renderAscSection(res) + renderRHDSection(res, 'base', data);
+      body = renderAscSection(res);
     } else if (featureKey === 'loveEntrant') {
       body = renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
@@ -1753,7 +1753,6 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
-    body += renderRHDSection(res, 'base', data);
     setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -1825,45 +1824,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var rabbitNum = parseInt(rabbitRes.baseCode, 10) || 9;
     var rabbitInfo = (Engine.RABBITS && Engine.RABBITS[rabbitNum]) || {name:'พบทางออก',desc:'ค่อย ๆ มองหาทางเลือกที่เหมาะกับตัวเอง'};
 
-    // นำข้อมูล RHD มาใช้เฉพาะ 2 ส่วนในการปรับบทพูดของเทพ: วิธีรับมือ และสถานการณ์
-    // คำนวณด้วยข้อมูลเกิด/ชื่อของเจ้าชะตา และเวลาที่กดคำนวณ เหมือนส่วน RHD โดยไม่ดึงรายละเอียด RHD อื่นมาใช้
-    var godRhdContext = { habitNumber:9, situationNumber:9, habitName:'วิธีรับมือของคุณ', habitResponse:'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง', situationName:'สถานการณ์ปัจจุบัน', situationShort:'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง' };
-    try {
-      if (Engine.RHD && Engine.RHD.CALCULATOR) {
-        var godRhdNow = new Date();
-        var godNameResult = (data && data.fName && data.fLast && typeof calcNameNumber === 'function') ? calcNameNumber(data.fName, data.fLast) : null;
-        var godNameNumber = godNameResult ? parseInt(godNameResult.num, 10) : NaN;
-        if (!isFinite(godNameNumber) || godNameNumber < 1 || godNameNumber > 9) godNameNumber = parseInt(rabbitRes.N, 10);
-        if (!isFinite(godNameNumber) || godNameNumber < 1 || godNameNumber > 9) godNameNumber = 5;
-        var godHabitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
-          nameNumber: godNameNumber, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear,
-          bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime
-        });
-        var godHabitNumber = parseInt(godHabitCalc && godHabitCalc.number, 10);
-        if (!isFinite(godHabitNumber) || godHabitNumber < 1 || godHabitNumber > 9) godHabitNumber = 9;
-        var godSituationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
-          queryDay: godRhdNow.getDate(), queryMonth: godRhdNow.getMonth()+1, queryYear: godRhdNow.getFullYear(),
-          queryHour: godRhdNow.getHours(), queryMinute: godRhdNow.getMinutes()
-        });
-        var godSituationNumber = parseInt(godSituationCalc && godSituationCalc.number, 10);
-        if (!isFinite(godSituationNumber) || godSituationNumber < 1 || godSituationNumber > 9) godSituationNumber = 9;
-        var godRhdData = Engine.RHD.getCombined(godSituationNumber, godHabitNumber) || {};
-        if (!godRhdData.rabbit && typeof Engine.RHD.synthesize === 'function') godRhdData = Engine.RHD.synthesize(godSituationNumber, godHabitNumber) || godRhdData;
-        var godRhdHabit = godRhdData.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[godHabitNumber]) || {};
-        var godRhdRabbit = godRhdData.rabbit || (Engine.RABBITS && Engine.RABBITS[godSituationNumber]) || {};
-        godRhdContext = {
-          habitNumber: godHabitNumber,
-          situationNumber: godSituationNumber,
-          habitName: godRhdHabit.name || 'วิธีรับมือของคุณ',
-          habitResponse: godRhdHabit.response || 'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง',
-          situationName: godRhdRabbit.name || 'สถานการณ์ปัจจุบัน',
-          situationShort: godRhdRabbit.short || 'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง'
-        };
-      }
-    } catch (godRhdError) {
-      console.warn('ไม่สามารถนำบริบท RHD มาปรับบทพูดเทพได้ ใช้ข้อความพื้นฐานแทน', godRhdError);
-    }
-
     var rabbitMessages = {
       1: {message:'ถึงเวลาลองเริ่มสิ่งที่คุณคิดไว้มานานแล้ว ไม่จำเป็นต้องรอให้ทุกอย่างพร้อม 100% เลือกก้าวเล็ก ๆ ที่ทำได้วันนี้ แล้วค่อยปรับระหว่างทาง แต่อย่าลืมบอกคนที่เกี่ยวข้องให้เข้าใจตรงกัน', action:'เลือกเป้าหมายหนึ่งอย่าง แล้วลงมือทำขั้นแรกภายในวันนี้ อย่าแบกทุกอย่างไว้คนเดียว'},
       2: {message:'ตอนนี้คุณไม่จำเป็นต้องรีบตัดสินใจ ฟังข้อมูลให้ครบ สังเกตการกระทำมากกว่าคำพูด แล้วค่อยเลือกทางที่เหมาะกับตัวเอง การรออย่างมีสติไม่ใช่ความล่าช้า แต่ต้องรู้ด้วยว่ากำลังรออะไร', action:'รวบรวมข้อมูลที่ยังขาด ถามในสิ่งที่สงสัย และกำหนดเวลาทบทวนเพื่อตัดสินใจให้ชัด'},
@@ -1888,51 +1848,7 @@ document.addEventListener("DOMContentLoaded", function () {
       8: 'ลูกเอ๋ย… เจ้าไม่จำเป็นต้องพิสูจน์คุณค่าของตัวเองด้วยการทำงานไม่หยุด หรือรับทุกเรื่องไว้บนบ่า คุณมีคุณค่าแม้ในวันที่พัก แม้ในวันที่ยังไม่มีคำตอบ และแม้ในวันที่ทำได้ไม่เท่าที่ตั้งใจ ลองวางสิ่งที่ไม่จำเป็นลงบ้าง แล้วกลับมาดูแลสิ่งพื้นฐานในชีวิตทีละอย่าง การค่อย ๆ ประคองตัวเองให้มั่นคงไม่ใช่การถอยหลัง แต่เป็นการให้ใจมีแรงเดินต่อเมื่อถึงเวลา',
       9: 'ลูกเอ๋ย… หากตอนนี้ทุกอย่างดูพันกันยุ่งไปหมด อย่าเพิ่งตัดสินว่าตัวเองไม่มีทางออกนะ เมื่อใจเหนื่อย ปัญหาทุกเรื่องอาจดูใหญ่กว่าที่เป็นจริง ลองหยุดพัก แล้วแยกสิ่งที่กังวลออกมาทีละข้อ เลือกจัดการเพียงเรื่องเดียวที่พอเริ่มได้ก่อน เจ้าสามารถขอความช่วยเหลือได้ ไม่จำเป็นต้องผ่านทุกอย่างลำพัง แม้วันนี้ยังมองไม่เห็นทางทั้งหมด ก็ไม่เป็นไร ขอเพียงอย่าลืมว่าตัวเองยังมีสิทธิ์เริ่มต้นใหม่ทีละนิด'
     };
-    // สร้างบทพูดใหม่จาก RHD จริงทั้งสองแกน: สถานการณ์ (WHAT/WHERE) + วิธีรับมือ (HOW)
-    // ไม่ใช้เลขพื้นดวง rabbitNum มาแทนสถานการณ์ RHD และไม่ดึงข้อมูล RHD ส่วนอื่นมาใช้
-    var godSituationVoice = {
-      1: 'นี่เป็นจังหวะของการเริ่มต้น ประตูบานใหม่อาจยังไม่ได้เปิดกว้างทั้งหมด แต่เจ้าเริ่มจากก้าวเล็ก ๆ ที่ปลอดภัยได้ ไม่ต้องรอให้มั่นใจทุกอย่างก่อนนะ',
-      2: 'นี่เป็นจังหวะที่ควรฟังและสังเกตให้มากกว่าการรีบตอบ บางข้อมูลยังมาไม่ครบ เจ้าจึงให้เวลาตัวเองดูการกระทำและรายละเอียดได้ โดยไม่ต้องตีความความเงียบว่าเป็นคำตอบสุดท้าย',
-      3: 'นี่เป็นจังหวะที่มีแรงส่งให้ขยับไปข้างหน้า หากมีโอกาสที่สอดคล้องกับสิ่งที่เจ้าต้องการ ก็ลองก้าวเข้าไปอย่างมีสติ ไม่จำเป็นต้องคว้าทุกอย่างพร้อมกัน',
-      4: 'นี่เป็นจังหวะที่ควรชะลอเพื่อตรวจดูรายละเอียด โดยเฉพาะสิ่งที่ย้อนกลับไปแก้ได้ยาก การหยุดเช็กไม่ได้ทำให้เจ้าพลาด แต่ช่วยให้เลือกได้อย่างมั่นใจขึ้น',
-      5: 'นี่เป็นจังหวะของการเก็บแรงและเตรียมตัว เจ้าไม่จำเป็นต้องเปิดเผยทุกแผนหรือเร่งให้ทุกอย่างเกิดขึ้นทันที ใช้เวลานี้ดูแลสิ่งจำเป็นและสะสมกำลังอย่างมีเป้าหมาย',
-      6: 'นี่เป็นจังหวะที่อาจต้องปรับแผนหรือเปลี่ยนวิธี หากทางเดิมไม่พาไปไหน ลองเปิดพื้นที่ให้ทางเลือกใหม่ แต่เปลี่ยนทีละส่วนและดูผลจริงก่อนตัดสินใจครั้งใหญ่',
-      7: 'นี่เป็นจังหวะของการย้อนกลับไปสะสางสิ่งที่ยังค้างอยู่ ไม่ใช่เพื่อโทษตัวเอง แต่เพื่อเข้าใจว่าอะไรเกิดขึ้นและอะไรควรทำต่างไป เมื่อปิดเรื่องสำคัญได้ เจ้าจะมีพื้นที่เดินต่อมากขึ้น',
-      8: 'นี่เป็นจังหวะที่ทุกอย่างอาจยังไม่เคลื่อนไหวชัดเจน การรักษาความมั่นคงและทำสิ่งพื้นฐานให้ดีมีความหมายมากแล้ว ไม่ต้องบังคับให้ทุกเรื่องต้องมีคำตอบในวันนี้',
-      9: 'นี่เป็นจังหวะที่ทางออกเริ่มมองเห็นได้ชัดขึ้น ลองเลือกเรื่องที่คลี่คลายได้ก่อน แล้วค่อยต่อยอดไปเรื่องถัดไป ไม่จำเป็นต้องจัดการทุกอย่างให้จบในคราวเดียว'
-    };
-    var godHabitVoice = {
-      1: 'เจ้าเป็นคนที่มักอยากเริ่มและเปิดทางด้วยตัวเอง จุดแข็งนี้ช่วยให้เกิดความคืบหน้าได้ แต่ขอให้บอกคนที่เกี่ยวข้องให้เข้าใจตรงกัน และไม่รับทุกภาระไว้คนเดียว',
-      2: 'เจ้าอาจต้องเห็นสิ่งที่เกิดขึ้นจริงก่อนจึงจะรู้ว่าควรไปต่อหรือถอย นั่นไม่ใช่ความลังเลเสมอไป ลองกำหนดให้ชัดว่ากำลังรอสัญญาณอะไร และจะกลับมาทบทวนเมื่อไร',
-      3: 'เจ้าเรียนรู้ได้ดีจากการลองทำและปรับระหว่างทาง จึงไม่จำเป็นต้องหาคำตอบที่สมบูรณ์ก่อนเริ่ม แต่ขอให้ทดลองทีละอย่าง เพื่อไม่ให้พลังของเจ้ากระจายไปหลายทางเกินไป',
-      4: 'เจ้ามักมองภาพรวม อ่านคนและระบบก่อนลงมือ นี่เป็นความสามารถที่มีค่า แต่ไม่จำเป็นต้องแก้ทุกอย่างแทนทุกคน ลองแยกให้ชัดว่าส่วนไหนเป็นหน้าที่ของเจ้าและส่วนไหนควรให้คนอื่นรับผิดชอบ',
-      5: 'เจ้าไวต่อบรรยากาศและความรู้สึกของคนรอบตัว ก่อนเลือกทางใด ขอให้ถามตัวเองด้วยว่า “นี่คือสิ่งที่ฉันต้องการจริง ๆ หรือฉันกำลังรับความคาดหวังของคนอื่นมาแบก”',
-      6: 'เจ้ามักจับสัญญาณเล็ก ๆ ได้เร็ว จงรับฟังความรู้สึกนั้นอย่างอ่อนโยน แล้วตรวจสอบกับข้อเท็จจริงอีกชั้น ไม่ต้องปฏิเสธสัญชาตญาณของตัวเอง และไม่ต้องให้ความกลัวเป็นคนตัดสินแทน',
-      7: 'เมื่อความรู้สึกกำลังขึ้นลง เจ้าอาจต้องมีระยะห่างก่อนจะเห็นคำตอบชัดขึ้น หากเรื่องนี้สำคัญ ขอให้พักแล้วกลับมาคิดอีกครั้งเมื่อใจสงบ แทนการบังคับตัวเองให้ตอบทันที',
-      8: 'เจ้ามักอยากเข้าใจให้มากพอก่อนจึงค่อยเชื่อหรือเลือกทาง นั่นช่วยให้รอบคอบได้ดี ลองกำหนดข้อมูลที่จำเป็นจริง ๆ และจุดที่พอแล้วจะตัดสินใจ เพื่อไม่ให้การค้นหากลายเป็นความเหนื่อยล้า',
-      9: 'เจ้ามักเชื่อมโยงข้อมูลและความรู้สึกหลายด้านเข้าด้วยกันก่อนสรุป นี่ช่วยให้เห็นภาพกว้าง แต่ไม่จำเป็นต้องรอให้ทุกอย่างสมบูรณ์ ลองเลือกจากข้อมูลสำคัญที่สุดที่มีอยู่ในตอนนี้'
-    };
-    var godSituationNextStep = {
-      1:'เลือกก้าวเริ่มต้นหนึ่งอย่างที่ทำได้จริงในวันนี้',
-      2:'จดสิ่งที่รู้แล้วกับสิ่งที่ยังต้องถามให้ชัดก่อนเลือก',
-      3:'เลือกโอกาสสำคัญที่สุดหนึ่งอย่าง แล้วลงมืออย่างมีแผน',
-      4:'ตรวจข้อเท็จจริง เงื่อนไข และความเสี่ยงก่อนตกลง',
-      5:'ดูแลพลังของตัวเองและเตรียมสิ่งจำเป็นทีละข้อ',
-      6:'ทดลองปรับวิธีหนึ่งอย่างก่อนเปลี่ยนแผนทั้งหมด',
-      7:'สะสางเรื่องค้างคาหนึ่งเรื่องโดยไม่ตำหนิตัวเอง',
-      8:'รักษากิจวัตรและความมั่นคง พร้อมสังเกตสัญญาณใหม่',
-      9:'เริ่มจากปัญหาหนึ่งข้อที่มีทางคลี่คลายได้ก่อน'
-    };
-    var godSituationNumber = godRhdContext.situationNumber || 9;
-    var godHabitNumber = godRhdContext.habitNumber || 9;
-    var godConversationText = 'ลูกเอ๋ย… ข้าอยากคุยกับเจ้าจากสิ่งที่กำลังเกิดขึ้นจริง ๆ นะ ' +
-      '<br/><br/><b>เรื่องที่เจ้าเผชิญอยู่ตอนนี้ — ' + godRhdContext.situationName + '</b><br/>' +
-      (godSituationVoice[godSituationNumber] || godSituationVoice[9]) + ' ' +
-      '<br/><br/><b>วิธีที่เจ้ามักใช้รับมือ — ' + godRhdContext.habitName + '</b><br/>' +
-      (godHabitVoice[godHabitNumber] || godHabitVoice[9]) +
-      '<br/><br/>เพราะฉะนั้น ก้าวถัดไปที่ข้าอยากชวนให้เจ้าลองคือ <b>' +
-      (godSituationNextStep[godSituationNumber] || godSituationNextStep[9]) + '</b> แล้วใช้วิธีที่เข้ากับตัวเจ้า โดย ' +
-      godRhdContext.habitResponse + ' หากสองอย่างนี้ดูเหมือนดึงเจ้าไปคนละทาง ก็ไม่ต้องฝืนเลือกให้สมบูรณ์แบบ แค่ค่อย ๆ ปรับให้พอดีกับสถานการณ์จริงและดูแลหัวใจของตัวเองไปด้วย ข้าอยู่ข้างเจ้าเสมอในวันที่เจ้ากำลังเรียนรู้ว่าจะเดินต่ออย่างไร';
+    var godConversationText = godConversation[rabbitNum] || godConversation[9];
     var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
@@ -1959,7 +1875,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
-    h += renderRHDSection(rabbitRes, 'base', data);
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
@@ -2044,7 +1959,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
-    h += renderRHDSection(res, 'base', data);
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, res.R4, 'oreguram');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
