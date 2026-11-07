@@ -1,23 +1,107 @@
 <!doctype html>
-<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Rabbitastro · Admin</title><link rel="stylesheet" href="/admin/assets/admin.css"></head>
-<body><main class="admin-wrap">
-<header class="brand"><div class="bunny">🐇</div><div><h1>Rabbitastro Admin</h1><p>ระบบจัดการคิวดูดวงและเครื่องมือวิเคราะห์</p></div></header>
-<section id="loginPanel" class="panel login-panel"><h2>เข้าสู่ระบบผู้ดูแล</h2><p class="muted">กรุณาเข้าสู่ระบบเพื่อใช้งานระบบผู้ดูแล</p><form id="loginForm"><label for="username">ชื่อผู้ใช้</label><input id="username" name="username" autocomplete="username" required maxlength="80"><label for="password">รหัสผ่าน</label><input id="password" name="password" type="password" autocomplete="current-password" required><button class="primary">เข้าสู่ระบบ</button></form><p id="loginMessage" class="message" role="alert"></p></section>
-<section id="dashboard" hidden>
-<nav class="admin-nav" aria-label="เมนูผู้ดูแล"><button type="button" id="showBookings" class="secondary active">📅 รายการจองคิว</button><button type="button" id="showCalculator" class="secondary">🧠 Deep Self Calculator</button><button id="logoutButton" class="secondary logout">ออกจากระบบ</button></nav>
-<section id="bookingsPanel"><div class="topbar"><div><h2>รายการจองคิว</h2><p class="muted">ข้อมูลจาก Google Sheets</p></div></div>
-<div class="stats"><article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article><article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article><article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article></div>
-<div class="toolbar"><input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง"><select id="statusFilter"><option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option></select><button id="refreshButton" class="secondary">รีเฟรช</button></div>
-<div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div></section>
-<section id="calculatorPanel" hidden>
-<div class="panel calculator-panel"><h2>🧠 Deep Self Calculator</h2><p class="muted">ใช้สูตรคำนวณและชุดคำทำนายเดิมของ Rabbitastro เพื่อสำรวจตัวตนและจิตใต้สำนึกในเชิงลึก</p>
-<form id="deepCalcForm" class="calculator-form">
-<div class="form-grid"><div><label for="deepFirstName">ชื่อ</label><input id="deepFirstName" required maxlength="100" autocomplete="off"></div><div><label for="deepLastName">นามสกุล</label><input id="deepLastName" required maxlength="100" autocomplete="off"></div>
-<div><label for="deepBirthDay">วันเกิด</label><input id="deepBirthDay" type="number" min="1" max="31" required placeholder="วัน"></div><div><label for="deepBirthMonth">เดือนเกิด</label><input id="deepBirthMonth" type="number" min="1" max="12" required placeholder="เดือน"></div><div><label for="deepBirthYear">ปีเกิด ค.ศ.</label><input id="deepBirthYear" type="number" min="1" max="9999" required placeholder="เช่น 1990"></div>
-<div><label for="deepBirthHour">ชั่วโมงเกิด (0–23)</label><input id="deepBirthHour" type="number" min="0" max="23" required placeholder="ชั่วโมง"></div><div><label for="deepBirthMinute">นาทีเกิด (0–59)</label><input id="deepBirthMinute" type="number" min="0" max="59" required placeholder="นาที"></div></div>
-<label class="check-line"><input type="checkbox" id="deepNoBirthTime"> ไม่ทราบเวลาเกิด</label>
-<button class="primary" type="submit">คำนวณตัวตนและจิตใต้สำนึก</button></form></div>
-<section id="deepCalcResult" class="insight-results" hidden aria-live="polite"></section></section>
-</section>
-<footer>Rabbitastro · Admin</footer></main>
-<script src="/assets/js/02-horakratai-engine.js"></script><script src="/admin/assets/admin.js"></script><script src="/admin/assets/calculator.js"></script></body></html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Rabbitastro · Admin</title>
+  <link rel="stylesheet" href="/admin/assets/admin.css">
+</head>
+<body>
+  <main class="admin-wrap">
+    <header class="brand">
+      <div class="bunny" aria-hidden="true">🐇</div>
+      <div class="brand-copy">
+        <h1>Rabbitastro</h1>
+        <p>ระบบจัดการคิวดูดวงและเครื่องมือวิเคราะห์</p>
+      </div>
+    </header>
+
+    <section id="loginPanel" class="panel login-panel">
+      <h2>เข้าสู่ระบบผู้ดูแล</h2>
+      <p class="muted">กรุณาเข้าสู่ระบบเพื่อใช้งานระบบผู้ดูแล</p>
+      <form id="loginForm">
+        <label for="username">ชื่อผู้ใช้</label>
+        <input id="username" name="username" autocomplete="username" required maxlength="80">
+        <label for="password">รหัสผ่าน</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button class="primary" type="submit">เข้าสู่ระบบ</button>
+      </form>
+      <p id="loginMessage" class="message" role="alert"></p>
+    </section>
+
+    <section id="dashboard" class="dashboard-layout" hidden>
+      <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
+        <div class="nav-heading">เมนูจัดการ</div>
+        <button type="button" id="showBookings" class="nav-button active">📅 รายการจองคิว</button>
+        <button type="button" id="showCalculator" class="nav-button">🧠 Deep Self Calculator</button>
+        <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
+      </nav>
+
+      <div class="admin-content">
+        <section id="bookingsPanel">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">RABBITASTRO · ADMIN</p>
+              <h2>รายการจองคิว</h2>
+              <p class="muted">ข้อมูลจาก Google Sheets</p>
+            </div>
+          </div>
+
+          <div class="stats">
+            <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
+            <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
+            <article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article>
+          </div>
+
+          <div class="toolbar panel">
+            <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
+            <select id="statusFilter" aria-label="กรองตามสถานะ">
+              <option value="">ทุกสถานะ</option>
+              <option>รอตรวจสอบ</option>
+              <option>ยืนยันแล้ว</option>
+              <option>เสร็จสิ้น</option>
+              <option>ยกเลิก</option>
+            </select>
+            <button id="refreshButton" class="secondary" type="button">รีเฟรช</button>
+          </div>
+          <div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div>
+        </section>
+
+        <section id="calculatorPanel" hidden>
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">RABBITASTRO · ANALYSIS</p>
+              <h2>Deep Self Calculator</h2>
+              <p class="muted">สำรวจตัวตนและจิตใต้สำนึกด้วยสูตรคำนวณเดิมของ Rabbitastro</p>
+            </div>
+          </div>
+          <div class="panel calculator-panel">
+            <h3>ข้อมูลสำหรับคำนวณ</h3>
+            <p class="muted">กรอกข้อมูลเกิดเพื่ออ่านแผนที่ตัวตนและจิตใต้สำนึก</p>
+            <form id="deepCalcForm" class="calculator-form">
+              <div class="form-grid">
+                <div><label for="deepFirstName">ชื่อ</label><input id="deepFirstName" required maxlength="100" autocomplete="off"></div>
+                <div><label for="deepLastName">นามสกุล</label><input id="deepLastName" required maxlength="100" autocomplete="off"></div>
+                <div><label for="deepBirthDay">วันเกิด</label><input id="deepBirthDay" type="number" min="1" max="31" required placeholder="วัน"></div>
+                <div><label for="deepBirthMonth">เดือนเกิด</label><input id="deepBirthMonth" type="number" min="1" max="12" required placeholder="เดือน"></div>
+                <div><label for="deepBirthYear">ปีเกิด ค.ศ.</label><input id="deepBirthYear" type="number" min="1" max="9999" required placeholder="เช่น 1990"></div>
+                <div><label for="deepBirthHour">ชั่วโมงเกิด (0–23)</label><input id="deepBirthHour" type="number" min="0" max="23" required placeholder="ชั่วโมง"></div>
+                <div><label for="deepBirthMinute">นาทีเกิด (0–59)</label><input id="deepBirthMinute" type="number" min="0" max="59" required placeholder="นาที"></div>
+              </div>
+              <label class="check-line"><input type="checkbox" id="deepNoBirthTime"> ไม่ทราบเวลาเกิด</label>
+              <button class="primary" type="submit">คำนวณตัวตนและจิตใต้สำนึก</button>
+            </form>
+          </div>
+          <section id="deepCalcResult" class="insight-results" hidden aria-live="polite"></section>
+        </section>
+      </div>
+    </section>
+
+    <footer>Rabbitastro · Admin</footer>
+  </main>
+  <script src="/assets/js/02-horakratai-engine.js"></script>
+  <script src="/admin/assets/admin.js"></script>
+  <script src="/admin/assets/calculator.js"></script>
+</body>
+</html>
