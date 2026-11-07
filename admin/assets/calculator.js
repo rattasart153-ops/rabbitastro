@@ -53,7 +53,8 @@
         d.getFullYear() !== v.bYear || d.getMonth() !== v.bMonth - 1 || d.getDate() !== v.bDay) {
       return "กรุณาตรวจสอบวันเดือนปีเกิดให้ถูกต้อง";
     }
-    if (!v.noBirthTime && (!Number.isInteger(v.bHour) || v.bHour < 0 || v.bHour > 23 ||
+    if (!v.noBirthTime && ($("deepBirthHour").value.trim() === "" || $("deepBirthMinute").value.trim() === "" ||
+        !Number.isInteger(v.bHour) || v.bHour < 0 || v.bHour > 23 ||
         !Number.isInteger(v.bMin) || v.bMin < 0 || v.bMin > 59)) {
       return "กรุณากรอกเวลาเกิดให้ถูกต้อง หรือเลือกไม่ทราบเวลาเกิด";
     }
@@ -75,6 +76,7 @@
   $("deepNoBirthTime").addEventListener("change", e => {
     ["deepBirthHour", "deepBirthMinute"].forEach(id => {
       $(id).disabled = e.target.checked;
+      $(id).required = !e.target.checked;
       if (e.target.checked) $(id).value = "";
     });
   });
