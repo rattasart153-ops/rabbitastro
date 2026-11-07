@@ -1284,6 +1284,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---------- CTA แอดไลน์: แยกข้อความตามฟีเจอร์ ----------
   function featureCtaHtml(featureKey) {
+    if (window.RABBITASTRO_ADMIN_MODE === true) return "";
     var cta = {
       base: {
         title: '🐇 อยากรู้พื้นดวงของตัวเองให้ลึกกว่านี้?',
