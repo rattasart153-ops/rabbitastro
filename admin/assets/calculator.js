@@ -185,10 +185,20 @@
       const rhdTitle = document.createElement("h3");
       rhdTitle.textContent = "รูปแบบการรับมือ · RHD";
       rhdCard.append(rhdTitle);
+      const rabbitInfo = rhd.rabbit || {};
+      const habitInfo = rhd.habit || {};
       field(rhdCard, "รหัส Rabbit + Habit", rhd.label);
-      field(rhdCard, "รูปแบบที่มักใช้รับมือ", rhd.habit && rhd.habit.description);
-      field(rhdCard, "เมื่ออยู่ภายใต้แรงกดดัน", rhd.decision);
-      field(rhdCard, "จุดที่ควรระวัง", rhd.caution);
+      field(rhdCard, "สถานการณ์หรือแรงกระทบที่กำลังเผชิญ", rabbitInfo.desc || rabbitInfo.short);
+      field(rhdCard, "รูปแบบที่มักใช้รับมือ", habitInfo.description);
+      field(rhdCard, "พฤติกรรมที่มักแสดงออก", habitInfo.response);
+      field(rhdCard, "วิธีตัดสินใจเมื่อเจอสถานการณ์", habitInfo.decision || rhd.decision);
+      field(rhdCard, "จุดแข็งของวิธีรับมือ", habitInfo.strength || habitInfo.gift || "จุดแข็งจะเห็นชัดเมื่อคุณใช้รูปแบบนี้อย่างยืดหยุ่นและเหมาะกับสถานการณ์");
+      field(rhdCard, "เงาหรือข้อจำกัดที่ควรระวัง", habitInfo.caution || rhd.caution);
+      field(rhdCard, "สิ่งที่จิตใต้สำนึกกำลังสะท้อน", rhd.description);
+      field(rhdCard, "สิ่งที่ใจอยากให้เข้าใจ", rhd.mind);
+      field(rhdCard, "จังหวะที่เหมาะกับการลงมือ", rhd.timing);
+      field(rhdCard, "ภาพรวมของการรับมือในช่วงนี้", rhd.overall);
+      field(rhdCard, "คำถามเพื่อสำรวจตัวเอง", (Engine.RHD_SELF_QUESTIONS && Engine.RHD_SELF_QUESTIONS[habitInfo.number] || [])[0] || "ตอนนี้ฉันกำลังตอบสนองต่อสิ่งที่เกิดขึ้น หรือกำลังตอบสนองต่อประสบการณ์เก่าของตัวเอง?");
       result.append(rhdCard);
 
       const note = document.createElement("p");
