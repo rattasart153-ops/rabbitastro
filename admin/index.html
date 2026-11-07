@@ -225,7 +225,7 @@
             </div>
             <div id="engineBooking" style="display:none;">
   <section class="card">
-    <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ENGINE 5</p><h2>รายการจองคิวจากลูกค้า</h2><p class="muted">ตรวจสอบข้อมูลการจองและอัปเดตสถานะได้จากส่วนนี้</p></div></div>
+    <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ENGINE 5</p><h2>รายการจองคิวจากลูกค้า</h2><p class="muted">จัดลำดับคิว นำคิวออกเมื่อยกเลิกหรือดำเนินการเสร็จ และดูประวัติการจองย้อนหลังได้</p></div></div>
     <div class="stats">
       <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
       <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
@@ -233,6 +233,7 @@
     </div>
     <div class="toolbar panel">
       <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
+      <select id="queueFilter" aria-label="เลือกคิวที่ต้องการดู"><option value="active">คิวที่กำลังใช้งาน</option><option value="removed">รายการที่นำออกจากคิว</option><option value="all">รายการทั้งหมด</option></select>
       <select id="statusFilter" aria-label="กรองตามสถานะ">
         <option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option>
       </select>
