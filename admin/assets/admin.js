@@ -9,9 +9,9 @@ async function api(payload){
 }
 function showDashboard(){loginPanel.hidden=true;dashboard.hidden=false;loadBookings();}
 function showPanel(which){
- const bookingsPanel=$("bookingsPanel"),calculatorPanel=$("calculatorPanel");
- bookingsPanel.hidden=which!=="bookings";calculatorPanel.hidden=which!=="calculator";
- $("showBookings").classList.toggle("active",which==="bookings");$("showCalculator").classList.toggle("active",which==="calculator");
+ const bookingsPanel=$("bookingsPanel"),enginesPanel=$("enginesPanel"),calculatorPanel=$("calculatorPanel");
+ bookingsPanel.hidden=which!=="bookings";enginesPanel.hidden=which!=="engines";calculatorPanel.hidden=which!=="calculator";
+ $("showBookings").classList.toggle("active",which==="bookings");$("showEngines").classList.toggle("active",which==="engines");$("showCalculator").classList.toggle("active",which==="calculator");
 }
 function logout(show=true){
  const oldToken=token;if(oldToken)fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"adminLogout",token:oldToken})}).catch(()=>{});
@@ -21,6 +21,7 @@ function logout(show=true){
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMessage").textContent="กำลังตรวจสอบ…";try{const r=await api({action:"adminLogin",username:$("username").value,password:$("password").value});token=r.token;sessionStorage.setItem("rabbitastro_admin_token",token);$("password").value="";$("loginMessage").textContent="";showDashboard();}catch(err){$("loginMessage").textContent=err.message;}});
 $("logoutButton").addEventListener("click",()=>logout());
 $("showBookings").addEventListener("click",()=>showPanel("bookings"));
+$("showEngines").addEventListener("click",()=>showPanel("engines"));
 $("showCalculator").addEventListener("click",()=>showPanel("calculator"));
 $("refreshButton").addEventListener("click",loadBookings);
 $("searchInput").addEventListener("input",render);$("statusFilter").addEventListener("change",render);
