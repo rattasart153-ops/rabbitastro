@@ -160,3 +160,20 @@ footer { margin-top: 34px; color: #9aa4b2; text-align: center; font-size: 12px; 
 @media (max-width: 760px) {
  .engine-admin-shell .wrap { padding-left: 0; padding-right: 0; }
 }
+
+/* ---------- ปรับขนาดตัวอักษรในช่องกรอกข้อมูล Admin ให้พอดีกับ Text Box ---------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select,
+textarea {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.45;
+}
+textarea {
+  overflow-wrap: anywhere;
+}
+input::placeholder,
+textarea::placeholder {
+  font-size: 12.5px;
+}
