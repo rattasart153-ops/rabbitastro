@@ -1042,23 +1042,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function weekdayInfluenceHtml(profile, context) {
     if (!profile || !profile.name) return '';
     var isAsc = context === 'asc';
-    var heading = isAsc ? '☀️ พลังวันเกิดที่ร่วมขยายลัคนา' : '📅 พลังวันเกิดที่ร่วมอ่านกับพื้นดวง';
-    var bridge = isAsc
-      ? 'เมื่อนำวันเกิดมาประกอบกับลัคนาราศี จะช่วยอธิบายว่าพลังพื้นฐานของคุณแสดงออกต่อผู้คนอย่างไร และอะไรคือแรงขับที่อยู่เบื้องหลังภาพลักษณ์นั้น'
-      : 'วันเกิดช่วยเติมอีกชั้นให้ภาพพื้นดวง โดยสะท้อนแนวโน้มพื้นฐานด้านนิสัยและวิธีใช้ศักยภาพ ซึ่งควรอ่านร่วมกับรหัสพื้นดวง ไม่ใช่แยกตัดสินจากวันเกิดเพียงอย่างเดียว';
-    var synthesis = isAsc
-      ? 'ลัคนาสะท้อนวิธีที่คุณแสดงตัวและตอบสนองต่อโลก ส่วนคนเกิดวัน' + profile.name + 'มีแกนพลังเรื่อง' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จุดเด่นจึงอยู่ที่การใช้ ' + profile.strength + ' ให้สอดคล้องกับบุคลิกของลัคนา โดยระวังด้านที่อาจเผลอแสดงออกคือ ' + profile.shadow
-      : 'พื้นดวงเดิมสะท้อนแกนชีวิตจากสูตรโหรกระต่าย ขณะที่คนเกิดวัน' + profile.name + 'มีแนวโน้มพื้นฐานว่า' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จะเห็นว่าคุณมีจุดเด่นด้าน ' + profile.strength + ' และควรระวัง ' + profile.shadow;
+    var heading = isAsc ? '☀️ วันเกิดกับลัคนา' : '📅 วันเกิดกับพื้นดวง';
+    var reading = isAsc
+      ? 'ลัคนาบอกวิธีที่คนอื่นมองเห็นคุณ ส่วนวันเกิดช่วยอธิบายแรงขับข้างใน'
+      : 'พื้นดวงบอกแนวทางชีวิต ส่วนวันเกิดช่วยเสริมภาพนิสัยและตัวตน';
     return '<div class="pred-block weekday-influence-block" style="background:#fffbeb;border-color:#fde68a;border-left:5px solid #d97706;">' +
       '<h4 style="color:#92400e;">' + heading + '</h4>' +
-      '<div class="pred-section-item"><b>🗓️ วันเกิด:</b><br/>วัน' + profile.name + ' · ดาวประจำวัน' + profile.planet + '</div>' +
-      '<div class="pred-section-item"><b>🔮 คำทำนายเมื่ออ่านร่วมกับ' + (isAsc ? 'ลัคนา' : 'พื้นดวง') + ':</b><br/>' + bridge + ' ' + synthesis + '</div>' +
-      '<div class="dd-grid">' +
-      kvBox('💪 จุดแข็งจากวันเกิด', 'dd-do', profile.strength) +
-      kvBox('🌘 ด้านที่ควรระวัง', 'dd-dont', profile.shadow) +
-      '</div>' +
-      '<div class="pred-section-item"><b>🧭 แนวทางใช้พลังวันเกิด:</b><br/>' + profile.advice + '</div>' +
-      '<div class="pred-section-item"><small>การอ่านวันเกิดเป็นแนวทางตามความเชื่อทางโหราศาสตร์ ใช้ประกอบการทำความเข้าใจตัวเอง ไม่ใช่ข้อสรุปตายตัว</small></div>' +
+      '<div class="pred-section-item"><b>🗓️ เกิดวัน:</b><br/>วัน' + profile.name + ' · ดาว' + profile.planet + '</div>' +
+      '<div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + reading + ' คนเกิดวัน' + profile.name + ' ' + profile.core + '</div>' +
+      '<div class="pred-section-item"><b>💪 จุดแข็ง:</b><br/>' + profile.strength + '</div>' +
+      '<div class="pred-section-item"><b>🌘 จุดที่ควรระวัง:</b><br/>' + profile.shadow + '</div>' +
+      '<div class="pred-section-item"><b>🧭 คำแนะนำ:</b><br/>' + profile.advice + '</div>' +
       '</div>';
   }
 
