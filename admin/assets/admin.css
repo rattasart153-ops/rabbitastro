@@ -230,3 +230,76 @@ button { border-radius: 11px; }
   .login-panel { margin: 28px auto; padding: 22px; }
   .admin-nav { border-radius: 15px; }
 }
+
+
+/* ---------- Responsive typography and layout: phone / tablet / desktop ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-size: 15px; line-height: 1.6; }
+.admin-wrap { width: min(100% - 40px, 1320px); }
+.brand h1 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.page-heading h2 { font-size: clamp(1.25rem, 1.8vw, 1.7rem); }
+label, .stat span { font-size: .9rem; line-height: 1.5; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select, textarea {
+  font-size: 1rem; line-height: 1.5; min-height: 46px;
+}
+textarea { min-height: 104px; }
+input::placeholder, textarea::placeholder { font-size: .88rem; }
+button, .nav-button { font-size: .9rem; line-height: 1.4; }
+button { min-height: 44px; }
+.booking-meta, .booking-note, .insight-field p, .insight-card > p { font-size: .94rem; line-height: 1.7; }
+.booking-head h3, .insight-card h3 { font-size: clamp(1rem, 1.3vw, 1.12rem); }
+.stat strong { font-size: clamp(1.35rem, 2.2vw, 1.9rem); }
+@media (min-width: 761px) and (max-width: 1100px) {
+  .admin-wrap { width: min(100% - 32px, 1040px); padding: 22px 16px 44px; }
+  .dashboard-layout { grid-template-columns: 190px minmax(0, 1fr); gap: 16px; }
+  .admin-nav { padding: 10px; }
+  .nav-button { padding: 9px 8px; }
+  .toolbar { grid-template-columns: minmax(0, 1fr) 160px 150px; }
+  .toolbar button { grid-column: 1 / -1; }
+  .stats { gap: 10px; }
+  .stat { padding: 14px; }
+}
+@media (min-width: 1101px) {
+  body { font-size: 16px; }
+  .admin-wrap { width: min(100% - 64px, 1400px); padding-top: 30px; }
+  .dashboard-layout { grid-template-columns: 250px minmax(0, 1fr); gap: 26px; }
+  .booking-card { padding: 22px; }
+}
+@media (max-width: 760px) {
+  body { font-size: 14.5px; }
+  .admin-wrap { width: calc(100% - 24px); padding: 16px 0 32px; }
+  .dashboard-layout { grid-template-columns: minmax(0, 1fr); }
+  .admin-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav-button { min-height: 44px; font-size: .82rem; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat strong { font-size: 1.45rem; }
+  .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .toolbar input { grid-column: 1 / -1; }
+  .toolbar button { grid-column: 1 / -1; }
+  .booking-actions { flex-wrap: wrap; }
+  .booking-actions select { flex: 1 1 180px; max-width: none; }
+  .engine-admin-shell .wrap { width: 100%; max-width: 760px; }
+}
+@media (max-width: 420px) {
+  .admin-wrap { width: calc(100% - 20px); }
+  .brand h1 { font-size: 1.25rem; }
+  .login-panel { padding: 17px; }
+  .stats { gap: 7px; }
+  .stat { padding: 11px 9px; }
+  .stat span { font-size: .78rem; }
+  .stat strong { font-size: 1.25rem; }
+  .admin-nav { gap: 5px; padding: 8px; }
+  .nav-button { padding: 8px 5px; font-size: .78rem; }
+  .toolbar { gap: 8px; padding: 9px; }
+  .booking-card { padding: 13px; }
+  .booking-meta { font-size: .86rem; }
+  .booking-actions button, .booking-actions select { width: 100%; }
+  .form-grid, .insight-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 340px) {
+  .admin-nav { grid-template-columns: minmax(0, 1fr); }
+  .nav-heading, .nav-button.logout { grid-column: 1; }
+  .toolbar { grid-template-columns: minmax(0, 1fr); }
+  .toolbar input, .toolbar button { grid-column: 1; }
+}
