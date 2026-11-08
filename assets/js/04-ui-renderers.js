@@ -1038,12 +1038,37 @@ document.addEventListener("DOMContentLoaded", function () {
       '</div>';
   }
 
+  // คำทำนายวันเกิดใช้ประกอบเฉพาะพื้นดวงและลัคนา ไม่ส่งผลต่อสูตรคำนวณ
+  function weekdayInfluenceHtml(profile, context) {
+    if (!profile || !profile.name) return '';
+    var isAsc = context === 'asc';
+    var heading = isAsc ? '☀️ พลังวันเกิดที่ร่วมขยายลัคนา' : '📅 พลังวันเกิดที่ร่วมอ่านกับพื้นดวง';
+    var bridge = isAsc
+      ? 'เมื่อนำวันเกิดมาประกอบกับลัคนาราศี จะช่วยอธิบายว่าพลังพื้นฐานของคุณแสดงออกต่อผู้คนอย่างไร และอะไรคือแรงขับที่อยู่เบื้องหลังภาพลักษณ์นั้น'
+      : 'วันเกิดช่วยเติมอีกชั้นให้ภาพพื้นดวง โดยสะท้อนแนวโน้มพื้นฐานด้านนิสัยและวิธีใช้ศักยภาพ ซึ่งควรอ่านร่วมกับรหัสพื้นดวง ไม่ใช่แยกตัดสินจากวันเกิดเพียงอย่างเดียว';
+    var synthesis = isAsc
+      ? 'ลัคนาสะท้อนวิธีที่คุณแสดงตัวและตอบสนองต่อโลก ส่วนคนเกิดวัน' + profile.name + 'มีแกนพลังเรื่อง' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จุดเด่นจึงอยู่ที่การใช้ ' + profile.strength + ' ให้สอดคล้องกับบุคลิกของลัคนา โดยระวังด้านที่อาจเผลอแสดงออกคือ ' + profile.shadow
+      : 'พื้นดวงเดิมสะท้อนแกนชีวิตจากสูตรโหรกระต่าย ขณะที่คนเกิดวัน' + profile.name + 'มีแนวโน้มพื้นฐานว่า' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จะเห็นว่าคุณมีจุดเด่นด้าน ' + profile.strength + ' และควรระวัง ' + profile.shadow;
+    return '<div class="pred-block" style="background:#fffbeb;border-color:#fde68a;border-left:5px solid #d97706;">' +
+      '<h4 style="color:#92400e;">' + heading + '</h4>' +
+      '<div class="pred-section-item"><b>🗓️ วันเกิด:</b><br/>วัน' + profile.name + ' · ดาวประจำวัน' + profile.planet + '</div>' +
+      '<div class="pred-section-item"><b>🔮 คำทำนายเมื่ออ่านร่วมกับ' + (isAsc ? 'ลัคนา' : 'พื้นดวง') + ':</b><br/>' + bridge + ' ' + synthesis + '</div>' +
+      '<div class="dd-grid">' +
+      kvBox('💪 จุดแข็งจากวันเกิด', 'dd-do', profile.strength) +
+      kvBox('🌘 ด้านที่ควรระวัง', 'dd-dont', profile.shadow) +
+      '</div>' +
+      '<div class="pred-section-item"><b>🧭 แนวทางใช้พลังวันเกิด:</b><br/>' + profile.advice + '</div>' +
+      '<div class="pred-section-item"><small>การอ่านวันเกิดเป็นแนวทางตามความเชื่อทางโหราศาสตร์ ใช้ประกอบการทำความเข้าใจตัวเอง ไม่ใช่ข้อสรุปตายตัว</small></div>' +
+      '</div>';
+  }
+
   function renderBaseSection(res) {
     var b = res.baseDeep || {};
     var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
     var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 รหัสพื้นดวงเลข ' + res.baseCode);
     h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
     h += '<h4 style="color:#166534;">🔎 สรุปพื้นดวงแบบอ่านแล้วเข้าใจทันที</h4>';
+    h += weekdayInfluenceHtml(res.birthWeekday, 'base');
     h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + '</div>';
     h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + '</div>';
     if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
@@ -1172,6 +1197,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var h = '<div class="pred-block" style="background:#f0f9ff; border-color:#bae6fd; border-left:5px solid #0369a1;">';
     h += '<h4 style="color:#075985;">🌅 ลัคนาราศี · จิตสำนึกจากเวลาเกิดของเจ้าชะตา</h4>';
+    h += weekdayInfluenceHtml(res.birthWeekday, 'asc');
 
     h += '<div class="pred-section-item"><b>✨ ลัคนาราศี:</b><br/>' +
       '<b style="font-size:14px;">ราศี' + s.name + ' ' + s.symbol + '</b></div>';
