@@ -1065,10 +1065,12 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
     h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
     if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
-    h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
-    h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
-    h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
+    h += '<div class="pred-section-item"><b>⚠️ สิ่งที่ควรระวังและบทเรียน:</b><br/>' + (b.blind || '-') +
+      (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
+      ' บทเรียนสำคัญคือ ' + (b.lesson || '-') +
+      (weekday.advice ? ' คำแนะนำจากวันเกิด: ' + weekday.advice : '') + '</div>';
+    h += '<div class="pred-section-item"><b>⏳ จุดเปลี่ยนและจังหวะชีวิต:</b><br/>' + (b.turn || '-') +
+      ' ช่วงเวลาที่ควรใส่ใจ: ' + (b.timing || '-') + '</div>';
     h += '</div>';
     return h;
   }
