@@ -303,3 +303,62 @@ button { min-height: 44px; }
   .toolbar { grid-template-columns: minmax(0, 1fr); }
   .toolbar input, .toolbar button { grid-column: 1; }
 }
+
+
+/* ---------- Global text wrapping and line-flow fix ---------- */
+/* Keep all Admin labels, values, buttons and prediction text inside their containers. */
+*, *::before, *::after {
+  min-width: 0;
+}
+body, main, section, article, aside, header, footer,
+.admin-wrap, .dashboard-layout, .admin-content, .admin-nav,
+.panel, .stat, .booking-card, .booking-head, .booking-meta,
+.booking-note, .booking-actions, .queue-manage,
+.calculator-panel, .form-grid, .insight-results,
+.insight-summary, .insight-grid, .insight-card,
+.insight-field, .engine-admin-shell, .engine-admin-shell .wrap,
+.engine-admin-shell .card, .pred-block, .answer-box,
+.pred-section-item, .dd-box, .god-card, .god-box,
+.god-detail-box, .rhd-card, .rhd-tile, .rhd-combined {
+  min-width: 0;
+  max-width: 100%;
+}
+:where(p, li, label, small, strong, b, em, span, a, button,
+       h1, h2, h3, h4, h5, h6, summary, .nav-button,
+       .queue-order, .queue-removed, .status, .eyebrow,
+       .booking-head, .booking-meta, .booking-note,
+       .insight-field, .insight-disclaimer) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+}
+.booking-note, .insight-field p, .insight-card > p,
+.message, .insight-summary p, .engine-admin-shell #results,
+.engine-admin-shell .pred-block, .engine-admin-shell .answer-box {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.dashboard-layout > *, .admin-nav > *, .stats > *,
+.toolbar > *, .booking-list > *, .booking-head > *,
+.booking-meta > *, .booking-actions > *,
+.form-grid > *, .insight-grid > *, .insight-card > *,
+.engine-admin-shell .f-row > *,
+.engine-admin-shell .engine-tabs > *,
+.engine-admin-shell .chip-group > * {
+  min-width: 0;
+}
+input, select, textarea, button {
+  max-width: 100%;
+}
+textarea, .booking-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+pre, code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+img, svg, video, canvas {
+  max-width: 100%;
+}
