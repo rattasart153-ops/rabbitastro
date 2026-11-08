@@ -1059,18 +1059,26 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderBaseSection(res) {
     var b = res.baseDeep || {};
     var weekday = res.birthWeekday || {};
+    var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
     var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
     var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 รหัสพื้นดวงเลข ' + res.baseCode);
     h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
     h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
     h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
     if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
+    if (compactMain) {
     h += '<div class="pred-section-item"><b>⚠️ สิ่งที่ควรระวังและบทเรียน:</b><br/>' + (b.blind || '-') +
       (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
       ' บทเรียนสำคัญคือ ' + (b.lesson || '-') +
       (weekday.advice ? ' คำแนะนำจากวันเกิด: ' + weekday.advice : '') + '</div>';
     h += '<div class="pred-section-item"><b>⏳ จุดเปลี่ยนและจังหวะชีวิต:</b><br/>' + (b.turn || '-') +
       ' ช่วงเวลาที่ควรใส่ใจ: ' + (b.timing || '-') + '</div>';
+    } else {
+    h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
+    h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
+    h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
+    h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
+    }
     h += '</div>';
     return h;
   }
@@ -1210,10 +1218,22 @@ document.addEventListener("DOMContentLoaded", function () {
         '</div>';
     }
 
+    if (compactMain) {
     // สรุปเสียงในใจให้เหลือใจความเดียว ลดข้อความซ้ำและอ่านได้เร็วขึ้น
     if (inn) {
       h += '<div class="pred-section-item"><b>🎭 สิ่งที่ใจต้องการ:</b><br/>' +
         (inn.need || inn.drive || 'ลองสังเกตความต้องการของตัวเองในช่วงนี้') + '</div>';
+    }
+    } else {
+    // ── เสียงในใจ
+    if (inn) {
+      h += '<span class="mini-h">🎭 เสียงในใจของลัคนานี้ (รหัสกระต่าย ' + res.ascInner + ' ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + ')</span>';
+      h += '<div class="pred-section-item"><b>🚀 แรงขับลึก:</b><br/>' + inn.drive + '</div>';
+      h += '<div class="pred-section-item"><b>🤫 เสียงที่พูดกับตัวเองบ่อยที่สุด:</b><br/>' + inn.whisper + '</div>';
+      h += '<div class="pred-section-item"><b>😰 สิ่งที่กลัวที่สุดในใจ:</b><br/>' + inn.fear + '</div>';
+      h += '<div class="pred-section-item"><b>🫶 สิ่งที่ต้องการจริง ๆ:</b><br/>' + inn.need + '</div>';
+      h += '<div class="pred-section-item"><b>📣 เสียงนี้จะดังที่สุดเมื่อ:</b><br/>' + inn.when + '</div>';
+    }
     }
 
     if (d) {
@@ -1255,6 +1275,7 @@ document.addEventListener("DOMContentLoaded", function () {
         usedAscAdvice.push(item);
         return true;
       }).slice(0, 5);
+      if (compactMain) {
       h += '<span class="mini-h">🧭 คำแนะนำสั้น ๆ</span>' +
         '<div class="pred-section-item"><b>ควรทำ:</b> ' + (ascDoList.slice(0, 2).join(' · ') || 'ค่อย ๆ ทำตามเป้าหมาย') +
         '<br/><b>ควรเลี่ยง:</b> ' + (ascDontList.slice(0, 2).join(' · ') || 'อย่ารีบตัดสินใจ') + '</div>';
@@ -1262,6 +1283,21 @@ document.addEventListener("DOMContentLoaded", function () {
       // แสดงเฉพาะสัญลักษณ์มงคลที่จำเป็น ลดส่วนข้อความที่ซ้ำกับคำทำนายหลัก
       if (!noLucky) h += luckyChipsHtml(d.lucky);
       if (!noChant) h += chantBoxHtml(d.chant, 'คาถาประจำลัคนา');
+      } else {
+      h += '<span class="mini-h">🧭 สิ่งที่ควรทำและสิ่งที่ควรเลี่ยงตามลัคนานี้</span>' +
+        (ascDoList.length || ascDontList.length ? doDontHtml(ascDoList, ascDontList) : '<div class="pred-section-item">คำแนะนำของลัคนานี้มีเนื้อหาซ้ำกับคำทำนายส่วนอื่น จึงไม่แสดงซ้ำ</div>');
+
+      // ── มงคล
+      if (!noLucky) h += luckyChipsHtml(d.lucky);
+      if (!noChant) h += chantBoxHtml(d.chant, 'คาถาประจำลัคนา');
+      h += '<div class="role-box" style="background:#ecfeff; border-color:#a5f3fc; color:#155e75;"><b>💬 คำยืนยันของลัคนานี้:</b> ' + d.affirmation + '</div>';
+
+      // ── คำถามสำรวจตัวเอง
+      if (d.questions && d.questions.length) {
+        h += '<span class="mini-h">❓ คำถามสำรวจจิตสำนึกของตัวเอง (ตอบกับตัวเองตามจริง)</span>';
+        h += '<div class="pred-section-item">' + listHtml(d.questions) + '</div>';
+      }
+      }
     }
 
     return h + '</div>';
