@@ -779,3 +779,7 @@ img, svg, video, canvas {
   word-break: keep-all !important;
   overflow-wrap: normal !important;
 }
+
+
+/* Force result subheadings onto their own line; thai-keep is inline-block for compact labels. */
+.thai-heading-block { display:block !important; width:100%; white-space:normal; word-break:keep-all; overflow-wrap:normal; margin-bottom:4px; }
