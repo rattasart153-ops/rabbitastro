@@ -362,3 +362,20 @@ pre, code {
 img, svg, video, canvas {
   max-width: 100%;
 }
+
+
+/* ---------- Keep short Thai Admin labels together ---------- */
+/* Prevent short headings and controls from splitting at Thai word boundaries. */
+:where(
+  .brand h1, .nav-heading, .nav-button, .booking-head h3,
+  .status, .queue-order, .queue-removed, .eyebrow,
+  .engine-admin-shell .pred-block h3,
+  .engine-admin-shell .pred-block h4,
+  .engine-admin-shell .tab-btn,
+  .engine-admin-shell .chip-btn,
+  .engine-admin-shell .chip-btn-sub
+) {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
