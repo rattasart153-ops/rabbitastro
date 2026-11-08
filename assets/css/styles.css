@@ -654,3 +654,56 @@ button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; l
   .tab-btn { font-size: .78rem; }
   .hero .bunny-badge { width: 46px; height: 46px; }
 }
+
+
+/* ---------- Global text wrapping and line-flow fix ---------- */
+/* Keep text inside its own layout area across all engines and screen sizes. */
+*, *::before, *::after {
+  min-width: 0;
+}
+body, main, section, article, aside, header, footer,
+.wrap, .card, .pred-block, .answer-box, .hint-box,
+.pred-section-item, .dd-box, .role-box, .chant-box,
+.god-card, .god-box, .god-detail-box, .god-message-box,
+.rhd-card, .rhd-tile, .rhd-combined, .rhd-section,
+.booking-section, .booking-subcard, .line-cta,
+.num-tile, .month-card, .topic-line, .mth,
+.field, .f-row, .booking-grid, .booking-birth-grid {
+  min-width: 0;
+  max-width: 100%;
+}
+:where(p, li, label, small, strong, b, em, span, a, button,
+       h1, h2, h3, h4, h5, h6, summary, .tab-btn, .chip-btn,
+       .chip-btn-sub, .lucky-chip, .status, .god-type, .rhd-badge,
+       .rhd-matrix-count, .line-cta-text, .line-cta-title) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+}
+.pred-block, .answer-box, .pred-section-item, .dd-box,
+.god-box, .god-detail-box, .god-lead, .god-message-box,
+.rhd-tile, .rhd-combined, .rhd-section, .booking-note,
+.topic-line, .hint-box, .role-box, .chant-box {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.f-row > *, .engine-tabs > *, .chip-group > *,
+.booking-grid > *, .booking-birth-grid > *,
+.rhd-grid > *, .num-grid > *, .month-grid > * {
+  min-width: 0;
+}
+input, select, textarea, button {
+  max-width: 100%;
+}
+textarea {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+pre, code, .mantra {
+  max-width: 100%;
+  overflow-x: auto;
+}
+img, svg, video, canvas {
+  max-width: 100%;
+}
