@@ -770,3 +770,12 @@ img, svg, video, canvas {
   word-break: normal;
   overflow-wrap: normal;
 }
+
+
+/* Keep the complete Thai label "คำแนะนำ" on one line in rendered results. */
+.thai-keep {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
