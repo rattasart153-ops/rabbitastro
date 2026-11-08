@@ -721,3 +721,39 @@ img, svg, video, canvas {
   word-break: normal;
   overflow-wrap: normal;
 }
+
+
+/* ---------- Consistent title + description layout ---------- */
+/* A chip's first line is its title; its <small> line is supporting copy. */
+.chip-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  text-align: center;
+}
+.chip-btn small {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-height: 1.35;
+  text-align: center;
+}
+/* Keep short section titles intact; descriptions remain separate block elements. */
+.card-title,
+.daily-element-title,
+.pred-block h3,
+.pred-block h4,
+.pred-section-title,
+.section-title,
+.booking-heading .card-title {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
