@@ -1049,7 +1049,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var synthesis = isAsc
       ? 'ลัคนาสะท้อนวิธีที่คุณแสดงตัวและตอบสนองต่อโลก ส่วนคนเกิดวัน' + profile.name + 'มีแกนพลังเรื่อง' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จุดเด่นจึงอยู่ที่การใช้ ' + profile.strength + ' ให้สอดคล้องกับบุคลิกของลัคนา โดยระวังด้านที่อาจเผลอแสดงออกคือ ' + profile.shadow
       : 'พื้นดวงเดิมสะท้อนแกนชีวิตจากสูตรโหรกระต่าย ขณะที่คนเกิดวัน' + profile.name + 'มีแนวโน้มพื้นฐานว่า' + profile.core + ' เมื่อนำมาอ่านร่วมกัน จะเห็นว่าคุณมีจุดเด่นด้าน ' + profile.strength + ' และควรระวัง ' + profile.shadow;
-    return '<div class="pred-block" style="background:#fffbeb;border-color:#fde68a;border-left:5px solid #d97706;">' +
+    return '<div class="pred-block weekday-influence-block" style="background:#fffbeb;border-color:#fde68a;border-left:5px solid #d97706;">' +
       '<h4 style="color:#92400e;">' + heading + '</h4>' +
       '<div class="pred-section-item"><b>🗓️ วันเกิด:</b><br/>วัน' + profile.name + ' · ดาวประจำวัน' + profile.planet + '</div>' +
       '<div class="pred-section-item"><b>🔮 คำทำนายเมื่ออ่านร่วมกับ' + (isAsc ? 'ลัคนา' : 'พื้นดวง') + ':</b><br/>' + bridge + ' ' + synthesis + '</div>' +
