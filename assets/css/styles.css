@@ -707,3 +707,17 @@ pre, code, .mantra {
 img, svg, video, canvas {
   max-width: 100%;
 }
+
+
+/* ---------- Keep short Thai UI phrases together ---------- */
+/* Prevent short headings and controls (e.g. "คำแนะนำ") from splitting across lines.
+   Long body copy remains naturally wrap-able on narrow screens. */
+:where(
+  .hero h1, .pred-block h3, .pred-block h4, .pred-section-title,
+  .section-title, .tab-btn, .chip-btn, .chip-btn-sub,
+  .status, .rhd-badge, .god-type, .line-cta-title
+) {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
