@@ -599,3 +599,58 @@ input:focus, select:focus, textarea:focus,
   .card { padding: 16px; border-radius: 16px; }
   .tab-btn { min-height: 43px; }
 }
+
+
+/* ---------- Responsive typography and layout: phone / tablet / desktop ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-size: 15px; line-height: 1.65; }
+.wrap { width: min(100% - 32px, 760px); max-width: 760px; }
+.hero h1 { font-size: clamp(1.45rem, 2.4vw, 1.9rem); line-height: 1.25; }
+.hero p { font-size: clamp(.84rem, 1.15vw, .98rem); }
+.card-title { font-size: clamp(.72rem, .9vw, .82rem); }
+label { font-size: clamp(.82rem, 1vw, .94rem); line-height: 1.5; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select, textarea, .booking-form input, .booking-form select, .booking-form textarea {
+  font-size: 1rem !important; line-height: 1.5; min-height: 46px;
+}
+textarea, .booking-form textarea { min-height: 104px; }
+input::placeholder, textarea::placeholder { font-size: .88rem; }
+button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; line-height: 1.4; }
+.tab-btn, .chip-btn { min-height: 46px; }
+.pred-section-item, .answer-box { font-size: clamp(.96rem, 1.25vw, 1.08rem); line-height: 1.8; }
+.pred-block h4 { font-size: clamp(1.02rem, 1.4vw, 1.18rem); }
+@media (min-width: 600px) {
+  .wrap { width: min(100% - 48px, 760px); padding-top: 30px; }
+  .card { padding: clamp(20px, 2.4vw, 28px); }
+  .f-row { gap: 14px; }
+  .booking-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .engine-tabs { gap: 8px; }
+  .tab-btn { flex: 1 1 auto; font-size: .9rem; padding: 12px 10px; }
+}
+@media (min-width: 900px) {
+  body { font-size: 16px; }
+  .wrap { width: min(100% - 64px, 820px); max-width: 820px; }
+  .hero { padding: 24px 0 26px; }
+  .hero h1 { font-size: 30px; }
+  .engine-tabs { position: static; }
+  .card { margin-bottom: 20px; }
+}
+@media (max-width: 599px) {
+  body { font-size: 14.5px; }
+  .wrap { width: calc(100% - 24px); padding: 14px 0 36px; }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.55rem); }
+  .card { padding: 15px; }
+  .f-row { gap: 9px; }
+  .f-row .field { min-width: 0; flex: 1 1 100%; }
+  .engine-tabs { gap: 5px; }
+  .tab-btn { flex: 1 1 calc(50% - 5px); min-height: 46px; font-size: .84rem; padding: 9px 5px; }
+  .chip-btn { flex: 1 1 calc(50% - 7px); min-height: 46px; }
+  .booking-grid, .booking-birth-grid { grid-template-columns: 1fr; }
+  .pred-section-item, .answer-box { font-size: .96rem; }
+}
+@media (max-width: 360px) {
+  .wrap { width: calc(100% - 20px); }
+  .card { padding: 13px; }
+  .tab-btn { font-size: .78rem; }
+  .hero .bunny-badge { width: 46px; height: 46px; }
+}
