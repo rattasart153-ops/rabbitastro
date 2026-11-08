@@ -783,3 +783,26 @@ img, svg, video, canvas {
 
 /* Force result subheadings onto their own line; thai-keep is inline-block for compact labels. */
 .thai-heading-block { display:block !important; width:100%; white-space:normal; word-break:keep-all; overflow-wrap:normal; margin-bottom:4px; }
+
+
+/* Daily recommendation and crystal: force the heading and each value onto separate rows. */
+.daily-element-stack {
+  display: block !important;
+  width: 100%;
+  white-space: normal !important;
+  text-align: left;
+}
+.daily-element-stack > div { display: block; width: 100%; }
+.daily-element-stack .daily-element-stack-title {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+.daily-element-stack #dailyElementSuggest,
+.daily-element-stack #dailyCrystalName,
+.daily-element-stack #dailyCrystalHealing,
+.daily-element-stack #dailyCrystalSupport {
+  display: block;
+  white-space: normal;
+}
+.daily-crystal-stack #dailyCrystalName { font-weight: 800; }
