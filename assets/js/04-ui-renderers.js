@@ -1317,7 +1317,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<h4 style="color:#0e7490;">☀️ พลังประจำวัน · ไพ่ + รูน + คริสตัล + โหรกระต่าย</h4>';
     h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำวัน / ไพ่เหตุการณ์: '+eventName+'</b><br/>'+eventMeaning+'</div>';
     h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+dailyName+' '+dailySymbol+'</b><br/>'+dailyMeaning+'</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+dailyCrystalDate.name+'</b><br/>'+dailyCrystalDate.healing+'</div>';
+    h+='<div class="pred-section-item"><div class="thai-keep">💎 คริสตัลประจำวัน</div><div><b>'+dailyCrystalDate.name+'</b></div><div>'+dailyCrystalDate.healing+'</div></div>';
     h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับโหรกระต่ายวันนี้: '+dailyCrystalRabbitElement.name+'</b><br/>'+dailyCrystalRabbitElement.healing+'</div>';
     h+='<div class="pred-section-item"><b>🌤️ คำทำนายรวมกับโหรกระต่าย (เลข '+code+'):</b><br/>'+rabbitText+' วันนี้ลองนำสิ่งที่ไพ่และรูนสะท้อนมาเทียบกับความรู้สึกและเหตุการณ์จริง ไม่จำเป็นต้องเชื่อทุกอย่างหรือรีบหาคำตอบทันที</div>';
     h+='</div>';
@@ -1906,7 +1906,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var bc = res.birthCard || {}, ec = res.eventCard || {}, pr = res.personalCrystal || {}, dc = res.dailyCrystalDate || {};
       var esc = function(v){return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
-        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
+        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
     body += renderAdminDeepSelfSection(data, 'tarotRune');
     setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
@@ -2100,7 +2100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (res.catPrediction && res.catPrediction.detail) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.detail) + '</div>';
     else if (res.catPrediction && res.catPrediction.example) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.example) + '</div>';
     if (res.deep && res.deep.action) h += '<div class="pred-section-item"><b>สิ่งที่ควรทำ:</b><br/>' + warmOreguramText(res.deep.action) + '</div>';
-    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><b class="thai-keep">คำแนะนำ:</b><br/>' + warmOreguramText(res.catPrediction.advice) + '</div>';
+    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><div class="thai-keep">คำแนะนำ</div><div>' + warmOreguramText(res.catPrediction.advice) + '</div></div>';
     if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
