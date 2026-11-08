@@ -51,11 +51,19 @@ function createBooking(b) {
   const lineId = clean_(b.lineId,80), service = clean_(b.service,100);
   const birthDay = Number(b.birthDay), birthMonth = Number(b.birthMonth), birthYear = Number(b.birthYear);
   const birthCheck = new Date(birthYear,birthMonth-1,birthDay);
-  const noBirthTime = b.noBirthTime === true;
-  const birthHour = noBirthTime ? "" : clean_(b.birthHour,2);
-  const birthMinute = noBirthTime ? "" : clean_(b.birthMinute,2);
+  const noBirthTime = b.noBirthTime === true || String(b.noBirthTime).toLowerCase() === "true";
+  // รับค่าชั่วโมง/นาทีได้ทั้ง "9" และ "09" แล้วจัดเก็บเป็นรูปแบบ HH:mm
+  const birthHourRaw = noBirthTime ? "" : clean_(b.birthHour,2);
+  const birthMinuteRaw = noBirthTime ? "" : clean_(b.birthMinute,2);
+  const birthHourNumber = Number(birthHourRaw), birthMinuteNumber = Number(birthMinuteRaw);
+  const validBirthTime = noBirthTime || (
+    /^\d{1,2}$/.test(birthHourRaw) && Number.isInteger(birthHourNumber) && birthHourNumber >= 0 && birthHourNumber <= 23 &&
+    /^\d{1,2}$/.test(birthMinuteRaw) && Number.isInteger(birthMinuteNumber) && birthMinuteNumber >= 0 && birthMinuteNumber <= 59
+  );
+  const birthHour = noBirthTime || !validBirthTime ? "" : String(birthHourNumber).padStart(2,"0");
+  const birthMinute = noBirthTime || !validBirthTime ? "" : String(birthMinuteNumber).padStart(2,"0");
   const birthDate = birthYear + "-" + String(birthMonth).padStart(2,"0") + "-" + String(birthDay).padStart(2,"0");
-  const birthTime = noBirthTime ? "ไม่ทราบเวลาเกิด" : String(birthHour).padStart(2,"0") + ":" + String(birthMinute).padStart(2,"0");
+  const birthTime = noBirthTime ? "ไม่ทราบเวลาเกิด" : birthHour + ":" + birthMinute;
   const category = clean_(b.category,80), topic = clean_(b.topic,120);
   const requiresConsultation = !["โอเรกุรัม","เทพประจำตัว"].includes(service);
   // บริการอื่น ๆ > เบอร์โทร ต้องระบุศาสตร์แล้ว แต่ไม่ต้องมีหัวข้อย่อย
@@ -66,7 +74,7 @@ function createBooking(b) {
       !Number.isInteger(birthDay) || !Number.isInteger(birthMonth) || !Number.isInteger(birthYear) ||
       birthYear < 1900 || birthYear > 2100 || birthCheck.getFullYear() !== birthYear ||
       birthCheck.getMonth() !== birthMonth-1 || birthCheck.getDate() !== birthDay ||
-      (!noBirthTime && (!/^(?:[01]\d|2[0-3])$/.test(birthHour) || !/^[0-5]\d$/.test(birthMinute))) ||
+      !validBirthTime || !/^[0-5]\d$/.test(birthMinute))) ||
       !/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
     return { ok:false, message:"กรุณากรอกข้อมูลส่วนตัว วันเกิด บริการ เรื่องที่ปรึกษา และวันเวลาจองให้ครบถ้วน" };
   }
