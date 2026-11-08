@@ -77,7 +77,7 @@
     <div id="sharedForm">
       <section class="card">
         <span class="card-title">ข้อมูลส่วนตัว (กรอกครั้งเดียว ใช้ได้ทุกแท็บ)</span>
-        <div class="f-row">
+        <div class="f-row personal-name-row">
           <div class="field"><label for="fName">ชื่อ</label><input id="fName" type="text" placeholder="-" /></div>
           <div class="field"><label for="fLast">สกุล</label><input id="fLast" type="text" placeholder="-" /></div>
         </div>
@@ -85,14 +85,14 @@
 
       <section class="card">
         <span class="card-title">วันเกิด</span>
-        <div class="f-row">
+        <div class="f-row birth-date-row">
           <div class="field"><label for="bDay">วันเกิด</label><input id="bDay" type="number" min="1" max="31" placeholder="-" /></div>
           <div class="field"><label for="bMonth">เดือนเกิด</label><input id="bMonth" type="number" min="1" max="12" placeholder="-" /></div>
           <div class="field"><label for="bYear">ปี ค.ศ.</label><input id="bYear" type="number" placeholder="-" /></div>
         </div>
         <div style="margin-top: 8px;">
           <label>เวลาเกิด</label>
-          <div class="f-row" style="margin-bottom:0;">
+          <div class="f-row birth-time-row" style="margin-bottom:0;">
             <div class="field"><label for="bHour">ชั่วโมง</label><input id="bHour" type="number" min="0" max="23" placeholder="-" /></div>
             <div class="field"><label for="bMin">นาที</label><input id="bMin" type="number" min="0" max="59" placeholder="-" /></div>
           </div>
