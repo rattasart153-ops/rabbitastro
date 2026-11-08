@@ -1184,22 +1184,20 @@ document.addEventListener("DOMContentLoaded", function () {
     var d = res.ascDeep;
     var inn = res.ascInnerDeep;
     var face = res.ascFaceDeep;
-    var timeText = res.noBirthTime
-      ? 'ไม่ทราบเวลาเกิด · ใช้ 12:00 น. เป็นค่ากลาง'
-      : pad2(res.birthHour) + ':' + pad2(res.birthMin) + ' น.';
+    var weekday = res.birthWeekday || {};
+    var weekdayCore = weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '';
+    var weekdayStrength = weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '';
+    var weekdayShadow = weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '';
 
     var h = '<div class="pred-block" style="background:#f0f9ff; border-color:#bae6fd; border-left:5px solid #0369a1;">';
-    h += '<h4 style="color:#075985;">🌅 ลัคนาราศี · จิตสำนึกจากเวลาเกิดของเจ้าชะตา</h4>';
-    h += weekdayInfluenceHtml(res.birthWeekday, 'asc');
-
     h += '<div class="pred-section-item"><b>✨ ลัคนาราศี:</b><br/>' +
       '<b style="font-size:14px;">ราศี' + s.name + ' ' + s.symbol + '</b></div>';
-    h += '<div class="pred-section-item"><b>🪞 ลัคนาราศีนี้เป็นอย่างไร:</b><br/>' + s.trait + '</div>';
+    h += '<div class="pred-section-item"><b>🪞 ลัคนาราศีนี้เป็นอย่างไร:</b><br/>' + s.trait + weekdayCore + '</div>';
     if (d) {
-      // แสดงเฉพาะจุดแข็งและจุดที่ต้องระวัง โดยตัดหัวข้อที่ผู้ใช้ไม่ต้องการออก
+      // ผสมพลังวันเกิดเข้ากับจุดแข็งและจุดที่ควรระวังของลัคนา
       h += '<div class="dd-grid">' +
-        kvBox('💪 จุดแข็งที่ลัคนานี้มอบให้', 'dd-do', d.strength) +
-        kvBox('⚠️ จุดที่ต้องระวัง', 'dd-dont', d.watch) +
+        kvBox('💪 จุดแข็งที่ลัคนานี้มอบให้', 'dd-do', d.strength + weekdayStrength) +
+        kvBox('⚠️ จุดที่ต้องระวัง', 'dd-dont', d.watch + weekdayShadow) +
         '</div>';
 
       // คงไว้เฉพาะสังคมและจังหวะเวลา ตามที่ผู้ใช้ต้องการ
@@ -1225,6 +1223,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // แสดงเฉพาะคำแนะนำที่ไม่ซ้ำกับคำทำนายส่วนอื่นของลัคนา
       var ascDoList = (d.do || []).slice();
       var ascDontList = (d.dont || []).slice();
+      if (weekday.advice) ascDoList.push('คำแนะนำจากพลังวันเกิด: ' + weekday.advice);
       var ascOtherPredictionText = [
         d.strength, d.watch, d.people, d.timing,
         inn && inn.drive, inn && inn.whisper, inn && inn.fear, inn && inn.need, inn && inn.when
