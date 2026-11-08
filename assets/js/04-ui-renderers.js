@@ -750,7 +750,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (a.deepen) h += '<div class="pred-section-item"><b>🧠 ใจความสำคัญ:</b><br/>' + modernOreguText(a.deepen) + '</div>';
     if (a.boost) h += '<div class="pred-section-item"><b>🚀 วิธีช่วยให้คืบหน้า:</b><br/>' + modernOreguText(a.boost) + '</div>';
     var extra = a[bucket === 'good' ? 'goodBoost' : (bucket === 'warn' ? 'warnFix' : 'midBoost')];
-    if (extra) h += '<div class="role-box"><b>🎯 คำแนะนำเฉพาะผลลัพธ์ระดับนี้:</b> ' + modernOreguText(extra) + '</div>';
+    if (extra) h += '<div class="role-box"><b class="thai-keep">🎯 คำแนะนำเฉพาะผลลัพธ์ระดับนี้:</b> ' + modernOreguText(extra) + '</div>';
     return h + '</div>';
   }
 
@@ -2100,7 +2100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (res.catPrediction && res.catPrediction.detail) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.detail) + '</div>';
     else if (res.catPrediction && res.catPrediction.example) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.example) + '</div>';
     if (res.deep && res.deep.action) h += '<div class="pred-section-item"><b>สิ่งที่ควรทำ:</b><br/>' + warmOreguramText(res.deep.action) + '</div>';
-    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><b>คำแนะนำ:</b><br/>' + warmOreguramText(res.catPrediction.advice) + '</div>';
+    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><b class="thai-keep">คำแนะนำ:</b><br/>' + warmOreguramText(res.catPrediction.advice) + '</div>';
     if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
