@@ -514,3 +514,88 @@ textarea::placeholder,
 .booking-form textarea::placeholder {
   font-size: 12.5px;
 }
+
+
+/* ---------- Rabbitastro visual refresh: minimal, warm, premium ---------- */
+:root {
+  --bg-color: #f7f5f1;
+  --card-bg: #fffefa;
+  --text-main: #29251f;
+  --text-muted: #81796f;
+  --primary-orange: #a66b36;
+  --primary-orange-light: #f5ede3;
+  --dark-btn: #29251f;
+  --border-color: #ece6dd;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow: 0 8px 24px rgba(48, 38, 26, .045);
+}
+body { background: var(--bg-color); color: var(--text-main); letter-spacing: .005em; }
+.wrap { max-width: 520px; padding-top: 24px; }
+header.hero { padding: 14px 0 20px; }
+.hero .bunny-badge {
+  width: 54px; height: 54px; background: #f3e9dc; border: 1px solid #e8d8c5;
+  box-shadow: 0 5px 16px rgba(80,55,28,.07);
+}
+.hero h1 { font-size: clamp(22px, 5vw, 26px); letter-spacing: -.035em; }
+.hero p { color: #8b8175; font-size: 13px; }
+.engine-tabs {
+  gap: 5px; padding: 5px; background: #eee9e1; border: 1px solid #e7e0d6;
+  border-radius: 15px; margin: 16px 0 14px;
+}
+.tab-btn {
+  border-radius: 11px; padding: 10px 8px; color: #786f64;
+  font-size: 12.5px; transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.tab-btn.active {
+  color: #7e4f27; background: #fffefa; box-shadow: 0 2px 8px rgba(44,35,25,.08);
+}
+.card {
+  background: var(--card-bg); border: 1px solid #ece6dd; border-radius: 18px;
+  padding: 19px; box-shadow: 0 5px 18px rgba(48,38,26,.035);
+}
+.card-title { color: #9a8875; letter-spacing: .055em; font-size: 11px; }
+label { color: #71685e; }
+input, select, textarea,
+.booking-form input, .booking-form select, .booking-form textarea {
+  background: #fff; border-color: #e7e0d7; border-radius: 11px;
+}
+input:focus, select:focus, textarea:focus,
+.booking-form input:focus, .booking-form select:focus, .booking-form textarea:focus {
+  border-color: #b88b5d; box-shadow: 0 0 0 3px rgba(166,107,54,.10);
+}
+.chip-group { gap: 7px; }
+.chip-btn {
+  background: #faf8f4; border-color: #eee8df; border-radius: 11px;
+  color: #62594f; transition: .18s ease;
+}
+.chip-btn.active {
+  background: #8d6038; border-color: #8d6038; color: #fff;
+  box-shadow: 0 4px 10px rgba(112,74,39,.16);
+}
+.chip-btn-sub { background: #faf8f4; border-color: #eee8df; }
+.chip-btn-sub.active { background: #f4ece2; border-color: #dfc7ac; color: #875a32; }
+.btn-submit {
+  border-radius: 12px; background: #29251f; box-shadow: 0 6px 16px rgba(41,37,31,.14);
+  letter-spacing: .01em; min-height: 48px;
+}
+.btn-submit:hover { background: #514638; transform: translateY(-1px); }
+.daily-element-card {
+  border-radius: 18px; box-shadow: 0 8px 20px rgba(60,45,30,.10);
+}
+.pred-block { background: #fbf9f5; border-color: #eee8df; border-radius: 14px; }
+.pred-block h4 { color: #95663b; border-color: #eee8df; }
+.answer-box { border-radius: 13px; }
+.hint-box { background: #f8f6f1; border-color: #e8e1d7; color: #776d61; }
+.line-cta {
+  border-radius: 17px; box-shadow: 0 8px 18px rgba(21,128,61,.12);
+}
+.booking-section { border-color: #e9dfd2; background: #fffefa; }
+.booking-subcard { border-color: #eee8df; border-radius: 13px; background: #fcfbf8; }
+.booking-heading .card-title { color: #95663b; }
+.booking-heading h2 { letter-spacing: -.02em; }
+@media (max-width: 600px) {
+  .wrap { padding-left: 14px; padding-right: 14px; }
+  .card { padding: 16px; border-radius: 16px; }
+  .tab-btn { min-height: 43px; }
+}
