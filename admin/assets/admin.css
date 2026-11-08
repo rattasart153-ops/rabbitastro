@@ -83,9 +83,9 @@ button:focus-visible { outline: 3px solid #e66a0040; outline-offset: 2px; }
 .booking-list { display: grid; gap: 12px; }
 .booking-card { min-width: 0; padding: 18px; }
 .booking-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.booking-head h3 { margin: 0; font-size: 16px; overflow-wrap: anywhere; }
+.booking-head h3 { margin: 0; font-size: 16px; overflow-wrap: break-word; }
 .booking-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; margin: 13px 0; color: #4a5568; font-size: 13px; }
-.booking-note { margin: 10px 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #fafafa; white-space: pre-wrap; overflow-wrap: anywhere; }
+.booking-note { margin: 10px 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #fafafa; white-space: pre-wrap; overflow-wrap: break-word; }
 .status { display: inline-block; padding: 4px 10px; border-radius: 99px; background: var(--primary-orange-light); color: #9a4b08; font-size: 11px; font-weight: 800; white-space: nowrap; }
 .status.confirm { background: #ecfdf3; color: #067647; }
 .status.done { background: #eff6ff; color: #1d4ed8; }
@@ -156,7 +156,7 @@ footer { margin-top: 34px; color: #9aa4b2; text-align: center; font-size: 12px; 
 .engine-admin-shell .engine-tabs { display: flex; flex-wrap: wrap; }
 .engine-admin-shell .card { background: #fff; }
 .engine-admin-shell .btn-submit { width: 100%; }
-.engine-admin-shell #results { overflow-wrap: anywhere; }
+.engine-admin-shell #results { overflow-wrap: break-word; }
 @media (max-width: 760px) {
  .engine-admin-shell .wrap { padding-left: 0; padding-right: 0; }
 }
@@ -171,7 +171,7 @@ textarea {
   line-height: 1.45;
 }
 textarea {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 input::placeholder,
 textarea::placeholder {
@@ -328,14 +328,14 @@ body, main, section, article, aside, header, footer,
        .queue-order, .queue-removed, .status, .eyebrow,
        .booking-head, .booking-meta, .booking-note,
        .insight-field, .insight-disclaimer) {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
   white-space: normal;
 }
 .booking-note, .insight-field p, .insight-card > p,
 .message, .insight-summary p, .engine-admin-shell #results,
 .engine-admin-shell .pred-block, .engine-admin-shell .answer-box {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
 }
 .dashboard-layout > *, .admin-nav > *, .stats > *,
@@ -352,7 +352,7 @@ input, select, textarea, button {
 }
 textarea, .booking-note {
   white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
 }
 pre, code {
@@ -380,6 +380,19 @@ img, svg, video, canvas {
   overflow-wrap: normal;
 }
 
+
+/* Keep Thai UI labels intact while descriptions wrap naturally. */
+.pred-section-item > b,
+.pred-section-item > strong,
+.answer-box > b,
+.role-box > b,
+.god-box > b,
+.god-detail-box > b {
+  display: inline-block;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
 
 /* ---------- Consistent title + description layout in Admin ---------- */
 .engine-admin-shell .chip-btn,
