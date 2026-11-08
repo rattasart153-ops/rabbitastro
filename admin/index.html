@@ -78,26 +78,26 @@
       <section class="card">
         <span class="card-title">ข้อมูลส่วนตัว (กรอกครั้งเดียว ใช้ได้ทุกแท็บ)</span>
         <div class="f-row">
-          <div class="field"><label for="fName">ชื่อ *</label><input id="fName" type="text" placeholder="ชื่อ" /></div>
-          <div class="field"><label for="fLast">นามสกุล *</label><input id="fLast" type="text" placeholder="นามสกุล" /></div>
+          <div class="field"><label for="fName">ชื่อ</label><input id="fName" type="text" placeholder="-" /></div>
+          <div class="field"><label for="fLast">สกุล</label><input id="fLast" type="text" placeholder="-" /></div>
         </div>
       </section>
 
       <section class="card">
         <span class="card-title">วันเกิด</span>
         <div class="f-row">
-          <div class="field"><label for="bDay">วัน</label><input id="bDay" type="number" min="1" max="31" placeholder="เช่น 15" /></div>
-          <div class="field"><label for="bMonth">เดือน</label><input id="bMonth" type="number" min="1" max="12" placeholder="เช่น 3" /></div>
-          <div class="field"><label for="bYear">ปี ค.ศ.</label><input id="bYear" type="number" placeholder="เช่น 1990" /></div>
+          <div class="field"><label for="bDay">วันเกิด</label><input id="bDay" type="number" min="1" max="31" placeholder="-" /></div>
+          <div class="field"><label for="bMonth">เดือนเกิด</label><input id="bMonth" type="number" min="1" max="12" placeholder="-" /></div>
+          <div class="field"><label for="bYear">ปี ค.ศ.</label><input id="bYear" type="number" placeholder="-" /></div>
         </div>
         <div style="margin-top: 8px;">
-          <label>เวลาเกิด (24 ชม.)   ใช้เป็นส่วน "จิตสำนึก" และลัคนาราศี</label>
+          <label>เวลาเกิด</label>
           <div class="f-row" style="margin-bottom:0;">
-            <div class="field"><input id="bHour" type="number" min="0" max="23" placeholder="ชม. (0-23)" /></div>
-            <div class="field"><input id="bMin" type="number" min="0" max="59" placeholder="นาที (0-59)" /></div>
+            <div class="field"><label for="bHour">ชั่วโมง</label><input id="bHour" type="number" min="0" max="23" placeholder="-" /></div>
+            <div class="field"><label for="bMin">นาที</label><input id="bMin" type="number" min="0" max="59" placeholder="-" /></div>
           </div>
           <label class="chk"><input type="checkbox" id="noBirthTime" /> ไม่ทราบเวลาเกิด</label>
-        </div>
+        </div></div>
         <div class="hint-box">
           💡 กรอกข้อมูลชุดนี้ครั้งเดียว ใช้ได้ทั้ง 3 แท็บ และข้อมูลจะคงอยู่เมื่อสลับแท็บ
         </div>
