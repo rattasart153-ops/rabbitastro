@@ -177,3 +177,56 @@ input::placeholder,
 textarea::placeholder {
   font-size: 12.5px;
 }
+
+
+/* ---------- Rabbitastro Admin visual refresh: aligned with Main ---------- */
+:root {
+  --bg-color: #f7f5f1;
+  --card-bg: #fffefa;
+  --text-main: #29251f;
+  --text-muted: #81796f;
+  --primary-orange: #a66b36;
+  --primary-orange-light: #f5ede3;
+  --dark-btn: #29251f;
+  --border-color: #ece6dd;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow: 0 8px 24px rgba(48,38,26,.045);
+}
+body { background: var(--bg-color); color: var(--text-main); }
+.brand { gap: 14px; margin-bottom: 30px; }
+.bunny { background: #f3e9dc; border-color: #e8d8c5; box-shadow: 0 5px 16px rgba(80,55,28,.07); }
+.brand h1, .page-heading h2 { color: #29251f; letter-spacing: -.03em; }
+.panel, .stat, .booking-card, .admin-nav, .insight-card {
+  background: #fffefa; border-color: #ece6dd; box-shadow: 0 5px 18px rgba(48,38,26,.035);
+}
+.login-panel { border-radius: 20px; padding: 28px; }
+.login-panel h2 { letter-spacing: -.025em; }
+input, select { background: #fff; border-color: #e7e0d7; border-radius: 11px; }
+input:focus, select:focus { border-color: #b88b5d; box-shadow: 0 0 0 3px rgba(166,107,54,.10); }
+button { border-radius: 11px; }
+.primary { background: #29251f; }
+.primary:hover { background: #514638; }
+.secondary { color: #875a32; background: #f5ede3; border-color: #e7d7c5; }
+.secondary:hover { background: #eee1d2; }
+.admin-nav { border-radius: 18px; padding: 12px; }
+.nav-button { border-radius: 11px; }
+.nav-button:hover, .nav-button.active { background: #f5ede3; color: #875a32; border-color: #e7d7c5; }
+.toolbar { border-radius: 16px; }
+.booking-card { border-radius: 17px; }
+.booking-note { background: #faf8f4; border-color: #eee8df; border-radius: 12px; }
+.queue-manage { background: #fbf8f3; border-color: #e6d5c1; }
+.stat { border-radius: 16px; }
+.stat strong { color: #29251f; }
+.insight-summary { background: #f5ede3; border-color: #e7d7c5; border-radius: 17px; }
+.insight-card { border-radius: 16px; }
+.engine-admin-shell .card { background: #fffefa; }
+.engine-admin-shell .engine-tabs { background: #eee9e1; border: 1px solid #e7e0d6; }
+.engine-admin-shell .tab-btn.active { background: #fffefa; color: #7e4f27; }
+.engine-admin-shell .chip-btn.active { background: #8d6038; border-color: #8d6038; color: #fff; }
+.engine-admin-shell .btn-submit { background: #29251f; }
+@media (max-width: 760px) {
+  .admin-wrap { padding: 18px 14px 36px; }
+  .login-panel { margin: 28px auto; padding: 22px; }
+  .admin-nav { border-radius: 15px; }
+}
