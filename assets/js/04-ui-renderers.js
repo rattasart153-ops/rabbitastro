@@ -1195,6 +1195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var inn = res.ascInnerDeep;
     var face = res.ascFaceDeep;
     var weekday = res.birthWeekday || {};
+    var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
     var weekdayCore = weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '';
     var weekdayStrength = weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '';
     var weekdayShadow = weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '';
