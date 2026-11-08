@@ -840,3 +840,37 @@ img, svg, video, canvas {
   padding-left: 7px;
   padding-right: 7px;
 }
+
+
+/* Keep the added weekday interpretation fully inside its prediction card. */
+.weekday-influence-block {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.weekday-influence-block *,
+.weekday-influence-block *::before,
+.weekday-influence-block *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+.weekday-influence-block h4,
+.weekday-influence-block .pred-section-item,
+.weekday-influence-block .pred-section-item b,
+.weekday-influence-block .dd-box,
+.weekday-influence-block .dd-box li {
+  width: 100%;
+  max-width: 100%;
+}
+.weekday-influence-block .dd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+}
