@@ -379,3 +379,39 @@ img, svg, video, canvas {
   word-break: normal;
   overflow-wrap: normal;
 }
+
+
+/* ---------- Consistent title + description layout in Admin ---------- */
+.engine-admin-shell .chip-btn,
+.chip-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  text-align: center;
+}
+.engine-admin-shell .chip-btn small,
+.chip-btn small {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-height: 1.35;
+  text-align: center;
+}
+.card-title,
+.daily-element-title,
+.page-heading h2,
+.pred-block h3,
+.pred-block h4,
+.nav-heading,
+.booking-head h3 {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
