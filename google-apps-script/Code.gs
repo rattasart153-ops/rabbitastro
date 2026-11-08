@@ -58,8 +58,11 @@ function createBooking(b) {
   const birthTime = noBirthTime ? "ไม่ทราบเวลาเกิด" : String(birthHour).padStart(2,"0") + ":" + String(birthMinute).padStart(2,"0");
   const category = clean_(b.category,80), topic = clean_(b.topic,120);
   const requiresConsultation = !["โอเรกุรัม","เทพประจำตัว"].includes(service);
+  // บริการอื่น ๆ > เบอร์โทร ต้องระบุศาสตร์แล้ว แต่ไม่ต้องมีหัวข้อย่อย
+  const phoneServiceWithoutTopic = service === "บริการอื่น ๆ" && category === "เบอร์โทร";
   const date = clean_(b.date,10), time = clean_(b.time,5), note = clean_(b.note,1000);
-  if (!firstName || !lastName || !phone || !service || (requiresConsultation && (!category || !topic)) ||
+  if (!firstName || !lastName || !phone || !service ||
+      (requiresConsultation && (!category || (!phoneServiceWithoutTopic && !topic))) ||
       !Number.isInteger(birthDay) || !Number.isInteger(birthMonth) || !Number.isInteger(birthYear) ||
       birthYear < 1900 || birthYear > 2100 || birthCheck.getFullYear() !== birthYear ||
       birthCheck.getMonth() !== birthMonth-1 || birthCheck.getDate() !== birthDay ||
