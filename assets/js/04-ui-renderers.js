@@ -1208,14 +1208,10 @@ document.addEventListener("DOMContentLoaded", function () {
         '</div>';
     }
 
-    // ── เสียงในใจ
+    // สรุปเสียงในใจให้เหลือใจความเดียว ลดข้อความซ้ำและอ่านได้เร็วขึ้น
     if (inn) {
-      h += '<span class="mini-h">🎭 เสียงในใจของลัคนานี้ (รหัสกระต่าย ' + res.ascInner + ' ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + ')</span>';
-      h += '<div class="pred-section-item"><b>🚀 แรงขับลึก:</b><br/>' + inn.drive + '</div>';
-      h += '<div class="pred-section-item"><b>🤫 เสียงที่พูดกับตัวเองบ่อยที่สุด:</b><br/>' + inn.whisper + '</div>';
-      h += '<div class="pred-section-item"><b>😰 สิ่งที่กลัวที่สุดในใจ:</b><br/>' + inn.fear + '</div>';
-      h += '<div class="pred-section-item"><b>🫶 สิ่งที่ต้องการจริง ๆ:</b><br/>' + inn.need + '</div>';
-      h += '<div class="pred-section-item"><b>📣 เสียงนี้จะดังที่สุดเมื่อ:</b><br/>' + inn.when + '</div>';
+      h += '<div class="pred-section-item"><b>🎭 สิ่งที่ใจต้องการ:</b><br/>' +
+        (inn.need || inn.drive || 'ลองสังเกตความต้องการของตัวเองในช่วงนี้') + '</div>';
     }
 
     if (d) {
@@ -1257,19 +1253,13 @@ document.addEventListener("DOMContentLoaded", function () {
         usedAscAdvice.push(item);
         return true;
       }).slice(0, 5);
-      h += '<span class="mini-h">🧭 สิ่งที่ควรทำและสิ่งที่ควรเลี่ยงตามลัคนานี้</span>' +
-        (ascDoList.length || ascDontList.length ? doDontHtml(ascDoList, ascDontList) : '<div class="pred-section-item">คำแนะนำของลัคนานี้มีเนื้อหาซ้ำกับคำทำนายส่วนอื่น จึงไม่แสดงซ้ำ</div>');
+      h += '<span class="mini-h">🧭 คำแนะนำสั้น ๆ</span>' +
+        '<div class="pred-section-item"><b>ควรทำ:</b> ' + (ascDoList.slice(0, 2).join(' · ') || 'ค่อย ๆ ทำตามเป้าหมาย') +
+        '<br/><b>ควรเลี่ยง:</b> ' + (ascDontList.slice(0, 2).join(' · ') || 'อย่ารีบตัดสินใจ') + '</div>';
 
-      // ── มงคล
+      // แสดงเฉพาะสัญลักษณ์มงคลที่จำเป็น ลดส่วนข้อความที่ซ้ำกับคำทำนายหลัก
       if (!noLucky) h += luckyChipsHtml(d.lucky);
       if (!noChant) h += chantBoxHtml(d.chant, 'คาถาประจำลัคนา');
-      h += '<div class="role-box" style="background:#ecfeff; border-color:#a5f3fc; color:#155e75;"><b>💬 คำยืนยันของลัคนานี้:</b> ' + d.affirmation + '</div>';
-
-      // ── คำถามสำรวจตัวเอง
-      if (d.questions && d.questions.length) {
-        h += '<span class="mini-h">❓ คำถามสำรวจจิตสำนึกของตัวเอง (ตอบกับตัวเองตามจริง)</span>';
-        h += '<div class="pred-section-item">' + listHtml(d.questions) + '</div>';
-      }
     }
 
     return h + '</div>';
