@@ -33,14 +33,6 @@ button { cursor: pointer; }
 }
 .brand h1 { margin: 0; color: #1a202c; font-size: 23px; font-weight: 800; }
 .brand p, .muted { margin: 2px 0 0; color: var(--text-muted); font-size: 13px; }
-
-.panel, .stat, .booking-card {
-  background: var(--card-bg); border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg); box-shadow: var(--shadow);
-}
-.login-panel { width: min(440px, 100%); margin: 54px auto; padding: 26px; }
-.login-panel h2 { margin: 0 0 3px; font-size: 20px; }
-.login-panel form { display: grid; gap: 9px; margin-top: 20px; }
 label { color: var(--text-main); font-size: 13px; font-weight: 700; }
 input, select {
   width: 100%; min-height: 44px; padding: 9px 12px;
@@ -53,49 +45,11 @@ button {
   border-radius: var(--radius-md); font-weight: 700; transition: .18s ease;
 }
 button:focus-visible { outline: 3px solid #e66a0040; outline-offset: 2px; }
-.primary { margin-top: 8px; color: #fff; background: var(--primary-orange); }
-.primary:hover { background: #cf5f00; }
 .secondary { color: #a94705; background: var(--primary-orange-light); border-color: #fbd38d; }
 .secondary:hover { background: #ffeddc; }
-.message { min-height: 22px; margin: 8px 0 0; color: #b42318; font-size: 13px; }
-
-.dashboard-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); align-items: start; gap: 22px; }
-.admin-nav {
-  position: sticky; top: 18px; display: flex; flex-direction: column; gap: 8px;
-  padding: 14px; background: var(--card-bg); border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg); box-shadow: var(--shadow);
-}
-.nav-heading { padding: 5px 9px 8px; color: var(--text-muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
-.nav-button { width: 100%; text-align: left; color: var(--text-main); background: transparent; }
-.nav-button:hover { background: var(--primary-orange-light); color: var(--primary-orange); }
-.nav-button.active { color: var(--primary-orange); background: var(--primary-orange-light); border-color: #fbd38d; }
-.nav-button.logout { margin-top: 12px; border-top: 1px solid var(--border-color); border-radius: 0 0 10px 10px; color: #9b2c2c; }
-.admin-content { min-width: 0; }
 .page-heading { display: flex; align-items: center; justify-content: space-between; margin: 2px 0 18px; }
 .page-heading h2 { margin: 0; color: #1a202c; font-size: 23px; }
 .eyebrow { margin: 0 0 3px; color: var(--primary-orange); font-size: 10px; font-weight: 800; letter-spacing: .12em; }
-
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
-.stat { min-width: 0; padding: 16px 18px; }
-.stat span { display: block; color: var(--text-muted); font-size: 12px; font-weight: 600; }
-.stat strong { display: block; margin-top: 2px; color: var(--text-main); font-size: 28px; line-height: 1.3; }
-.toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 190px 170px auto; gap: 10px; align-items: center; margin: 18px 0; padding: 13px; }
-.booking-list { display: grid; gap: 12px; }
-.booking-card { min-width: 0; padding: 18px; }
-.booking-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.booking-head h3 { margin: 0; font-size: 16px; overflow-wrap: break-word; }
-.booking-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; margin: 13px 0; color: #4a5568; font-size: 13px; }
-.booking-note { margin: 10px 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #fafafa; white-space: pre-wrap; overflow-wrap: break-word; }
-.status { display: inline-block; padding: 4px 10px; border-radius: 99px; background: var(--primary-orange-light); color: #9a4b08; font-size: 11px; font-weight: 800; white-space: nowrap; }
-.status.confirm { background: #ecfdf3; color: #067647; }
-.status.done { background: #eff6ff; color: #1d4ed8; }
-.status.cancel { background: #fff1f2; color: #be123c; }
-.booking-actions { display: flex; gap: 8px; align-items: center; }
-.booking-actions select { max-width: 190px; }
-.queue-order { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 10px; padding: 5px 10px; border-radius: 999px; background: #fff7ed; color: #9a3412; font-size: 12px; font-weight: 800; }
-.queue-manage { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; padding: 12px; border: 1px dashed #f3c18f; border-radius: var(--radius-md); background: #fffaf5; }
-.queue-manage button { min-height: 38px; }
-.queue-removed { color: #718096; font-size: 12px; font-weight: 700; margin-top: 10px; }
 .calculator-panel { margin: 0 0 18px; padding: 22px; }
 .calculator-panel h3 { margin: 0; font-size: 18px; }
 .calculator-form { margin-top: 18px; }
@@ -122,29 +76,12 @@ footer { margin-top: 34px; color: #9aa4b2; text-align: center; font-size: 12px; 
 
 @media (max-width: 760px) {
   .admin-wrap { padding: 18px 14px 38px; }
-  .dashboard-layout { grid-template-columns: 1fr; gap: 14px; }
-  .admin-nav { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 10px; }
-  .nav-heading { grid-column: 1 / -1; padding: 3px 7px; }
-  .nav-button { text-align: center; padding: 9px 7px; font-size: 12px; }
-  .nav-button.logout { grid-column: 1 / -1; margin: 2px 0 0; border-top: 1px solid var(--border-color); }
 }
 @media (max-width: 520px) {
   .admin-wrap { padding: 14px 12px 32px; }
   .brand { margin-bottom: 20px; }
   .brand h1 { font-size: 21px; }
-  .login-panel { margin: 34px auto; padding: 20px; }
-  .page-heading h2 { font-size: 20px; }
-  .stats { gap: 8px; margin: 14px 0; }
-  .stat { padding: 12px 11px; }
-  .stat strong { font-size: 23px; }
-  .toolbar { grid-template-columns: 1fr 1fr; padding: 11px; }
-  .toolbar input { grid-column: 1 / -1; }
-  .booking-card { padding: 15px; }
-  .booking-head { display: block; }
-  .booking-head .status { margin-top: 7px; }
-  .booking-meta { grid-template-columns: 1fr; gap: 6px; }
-  .booking-actions { flex-wrap: wrap; }
-  .booking-actions select { flex: 1; max-width: none; }
+.page-heading h2 { font-size: 20px; }
   .form-grid, .insight-grid { grid-template-columns: 1fr; }
   .calculator-panel { padding: 16px; }
   .insight-card { padding: 15px; }
@@ -197,27 +134,14 @@ body { background: var(--bg-color); color: var(--text-main); }
 .brand { gap: 14px; margin-bottom: 30px; }
 .bunny { background: #f3e9dc; border-color: #e8d8c5; box-shadow: 0 5px 16px rgba(80,55,28,.07); }
 .brand h1, .page-heading h2 { color: #29251f; letter-spacing: -.03em; }
-.panel, .stat, .booking-card, .admin-nav, .insight-card {
+.insight-card {
   background: #fffefa; border-color: #ece6dd; box-shadow: 0 5px 18px rgba(48,38,26,.035);
 }
-.login-panel { border-radius: 20px; padding: 28px; }
-.login-panel h2 { letter-spacing: -.025em; }
 input, select { background: #fff; border-color: #e7e0d7; border-radius: 11px; }
 input:focus, select:focus { border-color: #b88b5d; box-shadow: 0 0 0 3px rgba(166,107,54,.10); }
 button { border-radius: 11px; }
-.primary { background: #29251f; }
-.primary:hover { background: #514638; }
 .secondary { color: #875a32; background: #f5ede3; border-color: #e7d7c5; }
 .secondary:hover { background: #eee1d2; }
-.admin-nav { border-radius: 18px; padding: 12px; }
-.nav-button { border-radius: 11px; }
-.nav-button:hover, .nav-button.active { background: #f5ede3; color: #875a32; border-color: #e7d7c5; }
-.toolbar { border-radius: 16px; }
-.booking-card { border-radius: 17px; }
-.booking-note { background: #faf8f4; border-color: #eee8df; border-radius: 12px; }
-.queue-manage { background: #fbf8f3; border-color: #e6d5c1; }
-.stat { border-radius: 16px; }
-.stat strong { color: #29251f; }
 .insight-summary { background: #f5ede3; border-color: #e7d7c5; border-radius: 17px; }
 .insight-card { border-radius: 16px; }
 .engine-admin-shell .card { background: #fffefa; }
@@ -227,8 +151,6 @@ button { border-radius: 11px; }
 .engine-admin-shell .btn-submit { background: #29251f; }
 @media (max-width: 760px) {
   .admin-wrap { padding: 18px 14px 36px; }
-  .login-panel { margin: 28px auto; padding: 22px; }
-  .admin-nav { border-radius: 15px; }
 }
 
 
@@ -238,70 +160,35 @@ body { font-size: 15px; line-height: 1.6; }
 .admin-wrap { width: min(100% - 40px, 1320px); }
 .brand h1 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
 .page-heading h2 { font-size: clamp(1.25rem, 1.8vw, 1.7rem); }
-label, .stat span { font-size: .9rem; line-height: 1.5; }
+label { font-size: .9rem; line-height: 1.5; }
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 select, textarea {
   font-size: 1rem; line-height: 1.5; min-height: 46px;
 }
 textarea { min-height: 104px; }
 input::placeholder, textarea::placeholder { font-size: .88rem; }
-button, .nav-button { font-size: .9rem; line-height: 1.4; }
+button { font-size: .9rem; line-height: 1.4; }
 button { min-height: 44px; }
-.booking-meta, .booking-note, .insight-field p, .insight-card > p { font-size: .94rem; line-height: 1.7; }
-.booking-head h3, .insight-card h3 { font-size: clamp(1rem, 1.3vw, 1.12rem); }
-.stat strong { font-size: clamp(1.35rem, 2.2vw, 1.9rem); }
+.insight-field p, .insight-card > p { font-size: .94rem; line-height: 1.7; }
+.insight-card h3 { font-size: clamp(1rem, 1.3vw, 1.12rem); }
 @media (min-width: 761px) and (max-width: 1100px) {
   .admin-wrap { width: min(100% - 32px, 1040px); padding: 22px 16px 44px; }
-  .dashboard-layout { grid-template-columns: 190px minmax(0, 1fr); gap: 16px; }
-  .admin-nav { padding: 10px; }
-  .nav-button { padding: 9px 8px; }
-  .toolbar { grid-template-columns: minmax(0, 1fr) 160px 150px; }
-  .toolbar button { grid-column: 1 / -1; }
-  .stats { gap: 10px; }
-  .stat { padding: 14px; }
 }
 @media (min-width: 1101px) {
   body { font-size: 16px; }
   .admin-wrap { width: min(100% - 64px, 1400px); padding-top: 30px; }
-  .dashboard-layout { grid-template-columns: 250px minmax(0, 1fr); gap: 26px; }
-  .booking-card { padding: 22px; }
 }
 @media (max-width: 760px) {
   body { font-size: 14.5px; }
   .admin-wrap { width: calc(100% - 24px); padding: 16px 0 32px; }
-  .dashboard-layout { grid-template-columns: minmax(0, 1fr); }
-  .admin-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nav-button { min-height: 44px; font-size: .82rem; }
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stat strong { font-size: 1.45rem; }
-  .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .toolbar input { grid-column: 1 / -1; }
-  .toolbar button { grid-column: 1 / -1; }
-  .booking-actions { flex-wrap: wrap; }
-  .booking-actions select { flex: 1 1 180px; max-width: none; }
   .engine-admin-shell .wrap { width: 100%; max-width: 760px; }
 }
 @media (max-width: 420px) {
   .admin-wrap { width: calc(100% - 20px); }
   .brand h1 { font-size: 1.25rem; }
-  .login-panel { padding: 17px; }
-  .stats { gap: 7px; }
-  .stat { padding: 11px 9px; }
-  .stat span { font-size: .78rem; }
-  .stat strong { font-size: 1.25rem; }
-  .admin-nav { gap: 5px; padding: 8px; }
-  .nav-button { padding: 8px 5px; font-size: .78rem; }
-  .toolbar { gap: 8px; padding: 9px; }
-  .booking-card { padding: 13px; }
-  .booking-meta { font-size: .86rem; }
-  .booking-actions button, .booking-actions select { width: 100%; }
-  .form-grid, .insight-grid { grid-template-columns: minmax(0, 1fr); }
+.form-grid, .insight-grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 340px) {
-  .admin-nav { grid-template-columns: minmax(0, 1fr); }
-  .nav-heading, .nav-button.logout { grid-column: 1; }
-  .toolbar { grid-template-columns: minmax(0, 1fr); }
-  .toolbar input, .toolbar button { grid-column: 1; }
 }
 
 
@@ -311,9 +198,7 @@ button { min-height: 44px; }
   min-width: 0;
 }
 body, main, section, article, aside, header, footer,
-.admin-wrap, .dashboard-layout, .admin-content, .admin-nav,
-.panel, .stat, .booking-card, .booking-head, .booking-meta,
-.booking-note, .booking-actions, .queue-manage,
+.admin-wrap,
 .calculator-panel, .form-grid, .insight-results,
 .insight-summary, .insight-grid, .insight-card,
 .insight-field, .engine-admin-shell, .engine-admin-shell .wrap,
@@ -324,24 +209,19 @@ body, main, section, article, aside, header, footer,
   max-width: 100%;
 }
 :where(p, li, label, small, strong, b, em, span, a, button,
-       h1, h2, h3, h4, h5, h6, summary, .nav-button,
-       .queue-order, .queue-removed, .status, .eyebrow,
-       .booking-head, .booking-meta, .booking-note,
+       h1, h2, h3, h4, h5, h6, summary, .eyebrow,
        .insight-field, .insight-disclaimer) {
   overflow-wrap: break-word;
   word-break: normal;
   white-space: normal;
 }
-.booking-note, .insight-field p, .insight-card > p,
-.message, .insight-summary p, .engine-admin-shell #results,
+.insight-field p, .insight-card > p,
+.insight-summary p, .engine-admin-shell #results,
 .engine-admin-shell .pred-block, .engine-admin-shell .answer-box {
   overflow-wrap: break-word;
   word-break: normal;
 }
-.dashboard-layout > *, .admin-nav > *, .stats > *,
-.toolbar > *, .booking-list > *, .booking-head > *,
-.booking-meta > *, .booking-actions > *,
-.form-grid > *, .insight-grid > *, .insight-card > *,
+..form-grid > *, .insight-grid > *, .insight-card > *,
 .engine-admin-shell .f-row > *,
 .engine-admin-shell .engine-tabs > *,
 .engine-admin-shell .chip-group > * {
@@ -350,7 +230,7 @@ body, main, section, article, aside, header, footer,
 input, select, textarea, button {
   max-width: 100%;
 }
-textarea, .booking-note {
+textarea {
   white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: normal;
@@ -367,8 +247,7 @@ img, svg, video, canvas {
 /* ---------- Keep short Thai Admin labels together ---------- */
 /* Prevent short headings and controls from splitting at Thai word boundaries. */
 :where(
-  .brand h1, .nav-heading, .nav-button, .booking-head h3,
-  .status, .queue-order, .queue-removed, .eyebrow,
+  .brand h1, .eyebrow,
   .engine-admin-shell .pred-block h3,
   .engine-admin-shell .pred-block h4,
   .engine-admin-shell .tab-btn,
@@ -421,9 +300,7 @@ img, svg, video, canvas {
 .daily-element-title,
 .page-heading h2,
 .pred-block h3,
-.pred-block h4,
-.nav-heading,
-.booking-head h3 {
+.pred-block h4 {
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
