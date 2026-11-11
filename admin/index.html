@@ -12,29 +12,10 @@
   <main class="admin-wrap">
     <header class="brand">
       <div class="bunny" aria-hidden="true">🐇</div>
-      <div class="brand-copy"><h1>Rabbitastro</h1><p>ระบบจัดการคิวดูดวงและเครื่องมือวิเคราะห์</p></div>
+      <div class="brand-copy"><h1>Rabbitastro</h1><p>เครื่องมือวิเคราะห์และระบบทำนาย</p></div>
     </header>
 
-    <section id="loginPanel" class="panel login-panel">
-      <h2>เข้าสู่ระบบผู้ดูแล</h2>
-      <p class="muted">กรุณาเข้าสู่ระบบเพื่อใช้งานระบบผู้ดูแล</p>
-      <form id="loginForm">
-        <label for="username">ชื่อผู้ใช้</label><input id="username" name="username" autocomplete="username" required maxlength="80">
-        <label for="password">รหัสผ่าน</label><input id="password" name="password" type="password" autocomplete="current-password" required>
-        <button class="primary" type="submit">เข้าสู่ระบบ</button>
-      </form>
-      <p id="loginMessage" class="message" role="alert"></p>
-    </section>
-
-    <section id="dashboard" class="dashboard-layout" hidden>
-      <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
-        <div class="nav-heading">เมนูจัดการ</div>
-        <button type="button" id="showEngines" class="nav-button active">🔮 ระบบทำนาย · Engines</button>
-        <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
-      </nav>
-
-      <div class="admin-content">
-        <section id="enginesPanel" hidden>
+<section id="enginesPanel" hidden>
           <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · DIVINATION SYSTEM</p><h2>ระบบทำนาย</h2><p class="muted">รูปแบบและชุดคำทำนายเดียวกับหน้า Main</p></div></div>
           <div class="engine-admin-shell">
             <div class="wrap">
@@ -71,7 +52,6 @@
       <button class="tab-btn" id="tabGod">⛩️ เทพประจำตัว</button>
       <button class="tab-btn" id="tabOreguram">🔮 โอเรกุรัม</button>
       <button class="tab-btn" id="tabTarotRune">🃏 ไพ่ทาโรต์ + รูน</button>
-      <button class="tab-btn" id="tabBooking">📅 จองคิวดูดวง</button>
     </div>
               <!-- ===== ฟอร์มกรอกข้อมูลครั้งเดียว ใช้ร่วมกันทุกแท็บ (อยู่นอกแท็บ ข้อมูลจึงคงอยู่เมื่อสลับ) ===== -->
     <div id="sharedForm">
@@ -226,30 +206,10 @@
     
               <section id="results" class="card" style="display:none; margin-top:16px;"></section>
             </div>
-            <div id="engineBooking" style="display:none;">
-  <section class="card">
-    <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · ENGINE 5</p><h2>รายการจองคิวจากลูกค้า</h2><p class="muted">จัดลำดับคิว นำคิวออกเมื่อยกเลิกหรือดำเนินการเสร็จ และดูประวัติการจองย้อนหลังได้</p></div></div>
-    <div class="stats">
-      <article class="stat"><span>ทั้งหมด</span><strong id="totalCount">0</strong></article>
-      <article class="stat"><span>รอตรวจสอบ</span><strong id="pendingCount">0</strong></article>
-      <article class="stat"><span>ยืนยันแล้ว</span><strong id="confirmedCount">0</strong></article>
-    </div>
-    <div class="toolbar panel">
-      <input id="searchInput" placeholder="ค้นหาชื่อ เบอร์โทร หรือเลขอ้างอิง" aria-label="ค้นหารายการจอง">
-      <select id="queueFilter" aria-label="เลือกคิวที่ต้องการดู"><option value="active">คิวที่กำลังใช้งาน</option><option value="removed">รายการที่นำออกจากคิว</option><option value="all">รายการทั้งหมด</option></select>
-      <select id="statusFilter" aria-label="กรองตามสถานะ">
-        <option value="">ทุกสถานะ</option><option>รอตรวจสอบ</option><option>ยืนยันแล้ว</option><option>เสร็จสิ้น</option><option>ยกเลิก</option>
-      </select>
-      <button id="refreshButton" class="secondary" type="button">รีเฟรช</button>
-    </div>
-    <div id="bookingList" class="booking-list"><p class="muted">กำลังโหลดข้อมูล…</p></div>
-  </section>
-</div>
+
           </div>
         </section>
 
-      </div>
-    </section>
     <footer>Rabbitastro · Admin</footer>
   </main>
 
@@ -260,6 +220,5 @@
   <script src="/assets/js/04-ui-renderers.js"></script>
   <script src="/assets/js/05-form-storage.js"></script>
   <script src="/assets/js/06-subconscious-presentation.js"></script>
-  <script src="/admin/assets/admin.js"></script>
 </body>
 </html>
