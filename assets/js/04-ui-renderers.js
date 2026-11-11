@@ -1507,7 +1507,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderRHDSection(res, featureKey, inputData) {
     if (!Engine || !Engine.RHD || !res || featureKey !== 'rhd') return '';
-    // บันทึกวันและเวลาจริง ณ จังหวะที่ผู้ใช้กดปุ่มคำนวณ
+    // ใช้วันที่ปัจจุบันเท่านั้น ไม่ใช้ชั่วโมง/นาทีที่กดคำนวณ
     var rhdQueryTime = new Date();
     var nameResult = (inputData && inputData.fName && inputData.fLast && typeof calcNameNumber === 'function')
       ? calcNameNumber(inputData.fName, inputData.fLast)
@@ -1515,26 +1515,21 @@ document.addEventListener("DOMContentLoaded", function () {
     var nameNumber = nameResult ? parseInt(nameResult.num, 10) : parseInt(res.N, 10);
     if (!isFinite(nameNumber) || nameNumber < 1 || nameNumber > 9) nameNumber = 5;
 
-    // วิธีรับมือใช้ข้อมูลประจำตัว: เลขชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ)
+    // วิธีรับมือ: เลขชื่อ-สกุล + ((วัน+เดือน+ปีเกิด) × เลขกำลังวันเกิด)
     var habitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
       nameNumber: nameNumber,
       bDay: inputData && inputData.bDay,
       bMonth: inputData && inputData.bMonth,
-      bYear: inputData && inputData.bYear,
-      bHour: inputData && inputData.bHour,
-      bMin: inputData && inputData.bMin,
-      noBirthTime: !!(inputData && inputData.noBirthTime)
+      bYear: inputData && inputData.bYear
     });
     var habit = parseInt(habitCalc && habitCalc.number, 10);
     if (!isFinite(habit) || habit < 1 || habit > 9) habit = 9;
 
-    // สถานการณ์ใช้วันเดือนปีและเวลาที่กดคำนวณในขณะนั้นเท่านั้น
+    // สถานการณ์รายวัน: (วัน+เดือน+ปีปัจจุบัน) × เลขกำลังของวันปัจจุบัน
     var situationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
       queryDay: rhdQueryTime.getDate(),
       queryMonth: rhdQueryTime.getMonth() + 1,
-      queryYear: rhdQueryTime.getFullYear(),
-      queryHour: rhdQueryTime.getHours(),
-      queryMinute: rhdQueryTime.getMinutes()
+      queryYear: rhdQueryTime.getFullYear()
     });
     var rabbitNumber = parseInt(situationCalc && situationCalc.number, 10);
     if (!isFinite(rabbitNumber) || rabbitNumber < 1 || rabbitNumber > 9) rabbitNumber = 9;
@@ -2011,7 +2006,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var params = {
       fName:data.fName, fLast:data.fLast,
       bDay:data.bDay, bMonth:data.bMonth, bYear:data.bYear,
-      bHour:data.bHour, bMin:data.bMin, noBirthTime:data.noBirthTime
+      bHour:data.bHour, bMin:data.bMin, noBirthTime:true
     };
     var godRes = Engine.calcGod(params);
     var god = godRes.godInfo || {}, ritual = godRes.godRitual || {};
