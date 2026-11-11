@@ -318,3 +318,87 @@ img, svg, video, canvas {
 
 /* Force result subheadings onto their own line; thai-keep is inline-block for compact labels. */
 .thai-heading-block { display:block !important; width:100%; white-space:normal; word-break:keep-all; overflow-wrap:normal; margin-bottom:4px; }
+
+
+/* ---------- Admin authentication and navigation ---------- */
+.panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.login-panel {
+  width: min(440px, 100%);
+  margin: 42px auto;
+  padding: 26px;
+}
+.login-panel h2 {
+  margin: 0 0 4px;
+  color: var(--text-main);
+  font-size: 21px;
+}
+.login-panel form {
+  display: grid;
+  gap: 9px;
+  margin-top: 20px;
+}
+.login-panel form label { margin-top: 5px; }
+.login-panel .primary {
+  margin-top: 10px;
+  color: #fff;
+  background: #29251f;
+}
+.login-panel .primary:disabled { opacity: .6; cursor: wait; }
+.message {
+  min-height: 1.5em;
+  margin: 12px 0 0;
+  color: #9b2c2c;
+  font-size: 13px;
+}
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+}
+.admin-nav {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+.nav-heading {
+  padding: 3px 8px 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.nav-button {
+  width: 100%;
+  text-align: left;
+  color: var(--text-main);
+  background: transparent;
+  border: 1px solid transparent;
+}
+.nav-button:hover, .nav-button.active {
+  color: #7e4f27;
+  background: var(--primary-orange-light);
+  border-color: #e7d7c5;
+}
+.nav-button.logout {
+  margin-top: 10px;
+  color: #9b2c2c;
+  border-top: 1px solid var(--border-color);
+}
+.admin-content { min-width: 0; }
+@media (max-width: 760px) {
+  .dashboard-layout { grid-template-columns: 1fr; gap: 14px; }
+  .admin-nav { grid-template-columns: 1fr 1fr; }
+  .nav-heading { grid-column: 1 / -1; }
+  .nav-button.logout { grid-column: 1 / -1; margin-top: 2px; }
+  .login-panel { margin: 26px auto; padding: 20px; }
+}
