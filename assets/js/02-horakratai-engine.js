@@ -2806,7 +2806,7 @@
   // ระบบแยกจากสูตร Rabbit Astrology โดยสิ้นเชิง:
   // Rabbit Number = WHAT / WHERE (สถานการณ์)
   // Habit Number  = HOW (รูปแบบการรับมือ)
-  // Habit Number ใช้เลขศาสตร์ชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด
+  // Habit Number ใช้เลขศาสตร์ชื่อ-สกุล + (วัน+เดือน+ปีเกิด × เลขกำลังวันเกิด)
   // แล้วลดผลรวมเหลือเลข 1-9 ก่อนเข้าสู่ RHD Synthesis Engine
   // Calculation Engine และ Interpretation/Synthesis Engine ถูกแยกออกจากกัน
   // ============================================================
@@ -2860,9 +2860,8 @@
 
   // Calculation Engine ของ RHD
   // สูตร RHD ไม่แก้/ไม่เขียนทับสูตร Rabbit Astrology เดิม
-  // หากไม่ทราบเวลาเกิด จะไม่รวมชั่วโมงและนาทีเกิดในการคำนวณ
-  // แยกคำนวณจากข้อมูลดิบของผู้ใช้โดยตรง:
-  // เลขศาสตร์ชื่อ-สกุล + วัน + เดือน + ปี + ชั่วโมง + นาที -> ลดเหลือ 1-9
+  // ไม่ใช้ชั่วโมงและนาทีเกิดอีกต่อไป ใช้เลขกำลังวันเกิดแทน
+  // เลขศาสตร์ชื่อ-สกุล + ((วัน + เดือน + ปี) × เลขกำลังวันเกิด) -> ลดเหลือ 1-9
   var RHD_CALCULATOR = {
     temporary: false,
     // วิธีรับมือ: เลขศาสตร์ชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ) -> เลขเดียว 1-9
@@ -2877,13 +2876,15 @@
       var day = Math.max(0, asInt(params.bDay));
       var month = Math.max(0, asInt(params.bMonth));
       var year = Math.max(0, asInt(params.bYear));
-      var noBirthTime = params.noBirthTime === true || params.noBirthTime === 'true' || params.noBirthTime === 1;
-      var hour = noBirthTime ? 0 : Math.max(0, Math.min(23, asInt(params.bHour)));
-      var minute = noBirthTime ? 0 : Math.max(0, Math.min(59, asInt(params.bMin)));
-      var total = nameNumber + day + month + year + hour + minute;
+      var birthDate = new Date(year, Math.max(0, month - 1), Math.max(1, day));
+      var dayPowerInfo = getDayPower(birthDate);
+      var dateSum = day + month + year;
+      var multipliedDate = dateSum * dayPowerInfo.power;
+      var dateNumber = reduce1(multipliedDate);
+      var total = nameNumber + dateNumber;
       var number = reduce1(total);
       if (!isFinite(number) || number < 1 || number > 9) number = 9;
-      return { number:number, total:total, nameNumber:nameNumber, day:day, month:month, year:year, hour:hour, minute:minute, noBirthTime:noBirthTime };
+      return { number:number, total:total, nameNumber:nameNumber, day:day, month:month, year:year, dayPower:dayPowerInfo.power, dayPowerName:dayPowerInfo.name, dateSum:dateSum, multipliedDate:multipliedDate, dateNumber:dateNumber, noBirthTime:true };
     },
     // สถานการณ์: วันเดือนปีและเวลาจริง ณ ขณะที่ผู้ใช้กดปุ่มคำนวณ -> เลขเดียว 1-9
     calculateSituationNumber: function(params){
@@ -2896,12 +2897,13 @@
       var day = Math.max(1, Math.min(31, asInt(params.queryDay) || 1));
       var month = Math.max(1, Math.min(12, asInt(params.queryMonth) || 1));
       var year = Math.max(0, asInt(params.queryYear));
-      var hour = Math.max(0, Math.min(23, asInt(params.queryHour)));
-      var minute = Math.max(0, Math.min(59, asInt(params.queryMinute)));
-      var total = day + month + year + hour + minute;
-      var number = reduce1(total);
+      var queryDate = new Date(year, month - 1, day);
+      var dayPowerInfo = getDayPower(queryDate);
+      var dateSum = day + month + year;
+      var multipliedDate = dateSum * dayPowerInfo.power;
+      var number = reduce1(multipliedDate);
       if (!isFinite(number) || number < 1 || number > 9) number = 9;
-      return { number:number, total:total, day:day, month:month, year:year, hour:hour, minute:minute };
+      return { number:number, total:multipliedDate, day:day, month:month, year:year, dayPower:dayPowerInfo.power, dayPowerName:dayPowerInfo.name, dateSum:dateSum, multipliedDate:multipliedDate };
     }
   };
 
@@ -3708,17 +3710,21 @@
     var b = readBirthInput(params || {});
     var nameRes = calcNameNumber(b.fName, b.fLast);
     var nameNumber = nameRes ? nameRes.num : 0;
-    var timeNumber = b.noBirthTime ? 0 : (b.bHour + b.bMin);
-    var combinedSum = nameNumber + b.bDay + b.bMonth + b.bYear + timeNumber;
+    var birthDate = new Date(b.bYear, b.bMonth - 1, b.bDay);
+    var dayPowerInfo = getDayPower(birthDate);
+    var dateSum = b.bDay + b.bMonth + b.bYear;
+    var multipliedDate = dateSum * dayPowerInfo.power;
+    var dateNumber = reduce1(multipliedDate);
+    var combinedSum = nameNumber + dateNumber;
     var num = reduce1(combinedSum);
     return {
       godNum: num,
       godInfo: GOD_DATA[num] || GOD_DATA[1],
       godRitual: GOD_RITUAL[num] || null,
       nameRes: nameRes,
-      noBirthTime: b.noBirthTime,
+      noBirthTime: true,
       combinedSum: combinedSum,
-      components: { nameNumber: nameNumber, day: b.bDay, month: b.bMonth, year: b.bYear, time: timeNumber }
+      components: { nameNumber: nameNumber, day: b.bDay, month: b.bMonth, year: b.bYear, dayPower: dayPowerInfo.power, dayPowerName: dayPowerInfo.name, dateSum: dateSum, multipliedDate: multipliedDate, dateNumber: dateNumber }
     };
   }
 
