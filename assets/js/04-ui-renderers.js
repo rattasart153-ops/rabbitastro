@@ -1890,7 +1890,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsBox.style.display = "block";
     var rhdBody = '';
-    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + body + rhdBody + featureCtaHtml(featureKey));
+    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + personalizedReadingLead(data, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), res.categoryName || titleText) + body + rhdBody + featureCtaHtml(featureKey));
     improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
@@ -1944,7 +1944,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
     body += renderAdminDeepSelfSection(data, 'tarotRune');
-    setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
+    setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + personalizedReadingLead(data, res.R4 || res.baseCode, 'ไพ่ทาโรต์และรูน') + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
     // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
@@ -2001,6 +2001,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // สร้างบทนำคำทำนายที่อ้างอิงข้อมูลจริงของแต่ละบุคคล ใช้ร่วมกันทั้ง Front และ Admin
+  function personalizedReadingLead(data, rabbitNumber, contextLabel) {
+    data = data || {};
+    var firstName = String(data.fName || '').trim();
+    var date = new Date(parseInt(data.bYear,10), parseInt(data.bMonth,10)-1, parseInt(data.bDay,10));
+    var weekdayNames = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+    var weekday = weekdayNames[date.getDay()] || '';
+    var dayPower = Engine && typeof Engine.getDayPower === 'function' ? Engine.getDayPower(new Date(date.getFullYear(),date.getMonth(),date.getDate())) : null;
+    var nameData = Engine && typeof Engine.calcNameNumber === 'function' ? Engine.calcNameNumber(data.fName || '',data.fLast || '') : null;
+    var number = parseInt(rabbitNumber,10) || 9;
+    var safeName = typeof escapeHTML === 'function' ? escapeHTML(firstName) : firstName.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});
+    var identity = nameData && nameData.num ? 'เลขชื่อ-สกุลของคุณอยู่ที่ ' + nameData.num : 'ข้อมูลชื่อของคุณ';
+    var power = dayPower ? 'พลังวันเกิด ' + dayPower.name + ' กำลัง ' + dayPower.power : 'วันเกิด ' + weekday;
+    return '<div class="pred-section-item personal-reading-lead" style="margin:10px 0;padding:11px 13px;border-left:4px solid #b77945;background:#fffaf5;border-radius:9px;line-height:1.85;">' +
+      '<b>✦ อ่านจากข้อมูลเฉพาะตัว' + (safeName ? 'ของคุณ ' + safeName : '') + '</b><br/>' +
+      'คำอ่าน' + (contextLabel ? 'เรื่อง' + contextLabel : 'ครั้งนี้') + ' เชื่อมจากวันเกิด' + weekday + ' (' + power + ') ร่วมกับ' + identity + ' และรหัสโหรกระต่ายเลข ' + number + ' จึงสะท้อนทั้งพื้นนิสัย จุดแข็ง และวิธีรับมือของคุณ ไม่ใช่คำทำนายกลางที่ใช้แทนกันได้ทุกคน' +
+      '</div>';
+  }
+
   // ---------- Engine 2: องค์เทพประจำตัว ----------
   function renderGodResult(data, fromButton) {
     var params = {
@@ -2040,7 +2059,7 @@ document.addEventListener("DOMContentLoaded", function () {
       9: 'ลูกเอ๋ย… หากตอนนี้ทุกอย่างดูพันกันยุ่งไปหมด อย่าเพิ่งตัดสินว่าตัวเองไม่มีทางออกนะ เมื่อใจเหนื่อย ปัญหาทุกเรื่องอาจดูใหญ่กว่าที่เป็นจริง ลองหยุดพัก แล้วแยกสิ่งที่กังวลออกมาทีละข้อ เลือกจัดการเพียงเรื่องเดียวที่พอเริ่มได้ก่อน เจ้าสามารถขอความช่วยเหลือได้ ไม่จำเป็นต้องผ่านทุกอย่างลำพัง แม้วันนี้ยังมองไม่เห็นทางทั้งหมด ก็ไม่เป็นไร ขอเพียงอย่าลืมว่าตัวเองยังมีสิทธิ์เริ่มต้นใหม่ทีละนิด'
     };
     var godConversationText = godConversation[rabbitNum] || godConversation[9];
-    var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
+    var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';\n    h += personalizedReadingLead(params, rabbitNum, 'องค์เทพประจำตัว');
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
     h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
@@ -2126,7 +2145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!qId || !Engine.OREGURAM_QUESTIONS.some(function (x) { return x.id === qId; })) qId = 1;
     var res = Engine.calcOreguram({ questionId: qId, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
-    var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
+    var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';\n    h += personalizedReadingLead(data, res.R4, res.categoryName || 'คำถามที่เลือก');
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
