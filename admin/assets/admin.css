@@ -86,7 +86,7 @@ footer { margin-top: 34px; color: #9aa4b2; text-align: center; font-size: 12px; 
   .calculator-panel { padding: 16px; }
   .insight-card { padding: 15px; }
 }
-/* Main engine workspace inside the authenticated Admin area */
+/* Admin divination workspace */
 .engine-admin-shell { min-width: 0; padding: 8px 0 24px; }
 .engine-admin-shell .wrap { max-width: 480px; margin: 0 auto; padding: 12px 0 30px; }
 .engine-admin-shell .hero { text-align: center; padding: 10px 0 15px; }
