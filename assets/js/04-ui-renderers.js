@@ -2026,7 +2026,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var params = {
       fName:data.fName, fLast:data.fLast,
       bDay:data.bDay, bMonth:data.bMonth, bYear:data.bYear,
-      bHour:data.bHour, bMin:data.bMin, noBirthTime:true
+      bHour:data.bHour, bMin:data.bMin, noBirthTime:data.noBirthTime
     };
     var godRes = Engine.calcGod(params);
     var god = godRes.godInfo || {}, ritual = godRes.godRitual || {};
