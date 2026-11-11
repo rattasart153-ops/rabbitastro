@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-11-11 — Restore Admin authentication
+
+### Changed
+- คืนหน้า Login ของ Admin และการแสดง Dashboard หลังตรวจสอบข้อมูลเข้าสู่ระบบสำเร็จ
+- คืน API proxy เฉพาะ `adminLogin`, `adminValidateSession` และ `adminLogout`
+- เพิ่ม Google Apps Script authentication-only backend โดยใช้ Script Properties เดิม `ADMIN_USERNAME`, `ADMIN_SALT`, `ADMIN_HASH`
+- Session token เก็บใน `sessionStorage` และหมดอายุภายใน 6 ชั่วโมง; จำกัดการลองเข้าสู่ระบบผิด 5 ครั้งต่อ 15 นาที
+- คงการถอดระบบจองคิว, Booking API, Queue API และ Google Sheets booking logic ไว้ทั้งหมด
+
+### Deployment / setup
+- ต้องนำ `google-apps-script/Code.gs` เวอร์ชัน authentication-only ไปแทนโค้ดเดิมใน Apps Script และ Deploy เป็น Web App version ใหม่
+- Environment Variable `GAS_WEB_APP_URL` สำหรับ Preview ของ `test-admin` ยังมีอยู่; หาก URL ของ Web App เปลี่ยน ต้องแก้ค่าให้ตรงกับ URL ใหม่
+- ไม่ต้องรัน `initializeAdminCredentials()` ซ้ำ หาก Script Properties `ADMIN_USERNAME`, `ADMIN_SALT`, `ADMIN_HASH` เดิมยังอยู่
+
+### Verification
+- ตรวจ HTML structure และการโหลดไฟล์ Admin JS/CSS บน Vercel Preview แล้ว (HTTP 200)
+- ตรวจว่า Admin page มี Login/Dashboard และไม่มี Booking/Queue references
+- ยังไม่ได้ทดสอบ Login จริงกับ Google Apps Script หลังผู้ใช้นำโค้ดไป Deploy
+
 ## 2026-11-11
 
 ### Changed
