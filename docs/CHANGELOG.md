@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-11
+
+### Changed
+- ถอดระบบจองคิวดูดวงออกจากหน้า Main และ Admin รวมถึงแท็บ Engine 5 และการจัดการคิว
+- ถอด Vercel booking/admin API, Google Apps Script booking backend และไฟล์ JavaScript/CSS ที่ใช้เฉพาะระบบจอง
+- ปรับหน้า `/admin` ให้เปิดเครื่องมือทำนายได้โดยตรง เนื่องจากระบบเข้าสู่ระบบเดิมผูกอยู่กับ Backend จองคิวที่ถูกถอดออก
+- คง Engine 1–4, สูตรคำนวณ, ชุดคำทำนาย และข้อมูลการจองเดิมใน Google Sheets ไว้โดยไม่แก้ไข/ลบ
+
+### Notes
+- การเปลี่ยนแปลงนี้ยังต้องผ่าน Browser regression test หลัง Deployment
+- การถอด Source Code ไม่ได้ปิด Google Apps Script Web App เดิมหรือถอนค่า `GAS_WEB_APP_URL` ใน Vercel โดยอัตโนมัติ ต้องปิด Deployment เดิมและลบ Environment Variable แยกต่างหาก
+- หน้า `/admin` ไม่มีระบบยืนยันตัวตนหลังถอด Booking Backend; ปัจจุบันเป็นหน้าเครื่องมือคำนวณฝั่ง Client เท่านั้น
+
 บันทึกการเปลี่ยนแปลงที่สำคัญของ Rabbitastro โดยเรียงจากใหม่ไปเก่า
 
 รูปแบบ:
