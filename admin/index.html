@@ -15,6 +15,26 @@
       <div class="brand-copy"><h1>Rabbitastro</h1><p>เครื่องมือวิเคราะห์และระบบทำนาย</p></div>
     </header>
 
+    <section id="loginPanel" class="panel login-panel">
+      <h2>เข้าสู่ระบบผู้ดูแล</h2>
+      <p class="muted">กรุณาเข้าสู่ระบบเพื่อใช้งานเครื่องมือของ Admin</p>
+      <form id="loginForm">
+        <label for="username">ชื่อผู้ใช้</label>
+        <input id="username" name="username" autocomplete="username" required maxlength="80">
+        <label for="password">รหัสผ่าน</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256">
+        <button id="loginSubmit" class="primary" type="submit">เข้าสู่ระบบ</button>
+      </form>
+      <p id="loginMessage" class="message" role="alert" aria-live="polite"></p>
+    </section>
+
+    <section id="dashboard" class="dashboard-layout" hidden>
+      <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
+        <div class="nav-heading">เมนูผู้ดูแล</div>
+        <button type="button" id="showEngines" class="nav-button active">🔮 ระบบทำนาย · Engines 1–4</button>
+        <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
+      </nav>
+      <div class="admin-content">
 <section id="enginesPanel">
           <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · DIVINATION SYSTEM</p><h2>ระบบทำนาย</h2><p class="muted">รูปแบบและชุดคำทำนายเดียวกับหน้า Main</p></div></div>
           <div class="engine-admin-shell">
@@ -209,6 +229,8 @@
 
           </div>
         </section>
+      </div>
+    </section>
 
     <footer>Rabbitastro · Admin</footer>
   </main>
@@ -220,5 +242,6 @@
   <script src="/assets/js/04-ui-renderers.js"></script>
   <script src="/assets/js/05-form-storage.js"></script>
   <script src="/assets/js/06-subconscious-presentation.js"></script>
+  <script src="/admin/assets/admin.js"></script>
 </body>
 </html>
