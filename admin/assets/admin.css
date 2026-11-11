@@ -221,7 +221,7 @@ body, main, section, article, aside, header, footer,
   overflow-wrap: break-word;
   word-break: normal;
 }
-..form-grid > *, .insight-grid > *, .insight-card > *,
+.form-grid > *, .insight-grid > *, .insight-card > *,
 .engine-admin-shell .f-row > *,
 .engine-admin-shell .engine-tabs > *,
 .engine-admin-shell .chip-group > * {
