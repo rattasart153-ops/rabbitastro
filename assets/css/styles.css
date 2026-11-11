@@ -454,64 +454,20 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
 }
   
 
-/* ---------- Rabbitastro Booking ---------- */
-.booking-section { border:1px solid #f3d5b8; background:linear-gradient(180deg,#fff 0%,#fffaf5 100%); }
-.booking-heading { display:flex; gap:12px; align-items:flex-start; margin-bottom:16px; }
-.booking-mark { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; border-radius:13px; background:#fff1e4; font-size:21px; }
-.booking-heading .card-title { margin:0 0 3px; color:#a94705; }
-.booking-heading h2 { font-size:19px; line-height:1.4; margin:0 0 4px; color:#2d3748; }
-.booking-heading p { margin:0; font-size:13px; color:#718096; }
-.booking-form { display:grid; gap:12px; }
-.booking-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.booking-form input,.booking-form select,.booking-form textarea { width:100%; min-height:46px; border:1px solid #d7dde7; border-radius:11px; padding:11px 12px; background:#fff; font:inherit; color:#2d3748; }
-.booking-form textarea { resize:vertical; min-height:88px; }
-.booking-form input:focus,.booking-form select:focus,.booking-form textarea:focus { outline:3px solid rgba(217,119,6,.13); border-color:#d97706; }
-.booking-consent { display:flex; align-items:flex-start; gap:9px; font-size:12px; line-height:1.55; color:#4a5568; }
-.booking-consent input { width:18px; min-height:18px; height:18px; flex:0 0 18px; margin:2px 0 0; }
-.booking-privacy { margin:0; color:#718096; font-size:11px; line-height:1.6; }
-.booking-message { min-height:0; font-size:13px; font-weight:700; overflow-wrap: break-word; }
-.booking-message.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; border-radius:10px; padding:11px; }
-.booking-message.error { background:#fff5f5; color:#b42318; border:1px solid #fecaca; border-radius:10px; padding:11px; }
-.booking-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
-.engine-tabs #tabBooking { flex-basis:100%; }
-.engine-tabs #tabBooking.active { color:#7c3aed; }
-#engineBooking .booking-section { margin-top:0; }
-@media(max-width:520px) { .booking-grid { grid-template-columns:1fr; gap:10px; } .booking-heading h2 { font-size:17px; } }
-
-
-/* Engine 5 booking form — aligned with the main astrology UI */
-.booking-subcard { margin: 12px 0; padding: 13px; border: 1px solid #edf2f7; border-radius: 12px; background: #fff; }
-.booking-subcard h3 { margin: 0 0 10px; font-size: 14px; color: #374151; }
-.booking-birth-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
-.booking-full { grid-column: 1 / -1; }
-.booking-form input:disabled { opacity: .55; background: #f3f4f6; }
-.booking-line-cta { display:flex; gap:12px; align-items:flex-start; margin-top:16px; padding:15px; border:1px solid #bbf7d0; border-radius:14px; background:#f0fdf4; }
-.booking-line-icon { flex:0 0 38px; width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#dcfce7; font-size:20px; }
-.booking-line-cta h3 { margin:0 0 5px; color:#166534; font-size:15px; }
-.booking-line-cta p { margin:0 0 11px; color:#365b45; font-size:12.5px; line-height:1.6; }
-.booking-line-cta .line-cta-btn { display:inline-flex; text-decoration:none; }
-@media(max-width:520px){.booking-birth-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.booking-line-cta{padding:12px;}}
-
 /* ---------- ปรับขนาดตัวอักษรในช่องกรอกข้อมูลให้พอดีกับ Text Box ---------- */
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 select,
-textarea,
-.booking-form input,
-.booking-form select,
-.booking-form textarea {
+textarea {
   min-width: 0;
   max-width: 100%;
   font-size: 14px !important;
   line-height: 1.45;
 }
-textarea,
-.booking-form textarea {
+textarea {
   overflow-wrap: break-word;
 }
 input::placeholder,
-textarea::placeholder,
-.booking-form input::placeholder,
-.booking-form textarea::placeholder {
+textarea::placeholder {
   font-size: 12.5px;
 }
 
@@ -556,12 +512,10 @@ header.hero { padding: 14px 0 20px; }
 }
 .card-title { color: #9a8875; letter-spacing: .055em; font-size: 11px; }
 label { color: #71685e; }
-input, select, textarea,
-.booking-form input, .booking-form select, .booking-form textarea {
+input, select, textarea {
   background: #fff; border-color: #e7e0d7; border-radius: 11px;
 }
-input:focus, select:focus, textarea:focus,
-.booking-form input:focus, .booking-form select:focus, .booking-form textarea:focus {
+input:focus, select:focus, textarea:focus {
   border-color: #b88b5d; box-shadow: 0 0 0 3px rgba(166,107,54,.10);
 }
 .chip-group { gap: 7px; }
@@ -590,10 +544,6 @@ input:focus, select:focus, textarea:focus,
 .line-cta {
   border-radius: 17px; box-shadow: 0 8px 18px rgba(21,128,61,.12);
 }
-.booking-section { border-color: #e9dfd2; background: #fffefa; }
-.booking-subcard { border-color: #eee8df; border-radius: 13px; background: #fcfbf8; }
-.booking-heading .card-title { color: #95663b; }
-.booking-heading h2 { letter-spacing: -.02em; }
 @media (max-width: 600px) {
   .wrap { padding-left: 14px; padding-right: 14px; }
   .card { padding: 16px; border-radius: 16px; }
@@ -610,10 +560,10 @@ body { font-size: 15px; line-height: 1.65; }
 .card-title { font-size: clamp(.72rem, .9vw, .82rem); }
 label { font-size: clamp(.82rem, 1vw, .94rem); line-height: 1.5; }
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-select, textarea, .booking-form input, .booking-form select, .booking-form textarea {
+select, textarea {
   font-size: 1rem !important; line-height: 1.5; min-height: 46px;
 }
-textarea, .booking-form textarea { min-height: 104px; }
+textarea { min-height: 104px; }
 input::placeholder, textarea::placeholder { font-size: .88rem; }
 button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; line-height: 1.4; }
 .tab-btn, .chip-btn { min-height: 46px; }
@@ -623,7 +573,6 @@ button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; l
   .wrap { width: min(100% - 48px, 760px); padding-top: 30px; }
   .card { padding: clamp(20px, 2.4vw, 28px); }
   .f-row { gap: 14px; }
-  .booking-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .engine-tabs { gap: 8px; }
   .tab-btn { flex: 1 1 auto; font-size: .9rem; padding: 12px 10px; }
 }
@@ -645,7 +594,6 @@ button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; l
   .engine-tabs { gap: 5px; }
   .tab-btn { flex: 1 1 calc(50% - 5px); min-height: 46px; font-size: .84rem; padding: 9px 5px; }
   .chip-btn { flex: 1 1 calc(50% - 7px); min-height: 46px; }
-  .booking-grid, .booking-birth-grid { grid-template-columns: 1fr; }
   .pred-section-item, .answer-box { font-size: .96rem; }
 }
 @media (max-width: 360px) {
@@ -666,9 +614,9 @@ body, main, section, article, aside, header, footer,
 .pred-section-item, .dd-box, .role-box, .chant-box,
 .god-card, .god-box, .god-detail-box, .god-message-box,
 .rhd-card, .rhd-tile, .rhd-combined, .rhd-section,
-.booking-section, .booking-subcard, .line-cta,
+.line-cta,
 .num-tile, .month-card, .topic-line, .mth,
-.field, .f-row, .booking-grid, .booking-birth-grid {
+.field, .f-row {
   min-width: 0;
   max-width: 100%;
 }
@@ -682,13 +630,12 @@ body, main, section, article, aside, header, footer,
 }
 .pred-block, .answer-box, .pred-section-item, .dd-box,
 .god-box, .god-detail-box, .god-lead, .god-message-box,
-.rhd-tile, .rhd-combined, .rhd-section, .booking-note,
+.rhd-tile, .rhd-combined, .rhd-section,
 .topic-line, .hint-box, .role-box, .chant-box {
   overflow-wrap: break-word;
   word-break: normal;
 }
 .f-row > *, .engine-tabs > *, .chip-group > *,
-.booking-grid > *, .booking-birth-grid > *,
 .rhd-grid > *, .num-grid > *, .month-grid > * {
   min-width: 0;
 }
@@ -764,8 +711,7 @@ img, svg, video, canvas {
 .pred-block h3,
 .pred-block h4,
 .pred-section-title,
-.section-title,
-.booking-heading .card-title {
+.section-title {
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
