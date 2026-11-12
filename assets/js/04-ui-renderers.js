@@ -1505,59 +1505,83 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- Rabbit’s Habit Design renderer ----------
   // Renderer แยกผลคำนวณ RHD ออกจาก Rabbit Astrology และสลับบทบาทเลขสถานการณ์/วิธีรับมือตามที่กำหนด
 
-  function renderAdminDeepSelfSection(inputData, engineKey) {
+  // กระจายบทสะท้อนจิตใต้สำนึกเข้าไปใน Engine ที่เกี่ยวข้อง โดยไม่สร้างแถบ Deep Self แยก
+  function renderAdminInnerReflection(inputData, engineKey) {
     if (!window.RABBITASTRO_ADMIN_MODE || !Engine || !inputData) return '';
-    // ใช้ผลคำนวณเดิมเป็นวัตถุดิบในการสะท้อนตัวตน ไม่สร้างข้อสรุปทางคลินิก
-    var base=Engine.calcPerson(Object.assign({},inputData,{feature:'base'}))||{};
-    var asc=inputData.noBirthTime?null:(Engine.calcPerson(Object.assign({},inputData,{feature:'asc'}))||{});
-    var d=base.baseDeep||{}, inner=asc&&Engine.ASC_INNER?Engine.ASC_INNER[asc.ascInner]||{}:{};
-    var face=asc&&Engine.ASC_FACE?Engine.ASC_FACE[asc.ascFace]||{}:{};
-    var shadow=asc&&Engine.ASC_DEEP?Engine.ASC_DEEP[asc.ascNum]||{}:{};
-    var esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
-    var map={
-      person:[['ตัวตนที่คนอื่นมองเห็น',[['ภาพแรกที่คนอื่นรับรู้',face.impression],['บทบาทในกลุ่ม',face.role],['สิ่งที่คนอื่นอาจเข้าใจผิด',face.misread]]],['ตัวตนที่อยู่ข้างใน',[['แก่นพื้นดวง',d.core],['ตัวตนที่แท้จริง',d.self]]],['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการเพื่อรู้สึกปลอดภัย',inner.need]]],['เงาที่อาจไม่อยากยอมรับ',[['เงาของจิตสำนึก',shadow.shadow],['จุดบอดจากพื้นดวง',d.blind]]],['ความขัดแย้งภายใน',[['สิ่งที่คุณอาจต้องการ',inner.need],['สิ่งที่พื้นดวงผลักดัน',d.self]]],['รูปแบบความรักและความผูกพัน',[['รูปแบบความผูกพัน',d.love],['สิ่งที่คนอื่นอาจรับรู้',face.impression]]],['ศักยภาพที่ยังใช้ไม่เต็มที่',[['พรสวรรค์พื้นฐาน',d.gift],['จุดแข็งของจิตสำนึก',shadow.strength]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['แรงปรารถนาที่อยู่ลึกที่สุด',inner.drive||d.core],['เสียงกระซิบในใจ',inner.whisper],['ความต้องการที่อาจไม่ค่อยกล้าขอ',inner.need]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนหลัก',d.lesson],['จุดเปลี่ยน',d.turn]]]],
-      god:[['แรงขับเคลื่อนที่ซ่อนอยู่',[['แรงขับภายใน',inner.drive||d.gift],['เสียงกระซิบในใจ',inner.whisper]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['ความต้องการที่อยู่ลึก',inner.need||d.core],['สิ่งที่ทำให้รู้สึกมีความหมาย',d.lesson]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนจากพื้นดวง',d.lesson],['จุดเปลี่ยน',d.turn]]]],
-      oreguram:[['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการเพื่อรู้สึกปลอดภัย',inner.need]]],['เงาที่อาจไม่อยากยอมรับ',[['จุดบอดจากพื้นดวง',d.blind],['ด้านที่ควรระวัง',base.baseElement&&base.baseElement.bad]]],['ความขัดแย้งภายใน',[['ความต้องการภายใน',inner.need],['แรงผลักดันจากพื้นดวง',d.self]]],['บทเรียนที่ต้องเผชิญ',[['บทเรียนหลัก',d.lesson],['แนวทางฝึกฝน',(d.questions||[]).slice(0,2).join(' · ')]]]],
-      tarotRune:[['ตัวตนที่อยู่ข้างใน',[['แก่นพื้นดวง',d.core],['ตัวตนที่แท้จริง',d.self]]],['ความกลัวและจุดเปราะบาง',[['ความกลัวที่อาจซ่อนอยู่',inner.fear||d.blind],['สิ่งที่ใจต้องการ',inner.need]]],['รูปแบบความรักและความผูกพัน',[['รูปแบบความผูกพัน',d.love],['สิ่งที่คนอื่นอาจรับรู้',face.impression]]],['ศักยภาพที่ยังใช้ไม่เต็มที่',[['พรสวรรค์พื้นฐาน',d.gift],['จุดแข็งของจิตสำนึก',shadow.strength]]],['จุดที่ลึกที่สุดภายในจิตใจ',[['แรงปรารถนาที่อยู่ลึกที่สุด',inner.drive||d.core],['เสียงกระซิบในใจ',inner.whisper],['จุดบอดที่อาจขวางตัวเอง',d.blind]]]]
+    var base = Engine.calcPerson(Object.assign({}, inputData, {feature:'base'})) || {};
+    var asc = inputData.noBirthTime ? null : (Engine.calcPerson(Object.assign({}, inputData, {feature:'asc'})) || {});
+    var d = base.baseDeep || {};
+    var inner = asc && Engine.ASC_INNER ? (Engine.ASC_INNER[asc.ascInner] || {}) : {};
+    var face = asc && Engine.ASC_FACE ? (Engine.ASC_FACE[asc.ascFace] || {}) : {};
+    var shadow = asc && Engine.ASC_DEEP ? (Engine.ASC_DEEP[asc.ascNum] || {}) : {};
+    var esc = typeof escapeHTML === 'function' ? escapeHTML : function(v) {
+      return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     };
-    var chosen=map[engineKey]||[];
-    if(!chosen.length)return '';
-    var label={person:'พื้นดวงและตัวตน',god:'เทพประจำตัว',oreguram:'โอเรกุรัม',tarotRune:'ไพ่ทาโรต์และรูน'}[engineKey]||'ผลการอ่าน';
-    var deepLayers=[
-      ['หน้ากากที่ใช้เพื่อให้คนอื่นยอมรับ',face.role||face.impression,'ลองถามตัวเองว่า ฉันแสดงด้านไหนให้คนอื่นเห็นเพื่อให้ได้รับการยอมรับ และมีด้านไหนที่ฉันซ่อนไว้เพราะกลัวว่าจะไม่เป็นที่รัก'],
-      ['ความต้องการที่อยู่ใต้ความต้องการ',inner.need||d.core,'ถ้าสิ่งที่ฉันกำลังตามหาไม่ใช่สิ่งของ ความสำเร็จ หรือการยอมรับ แต่เป็นความรู้สึกบางอย่าง ฉันกำลังต้องการความปลอดภัย อิสระ การเป็นที่รัก หรือการมีคุณค่า'],
-      ['ความกลัวที่อาจกำกับการตัดสินใจ',inner.fear||d.blind,'ฉันกำลังเลือกเพราะมันตรงกับใจ หรือเลือกเพราะกลัวผลลัพธ์บางอย่าง หากไม่มีใครตัดสินฉัน ฉันจะเลือกเหมือนเดิมหรือไม่'],
-      ['วิธีปกป้องตัวเองเมื่อรู้สึกไม่ปลอดภัย',shadow.shadow||d.blind,'เวลาเจ็บปวด ฉันมักเงียบ ถอยห่าง ควบคุมทุกอย่าง เอาใจคนอื่น ทำเป็นไม่รู้สึก หรือผลักตัวเองให้เก่งขึ้น วิธีนี้เคยช่วยฉันอย่างไร และวันนี้ยังจำเป็นอยู่แค่ไหน'],
-      ['ความเชื่อที่ฝังอยู่เกี่ยวกับคุณค่าของตัวเอง',d.self||d.core,'ฉันเผลอเชื่อหรือไม่ว่าต้องเก่ง ต้องมีประโยชน์ ต้องไม่สร้างปัญหา หรือต้องทำให้ทุกคนพอใจ จึงจะคู่ควรกับความรักและการยอมรับ'],
-      ['รูปแบบความผูกพันและความใกล้ชิด',d.love||inner.need,'เมื่อฉันรักหรือผูกพัน ฉันกล้าเป็นตัวเองแค่ไหน ฉันกลัวการถูกทิ้ง การถูกควบคุม หรือการไม่สำคัญหรือไม่ และฉันสื่อสารความต้องการตรง ๆ ได้หรือยัง'],
-      ['ด้านที่ฉันอาจปฏิเสธหรือไม่กล้ามอง',shadow.shadow||d.blind,'มีความรู้สึกใดที่ฉันมักบอกตัวเองว่าไม่ควรรู้สึก เช่น โกรธ อิจฉา เหนื่อย อยากได้รับความสนใจ หรืออยากปฏิเสธ ทั้งที่ความรู้สึกเหล่านี้อาจกำลังบอกความต้องการบางอย่าง'],
-      ['ความปรารถนาที่แท้จริงเมื่อไม่ต้องพิสูจน์ตัวเอง',inner.drive||d.gift,'ถ้าไม่ต้องทำให้ใครภูมิใจ ไม่ต้องแข่งขัน และไม่ต้องรักษาภาพลักษณ์ ฉันอยากใช้ชีวิตแบบไหน และอะไรทำให้ฉันรู้สึกมีชีวิตชีวาจริง ๆ'],
-      ['บาดแผลเดิมกับสิ่งที่ตัวฉันในวัยเยาว์อาจต้องการ',inner.whisper||inner.need||d.core,'ลองนึกถึงตัวเองในวันที่เคยรู้สึกโดดเดี่ยวหรือไม่เป็นที่เข้าใจ ตอนนั้นฉันอยากให้ใครพูดหรือทำอะไรให้ และวันนี้ฉันจะมอบความอ่อนโยนนั้นให้ตัวเองได้อย่างไร'],
-      ['การยอมรับและรวมทุกด้านให้เป็นตัวเอง',d.lesson||d.turn,'ฉันไม่จำเป็นต้องกำจัดด้านที่กลัว โกรธ อ่อนไหว หรือไม่มั่นใจ แต่อาจเรียนรู้ที่จะฟังว่าด้านเหล่านั้นกำลังพยายามปกป้องอะไร แล้วเลือกตอบสนองอย่างที่เหมาะกับชีวิตวันนี้']
-    ];
-    var prompts=[
-      'ฉันกำลังพยายามเป็นคนแบบไหน เพื่อให้รู้สึกว่าตัวเองมีคุณค่า?',
-      'มีความต้องการอะไรที่ฉันลดทอนหรือซ่อนไว้ เพราะกลัวว่าจะเป็นภาระของคนอื่น?',
-      'ฉันกำลังใช้ความเข้มแข็งเป็นเกราะ เพื่อไม่ให้ใครเห็นความรู้สึกอะไร?',
-      'ความสัมพันธ์แบบไหนทำให้ฉันรู้สึกปลอดภัยพอที่จะเป็นตัวเอง?',
-      'ฉันกำลังยึดติดกับความเชื่ออะไรที่เคยช่วยให้รอด แต่วันนี้อาจจำกัดชีวิต?',
-      'ถ้าฉันไม่ต้องพิสูจน์อะไรกับใคร ฉันอยากเลือกอะไรให้ตัวเองเป็นอย่างแรก?'
-    ];
-    var out='<div class="pred-block admin-deep-self" style="border-left:5px solid #8b5cf6;background:#faf7ff;border-color:#ddd6fe;">'+
-      '<h4 style="color:#5b21b6;">🧠 Deep Self · สำรวจจิตใต้สำนึกเชิงลึก</h4>'+
-      '<p><b>อ่านจาก '+esc(label)+' ร่วมกับข้อมูลพื้นดวงและลัคนาที่มี</b> ส่วนนี้ออกแบบให้ค่อย ๆ สำรวจตัวตนหลายชั้น ไม่ใช่การวินิจฉัยหรือข้อสรุปว่าคุณเป็นเช่นนี้แน่นอน เลือกอ่านเฉพาะส่วนที่ตรงกับประสบการณ์จริงของตัวเอง</p>';
-    out+='<div class="pred-section-item"><b>ชั้นที่ 1–10 · สิ่งที่อาจซ่อนอยู่ใต้ความคิดและพฤติกรรม</b>';
-    deepLayers.forEach(function(layer,i){
-      out+='<div style="margin:12px 0;padding:10px;background:#fff;border:1px solid #e9d5ff;border-radius:9px;"><b>'+(i+1)+'. '+esc(layer[0])+'</b>'+
-        (layer[1]&&String(layer[1]).trim()?'<p><b>ภาพสะท้อนจากข้อมูลของคุณ:</b> '+esc(layer[1])+'</p>':'')+
-        '<p><b>ลองสำรวจลึกลงไป:</b> '+esc(layer[2])+'</p></div>';
+    var sections = {
+      person: {
+        title: '🪞 ตัวตน ความสัมพันธ์ และคุณค่าในใจ',
+        items: [
+          ['หน้ากากที่ใช้เพื่อให้คนอื่นยอมรับ', face.role || face.impression, 'ฉันแสดงด้านไหนให้คนอื่นเห็นเพื่อให้ได้รับการยอมรับ และมีด้านไหนที่ซ่อนไว้เพราะกลัวว่าจะไม่เป็นที่รัก?'],
+          ['ความเชื่อเกี่ยวกับคุณค่าของตัวเอง', d.self || d.core, 'ฉันเผลอเชื่อหรือไม่ว่าต้องเก่ง ต้องมีประโยชน์ หรือต้องทำให้ทุกคนพอใจ จึงจะคู่ควรกับความรักและการยอมรับ?'],
+          ['รูปแบบความผูกพันและความใกล้ชิด', d.love || inner.need, 'เมื่อฉันรักหรือผูกพัน ฉันกล้าเป็นตัวเองแค่ไหน ฉันสื่อสารความต้องการตรง ๆ ได้หรือยัง?']
+        ],
+        prompts: [
+          'ฉันกำลังพยายามเป็นคนแบบไหน เพื่อให้รู้สึกว่าตัวเองมีคุณค่า?',
+          'มีความต้องการอะไรที่ฉันลดทอนหรือซ่อนไว้ เพราะกลัวว่าจะเป็นภาระของคนอื่น?'
+        ]
+      },
+      god: {
+        title: '🌱 ความต้องการลึก ๆ และสิ่งที่มีความหมายกับชีวิต',
+        items: [
+          ['ความต้องการที่อยู่ใต้ความต้องการ', inner.need || d.core, 'ถ้าสิ่งที่ฉันกำลังตามหาไม่ใช่สิ่งของ ความสำเร็จ หรือการยอมรับ แต่เป็นความรู้สึกบางอย่าง ฉันกำลังต้องการความปลอดภัย อิสระ การเป็นที่รัก หรือการมีคุณค่า?'],
+          ['ความปรารถนาที่แท้จริงเมื่อไม่ต้องพิสูจน์ตัวเอง', inner.drive || d.gift, 'ถ้าไม่ต้องทำให้ใครภูมิใจ ไม่ต้องแข่งขัน และไม่ต้องรักษาภาพลักษณ์ ฉันอยากใช้ชีวิตแบบไหน และอะไรทำให้ฉันรู้สึกมีชีวิตชีวาจริง ๆ?']
+        ],
+        prompts: [
+          'ฉันกำลังใช้ความเข้มแข็งเป็นเกราะ เพื่อไม่ให้ใครเห็นความรู้สึกอะไร?',
+          'ถ้าฉันไม่ต้องพิสูจน์อะไรกับใคร ฉันอยากเลือกอะไรให้ตัวเองเป็นอย่างแรก?'
+        ]
+      },
+      oreguram: {
+        title: '🌘 ความกลัว รูปแบบป้องกันตัว และด้านที่มักซ่อนไว้',
+        items: [
+          ['ความกลัวที่อาจกำกับการตัดสินใจ', inner.fear || d.blind, 'ฉันกำลังเลือกเพราะมันตรงกับใจ หรือเลือกเพราะกลัวผลลัพธ์บางอย่าง? หากไม่มีใครตัดสินฉัน ฉันจะเลือกเหมือนเดิมหรือไม่?'],
+          ['วิธีปกป้องตัวเองเมื่อรู้สึกไม่ปลอดภัย', shadow.shadow || d.blind, 'เวลาเจ็บปวด ฉันมักเงียบ ถอยห่าง ควบคุมทุกอย่าง เอาใจคนอื่น หรือทำเป็นไม่รู้สึก วิธีนี้เคยช่วยฉันอย่างไร และวันนี้ยังจำเป็นอยู่แค่ไหน?'],
+          ['ความรู้สึกหรือด้านที่ฉันอาจไม่กล้ามอง', shadow.shadow || d.blind, 'มีความรู้สึกใดที่ฉันมักบอกตัวเองว่าไม่ควรรู้สึก เช่น โกรธ อิจฉา เหนื่อย อยากได้รับความสนใจ หรืออยากปฏิเสธ ทั้งที่ความรู้สึกเหล่านี้อาจกำลังบอกความต้องการบางอย่าง?']
+        ],
+        prompts: [
+          'ฉันกำลังยึดติดกับความเชื่ออะไรที่เคยช่วยให้ผ่านวันยาก ๆ มาได้ แต่วันนี้อาจจำกัดชีวิตของฉัน?'
+        ]
+      },
+      tarotRune: {
+        title: '🤍 การดูแลตัวเองจากอดีต และการยอมรับทุกด้านของใจ',
+        items: [
+          ['สิ่งที่ตัวฉันในวัยเยาว์อาจต้องการ', inner.whisper || inner.need || d.core, 'เมื่อนึกถึงวันที่ฉันเคยรู้สึกโดดเดี่ยวหรือไม่เป็นที่เข้าใจ ตอนนั้นฉันอยากให้ใครพูดหรือทำอะไรให้ และวันนี้ฉันจะมอบความอ่อนโยนนั้นให้ตัวเองได้อย่างไร?'],
+          ['การยอมรับและรวมทุกด้านให้เป็นตัวเอง', d.lesson || d.turn, 'ฉันไม่จำเป็นต้องกำจัดด้านที่กลัว โกรธ อ่อนไหว หรือไม่มั่นใจ แต่อาจเรียนรู้ว่าด้านเหล่านั้นกำลังพยายามปกป้องอะไร แล้วเลือกตอบสนองอย่างเหมาะกับชีวิตวันนี้']
+        ],
+        prompts: [
+          'ความสัมพันธ์แบบไหนทำให้ฉันรู้สึกปลอดภัยพอที่จะเป็นตัวเอง?'
+        ]
+      }
+    };
+    var section = sections[engineKey];
+    if (!section) return '';
+    var out = '<div class="pred-section-item admin-inner-reflection" style="margin-top:12px;">' +
+      '<b>' + section.title + '</b>' +
+      '<p style="font-size:12px;color:var(--text-muted);margin:4px 0 9px;">คำถามเหล่านี้เป็นพื้นที่ให้สำรวจตัวเอง ไม่ใช่ข้อสรุปตายตัวหรือการวินิจฉัย เลือกเก็บเฉพาะสิ่งที่ตรงกับประสบการณ์จริง</p>';
+    section.items.forEach(function(item) {
+      out += '<div style="margin:9px 0;padding:10px;background:rgba(148,163,184,.07);border-radius:9px;">' +
+        '<b>' + esc(item[0]) + '</b>' +
+        (item[1] && String(item[1]).trim() ? '<p style="margin:5px 0;"><b>ภาพสะท้อนจากพื้นดวง:</b> ' + esc(item[1]) + '</p>' : '') +
+        '<p style="margin:5px 0 0;"><b>ลองถามใจตัวเอง:</b> ' + esc(item[2]) + '</p></div>';
     });
-    out+='</div><div class="pred-section-item"><b>🪞 คำถามที่ควรตอบกับตัวเองอย่างซื่อตรง</b><ol style="padding-left:22px;">';
-    prompts.forEach(function(q){out+='<li style="margin:7px 0;">'+esc(q)+'</li>';});
-    out+='</ol></div>';
-    out+='<div class="pred-section-item" style="background:#fff;border:1px solid #ddd6fe;border-radius:10px;padding:12px;"><b>🤍 สิ่งที่อยากให้คุณจำไว้</b><p>การเข้าใจตัวเองไม่ได้หมายถึงการค้นพบว่ามีอะไรผิดปกติในตัวคุณ แต่อาจหมายถึงการเห็นเหตุผลที่คุณเคยต้องปกป้องตัวเอง เห็นความต้องการที่ไม่เคยได้รับพื้นที่ และค่อย ๆ เลือกวิธีดูแลตัวเองแบบใหม่ คุณไม่จำเป็นต้องเปิดแผลทุกเรื่องในคราวเดียว และไม่จำเป็นต้องให้อภัยหรือเปลี่ยนแปลงก่อนที่ตัวเองจะพร้อม</p></div>';
-    if(inputData.noBirthTime)out+='<p style="font-size:12px;color:#765b4b;">หมายเหตุ: ไม่ทราบเวลาเกิด จึงไม่ใช้ข้อมูลลัคนาและส่วนที่อาศัยเวลาเกิดในการสะท้อนตัวตน ข้อความส่วนนี้จึงอิงเฉพาะข้อมูลพื้นดวงที่คำนวณได้</p>';
-    return out+'</div>';
+    if (section.prompts.length) {
+      out += '<p style="margin:9px 0 4px;"><b>คำถามชวนทบทวน</b></p><ul style="padding-left:21px;margin:4px 0;">';
+      section.prompts.forEach(function(q) { out += '<li style="margin:5px 0;">' + esc(q) + '</li>'; });
+      out += '</ul>';
+    }
+    out += '<p style="font-size:12px;color:var(--text-muted);margin:8px 0 0;">คุณไม่จำเป็นต้องเปิดแผลทุกเรื่องในคราวเดียว และไม่จำเป็นต้องให้อภัยหรือเปลี่ยนแปลงก่อนที่ตัวเองจะพร้อม</p>';
+    if (inputData.noBirthTime) out += '<p style="font-size:12px;color:var(--text-muted);margin:5px 0 0;">ส่วนนี้อิงข้อมูลพื้นดวงที่คำนวณได้ โดยไม่ใช้ข้อมูลลัคนาหรือส่วนที่ต้องอาศัยเวลาเกิด</p>';
+    return out + '</div>';
   }
 
   function renderRHDSection(res, featureKey, inputData) {
@@ -1954,7 +1978,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var body;
     if (featureKey === 'base') {
       body = renderBaseSection(res);
-      body += renderAdminDeepSelfSection(data, 'person');
+      body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
@@ -2022,7 +2046,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
-    body += renderAdminDeepSelfSection(data, 'tarotRune');
+    body += renderAdminInnerReflection(data, 'tarotRune');
     setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + personalizedReadingLead(data, res.R4 || res.baseCode, 'ไพ่ทาโรต์และรูน') + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -2166,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
     resultsBox.style.display = 'block';
-    h += renderAdminDeepSelfSection(params, 'god');
+    h += renderAdminInnerReflection(params, 'god');
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
@@ -2248,7 +2272,7 @@ document.addEventListener("DOMContentLoaded", function () {
       h += '<div class="answer-box" style="margin-top:8px;background:#faf5ff;border-color:#d8b4fe;"><b>' + res.pendulumDirection.symbol + ' ทิศที่เพนดูลัมชี้:</b><br/><span style="font-size:18px;color:#5b21b6;">' + res.pendulumDirection.name + '</span><br/><span style="font-size:12.5px;color:#4a5568;">เลขทิศทาง ' + res.pendulumDirectionNo + ' · ' + res.pendulumDirection.meaning + '</span></div>';
       h += '</div>';
     }
-    h += renderAdminDeepSelfSection(data, 'oreguram');
+    h += renderAdminInnerReflection(data, 'oreguram');
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
