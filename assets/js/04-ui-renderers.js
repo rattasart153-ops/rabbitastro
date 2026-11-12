@@ -1203,6 +1203,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var topicLabel = 'เรื่อง' + res.categoryName + (res.subTopicName ? ' (' + res.subTopicName + ')' : '');
     var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายเลข ' + res.R4);
     h += monthTrendHtml(res.monthPredictions, '#eef2ff', '#c7d2fe', '#3730a3', '📅 ' + topicLabel + ' · 3 เดือน', '');
+    h += personalizedBlendBlock('แนวโน้ม 3 เดือนที่เชื่อมกับพื้นดวงของคุณ',
+      'การอ่านเรื่อง' + topicLabel + ' ใช้รหัสโหรกระต่าย ' + res.R4 + ' เป็นแกน แล้วนำเลขชื่อ-นามสกุลและธาตุประจำผลมาช่วยตีความ จึงควรอ่านแนวโน้มทั้งสามเดือนต่อเนื่องกัน โดยดูว่าเดือนไหนเหมาะกับการเริ่ม เดือนไหนควรประคอง และเดือนไหนควรทบทวนจากเหตุการณ์จริง',
+      [
+        {label:'รหัสกระต่ายและบุคลิกพื้นฐาน',value:(res.rabbit && (res.rabbit.desc || res.rabbit.short)) || ''},
+        {label:'พลังชื่อ-นามสกุล',value:(res.nameRes && res.nameRes.prediction && res.nameRes.prediction.desc) || ''},
+        {label:'ธาตุและความสัมพันธ์ของธาตุ',value:(res.element && (res.element.story || res.element.good)) || ''},
+        {label:'แนวโน้มรายเดือน',value:(res.monthPredictions || []).map(function(m){return (m.label || m.month || '') + ' ' + (m.summary || m.overview || m.prediction || '');}).filter(Boolean).join(' · ')}
+      ]);
     return h;
   }
 
@@ -1472,6 +1480,15 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="mth"><b>📍 ช่องทางหรือจังหวะที่พบ</b><br/>'+res.meeting+'</div>';
     h+='<div class="mth"><b>❤️ รูปแบบความสัมพันธ์</b><br/>'+res.relationship+'</div>';
     h+='</div></div>';
+    h += personalizedBlendBlock('ภาพคนที่จะเข้ามาเมื่อเทียบกับพื้นดวงของคุณ',
+      'รหัสโหรกระต่าย ' + (res.rabbitJoint && res.rabbitJoint.R4 || res.R4 || '-') + ' เป็นฐานในการอ่านคนที่มีแนวโน้มเข้ามา จากนั้นจึงพิจารณาลักษณะนิสัย งานหรือฐานชีวิต ช่องทางที่พบ และรูปแบบความสัมพันธ์ร่วมกัน จุดสำคัญไม่ใช่การยึดติดกับภาพคนในคำทำนาย แต่คือการเทียบกับพฤติกรรมและความสม่ำเสมอที่เกิดขึ้นจริง',
+      [
+        {label:'บุคลิกและนิสัยที่คำนวณได้',value:res.personality || ''},
+        {label:'งานและฐานชีวิต',value:res.work || ''},
+        {label:'ช่องทางหรือจังหวะที่พบ',value:res.meeting || ''},
+        {label:'รูปแบบความสัมพันธ์',value:res.relationship || ''},
+        {label:'สิ่งที่ควรสังเกต',value:res.caution || ''}
+      ]);
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
     return h;
   }
@@ -1974,21 +1991,7 @@ document.addEventListener("DOMContentLoaded", function () {
     walk(root);
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
-    // เติมบทสนทนากับจิตใต้สำนึกให้ทุก Engine ที่ยังไม่มีบล็อกสะท้อนใจเฉพาะของตัวเอง
-    var n = parseInt(rabbitNum, 10);
-    if (n >= 1 && n <= 9 && featureKey !== 'rhd' && !root.querySelector('.subconscious-shared-voice')) {
-      var voice = rabbitSubconsciousVoice(n);
-      var box = document.createElement('div');
-      box.className = 'pred-block subconscious-shared-voice';
-      box.style.cssText = 'background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;';
-      setSafeHTML(box, '<h4 style="color:#9a3412;">💗 เสียงสะท้อนจากใจคุณ · เลขกระต่าย ' + n + '</h4>' +
-        '<div class="pred-section-item"><b>สิ่งที่ใจอาจกำลังบอก:</b><br/>' + voice.core + '</div>' +
-        '<div class="pred-section-item"><b>คำถามที่ลองถามตัวเองได้:</b><br/>' + voice.worry + '</div>' +
-        '<div class="pred-section-item"><b>สิ่งที่คุณอาจต้องการในตอนนี้:</b><br/>' + voice.need + '</div>' +
-        '<div class="pred-section-item"><b>ก้าวเล็ก ๆ ที่อ่อนโยนกับตัวเอง:</b><br/>' + voice.step + '</div>' +
-        '<div style="font-size:12px;color:#7c5b46;margin-top:8px;">ข้อความนี้เป็นมุมสะท้อนเพื่อชวนสำรวจใจ ไม่ใช่การสรุปความรู้สึกของคุณอย่างแน่นอน</div>');
-      root.appendChild(box);
-    }
+    // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
   }
 
   // ---------- Engine 1: ดวงบุคคล ----------
