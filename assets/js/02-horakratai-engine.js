@@ -3711,7 +3711,7 @@
       dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,
       eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,
       dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,
-      rabbitJoint:j,personalCardRuneSum:personalCardRuneSum,rabbitFusionCode:personalFusionCode,
+      rabbitJoint:j,R4:personalFusionCode,baseCode:personalFusionCode,personalCardRuneSum:personalCardRuneSum,rabbitFusionCode:personalFusionCode,
       rabbitFusionRabbit:RABBITS[personalFusionCode]||RABBITS[9],
       dailyCardRuneSum:dailyCardRuneSum,dailyRabbitFusionCode:dailyFusionCode,
       dailyRabbitFusionRabbit:RABBITS[dailyFusionCode]||RABBITS[9],
