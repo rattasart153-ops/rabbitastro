@@ -1546,7 +1546,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var out='<div class="pred-block admin-deep-self" style="border-left:5px solid #8b5cf6;background:#faf7ff;border-color:#ddd6fe;">'+
       '<h4 style="color:#5b21b6;">🧠 Deep Self · สำรวจจิตใต้สำนึกเชิงลึก</h4>'+
       '<p><b>อ่านจาก '+esc(label)+' ร่วมกับข้อมูลพื้นดวงและลัคนาที่มี</b> ส่วนนี้ออกแบบให้ค่อย ๆ สำรวจตัวตนหลายชั้น ไม่ใช่การวินิจฉัยหรือข้อสรุปว่าคุณเป็นเช่นนี้แน่นอน เลือกอ่านเฉพาะส่วนที่ตรงกับประสบการณ์จริงของตัวเอง</p>';
-    out+='<div class="pred-section-item"><b>ชั้นที่ 1–9 · สิ่งที่อาจซ่อนอยู่ใต้ความคิดและพฤติกรรม</b>';
+    out+='<div class="pred-section-item"><b>ชั้นที่ 1–10 · สิ่งที่อาจซ่อนอยู่ใต้ความคิดและพฤติกรรม</b>';
     deepLayers.forEach(function(layer,i){
       out+='<div style="margin:12px 0;padding:10px;background:#fff;border:1px solid #e9d5ff;border-radius:9px;"><b>'+(i+1)+'. '+esc(layer[0])+'</b>'+
         (layer[1]&&String(layer[1]).trim()?'<p><b>ภาพสะท้อนจากข้อมูลของคุณ:</b> '+esc(layer[1])+'</p>':'')+
