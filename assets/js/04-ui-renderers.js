@@ -2241,7 +2241,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!qId || !activeQuestionBank.some(function (x) { return x.id === qId; })) qId = 1;
     var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
-    var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';\n    h += personalizedReadingLead(data, res.R4, res.categoryName || 'คำถามที่เลือก');
+    var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
+    h += personalizedReadingLead(data, res.R4, res.categoryName || 'คำถามที่เลือก');
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
