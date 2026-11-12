@@ -286,6 +286,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var ogSelect = document.getElementById("oreguramQuestion");
   if (ogSelect && Engine && Array.isArray(Engine.OREGURAM_QUESTIONS)) {
+    // Admin ใช้ชุดคำถามที่แทนคำถามซ้ำด้วยคำถามสำรวจจิตใต้สำนึก ส่วน Main ใช้ชุดเดิม
+    var oreguramQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS)
+      ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
     // จัดคำถามตามหมวดหมู่ที่กำหนดในข้อมูลแต่ละข้อโดยตรง
     if (ogSelect.options.length <= 1) {
       if (ogSelect.options.length === 1 && !ogSelect.options[0].value) ogSelect.remove(0);
@@ -298,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { key: "other", label: "🧭 เรื่องอื่นๆ" }
       ];
       OREGURAM_UI_GROUPS.forEach(function (group) {
-        var items = Engine.OREGURAM_QUESTIONS.filter(function (item) { return item.cat === group.key; });
+        var items = oreguramQuestionBank.filter(function (item) { return item.cat === group.key; });
         if (!items.length) return;
         var optgroup = document.createElement("optgroup");
         optgroup.label = group.label + " · " + items.length + " คำถาม";
@@ -2234,8 +2237,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!data) data = {};
     var q = document.getElementById('oreguramQuestion');
     var qId = q ? parseInt(q.value, 10) : 1;
-    if (!qId || !Engine.OREGURAM_QUESTIONS.some(function (x) { return x.id === qId; })) qId = 1;
-    var res = Engine.calcOreguram({ questionId: qId, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
+    var activeQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS) ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
+    if (!qId || !activeQuestionBank.some(function (x) { return x.id === qId; })) qId = 1;
+    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';\n    h += personalizedReadingLead(data, res.R4, res.categoryName || 'คำถามที่เลือก');
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
