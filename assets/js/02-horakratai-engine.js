@@ -3631,8 +3631,8 @@
   // ============================================================
   //  ตัวส่งต่อ: เลือกฟังก์ชันคำนวณตามฟีเจอร์ที่ขอ
   // ============================================================
-  // ---------- Engine 4: ใช้สูตรโหรกระต่ายเป็นแกนคำนวณหลัก ----------
-  // ไพ่และรูนที่ยังแสดงในหน้าผลเป็นข้อมูลประกอบเท่านั้น ไม่ใช้กำหนดรหัสกระต่ายสุดท้าย
+  // ---------- Engine 4: คำนวณเลขไพ่ + รูน + โหรกระต่ายร่วมกัน ----------
+  // คงวิธีหาไพ่/รูนเดิม แล้วนำหมายเลขที่ได้มารวมกับรหัสโหรกระต่ายก่อนลดเลขเป็นรหัสสุดท้าย
   var TAROT_MAJOR={1:['The Magician','นักมายากล','พลังเริ่มต้นและการใช้ความสามารถ'],2:['The High Priestess','มหาปุโรหิตหญิง','สัญชาตญาณและสิ่งที่ยังไม่เปิดเผย'],3:['The Empress','จักรพรรดินี','การเติบโตและความอุดมสมบูรณ์'],4:['The Emperor','จักรพรรดิ','โครงสร้าง อำนาจ และความรับผิดชอบ'],5:['The Hierophant','พระสังฆราช','ความรู้ กฎ และคำแนะนำ'],6:['The Lovers','คู่รัก','ความสัมพันธ์และทางเลือก'],7:['The Chariot','รถศึก','การเดินหน้า'],8:['Strength','พละกำลัง','ความกล้าและการควบคุมอารมณ์'],9:['The Hermit','ฤๅษี','การค้นหาคำตอบภายใน'],10:['Wheel of Fortune','กงล้อแห่งโชคชะตา','การเปลี่ยนแปลงและโอกาส'],11:['Justice','ความยุติธรรม','เหตุผลและความสมดุล'],12:['The Hanged Man','คนแขวนคอ','การหยุดและมองมุมใหม่'],13:['Death','ความตาย','การจบของเก่าและเริ่มบทใหม่'],14:['Temperance','พอดี','การปรับสมดุล'],15:['The Devil','ปีศาจ','แรงยึดติดและสิ่งที่ต้องรู้เท่าทัน'],16:['The Tower','หอคอย','การเปลี่ยนฉับพลัน'],17:['The Star','ดาว','ความหวัง'],18:['The Moon','ดวงจันทร์','ความไม่แน่ใจ'],19:['The Sun','ดวงอาทิตย์','ความชัดเจน'],20:['Judgement','พิพากษา','การตื่นรู้'],21:['The World','โลก','ความสมบูรณ์และการปิดวงจร']};
   var TAROT_MINOR_NAMES=['Ace','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Page','Knight','Queen','King'];
   var RUNE_DATA=[['Fehu','ᚠ','ทรัพย์สินและการเริ่มสร้างคุณค่า','ใช้ทรัพยากรให้เกิดผล'],['Uruz','ᚢ','พลังชีวิตและความแข็งแรง','ลงมือจริงและพัฒนาศักยภาพ'],['Thurisaz','ᚦ','การป้องกัน','ใช้สติและขอบเขต'],['Ansuz','ᚨ','การสื่อสารและปัญญา','พูดให้ตรงประเด็น'],['Raidho','ᚱ','การเดินทางและทิศทางชีวิต','จัดเส้นทางให้ชัด'],['Kenaz','ᚲ','แสงสว่างและความเข้าใจ','เรียนรู้สิ่งที่ทำให้ชัด'],['Gebo','ᚷ','การให้และความสัมพันธ์','สร้างสมดุล'],['Wunjo','ᚹ','ความสุขและความลงตัว','รักษาสิ่งที่ทำให้ใจมีพลัง'],['Hagalaz','ᚺ','การเปลี่ยนแปลงฉับพลัน','ยอมรับสิ่งที่ควบคุมไม่ได้'],['Nauthiz','ᚾ','ข้อจำกัด','จัดลำดับสิ่งจำเป็น'],['Isa','ᛁ','การหยุดนิ่ง','ชะลอเพื่อมองให้ชัด'],['Jera','ᛃ','ผลจากความพยายาม','ทำต่อเนื่องแล้วเก็บเกี่ยว'],['Eihwaz','ᛇ','ความอดทนและการเปลี่ยนผ่าน','ยืนหยัด'],['Perthro','ᛈ','สิ่งที่ยังไม่เปิดเผย','รอข้อมูลที่ขาด'],['Algiz','ᛉ','การปกป้อง','ตั้งขอบเขต'],['Sowilo','ᛋ','ชัยชนะและความชัดเจน','แสดงจุดแข็ง'],['Tiwaz','ᛏ','ความยุติธรรมและเป้าหมาย','ยึดหลัก'],['Berkano','ᛒ','การเติบโต','ดูแลสิ่งที่เริ่ม'],['Ehwaz','ᛖ','การเคลื่อนที่และความร่วมมือ','ปรับจังหวะ'],['Mannaz','ᛗ','ตัวตนและสังคม','เข้าใจตัวเอง'],['Laguz','ᛚ','สัญชาตญาณ','ฟังความรู้สึกควบคู่เหตุผล'],['Ingwaz','ᛜ','ความพร้อม','สะสมพลัง'],['Dagaz','ᛞ','รุ่งอรุณและมุมมองใหม่','เปิดรับทางเลือก'],['Othala','ᛟ','บ้านและรากฐาน','รักษาสิ่งที่มีคุณค่า']];
@@ -3682,7 +3682,47 @@
   function tarotSelfMeaning(card,context){if(!card)return '';if(card.group==='Major Arcana')return TAROT_SELF_REFLECTION[card.number]||card.meaning||'';return (TAROT_RANK_SELF[card.rank]||'ลองสังเกตว่าประสบการณ์นี้กำลังสอนอะไรคุณ')+' '+(TAROT_SUIT_SELF[card.suit]||'ลองฟังความรู้สึกของตัวเองควบคู่กับข้อเท็จจริง');}
   var RUNE_SELF_REFLECTION={Fehu:'คุณค่าในตัวเองไม่จำเป็นต้องวัดจากสิ่งที่ครอบครอง ลองถามว่าทรัพยากรและความสามารถที่มีจะช่วยชีวิตคุณอย่างไร',Uruz:'คุณอาจเข้มแข็งกว่าที่คิด แต่ไม่จำเป็นต้องฝืนตลอดเวลา ลองฟังร่างกายและใจว่าต้องการพลังหรือการพัก',Thurisaz:'การปกป้องตัวเองไม่ใช่ความเห็นแก่ตัว คุณมีสิทธิ์ตั้งขอบเขตและคิดก่อนตอบสนอง',Ansuz:'มีบางอย่างที่ใจคุณอยากพูดให้ชัด ลองสื่อสารอย่างตรงไปตรงมาโดยไม่ต้องทำให้ความรู้สึกของตัวเองเล็กลง',Raidho:'คุณไม่จำเป็นต้องเดินตามจังหวะของคนอื่น ลองเลือกทิศทางที่ตรงกับเป้าหมายและชีวิตจริงของคุณ',Kenaz:'ความเข้าใจอาจเริ่มจากการยอมรับสิ่งที่เคยไม่อยากมอง เมื่อเห็นชัดขึ้น คุณจะมีทางเลือกมากขึ้น',Gebo:'ความสัมพันธ์ที่ดีไม่ควรมีเพียงฝ่ายเดียวที่ให้ ลองสำรวจว่าคุณให้และรับได้อย่างสมดุลหรือไม่',Wunjo:'อย่ามองข้ามสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้น ความสุขไม่จำเป็นต้องรอให้ทุกปัญหาหายไปก่อน',Hagalaz:'เมื่อแผนเปลี่ยน คุณอาจรู้สึกเสียการควบคุม ให้เวลาตัวเองตั้งหลัก แล้วค่อยแยกสิ่งที่เปลี่ยนไม่ได้จากสิ่งที่ยังเลือกได้',Nauthiz:'ข้อจำกัดไม่ได้แปลว่าคุณไม่เก่ง ลองเลือกสิ่งจำเป็นก่อน และไม่คาดหวังให้ตัวเองทำได้ทุกอย่างพร้อมกัน',Isa:'การหยุดนิ่งไม่จำเป็นต้องหมายถึงการถอยหลัง บางครั้งใจต้องการเวลาเพื่อเข้าใจว่าควรไปต่อแบบไหน',Jera:'ผลลัพธ์บางอย่างต้องใช้เวลา ลองเห็นคุณค่าของความสม่ำเสมอแทนการเร่งตัวเองให้เห็นผลทันที',Eihwaz:'การเปลี่ยนผ่านอาจไม่สบายใจ แต่คุณค่อย ๆ ปรับตัวได้โดยไม่ต้องรีบรู้คำตอบทั้งหมด',Perthro:'สิ่งที่ยังไม่ชัดไม่จำเป็นต้องรีบเติมด้วยความกลัว รอข้อมูลเพิ่มและเปิดพื้นที่ให้ความเป็นไปได้หลายแบบ',Algiz:'คุณดูแลคนอื่นได้โดยไม่ต้องเปิดรับทุกเรื่อง ขอบเขตที่ชัดช่วยให้คุณรักษาพลังของตัวเอง',Sowilo:'คุณมีสิทธิ์มองเห็นความสำเร็จของตัวเองอย่างเต็มใจ โดยไม่ต้องลดคุณค่าตัวเองเพื่อให้คนอื่นสบายใจ',Tiwaz:'ลองตัดสินใจจากสิ่งที่คุณเชื่อว่าถูกต้อง ไม่ใช่เพียงเพื่อเอาใจหรือหลีกเลี่ยงความขัดแย้ง',Berkano:'สิ่งใหม่ต้องการเวลาและการดูแล คุณเองก็เช่นกัน ไม่ต้องเร่งให้ตัวเองเติบโตตามกำหนดของใคร',Ehwaz:'การขอความช่วยเหลือและปรับจังหวะร่วมกับคนอื่นไม่ทำให้คุณอ่อนแอ ลองสังเกตว่าความร่วมมือแบบไหนปลอดภัยกับใจคุณ',Mannaz:'คุณไม่จำเป็นต้องเป็นตัวเองในแบบที่ทุกคนชอบ ลองแยกเสียงของคนอื่นออกจากสิ่งที่คุณเชื่อเกี่ยวกับตัวเอง',Laguz:'ความรู้สึกเป็นข้อมูลอย่างหนึ่ง ลองรับฟังมันอย่างอ่อนโยน แล้วใช้ข้อเท็จจริงช่วยตัดสินใจด้วย',Ingwaz:'การเตรียมตัวเงียบ ๆ ก็เป็นความก้าวหน้า คุณไม่จำเป็นต้องประกาศทุกแผนก่อนพร้อม',Dagaz:'มุมมองใหม่อาจช่วยให้คุณเห็นทางเลือกที่เคยมองข้าม อนุญาตให้ตัวเองเปลี่ยนใจเมื่อเรียนรู้มากขึ้น',Othala:'รากฐานและประสบการณ์เดิมมีคุณค่า แต่คุณก็เลือกได้ว่าส่วนไหนควรสานต่อและส่วนไหนไม่จำเป็นต้องแบก'};
   function runeSelfMeaning(rune){return rune?(RUNE_SELF_REFLECTION[rune[0]]||rune[2]||'ลองใช้เรื่องนี้เป็นโอกาสทำความเข้าใจตัวเอง'):'';}
-  function calcTarotRuneFeature(params){params=params||{};var b=readBirthInput(params),j=calcRabbitJoint(params),birthSum=b.bDay+b.bMonth+b.bYear,birthCard=tarotCardFromNumber(birthSum),now=params.nowDate instanceof Date?params.nowDate:new Date(),dateSum=now.getDate()+(now.getMonth()+1)+now.getFullYear(),dateDigit=reduce1(dateSum),birthDigit=reduce1(birthSum),eventCard=tarotMinorFromNumber(dateDigit*birthDigit),runeNum=b.noBirthTime?null:rune24(b.bHour+b.bMin),rune=b.noBirthTime?null:RUNE_DATA[runeNum-1],dailyRuneNum=rune24(birthSum+dateSum),dailyRune=RUNE_DATA[dailyRuneNum-1],fusion=(j.R4||9),dailyElement=calcDailyElement(now),dailyCrystalDateNumber=reduce1(dateSum*6),dailyCrystalRabbitElementNumber=reduce1((j.R4||9)+(dailyElement.finalNum||9)),personalCrystalNumber=reduce1(birthSum);return {feature:'tarotRune',noBirthTime:b.noBirthTime,birthSum:birthSum,birthCard:birthCard,dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,rabbitJoint:j,rabbitFusionCode:fusion,rabbitFusionRabbit:RABBITS[fusion]||RABBITS[9],element:getElement(fusion),nameRes:birthNameParts(b).nameRes,ownerElement:birthNameParts(b).ownerElement,dailyElement:dailyElement,dailyCrystalDateNumber:dailyCrystalDateNumber,dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber),personalCrystalNumber:personalCrystalNumber,personalCrystal:crystalFromNumber(personalCrystalNumber)};}
+  function calcTarotRuneFeature(params){
+    params=params||{};
+    var b=readBirthInput(params),j=calcRabbitJoint(params);
+    var birthSum=b.bDay+b.bMonth+b.bYear;
+    var birthCard=tarotCardFromNumber(birthSum);
+    var now=params.nowDate instanceof Date?params.nowDate:new Date();
+    var dateSum=now.getDate()+(now.getMonth()+1)+now.getFullYear();
+    var dateDigit=reduce1(dateSum),birthDigit=reduce1(birthSum);
+    var eventCard=tarotMinorFromNumber(dateDigit*birthDigit);
+    var runeNum=b.noBirthTime?null:rune24(b.bHour+b.bMin);
+    var rune=b.noBirthTime?null:RUNE_DATA[runeNum-1];
+    var dailyRuneNum=rune24(birthSum+dateSum),dailyRune=RUNE_DATA[dailyRuneNum-1];
+    var dailyElement=calcDailyElement(now);
+    // รหัสส่วนตัว: รหัสโหรกระต่ายเดิม + หมายเลขไพ่ประจำตัว + หมายเลขรูนประจำตัว
+    // หากไม่ทราบเวลาเกิด จะไม่ใส่เลขรูนส่วนตัวที่ไม่มีข้อมูล แต่ยังคงใช้รูนประจำวันในรหัสรายวัน
+    var personalCardRuneSum=(j.R4||9)+(birthCard.number||0)+(runeNum||0);
+    var personalFusionCode=reduce1(personalCardRuneSum);
+    // รหัสรายวัน: รหัสโหรกระต่าย + หมายเลขไพ่เหตุการณ์ + หมายเลขรูนประจำวัน + รหัสธาตุประจำวัน
+    var dailyCardRuneSum=(j.R4||9)+(eventCard.number||0)+(dailyRuneNum||0)+(dailyElement.finalNum||9);
+    var dailyFusionCode=reduce1(dailyCardRuneSum);
+    var dailyCrystalDateNumber=reduce1(dateSum*6);
+    var dailyCrystalRabbitElementNumber=reduce1(dailyFusionCode+(dailyElement.finalNum||9));
+    var personalCrystalNumber=reduce1(birthSum);
+    var nameParts=birthNameParts(b);
+    return {
+      feature:'tarotRune',noBirthTime:b.noBirthTime,birthSum:birthSum,birthCard:birthCard,
+      dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,
+      eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,
+      dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,
+      rabbitJoint:j,personalCardRuneSum:personalCardRuneSum,rabbitFusionCode:personalFusionCode,
+      rabbitFusionRabbit:RABBITS[personalFusionCode]||RABBITS[9],
+      dailyCardRuneSum:dailyCardRuneSum,dailyRabbitFusionCode:dailyFusionCode,
+      dailyRabbitFusionRabbit:RABBITS[dailyFusionCode]||RABBITS[9],
+      element:getElement(personalFusionCode),nameRes:nameParts.nameRes,ownerElement:nameParts.ownerElement,
+      dailyElement:dailyElement,dailyCrystalDateNumber:dailyCrystalDateNumber,
+      dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),
+      dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,
+      dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber),
+      personalCrystalNumber:personalCrystalNumber,personalCrystal:crystalFromNumber(personalCrystalNumber)
+    };
+  }
 
   var PERSON_FEATURES = {
     identity: calcIdentityFeature,
