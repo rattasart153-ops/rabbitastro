@@ -1635,7 +1635,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
     var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
     h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
-    h += personalizedReadingLead(inputData, res.baseCode || res.R4 || rabbitNumber, 'รูปแบบการรับมือและสถานการณ์ปัจจุบัน');
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
     h += '<div class="rhd-grid">';
@@ -2003,8 +2003,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsBox.style.display = "block";
     var rhdBody = '';
-    var readingLead = (!window.RABBITASTRO_ADMIN_MODE && featureKey === 'base') ? '' : personalizedReadingLead(data, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), res.categoryName || titleText);
-    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + readingLead + body + rhdBody + featureCtaHtml(featureKey));
+    var resultTitleHtml = featureKey === 'base'
+      ? '<span class="card-title result-heading">ผลการวิเคราะห์พื้นฐานชีวิตจากวันเกิดตามโหรกระต่าย<br>ภาพรวมพื้นฐานชีวิตจากวันเกิด</span>'
+      : '<span class="card-title result-heading">' + titleText + '</span>';
+    setSafeHTML(resultsBox, resultTitleHtml + body + rhdBody + featureCtaHtml(featureKey));
     improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
@@ -2057,7 +2059,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
     }
-    setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + personalizedReadingLead(data, res.R4 || res.baseCode, 'ไพ่ทาโรต์และรูน') + body + featureCtaHtml('tarotRune'));
+    setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
     // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
@@ -2187,7 +2189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     var godConversationText = window.RABBITASTRO_ADMIN_MODE ? (adminGodConversation[deityNum] || adminGodConversation[1]) : (godConversation[rabbitNum] || godConversation[9]);
     var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
-    h += personalizedReadingLead(params, rabbitNum, 'องค์เทพประจำตัว');
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
     h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
@@ -2275,7 +2277,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
-    h += personalizedReadingLead(data, res.R4, res.categoryName || 'คำถามที่เลือก');
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
