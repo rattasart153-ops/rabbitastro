@@ -1076,27 +1076,48 @@ document.addEventListener("DOMContentLoaded", function () {
     var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
     var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
     var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 รหัสพื้นดวงเลข ' + res.baseCode);
-    h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
-    h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
-    h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
-    if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
+
     if (compactMain) {
-    h += '<div class="pred-section-item"><b>⚠️ สิ่งที่ควรระวังและบทเรียน:</b><br/>' + (b.blind || '-') +
-      (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
-      ' บทเรียนสำคัญคือ ' + (b.lesson || '-') +
-      (weekday.advice ? ' คำแนะนำจากวันเกิด: ' + weekday.advice : '') + '</div>';
-    h += '<div class="pred-section-item"><b>⏳ จุดเปลี่ยนและจังหวะชีวิต:</b><br/>' + (b.turn || '-') +
-      ' ช่วงเวลาที่ควรใส่ใจ: ' + (b.timing || '-') + '</div>';
+      // หน้า Main แยกคำทำนายเป็นหัวข้ออิสระ อ่านทีละส่วน ไม่รวมไว้ในกล่องใหญ่ใบเดียว
+      h += '<div class="pred-block"><h4>🧬 ตัวตนและแกนชีวิต</h4><div class="pred-section-item">' +
+        (b.core || b.title || '-') +
+        (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>👤 ตัวตนที่เด่น</h4><div class="pred-section-item">' +
+        (b.self || '-') +
+        (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') +
+        '</div></div>';
+      if (res.nameRes && res.nameRes.prediction) {
+        h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4>' +
+          '<div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div>' +
+          '<div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>';
+      }
+      h += '<div class="pred-block"><h4>⚠️ จุดที่ควรระวัง</h4><div class="pred-section-item">' +
+        (b.blind || '-') +
+        (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>🧱 บทเรียนสำคัญ</h4><div class="pred-section-item">' +
+        (b.lesson || '-') +
+        (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>🔀 จุดเปลี่ยนของชีวิต</h4><div class="pred-section-item">' +
+        (b.turn || '-') + '</div></div>';
+      h += '<div class="pred-block"><h4>⏳ จังหวะชีวิต</h4><div class="pred-section-item">' +
+        (b.timing || '-') + '</div></div>';
     } else {
-    h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
-    h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
-    h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
+      // คงรูปแบบรายละเอียดเดิมของหน้า Admin ไว้
+      h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
+      h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
+      h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
+      if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
+      h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
+      h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
+      h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
+      h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
+      h += '</div>';
     }
-    h += '</div>';
     return h;
   }
-
   function renderAscSection(res) {
     return ascendantHtml(res, { noLucky: true, noChant: true });
   }
@@ -1982,7 +2003,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsBox.style.display = "block";
     var rhdBody = '';
-    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + personalizedReadingLead(data, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), res.categoryName || titleText) + body + rhdBody + featureCtaHtml(featureKey));
+    var readingLead = (!window.RABBITASTRO_ADMIN_MODE && featureKey === 'base') ? '' : personalizedReadingLead(data, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), res.categoryName || titleText);
+    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + readingLead + body + rhdBody + featureCtaHtml(featureKey));
     improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
