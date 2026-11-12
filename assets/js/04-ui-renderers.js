@@ -244,15 +244,33 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/ภารกิจชีวิต/g, 'สิ่งสำคัญที่คุณอยากทำในชีวิต')
       .replace(/บททดสอบชีวิต/g, 'เรื่องยากที่ชีวิตชวนให้เรียนรู้')
       .replace(/พรสวรรค์ติดตัว/g, 'ความสามารถที่มีมาตั้งแต่เดิม')
-      .replace(/ศักยภาพที่ซ่อนอยู่/g, 'ความสามารถที่ยังไม่ได้ใช้เต็มที่');
+      .replace(/ศักยภาพที่ซ่อนอยู่/g, 'ความสามารถที่ยังไม่ได้ใช้เต็มที่')
+      // เปลี่ยนภาษาที่กดทับใจให้เป็นการชวนดูแลตัวเอง โดยไม่ลบสาระของคำเตือน
+      .replace(/สิ่งที่ควรระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง')
+      .replace(/ข้อควรระวัง/g, 'สิ่งที่ใจอยากให้ใส่ใจ')
+      .replace(/สิ่งที่ต้องระวัง/g, 'เรื่องที่ควรดูแลอย่างอ่อนโยน')
+      .replace(/จุดอ่อนของคุณ/g, 'ด้านที่ต้องการความเข้าใจ')
+      .replace(/จุดอ่อน/g, 'ด้านที่ต้องการการดูแล')
+      .replace(/ความล้มเหลว/g, 'ผลลัพธ์ที่ยังไม่เป็นอย่างหวัง')
+      .replace(/ล้มเหลว/g, 'ยังไม่เป็นอย่างที่หวัง')
+      .replace(/พ่ายแพ้/g, 'ยังไม่ได้ผลอย่างที่ตั้งใจ')
+      .replace(/ผิดพลาดซ้ำ/g, 'กลับไปใช้วิธีเดิมอีกครั้ง')
+      .replace(/คุณไม่มีทางเลือก/g, 'ตอนนี้คุณอาจยังมองไม่เห็นทางเลือก')
+      .replace(/หมดหวัง/g, 'กำลังรู้สึกว่าทางออกยังไม่ชัด')
+      .replace(/ต้องอดทน/g, 'คุณอาจค่อย ๆ ประคองตัวเอง')
+      .replace(/ต้องเข้มแข็ง/g, 'คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา')
+      .replace(/ห้าม/g, 'อยากชวนให้หลีกเลี่ยง')
+      .replace(/จงระวัง/g, 'ลองดูแลเรื่องนี้เป็นพิเศษ')
+      .replace(/ระวังให้มาก/g, 'ค่อย ๆ ใส่ใจและดูแลตัวเองให้ดี')
+      .replace(/เป็นกรรมเก่า/g, 'อาจเป็นรูปแบบเดิมที่คุณกำลังเรียนรู้จะเปลี่ยน')
+      .replace(/ถูกกำหนดไว้แล้ว/g, 'ยังมีพื้นที่ให้คุณเลือกและเปลี่ยนแปลงได้');
   }
 
   function simplifyPredictionOutput(root) {
     if (!root || !document.createTreeWalker) return;
     var title = root.querySelector ? root.querySelector('.card-title') : null;
     var titleText = title ? (title.textContent || '') : '';
-    // Engine 2 มีน้ำเสียงเฉพาะขององค์เทพ จึงคงข้อความเดิมทั้งหมด
-    if (/คำทำนายมูเทพ|เทพองค์นี้อยากจะบอกอะไรกับคุณ|ข้อความจากองค์เทพ/i.test(titleText)) return;
+    // ใช้ภาษาที่อ่านง่ายและอ่อนโยนร่วมกันทุก Engine รวมถึงข้อความจากองค์เทพ
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
     var nodes = [], node;
     while ((node = walker.nextNode())) nodes.push(node);
@@ -1733,8 +1751,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!root) return;
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
     var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
-    // คงน้ำเสียงเฉพาะของ Engine 2 ไว้ ส่วน Engine อื่นปรับเป็นภาษาที่เข้าใจง่าย
-    if (/คำทำนายมูเทพ|เทพองค์นี้อยากจะบอกอะไรกับคุณ|ข้อความจากองค์เทพ/i.test(resultTitleText)) return;
+    // ใช้แนวทางการสื่อสารที่อ่อนโยนกับทุก Engine โดยคงเนื้อหาหลักและผลคำนวณเดิม
     var isEngineOne = /ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย|ผลการวิเคราะห์ดวงชะตาบุคคล/.test(resultTitleText);
     var replacements = [
       [/พลังงานขับเคลื่อนเปิดกว้าง/g, 'มีโอกาสเริ่มต้นสิ่งใหม่'],
@@ -1779,7 +1796,18 @@ document.addEventListener("DOMContentLoaded", function () {
       [/อย่างมีโครงสร้าง/g, 'อย่างเป็นขั้นตอน'],
       [/สม่ำเสมอ/g, 'ต่อเนื่อง'],
       [/โดยสังเขป/g, 'แบบสั้น ๆ'],
-      [/ให้ถือเป็นสัญญาณ/g, 'ให้มองว่าเป็นสัญญาณ']
+      [/ให้ถือเป็นสัญญาณ/g, 'ให้มองว่าเป็นสัญญาณ'],
+      [/สิ่งที่ต้องระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง'],
+      [/สิ่งที่ควรระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง'],
+      [/ข้อควรระวัง/g, 'สิ่งที่ใจอยากให้ใส่ใจ'],
+      [/จุดอ่อน/g, 'ด้านที่ต้องการความเข้าใจ'],
+      [/คำเตือน/g, 'สิ่งที่อยากชวนให้สังเกต'],
+      [/คุณจะต้อง/g, 'คุณอาจค่อย ๆ'],
+      [/ไม่มีทางออก/g, 'ยังมองไม่เห็นทางออกในตอนนี้'],
+      [/เป็นไปไม่ได้/g, 'อาจยังไม่ใช่จังหวะที่เหมาะ'],
+      [/อย่าตำหนิตัวเอง/g, 'ลองพูดกับตัวเองอย่างเข้าใจแทนการตำหนิ'],
+      [/ต้องแบกรับ/g, 'อาจกำลังแบกรับ'],
+      [/ฝืนทน/g, 'ฝืนตัวเองต่อไป']
     ];
     // ปรับคำที่ฟังเหมือนตำราให้เป็นภาษาพูดที่อ่อนโยน เฉพาะ Engine 1 และไม่แตะ RHD
     if (isEngineOne) {
@@ -1818,7 +1846,7 @@ document.addEventListener("DOMContentLoaded", function () {
     walk(root);
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
-    // ใช้กรอบสะท้อนใจแบบเดียวกันใน Engine 1, 3 และ 4; ไม่แตะ Engine 2 หรือโครงสร้างเฉพาะของ RHD
+    // เติมบทสนทนากับจิตใต้สำนึกให้ทุก Engine ที่ยังไม่มีบล็อกสะท้อนใจเฉพาะของตัวเอง
     var n = parseInt(rabbitNum, 10);
     if (n >= 1 && n <= 9 && featureKey !== 'rhd' && !root.querySelector('.subconscious-shared-voice')) {
       var voice = rabbitSubconsciousVoice(n);
@@ -2018,6 +2046,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return '<div class="pred-section-item personal-reading-lead" style="margin:10px 0;padding:11px 13px;border-left:4px solid #b77945;background:#fffaf5;border-radius:9px;line-height:1.85;">' +
       '<b>✦ อ่านจากข้อมูลเฉพาะตัว' + (safeName ? 'ของคุณ ' + safeName : '') + '</b><br/>' +
       'คำอ่าน' + (contextLabel ? 'เรื่อง' + contextLabel : 'ครั้งนี้') + ' เชื่อมจากวันเกิด' + weekday + ' (' + power + ') ร่วมกับ' + identity + ' และรหัสโหรกระต่ายเลข ' + number + ' จึงสะท้อนทั้งพื้นนิสัย จุดแข็ง และวิธีรับมือของคุณ ไม่ใช่คำทำนายกลางที่ใช้แทนกันได้ทุกคน' +
+      '<br/><span style="display:block;margin-top:6px;color:#765b4b;">ลองอ่านสิ่งที่ตามมาเหมือนบทสนทนากับจิตใต้สำนึกของตัวเองนะ ประโยคไหนตรงกับใจค่อยเก็บไว้ ส่วนไหนไม่ตรงก็ไม่จำเป็นต้องฝืนเชื่อ คุณมีสิทธิ์รู้สึก ตั้งคำถาม และเลือกเส้นทางของตัวเองเสมอ</span>' +
       '</div>';
   }
 
