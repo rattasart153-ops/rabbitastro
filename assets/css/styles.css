@@ -820,3 +820,15 @@ img, svg, video, canvas {
   width: 100%;
   min-width: 0;
 }
+
+
+/* Result headings can wrap safely on narrow screens; explicit line breaks separate long titles. */
+.result-heading {
+  display: block;
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.5;
+}
+.result-heading br { display: block; content: ""; margin-top: 2px; }
