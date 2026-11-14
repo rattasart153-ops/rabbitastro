@@ -447,3 +447,130 @@ img, svg, video, canvas {
   overflow-wrap: break-word !important;
   word-break: normal !important;
 }
+
+
+/* ---------- Admin prediction render cards: all engines and RHD ---------- */
+/* Keep every prediction subsection visually distinct without changing its text or calculations. */
+.engine-admin-shell #results {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  padding: 16px;
+  overflow: visible;
+  background: #fffefa;
+  border: 1px solid #ece6dd;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(48,38,26,.045);
+}
+.engine-admin-shell #results > .card-title {
+  display: block;
+  margin: 0 0 14px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #ece6dd;
+  line-height: 1.65;
+}
+.engine-admin-shell #results .pred-block {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 0 14px;
+  padding: 15px;
+  border: 1px solid #e9e1d7;
+  border-radius: 15px;
+  background: #fffefa;
+  box-shadow: 0 4px 14px rgba(48,38,26,.035);
+}
+.engine-admin-shell #results .pred-block:last-child {
+  margin-bottom: 0;
+}
+.engine-admin-shell #results .pred-block > h4,
+.engine-admin-shell #results .pred-block > .mini-h {
+  display: block;
+  margin: 0 0 10px;
+  line-height: 1.65;
+}
+.engine-admin-shell #results .pred-section-item {
+  display: block;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #eee7de;
+  border-radius: 12px;
+  background: #fff;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.engine-admin-shell #results .pred-section-item:first-child {
+  margin-top: 0;
+}
+.engine-admin-shell #results .answer-box,
+.engine-admin-shell #results .role-box,
+.engine-admin-shell #results .god-detail-box,
+.engine-admin-shell #results .god-message-box,
+.engine-admin-shell #results .god-lead,
+.engine-admin-shell #results .rhd-section,
+.engine-admin-shell #results .rhd-tile,
+.engine-admin-shell #results .dd-box,
+.engine-admin-shell #results .mth,
+.engine-admin-shell #results .month-card,
+.engine-admin-shell #results .topic-line,
+.engine-admin-shell #results .chant-box,
+.engine-admin-shell #results .hint-box {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-height: 1.8;
+}
+.engine-admin-shell #results .answer-box,
+.engine-admin-shell #results .god-detail-box,
+.engine-admin-shell #results .god-message-box,
+.engine-admin-shell #results .rhd-section,
+.engine-admin-shell #results .rhd-tile,
+.engine-admin-shell #results .dd-box,
+.engine-admin-shell #results .mth,
+.engine-admin-shell #results .month-card {
+  margin-top: 10px;
+}
+.engine-admin-shell #results .rhd-grid,
+.engine-admin-shell #results .dd-grid,
+.engine-admin-shell #results .mth3,
+.engine-admin-shell #results .month-grid {
+  min-width: 0;
+  gap: 10px;
+}
+.engine-admin-shell #results p {
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.engine-admin-shell #results ul {
+  padding-left: 22px;
+}
+@media (max-width: 520px) {
+  .engine-admin-shell #results {
+    padding: 12px;
+  }
+  .engine-admin-shell #results .pred-block {
+    padding: 12px;
+  }
+  .engine-admin-shell #results .pred-section-item,
+  .engine-admin-shell #results .answer-box,
+  .engine-admin-shell #results .role-box,
+  .engine-admin-shell #results .god-detail-box,
+  .engine-admin-shell #results .god-message-box,
+  .engine-admin-shell #results .god-lead,
+  .engine-admin-shell #results .rhd-section,
+  .engine-admin-shell #results .rhd-tile,
+  .engine-admin-shell #results .dd-box,
+  .engine-admin-shell #results .mth,
+  .engine-admin-shell #results .month-card {
+    padding: 11px 12px;
+  }
+}
