@@ -206,16 +206,27 @@
         <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
           คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
         </p>
-        <div id="oreguramQuestionPanels" aria-label="เลือกคำถามจาก 6 หมวด">
-          <p class="muted">กำลังเตรียมคำถาม...</p>
+        <div class="oreguram-input-group">
+          <label for="oreguramCategoryInput">หมวดเรื่อง</label>
+          <input id="oreguramCategoryInput" type="text" list="oreguramCategoryOptions"
+            placeholder="เลือกหรือพิมพ์หมวดเรื่องที่ต้องการ" autocomplete="off"
+            aria-label="หมวดเรื่อง" />
+          <datalist id="oreguramCategoryOptions"></datalist>
+        </div>
+        <div class="oreguram-input-group" style="margin-top:14px;">
+          <label for="oreguramQuestionInput">คำถาม</label>
+          <input id="oreguramQuestionInput" type="text" list="oreguramQuestionOptions"
+            placeholder="เลือกหมวดเรื่องก่อน" autocomplete="off"
+            aria-label="คำถาม" disabled />
+          <datalist id="oreguramQuestionOptions"></datalist>
         </div>
         <div style="display:none;" aria-hidden="true">
-          <select id="oreguramCategory" aria-label="หมวดหมู่คำถาม"><option value="">กำลังเตรียมหมวดหมู่...</option></select>
-          <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled><option value="">เลือกหมวดหมู่ก่อน</option></select>
+          <select id="oreguramCategory" aria-label="หมวดหมู่คำถาม"><option value="">เลือกหมวดเรื่อง</option></select>
+          <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled><option value="">เลือกหัวข้อ</option></select>
           <select id="oreguramQuestion" aria-label="คำถามที่เลือก" disabled><option value="">เลือกคำถาม</option></select>
         </div>
         <div class="hint-box" style="margin-top:12px;">
-          📖 เลือกหมวดที่ตรงกับเรื่องที่ต้องการ แล้วแตะกล่องคำถามที่ต้องการอ่านคำทำนาย ระบบจะใช้คำถามที่เลือกคำนวณตามโหรกระต่าย
+          📖 เลือกหมวดเรื่องก่อน แล้วช่องคำถามจะแสดงเฉพาะคำถามในหมวดนั้น เลือกคำถามที่ตรงกับสิ่งที่อยากรู้เพื่ออ่านคำทำนายตามโหรกระต่าย
         </div>
       </section>
 
