@@ -1017,27 +1017,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- ส่วนหัว/ท้ายที่แต่ละส่วนคำนวณและแสดงของตัวเอง ----------
   // บัตรข้อมูล 3 ใบ (รหัสของส่วนนั้น · เลขศาสตร์ชื่อ · ความสัมพันธ์ธาตุ)
   function sectionTilesHtml(res, num, rabbit, element, rel, tileLabel) {
-    // Admin แสดงเฉพาะคำทำนาย ไม่แสดงรหัส ตัวเลข หรือข้อมูลที่ใช้ประกอบการคำนวณ
-    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
-    return '<div class="num-grid">' +
-      rabbitTileHtml(num, rabbit, element, tileLabel) +
-      nameTileHtml(res.nameRes) +
-      relationTileHtml(rel) +
-      '</div>';
+    // ทั้ง Main และ Admin แสดงเฉพาะคำทำนายที่เรียบเรียงแล้ว ไม่แสดงเลขหรือข้อมูลดิบจากการคำนวณ
+    return '';
   }
 
   // บล็อกข้อมูลดวงโดยรวม พร้อมที่มาของเลขของส่วนนั้น ๆ
   function sectionFactsHtml(res, traceHtml) {
-    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
-    return '<div class="pred-block" style="background:#fffaf0; border-color:#fbd38d;">' +
-      '<h4 style="color:#975a16;">🕉️ ข้อมูลดวงโดยรวม</h4>' +
-      '<div class="pred-section-item"><b>ธาตุเจ้าชะตา:</b> ธาตุ' + res.ownerElement.name + ' ' + res.ownerElement.symbol +
-        '   จุดเด่น: ' + res.ownerElement.good + '</div>' +
-      '<div class="pred-section-item"><b>ข้อควรระวัง:</b> ' + res.ownerElement.bad + '</div>' +
-      '<div class="pred-section-item"><b>พลังวันเกิด:</b> วัน' + res.birthPowerName + ' กำลัง ' + res.birthPowerValue +
-        ' (ใช้เป็นค่าตั้งต้นของดวง)</div>' +
-      traceHtml +
-      '</div>';
+    // ข้อมูลดิบและที่มาของค่าคำนวณใช้ภายในเท่านั้น ทั้ง Main และ Admin
+    return '';
   }
 
   // ---------- ตัวประกอบผลลัพธ์ของแต่ละส่วน (บัตรข้อมูล + เนื้อหา + ข้อมูลดวงโดยรวม) ----------
@@ -1201,17 +1188,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
   function personalizedBlendBlock(title, synthesis, evidence) {
-    // ซ่อนรายละเอียดการผสมรหัสและค่าคำนวณจากหน้าผลลัพธ์ Admin
-    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
-    var html = '<div class="pred-block personalized-synthesis" style="background:#f8f7ff;border:1px solid #ddd6fe;border-left:5px solid #7c3aed;border-radius:12px;padding:12px;margin-top:12px;">';
-    html += '<h4 style="color:#5b21b6;">🧩 ' + predictionSafeText(title || 'คำอ่านเฉพาะบุคคล') + '</h4>';
-    html += '<div class="pred-section-item">' + predictionSafeText(synthesis || '') + '</div>';
-    (evidence || []).forEach(function(item) {
-      if (!item || !item.value) return;
-      html += '<div class="pred-section-item"><b>' + predictionSafeText(item.label || 'ผลคำนวณ') + ':</b><br/>' + predictionSafeText(item.value) + '</div>';
-    });
-    html += '<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">เป็นการตีความจากผลคำนวณและสัญลักษณ์ของศาสตร์ที่ระบุ ใช้ประกอบการทบทวน ไม่ใช่ข้อสรุปตายตัวแทนข้อเท็จจริงในชีวิต</div>';
-    return html + '</div>';
+    // ไม่แสดงชุดข้อมูลดิบ/หลักฐานตัวเลขที่ใช้ผสมผลคำนวณใน UI ทั้ง Main และ Admin
+    return '';
   }
 
   function renderBaseSection(res) {
@@ -1983,8 +1961,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
   function hideCalculationDisclosure(root) {
     if (!root || !root.querySelectorAll) return;
+    // שכבותข้อมูลตัวเลข/รหัส/ตารางที่เป็นผลคำนวณดิบ ไม่ควรปรากฏใน UI ทั้ง Main และ Admin
+    var rawSelectors = '.num-grid,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.calculation-trace,.formula-details,[data-calculation-raw="true"]';
+    root.querySelectorAll(rawSelectors).forEach(function(node) {
+      if (node.parentNode) node.parentNode.removeChild(node);
+    });
     var sensitive = /วิธีคำนวณ|สูตรคำนวณ|ขั้นตอนคำนวณ|สูตรโหรกระต่าย|เลขศาสตร์ชื่อ|เลขชื่อ-นามสกุล|เลขโหรกระต่าย|เลขกระต่าย|รหัสคำทำนาย|รหัสกระต่าย|เลขเทพประจำตัว|พลังวันเกิด|พลังวันปัจจุบัน|เลขกำลังวัน|ผลรวมสุดท้าย|ตัวคูณ|เลขทิศทาง|เพนดูลัม|R1\s*=|R2\s*=|R3\s*=|R4\s*=|คำนวณจาก/i;
-    var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.mini-h,.num-grid,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.rhd-section,.answer-box,.topic-line');
+    var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.mini-h,.answer-box,.topic-line');
     for (var i = candidates.length - 1; i >= 0; i--) {
       var node = candidates[i];
       if (node.parentNode && sensitive.test(node.textContent || '')) node.parentNode.removeChild(node);
