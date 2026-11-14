@@ -186,26 +186,16 @@
         <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
           คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
         </p>
-                <div class="field">
-          <label for="oreguramCategory">1. เลือกหมวดหมู่เรื่องที่ต้องการ</label>
-          <select id="oreguramCategory" aria-label="เลือกหมวดหมู่เรื่องที่ต้องการ">
-            <option value="">กำลังเตรียมหมวดหมู่...</option>
-          </select>
+        <div id="oreguramQuestionPanels" aria-label="เลือกคำถามจาก 6 หมวด">
+          <p class="muted">กำลังเตรียมคำถาม...</p>
         </div>
-        <div class="field" style="margin-top:12px;">
-          <label for="oreguramTopic">2. เลือกเรื่องที่ต้องการคำทำนาย</label>
-          <select id="oreguramTopic" aria-label="เลือกเรื่องที่ต้องการคำทำนาย" disabled>
-            <option value="">เลือกหมวดหมู่ก่อน</option>
-          </select>
-        </div>
-        <div class="field" style="margin-top:12px;">
-          <label for="oreguramQuestion">3. เลือกคำถามในหมวดนี้</label>
-          <select id="oreguramQuestion" aria-label="เลือกคำถามในหมวดที่เลือก" disabled>
-            <option value="">เลือกเรื่องที่ต้องการก่อน</option>
-          </select>
+        <div style="display:none;" aria-hidden="true">
+          <select id="oreguramCategory" aria-label="หมวดหมู่คำถาม"><option value="">กำลังเตรียมหมวดหมู่...</option></select>
+          <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled><option value="">เลือกหมวดหมู่ก่อน</option></select>
+          <select id="oreguramQuestion" aria-label="คำถามที่เลือก" disabled><option value="">เลือกคำถาม</option></select>
         </div>
         <div class="hint-box" style="margin-top:12px;">
-          📖 แบ่งคำถามเป็น 6 หมวด ได้แก่ การงาน การเงิน ความรัก สุขภาพ เรื่องที่สนใจและการพัฒนาตัวเอง และเรื่องอื่น ๆ เมื่อเลือกหมวดและเรื่องแล้ว จะแสดงเฉพาะคำถามที่เกี่ยวข้อง
+          📖 เลือกหมวดที่ตรงกับเรื่องที่ต้องการ แล้วแตะกล่องคำถามที่ต้องการอ่านคำทำนาย ระบบจะใช้คำถามที่เลือกคำนวณตามโหรกระต่าย
         </div>
       </section>
 
