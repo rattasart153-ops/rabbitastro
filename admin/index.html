@@ -207,20 +207,20 @@
           คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
         </p>
         <div class="oreguram-input-group">
-          <label for="oreguramCategory">หมวดคำถาม</label>
-          <select id="oreguramCategory" class="oreguram-select" aria-label="เลือกหมวดคำถาม">
-            <option value="">เลือกหมวดคำถาม</option>
-          </select>
+          <label>หมวดคำถาม</label>
+          <div id="oreguramCategorySlider" class="oreguram-slider" role="group" aria-label="เลื่อนเลือกหมวดคำถาม"></div>
         </div>
         <div class="oreguram-input-group" style="margin-top:14px;">
-          <label for="oreguramQuestion">คำถาม</label>
-          <select id="oreguramQuestion" class="oreguram-select" aria-label="เลือกคำถาม" disabled>
-            <option value="">กรุณาเลือกหมวดคำถามก่อน</option>
-          </select>
+          <label>คำถาม</label>
+          <div id="oreguramQuestionSlider" class="oreguram-slider oreguram-question-slider" role="group" aria-label="เลื่อนเลือกคำถาม">
+            <span class="oreguram-slider-placeholder">กรุณาเลือกหมวดคำถามก่อน</span>
+          </div>
         </div>
-        <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled hidden>
-          <option value="">เลือกหัวข้อ</option>
-        </select>
+        <div hidden aria-hidden="true">
+          <select id="oreguramCategory"><option value="">เลือกหมวดคำถาม</option></select>
+          <select id="oreguramQuestion" disabled><option value="">เลือกคำถาม</option></select>
+          <select id="oreguramTopic" disabled><option value="">เลือกหัวข้อ</option></select>
+        </div>
         <div class="hint-box" style="margin-top:12px;">
           📖 เลือกหมวดเรื่องก่อน แล้วช่องคำถามจะแสดงเฉพาะคำถามในหมวดนั้น เลือกคำถามที่ตรงกับสิ่งที่อยากรู้เพื่ออ่านคำทำนายตามโหรกระต่าย
         </div>
