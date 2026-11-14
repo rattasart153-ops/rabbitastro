@@ -922,3 +922,26 @@ img, svg, video, canvas {
   text-align: center;
   line-height: 1.5;
 }
+
+
+/* ---------- Oreguram dependent selection bars ---------- */
+.oreguram-select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 42px 11px 13px;
+  border: 1px solid #e7e0d7;
+  border-radius: 11px;
+  background-color: #fff;
+  color: var(--text-main);
+  font: inherit;
+  line-height: 1.5;
+  white-space: normal;
+}
+.oreguram-select:disabled {
+  opacity: .65;
+  background-color: #f4f1ec;
+  cursor: not-allowed;
+}
+.oreguram-input-group { min-width: 0; width: 100%; }
