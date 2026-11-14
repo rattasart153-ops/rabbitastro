@@ -1646,6 +1646,13 @@ document.addEventListener("DOMContentLoaded", function () {
       data = {};
     }
 
+    if (!data.rabbit && typeof Engine.RHD.synthesize === 'function') {
+      try { data = Engine.RHD.synthesize(rabbitNumber, habit) || data; } catch (e) {}
+    }
+    var rabbit = data.rabbit || (Engine.RABBITS && Engine.RABBITS[rabbitNumber]) || {};
+    var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
+    var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
+    h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
     // Admin: ย้ายคำทำนายเรื่องคนที่จะเข้ามาจาก Engine 1 มาแสดงภายใน RHD
     if (window.RABBITASTRO_ADMIN_MODE === true && typeof Engine.calcPerson === 'function') {
       try {
@@ -1670,13 +1677,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // หากคำนวณส่วนนี้ไม่ได้ ให้คำทำนาย RHD ส่วนอื่นแสดงตามปกติ
       }
     }
-    if (!data.rabbit && typeof Engine.RHD.synthesize === 'function') {
-      try { data = Engine.RHD.synthesize(rabbitNumber, habit) || data; } catch (e) {}
-    }
-    var rabbit = data.rabbit || (Engine.RABBITS && Engine.RABBITS[rabbitNumber]) || {};
-    var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
-    var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
-    h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
     h += personalizedBlendBlock('ผล RHD จากวิธีรับมือและสถานการณ์ของคุณ',
       'เลขวิธีรับมือ ' + habit + ' คำนวณจากชื่อและข้อมูลวันเกิดของคุณ ส่วนเลขสถานการณ์ ' + rabbitNumber + ' มาจากวันที่นำมาคำนวณ เมื่อนำสองค่านี้มาประกบกัน จึงอ่านได้ทั้งรูปแบบที่คุณใช้รับมือและแรงกดดันหรือโอกาสที่ควรสังเกตในวันนี้',
       [
