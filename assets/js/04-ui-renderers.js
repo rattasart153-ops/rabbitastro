@@ -1138,13 +1138,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var nameCode = res.nameRes && res.nameRes.num;
     var baseCode = parseInt(res.baseCode, 10) || 9;
     var baseName = (res.baseRabbit && res.baseRabbit.name) || (Engine.RABBITS[baseCode] && Engine.RABBITS[baseCode].name) || 'รหัสกระต่าย ' + baseCode;
-    h += personalizedBlendBlock('สังเคราะห์พื้นดวงเฉพาะบุคคล',
-      'แกนชีวิตของคุณอ่านจากรหัสโหรกระต่าย ' + baseCode + ' (' + baseName + ') แล้วเทียบกับเลขชื่อ-นามสกุล ' + (nameCode || '-') + ' และพลังวันเกิด ' + (res.birthPowerValue || '-') + '. พื้นดวงเป็นแกนหลัก เลขชื่อช่วยขยายรูปแบบการแสดงออก ส่วนพลังวันเกิดช่วยเน้นจุดแข็งและสิ่งที่ควรระวังของคุณ',
-      [
-        {label:'แกนพื้นดวงโหรกระต่าย',value:(b.core || b.title || '') + ' ' + (b.self || '')},
-        {label:'เลขชื่อ-นามสกุล ' + (nameCode || '-'),value:(res.nameRes && res.nameRes.prediction && res.nameRes.prediction.desc) || ''},
-        {label:'พลังวันเกิด ' + (weekday.name || ''),value:(weekday.core || '') + ' ' + (weekday.strength || '') + ' ' + (weekday.shadow || '')}
-      ]);
     return h;
   }
   function renderAscSection(res) {
@@ -1187,14 +1180,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-section-item"><b>🫶 สิ่งที่ใจอาจกำลังกังวลหรือถามหา:</b><br/>' + voice.worry + ' ลองเชื่อมโยงกับคำถามนี้อย่างอ่อนโยน: ' + questionText + '</div>';
     h += '<div class="pred-section-item"><b>🔔 สิ่งที่อยากชวนให้สังเกต:</b><br/>' + lookText + ' ลองสังเกตทั้งเหตุการณ์จริงและความรู้สึกของคุณ โดยไม่ต้องรีบตัดสินตัวเอง</div>';
     h += '<div class="pred-section-item"><b>🧭 ก้าวเล็ก ๆ ที่ดูแลใจตัวเองได้:</b><br/>' + voice.need + ' ' + voice.step + '</div>';
-    h += personalizedBlendBlock('อ่านเรื่อง' + topic + ' ผ่านข้อมูลดวงของคุณ',
-      'รหัสโหรกระต่าย ' + rabbitNum + ' เป็นแกนของเรื่องนี้ เมื่อนำไปเทียบกับเลขชื่อ ' + (res.nameRes && res.nameRes.num || '-') + ' และพลังวันเกิด จะเห็นทั้งแนวโน้มที่คุณใช้เป็นทุนเดิมและวิธีที่เหมาะกับการรับมือเรื่อง' + topic + '. ให้ใช้คำอ่านนี้ร่วมกับเหตุการณ์จริง ไม่ใช่ตัดสินจากตัวเลขเพียงอย่างเดียว',
-      [
-        {label:'รหัสโหรกระต่ายและธาตุ',value:(res.rabbit && res.rabbit.desc || '') + ' ' + elementSignal},
-        {label:'เลขชื่อ-นามสกุล',value:nameSignal},
-        {label:'พลังวันเกิด',value:weekdaySignal},
-        {label:'คำทำนายเฉพาะเรื่อง',value:focusText}
-      ]);
     h += '</div>';
     return h;
   }
@@ -1203,14 +1188,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var topicLabel = 'เรื่อง' + res.categoryName + (res.subTopicName ? ' (' + res.subTopicName + ')' : '');
     var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายเลข ' + res.R4);
     h += monthTrendHtml(res.monthPredictions, '#eef2ff', '#c7d2fe', '#3730a3', '📅 ' + topicLabel + ' · 3 เดือน', '');
-    h += personalizedBlendBlock('แนวโน้ม 3 เดือนที่เชื่อมกับพื้นดวงของคุณ',
-      'การอ่านเรื่อง' + topicLabel + ' ใช้รหัสโหรกระต่าย ' + res.R4 + ' เป็นแกน แล้วนำเลขชื่อ-นามสกุลและธาตุประจำผลมาช่วยตีความ จึงควรอ่านแนวโน้มทั้งสามเดือนต่อเนื่องกัน โดยดูว่าเดือนไหนเหมาะกับการเริ่ม เดือนไหนควรประคอง และเดือนไหนควรทบทวนจากเหตุการณ์จริง',
-      [
-        {label:'รหัสกระต่ายและบุคลิกพื้นฐาน',value:(res.rabbit && (res.rabbit.desc || res.rabbit.short)) || ''},
-        {label:'พลังชื่อ-นามสกุล',value:(res.nameRes && res.nameRes.prediction && res.nameRes.prediction.desc) || ''},
-        {label:'ธาตุและความสัมพันธ์ของธาตุ',value:(res.element && (res.element.story || res.element.good)) || ''},
-        {label:'แนวโน้มรายเดือน',value:(res.monthPredictions || []).map(function(m){return (m.label || m.month || '') + ' ' + (m.summary || m.overview || m.prediction || '');}).filter(Boolean).join(' · ')}
-      ]);
     return h;
   }
 
@@ -1385,13 +1362,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     var ascRabbitName = rabbit && rabbit.name ? rabbit.name : 'รหัสกระต่าย ' + num;
-    h += personalizedBlendBlock('สังเคราะห์ลัคนาเฉพาะบุคคล',
-      'ลัคนาราศี ' + s.name + ' สะท้อนภาพที่คนอื่นอาจสัมผัสได้ ขณะที่รหัสกระต่ายลัคนา ' + num + ' (' + ascRabbitName + ') และรหัสด้านใน ' + (res.ascInner || '-') + ' ช่วยแยกแรงขับภายในออกจากภาพที่แสดงออก พลังวันเกิด ' + (weekday.name || '-') + ' เป็นตัวปรับจังหวะ ไม่ได้ใช้แทนลัคนา',
-      [
-        {label:'ภาพที่แสดงออก',value:s.trait + ' ' + (d && d.strength || '')},
-        {label:'แรงขับและความต้องการด้านใน · รหัส ' + (res.ascInner || '-'),value:inn ? ((inn.drive || '') + ' ' + (inn.need || '')) : ''},
-        {label:'พลังวันเกิดที่ร่วมปรับบุคลิก',value:(weekday.core || '') + ' ' + (weekday.shadow || '')}
-      ]);
     return h + '</div>';
   }
 
@@ -1482,15 +1452,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="mth"><b>📍 ช่องทางหรือจังหวะที่พบ</b><br/>'+res.meeting+'</div>';
     h+='<div class="mth"><b>❤️ รูปแบบความสัมพันธ์</b><br/>'+res.relationship+'</div>';
     h+='</div></div>';
-    h += personalizedBlendBlock('ภาพคนที่จะเข้ามาเมื่อเทียบกับพื้นดวงของคุณ',
-      'รหัสโหรกระต่าย ' + (res.rabbitJoint && res.rabbitJoint.R4 || res.R4 || '-') + ' เป็นฐานในการอ่านคนที่มีแนวโน้มเข้ามา จากนั้นจึงพิจารณาลักษณะนิสัย งานหรือฐานชีวิต ช่องทางที่พบ และรูปแบบความสัมพันธ์ร่วมกัน จุดสำคัญไม่ใช่การยึดติดกับภาพคนในคำทำนาย แต่คือการเทียบกับพฤติกรรมและความสม่ำเสมอที่เกิดขึ้นจริง',
-      [
-        {label:'บุคลิกและนิสัยที่คำนวณได้',value:res.personality || ''},
-        {label:'งานและฐานชีวิต',value:res.work || ''},
-        {label:'ช่องทางหรือจังหวะที่พบ',value:res.meeting || ''},
-        {label:'รูปแบบความสัมพันธ์',value:res.relationship || ''},
-        {label:'สิ่งที่ควรสังเกต',value:res.caution || ''}
-      ]);
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
     return h;
   }
