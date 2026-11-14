@@ -206,15 +206,26 @@
         <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
           คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
         </p>
-        <div class="field">
-          <label for="oreguramQuestion">เลือกคำถามที่ต้องการคำทำนาย:</label>
-          <select id="oreguramQuestion" style="padding:10px; font-weight:600;"></select>
+                <div class="field">
+          <label for="oreguramCategory">1. เลือกหมวดหมู่เรื่องที่ต้องการ</label>
+          <select id="oreguramCategory" aria-label="เลือกหมวดหมู่เรื่องที่ต้องการ">
+            <option value="">กำลังเตรียมหมวดหมู่...</option>
+          </select>
         </div>
-        <div class="hint-box">
-          📖 รวม 100 คำถาม แบ่งตามหมวดเรื่อง และเพิ่มคำถามสำรวจตัวตนกับจิตใต้สำนึก โดยคงจำนวนคำถามทั้งหมดไว้ที่ 100 ข้อ
-          <b style="color:#22543d;">การงาน</b> ·
-          <b style="color:#744210;">การเงิน</b> ·
-          <b style="color:#742a2a;">ความรักและชีวิต</b>
+        <div class="field" style="margin-top:12px;">
+          <label for="oreguramTopic">2. เลือกเรื่องที่ต้องการคำทำนาย</label>
+          <select id="oreguramTopic" aria-label="เลือกเรื่องที่ต้องการคำทำนาย" disabled>
+            <option value="">เลือกหมวดหมู่ก่อน</option>
+          </select>
+        </div>
+        <div class="field" style="margin-top:12px;">
+          <label for="oreguramQuestion">3. เลือกคำถามในหมวดนี้</label>
+          <select id="oreguramQuestion" aria-label="เลือกคำถามในหมวดที่เลือก" disabled>
+            <option value="">เลือกเรื่องที่ต้องการก่อน</option>
+          </select>
+        </div>
+        <div class="hint-box" style="margin-top:12px;">
+          📖 แบ่งคำถามเป็น 6 หมวด ได้แก่ การงาน การเงิน ความรัก สุขภาพ เรื่องที่สนใจและการพัฒนาตัวเอง และเรื่องอื่น ๆ เมื่อเลือกหมวดและเรื่องแล้ว จะแสดงเฉพาะคำถามที่เกี่ยวข้อง
         </div>
       </section>
 
