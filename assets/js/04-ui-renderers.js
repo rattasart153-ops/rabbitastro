@@ -287,13 +287,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var ogSelect = document.getElementById("oreguramQuestion");
   var ogCategory = document.getElementById("oreguramCategory");
   var ogTopic = document.getElementById("oreguramTopic");
-  var ogCategoryInput = document.getElementById("oreguramCategoryInput");
-  var ogQuestionInput = document.getElementById("oreguramQuestionInput");
-  var ogCategoryOptions = document.getElementById("oreguramCategoryOptions");
-  var ogQuestionOptions = document.getElementById("oreguramQuestionOptions");
-  if (ogSelect && ogCategory && ogTopic && ogCategoryInput && ogQuestionInput &&
-      ogCategoryOptions && ogQuestionOptions && Engine && Array.isArray(Engine.OREGURAM_QUESTIONS)) {
-    // Main และ Admin ใช้โครงสร้างหมวดเดียวกัน แต่เลือกชุดคำถามตามหน้าที่เปิดอยู่
+  if (ogSelect && ogCategory && ogTopic && Engine && Array.isArray(Engine.OREGURAM_QUESTIONS)) {
+    // Main และ Admin ใช้แถบเลือกหมวดและคำถามแยกกัน โดยคำถามเปลี่ยนตามหมวดที่เลือก
     var oreguramQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS)
       ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
     var OREGURAM_UI_GROUPS = [
@@ -304,7 +299,6 @@ document.addEventListener("DOMContentLoaded", function () {
       { key: "interest", label: "✨ เรื่องที่สนใจและการพัฒนาตัวเอง" },
       { key: "other", label: "🧭 เรื่องอื่น ๆ" }
     ];
-    var activeOreguramCategory = "";
 
     function clearOreguramPreviousResult() {
       if (resultsBox) {
@@ -320,13 +314,9 @@ document.addEventListener("DOMContentLoaded", function () {
       select.appendChild(option);
     }
 
-    function clearOreguramQuestionChoices(placeholder) {
-      ogQuestionOptions.innerHTML = "";
-      ogQuestionInput.value = "";
-      ogQuestionInput.disabled = true;
-      ogQuestionInput.placeholder = placeholder || "เลือกหมวดเรื่องก่อน";
+    function resetOreguramQuestionChoices(placeholder) {
       ogSelect.innerHTML = "";
-      addOreguramOption(ogSelect, "", "เลือกคำถาม");
+      addOreguramOption(ogSelect, "", placeholder || "กรุณาเลือกหมวดคำถามก่อน");
       ogSelect.disabled = true;
       ogSelect.removeAttribute("data-current-question");
       ogTopic.innerHTML = "";
@@ -338,81 +328,43 @@ document.addEventListener("DOMContentLoaded", function () {
       var questions = oreguramQuestionBank.filter(function (item) {
         return item.cat === categoryKey;
       });
-      ogQuestionOptions.innerHTML = "";
-      ogSelect.innerHTML = "";
-      if (!questions.length) {
-        addOreguramOption(ogSelect, "", "ยังไม่มีคำถามในหมวดนี้");
-        ogSelect.disabled = true;
-        ogSelect.removeAttribute("data-current-question");
-        ogQuestionInput.disabled = true;
-        ogQuestionInput.placeholder = "ไม่พบคำถามในหมวดนี้";
-        return;
-      }
+      resetOreguramQuestionChoices(questions.length ? "เลือกคำถาม" : "ยังไม่มีคำถามในหมวดนี้");
+      if (!questions.length) return;
+
       questions.forEach(function (question) {
-        var label = String(question.text || "").replace(/^\s*(?:(?:ข้อที่|ข้อ)\s*)?\d+\s*[.)、:-]\s*/, "").trim();
-        var option = document.createElement("option");
-        option.value = label;
-        ogQuestionOptions.appendChild(option);
         addOreguramOption(ogSelect, question.id, question.text);
       });
       ogSelect.disabled = false;
-      ogQuestionInput.disabled = false;
-      ogQuestionInput.placeholder = "พิมพ์หรือเลือกคำถามในหมวดนี้";
-      ogSelect.removeAttribute("data-current-question");
-    }
-
-    function selectOreguramCategoryFromInput() {
-      var selectedLabel = ogCategoryInput.value.trim();
-      var selectedGroup = OREGURAM_UI_GROUPS.find(function (group) {
-        return group.label === selectedLabel &&
-          oreguramQuestionBank.some(function (item) { return item.cat === group.key; });
-      });
-      var nextKey = selectedGroup ? selectedGroup.key : "";
-      if (nextKey === activeOreguramCategory) return;
-      activeOreguramCategory = nextKey;
-      ogCategory.value = nextKey;
-      if (!nextKey) {
-        clearOreguramQuestionChoices(selectedLabel ? "กรุณาเลือกหมวดจากรายการ" : "เลือกหมวดเรื่องก่อน");
-        clearOreguramPreviousResult();
-        return;
-      }
-      populateOreguramQuestions(nextKey);
-      clearOreguramPreviousResult();
-    }
-
-    function selectOreguramQuestionFromInput() {
-      var selectedText = ogQuestionInput.value.trim();
-      var question = oreguramQuestionBank.find(function (item) {
-        if (item.cat !== activeOreguramCategory) return false;
-        var label = String(item.text || "").replace(/^\s*(?:(?:ข้อที่|ข้อ)\s*)?\d+\s*[.)、:-]\s*/, "").trim();
-        return label === selectedText;
-      });
-      ogSelect.value = question ? String(question.id) : "";
-      if (question) {
-        ogTopic.innerHTML = "";
-        addOreguramOption(ogTopic, String(question.topic || "เรื่องทั่วไป"), String(question.topic || "เรื่องทั่วไป"));
-        ogTopic.disabled = false;
-        ogSelect.setAttribute("data-current-question", String(question.id));
-      } else {
-        ogSelect.removeAttribute("data-current-question");
-      }
-      clearOreguramPreviousResult();
     }
 
     OREGURAM_UI_GROUPS.forEach(function (group) {
       var count = oreguramQuestionBank.filter(function (item) { return item.cat === group.key; }).length;
-      if (!count) return;
-      var option = document.createElement("option");
-      option.value = group.label;
-      ogCategoryOptions.appendChild(option);
-      addOreguramOption(ogCategory, group.key, group.label);
+      if (count) addOreguramOption(ogCategory, group.key, group.label);
     });
 
-    clearOreguramQuestionChoices("เลือกหมวดเรื่องก่อน");
-    ogCategoryInput.addEventListener("input", selectOreguramCategoryFromInput);
-    ogCategoryInput.addEventListener("change", selectOreguramCategoryFromInput);
-    ogQuestionInput.addEventListener("input", selectOreguramQuestionFromInput);
-    ogQuestionInput.addEventListener("change", selectOreguramQuestionFromInput);
+    resetOreguramQuestionChoices();
+    ogCategory.addEventListener("change", function () {
+      var categoryKey = ogCategory.value;
+      populateOreguramQuestions(categoryKey);
+      clearOreguramPreviousResult();
+    });
+
+    ogSelect.addEventListener("change", function () {
+      var question = oreguramQuestionBank.find(function (item) {
+        return item.cat === ogCategory.value && String(item.id) === String(ogSelect.value);
+      });
+      ogTopic.innerHTML = "";
+      if (question) {
+        addOreguramOption(ogTopic, String(question.topic || "เรื่องทั่วไป"), String(question.topic || "เรื่องทั่วไป"));
+        ogTopic.disabled = false;
+        ogSelect.setAttribute("data-current-question", String(question.id));
+      } else {
+        addOreguramOption(ogTopic, "", "เลือกหัวข้อ");
+        ogTopic.disabled = true;
+        ogSelect.removeAttribute("data-current-question");
+      }
+      clearOreguramPreviousResult();
+    });
   }
 
   function renderDailyElement() {
