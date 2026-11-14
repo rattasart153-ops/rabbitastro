@@ -897,6 +897,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- ส่วนหัว/ท้ายที่แต่ละส่วนคำนวณและแสดงของตัวเอง ----------
   // บัตรข้อมูล 3 ใบ (รหัสของส่วนนั้น · เลขศาสตร์ชื่อ · ความสัมพันธ์ธาตุ)
   function sectionTilesHtml(res, num, rabbit, element, rel, tileLabel) {
+    // Admin แสดงเฉพาะคำทำนาย ไม่แสดงรหัส ตัวเลข หรือข้อมูลที่ใช้ประกอบการคำนวณ
+    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
     return '<div class="num-grid">' +
       rabbitTileHtml(num, rabbit, element, tileLabel) +
       nameTileHtml(res.nameRes) +
@@ -906,6 +908,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // บล็อกข้อมูลดวงโดยรวม พร้อมที่มาของเลขของส่วนนั้น ๆ
   function sectionFactsHtml(res, traceHtml) {
+    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
     return '<div class="pred-block" style="background:#fffaf0; border-color:#fbd38d;">' +
       '<h4 style="color:#975a16;">🕉️ ข้อมูลดวงโดยรวม</h4>' +
       '<div class="pred-section-item"><b>ธาตุเจ้าชะตา:</b> ธาตุ' + res.ownerElement.name + ' ' + res.ownerElement.symbol +
@@ -1078,6 +1081,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
   function personalizedBlendBlock(title, synthesis, evidence) {
+    // ซ่อนรายละเอียดการผสมรหัสและค่าคำนวณจากหน้าผลลัพธ์ Admin
+    if (window.RABBITASTRO_ADMIN_MODE === true) return '';
     var html = '<div class="pred-block personalized-synthesis" style="background:#f8f7ff;border:1px solid #ddd6fe;border-left:5px solid #7c3aed;border-radius:12px;padding:12px;margin-top:12px;">';
     html += '<h4 style="color:#5b21b6;">🧩 ' + predictionSafeText(title || 'คำอ่านเฉพาะบุคคล') + '</h4>';
     html += '<div class="pred-section-item">' + predictionSafeText(synthesis || '') + '</div>';
@@ -1389,54 +1394,38 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderTarotRuneSection(res, inputData) {
     var birth=res.birthCard||{}, event=res.eventCard||res.dailyCard||{};
     var rune=res.rune||[], dailyRune=res.dailyRune||[];
-    var joint=res.rabbitJoint||{};
-    var personalCode=res.rabbitFusionCode||9, dailyCode=res.dailyRabbitFusionCode||personalCode;
-    var personalRabbit=res.rabbitFusionRabbit||{}, dailyRabbit=res.dailyRabbitFusionRabbit||{};
     var element=res.element||{}, dailyElement=res.dailyElement||{};
-    var nameRes=res.nameRes||{}, ownerElement=res.ownerElement||{};
-    var esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
     var birthName=birth.name||'-', eventName=event.name||'-';
     var birthMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(birth,'personal'):'')||birth.meaning||'';
     var eventMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(event,'daily'):'')||event.meaning||'';
     var runeMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(rune):'')||(rune[2]||'');
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
-    var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{}, joinedCrystal=res.dailyCrystalRabbitElement||{};
-    var nameNumber=nameRes.num||nameRes.reduced||'-';
-    var birthPower=Engine&&typeof Engine.getDayPower==='function'?Engine.getDayPower(new Date(inputData.bYear,inputData.bMonth-1,inputData.bDay)):null;
-    var weekdayNames=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
-    var birthWeekday=weekdayNames[new Date(inputData.bYear,inputData.bMonth-1,inputData.bDay).getDay()];
+    var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
+    var esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
     var h='';
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">🪞 พื้นฐานเฉพาะบุคคล · ไพ่ + รูน + โหรกระต่าย</h4>';
-    h+='<div class="pred-section-item"><b>ข้อมูลที่นำมาคำนวณ</b><br/>รหัสโหรกระต่ายเดิม '+esc(joint.R4||'-')+' + ไพ่ประจำตัวเลข '+esc(birth.number||'-')+(res.noBirthTime?'':' + รูนประจำตัวเลข '+esc(res.runeNumber||'-'))+' = '+esc(res.personalCardRuneSum||'-')+' → ลดเลขเป็น <b>'+esc(personalCode)+'</b></div>';
-    h+='<div class="pred-section-item"><b>รหัสกระต่าย '+esc(personalCode)+' · '+esc(personalRabbit.name||'')+'</b><br/>'+esc(personalRabbit.desc||personalRabbit.short||'')+'</div>';
-    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+esc(birthName)+' (เลข '+esc(birth.number||'-')+')</b><br/>'+esc(birthMeaning)+'</div>';
-    if(res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+esc(rune[0]||'')+' '+esc(rune[1]||'')+' (เลข '+esc(res.runeNumber)+')</b><br/>'+esc(runeMeaning)+'</div>';
-    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่ได้ระบุเวลาเกิด จึงไม่นำเลขรูนประจำตัวมารวมในสูตรส่วนบุคคล</div>';
-    h+='<div class="pred-section-item"><b>🔢 เลขชื่อ-นามสกุล '+esc(nameNumber)+'</b><br/>ธาตุจากชื่อ: '+esc(ownerElement.name||'-')+'</div>';
-    h+='<div class="pred-section-item"><b>⚖️ จุดแข็งจากธาตุ '+esc(element.name||'-')+'</b><br/>'+esc(element.good||'')+'<br/><b>จุดที่ควรระวัง:</b> '+esc(element.bad||'')+'</div>';
+    h+='<h4 style="color:#9a3412;">🪞 ไพ่และรูนประจำตัว</h4>';
+    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+esc(birthName)+'</b><br/>'+esc(birthMeaning)+'</div>';
+    if(res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+esc(rune[0]||'')+' '+esc(rune[1]||'')+'</b><br/>'+esc(runeMeaning)+'</div>';
+    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและรูนส่วนอื่นที่มี</div>';
     h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
     h+='</div>';
     h+='<div class="pred-block" style="background:#ecfeff;border-color:#a5f3fc;border-left:5px solid #0891b2;">';
-    h+='<h4 style="color:#0e7490;">☀️ สถานการณ์ปัจจุบัน · ไพ่เหตุการณ์ + รูนประจำวัน</h4>';
-    h+='<div class="pred-section-item"><b>สูตรเลขรายวัน</b><br/>รหัสโหรกระต่ายเดิม '+esc(joint.R4||'-')+' + ไพ่เหตุการณ์เลข '+esc(event.number||'-')+' + รูนประจำวันเลข '+esc(res.dailyRuneNumber||'-')+' + ธาตุประจำวันเลข '+esc(dailyElement.finalNum||'-')+' = '+esc(res.dailyCardRuneSum||'-')+' → ลดเลขเป็น <b>'+esc(dailyCode)+'</b></div>';
-    h+='<div class="pred-section-item"><b>รหัสกระต่ายรายวัน '+esc(dailyCode)+' · '+esc(dailyRabbit.name||'')+'</b><br/>'+esc(dailyRabbit.desc||dailyRabbit.short||'')+'</div>';
-    h+='<div class="pred-section-item"><b>🃏 ไพ่เหตุการณ์: '+esc(eventName)+' (เลข '+esc(event.number||'-')+')</b><br/>'+esc(eventMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+esc(dailyRune[0]||'-')+' '+esc(dailyRune[1]||'')+' (เลข '+esc(res.dailyRuneNumber||'-')+')</b><br/>'+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>ธาตุประจำวัน '+esc(dailyElement.element&&dailyElement.element.name||'-')+' · เลข '+esc(dailyElement.finalNum||'-')+'</b><br/>'+esc(dailyElement.element&&dailyElement.element.story||'')+'</div>';
+    h+='<h4 style="color:#0e7490;">☀️ ไพ่และรูนที่สะท้อนสถานการณ์ปัจจุบัน</h4>';
+    h+='<div class="pred-section-item"><b>🃏 ไพ่เหตุการณ์: '+esc(eventName)+'</b><br/>'+esc(eventMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+esc(dailyRune[0]||'-')+' '+esc(dailyRune[1]||'')+'</b><br/>'+esc(dailyMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>ธาตุประจำวัน: '+esc(dailyElement.element&&dailyElement.element.name||'-')+'</b><br/>'+esc(dailyElement.element&&dailyElement.element.story||'')+'</div>';
     h+='<div class="pred-section-item"><div class="thai-heading-block">💎 คริสตัลประจำวัน</div><div><b>'+esc(dailyCrystal.name||'-')+'</b></div><div>'+esc(dailyCrystal.healing||'')+'</div></div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับผลรวมวันนี้: '+esc(joinedCrystal.name||'-')+'</b><br/>'+esc(joinedCrystal.healing||'')+'</div>';
     h+='</div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) {
-    h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
-    h+='<h4 style="color:#6d28d9;">🔮 คำอ่านเฉพาะบุคคลและแนวทางรับมือ</h4>';
-    h+='<div class="pred-section-item"><b>ตัวตนและรูปแบบที่เด่น</b><br/>จากวันเกิดวัน'+esc(birthWeekday)+' พลังวัน '+esc(birthPower&&birthPower.power||'-')+' เลขชื่อ-นามสกุล '+esc(nameNumber)+' ไพ่ประจำตัว '+esc(birthName)+' และ'+(res.noBirthTime?'ข้อมูลวันเกิดโดยไม่มีเลขรูนเวลาเกิด':'รูน '+esc(rune[0]||''))+' เมื่อนำมารวมกับรหัสโหรกระต่าย ได้รหัสเฉพาะบุคคล '+esc(personalCode)+'. '+esc(personalRabbit.desc||personalRabbit.short||'')+' '+esc(birthMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>สิ่งที่สถานการณ์กำลังสะท้อน</b><br/>'+esc(dailyRabbit.desc||dailyRabbit.short||'')+' '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>จุดแข็งที่นำมาใช้ได้</b><br/>'+esc(element.good||'')+' '+esc(dailyElement.element&&dailyElement.element.good||'')+'</div>';
-    h+='<div class="pred-section-item"><b>สิ่งที่ควรระวังและวิธีรับมือ</b><br/>'+esc(element.bad||'')+' '+esc(dailyElement.element&&dailyElement.element.bad||'')+' ลองใช้ความหมายของรูนเป็นแนวทางทบทวน แล้วตรวจสอบกับเหตุการณ์จริงก่อนตัดสินใจ</div>';
-    h+='<div class="pred-section-item"><b>คำถามสำหรับตัวคุณ</b><br/>ตอนนี้เรื่องใดสอดคล้องกับรหัสส่วนตัว '+esc(personalCode)+' และรหัสสถานการณ์ '+esc(dailyCode)+' มากที่สุด? มีข้อเท็จจริงอะไรที่ควรตรวจสอบก่อนเลือกก้าวต่อไป?</div>';
-    h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">การอ่านนี้เป็นการตีความเชิงสัญลักษณ์จากสูตรโหรกระต่ายร่วมกับหมายเลขไพ่และรูน ไม่ใช่ข้อสรุปตายตัว คุณใช้ข้อมูลจริงและการตัดสินใจของตัวเองประกอบได้เสมอ</div>';
-    h+='</div>';
+      h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+      h+='<h4 style="color:#6d28d9;">🧠 ภาพสะท้อนสภาพใจจากไพ่และรูน</h4>';
+      h+='<div class="pred-section-item"><b>ความรู้สึกและสภาพใจที่อาจกำลังเกิดขึ้น</b><br/>ไพ่ประจำตัว '+esc(birthName)+' และรูนประจำตัว '+esc(rune[0]||'ที่ปรากฏในชุดนี้')+' สะท้อนธีมภายในผ่านความหมายของสัญลักษณ์เหล่านี้: '+esc(birthMeaning)+' '+esc(runeMeaning)+' จึงอาจชวนให้สังเกตว่าช่วงนี้คุณกำลังต้องการความมั่นคง ความเข้าใจ หรือพื้นที่ให้ตัวเองได้พักใจมากเป็นพิเศษหรือไม่</div>';
+      h+='<div class="pred-section-item"><b>สิ่งที่สถานการณ์ปัจจุบันกำลังกระทบใจ</b><br/>ไพ่เหตุการณ์ '+esc(eventName)+' และรูนประจำวันสะท้อนประเด็นที่อาจกำลังดึงความคิดหรือความรู้สึกของคุณอยู่: '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
+      h+='<div class="pred-section-item"><b>สิ่งที่ใจอาจกำลังต้องการ</b><br/>ลองมองหาความต้องการที่ซ่อนอยู่หลังความรู้สึก เช่น ความปลอดภัย การได้รับการยอมรับ ความชัดเจน การมีขอบเขต หรือการได้พัก โดยเลือกเฉพาะสิ่งที่ตรงกับประสบการณ์จริงของคุณ</div>';
+      h+='<div class="pred-section-item"><b>แนวทางดูแลใจในช่วงนี้</b><br/>'+esc(element.good||'ค่อย ๆ ให้เวลากับตัวเอง')+' '+esc(dailyElement.element&&dailyElement.element.good||'')+' หากมีเรื่องที่ทำให้หนักใจ ลองแบ่งปัญหาเป็นส่วนเล็ก ๆ และพูดคุยกับคนที่ไว้ใจได้เมื่อรู้สึกว่ารับมือคนเดียวไม่ไหว</div>';
+      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">นี่เป็นการอ่านเชิงสัญลักษณ์จากหน้าไพ่และรูนเพื่อสะท้อนอารมณ์และความคิดเบื้องต้น ไม่ใช่แบบประเมิน ไม่ใช่การวินิจฉัย และไม่สามารถยืนยันสภาพจิตใจแทนประสบการณ์จริงของคุณได้</div>';
+      h+='</div>';
     }
     return h;
   }
