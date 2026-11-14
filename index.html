@@ -187,24 +187,20 @@
           คิดถึงเรื่องที่อยากรู้ให้ชัด แล้วเลือกคำถามที่ตรงกับสถานการณ์ของคุณ 1 ข้อ
         </p>
         <div class="oreguram-input-group">
-          <label for="oreguramCategoryInput">หมวดเรื่อง</label>
-          <input id="oreguramCategoryInput" type="text" list="oreguramCategoryOptions"
-            placeholder="เลือกหรือพิมพ์หมวดเรื่องที่ต้องการ" autocomplete="off"
-            aria-label="หมวดเรื่อง" />
-          <datalist id="oreguramCategoryOptions"></datalist>
+          <label for="oreguramCategory">หมวดคำถาม</label>
+          <select id="oreguramCategory" class="oreguram-select" aria-label="เลือกหมวดคำถาม">
+            <option value="">เลือกหมวดคำถาม</option>
+          </select>
         </div>
         <div class="oreguram-input-group" style="margin-top:14px;">
-          <label for="oreguramQuestionInput">คำถาม</label>
-          <input id="oreguramQuestionInput" type="text" list="oreguramQuestionOptions"
-            placeholder="เลือกหมวดเรื่องก่อน" autocomplete="off"
-            aria-label="คำถาม" disabled />
-          <datalist id="oreguramQuestionOptions"></datalist>
+          <label for="oreguramQuestion">คำถาม</label>
+          <select id="oreguramQuestion" class="oreguram-select" aria-label="เลือกคำถาม" disabled>
+            <option value="">กรุณาเลือกหมวดคำถามก่อน</option>
+          </select>
         </div>
-        <div style="display:none;" aria-hidden="true">
-          <select id="oreguramCategory" aria-label="หมวดหมู่คำถาม"><option value="">เลือกหมวดเรื่อง</option></select>
-          <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled><option value="">เลือกหัวข้อ</option></select>
-          <select id="oreguramQuestion" aria-label="คำถามที่เลือก" disabled><option value="">เลือกคำถาม</option></select>
-        </div>
+        <select id="oreguramTopic" aria-label="หัวข้อคำถาม" disabled hidden>
+          <option value="">เลือกหัวข้อ</option>
+        </select>
         <div class="hint-box" style="margin-top:12px;">
           📖 เลือกหมวดเรื่องก่อน แล้วช่องคำถามจะแสดงเฉพาะคำถามในหมวดนั้น เลือกคำถามที่ตรงกับสิ่งที่อยากรู้เพื่ออ่านคำทำนายตามโหรกระต่าย
         </div>
