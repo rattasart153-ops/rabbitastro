@@ -1197,7 +1197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var weekday = res.birthWeekday || {};
     var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
     var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
-    var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 รหัสพื้นดวงเลข ' + res.baseCode);
+    var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 ภาพรวมพื้นดวง');
 
     if (compactMain) {
       // หน้า Main แยกคำทำนายเป็นหัวข้ออิสระ อ่านทีละส่วน ไม่รวมไว้ในกล่องใหญ่ใบเดียว
@@ -1275,7 +1275,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var focusText = frame && frame.focus ? frame.focus : (pred.answer || pred.easy || 'ค่อย ๆ มองสถานการณ์จริงและสิ่งที่สำคัญกับคุณ');
     var questionText = frame && frame.question ? frame.question : 'อะไรคือสิ่งที่คุณต้องการและให้ความสำคัญที่สุดในเรื่องนี้';
     var lookText = frame && frame.look ? frame.look : 'สังเกตข้อมูลจริง การกระทำของคนที่เกี่ยวข้อง และความรู้สึกของตัวเอง';
-    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายพื้นฐานเลข ' + res.R4);
+    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 ภาพรวมคำทำนาย');
     h += '<div class="pred-block subconscious-shared-voice" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
     h += '<h4 style="color:#9a3412;">🎯 ภาพรวมเรื่อง' + topic + ' · เสียงสะท้อนจากใจคุณ</h4>';
     h += '<div class="pred-section-item"><b>💗 ภาพที่ใจอาจกำลังสะท้อน:</b><br/>' + voice.core + ' เมื่อมองเรื่อง' + topic + ' ลองใช้สิ่งนี้เป็นมุมหนึ่งในการทำความเข้าใจตัวเอง ไม่ใช่ข้อสรุปตายตัว</div>';
@@ -1289,7 +1289,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderTopicMonthSection(res) {
     var topicLabel = 'เรื่อง' + res.categoryName + (res.subTopicName ? ' (' + res.subTopicName + ')' : '');
-    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายเลข ' + res.R4);
+    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 ภาพรวมคำทำนาย');
     h += monthTrendHtml(res.monthPredictions, '#eef2ff', '#c7d2fe', '#3730a3', '📅 ' + topicLabel + ' · 3 เดือน', '');
     return h;
   }
@@ -2278,7 +2278,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var weekday = weekdayNames[date.getDay()] || '';
     var dayPower = Engine && typeof Engine.getDayPower === 'function' ? Engine.getDayPower(new Date(date.getFullYear(),date.getMonth(),date.getDate())) : null;
     var nameData = Engine && typeof Engine.calcNameNumber === 'function' ? Engine.calcNameNumber(data.fName || '',data.fLast || '') : null;
-    var number = parseInt(rabbitNumber,10) || 9;
     var safeName = typeof escapeHTML === 'function' ? escapeHTML(firstName) : firstName.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});
     var identity = nameData && nameData.prediction ? 'ความหมายจากชื่อและนามสกุลของคุณ' : 'ข้อมูลชื่อของคุณ';
     var power = dayPower ? 'แนวโน้มจากวันเกิด ' + dayPower.name : 'วันเกิด ' + weekday;
