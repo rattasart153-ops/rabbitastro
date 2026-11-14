@@ -1457,6 +1457,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="pred-section-item"><div class="thai-heading-block">💎 คริสตัลประจำวัน</div><div><b>'+esc(dailyCrystal.name||'-')+'</b></div><div>'+esc(dailyCrystal.healing||'')+'</div></div>';
     h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับผลรวมวันนี้: '+esc(joinedCrystal.name||'-')+'</b><br/>'+esc(joinedCrystal.healing||'')+'</div>';
     h+='</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
     h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
     h+='<h4 style="color:#6d28d9;">🔮 คำอ่านเฉพาะบุคคลและแนวทางรับมือ</h4>';
     h+='<div class="pred-section-item"><b>ตัวตนและรูปแบบที่เด่น</b><br/>จากวันเกิดวัน'+esc(birthWeekday)+' พลังวัน '+esc(birthPower&&birthPower.power||'-')+' เลขชื่อ-นามสกุล '+esc(nameNumber)+' ไพ่ประจำตัว '+esc(birthName)+' และ'+(res.noBirthTime?'ข้อมูลวันเกิดโดยไม่มีเลขรูนเวลาเกิด':'รูน '+esc(rune[0]||''))+' เมื่อนำมารวมกับรหัสโหรกระต่าย ได้รหัสเฉพาะบุคคล '+esc(personalCode)+'. '+esc(personalRabbit.desc||personalRabbit.short||'')+' '+esc(birthMeaning)+'</div>';
@@ -1466,6 +1467,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="pred-section-item"><b>คำถามสำหรับตัวคุณ</b><br/>ตอนนี้เรื่องใดสอดคล้องกับรหัสส่วนตัว '+esc(personalCode)+' และรหัสสถานการณ์ '+esc(dailyCode)+' มากที่สุด? มีข้อเท็จจริงอะไรที่ควรตรวจสอบก่อนเลือกก้าวต่อไป?</div>';
     h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">การอ่านนี้เป็นการตีความเชิงสัญลักษณ์จากสูตรโหรกระต่ายร่วมกับหมายเลขไพ่และรูน ไม่ใช่ข้อสรุปตายตัว คุณใช้ข้อมูลจริงและการตัดสินใจของตัวเองประกอบได้เสมอ</div>';
     h+='</div>';
+    }
     return h;
   }
 
@@ -2241,7 +2243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
     h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
     h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
-    h += personalizedBlendBlock('คำอ่านเทพประจำตัวที่ผสานโหรกระต่าย',
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += personalizedBlendBlock('คำอ่านเทพประจำตัวที่ผสานโหรกระต่าย',
       'รหัสพื้นดวงโหรกระต่าย ' + rabbitNum + ' เป็นแกนอ่านตัวตน ขณะที่เลขเทพ ' + deityNum + ' (' + (god.name || 'องค์เทพที่คำนวณได้') + ') เป็นศาสตร์เสริมด้านสัญลักษณ์ พลังวันเกิด ' + ((godRes.components && godRes.components.dayPower) || '-') + ' และเลขชื่อ ' + ((godRes.components && godRes.components.nameNumber) || '-') + ' เป็นข้อมูลที่เชื่อมสองศาสตร์เข้าด้วยกัน',
       [
         {label:'พื้นดวงโหรกระต่าย · เลข ' + rabbitNum,value:(rabbitInfo.desc || rabbitInfo.short || '') + ' ' + (rabbitRes.baseDeep && rabbitRes.baseDeep.core || '')},
@@ -2334,7 +2336,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
-    h += personalizedBlendBlock('คำทำนายโอเรกุรัมจากรหัสเฉพาะคำถามนี้',
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += personalizedBlendBlock('คำทำนายโอเรกุรัมจากรหัสเฉพาะคำถามนี้',
       'คำถามหมายเลข ' + res.questionId + ' ทำให้เกิดรหัส R1=' + res.R1 + ', R2=' + res.R2 + ', R3=' + res.R3 + ' และรหัสกระต่ายสุดท้าย R4=' + res.R4 + '. เลขชื่อ ' + res.N + ', พลังวันเกิด ' + res.D + ', พลังวันปัจจุบัน ' + res.T + ' และจิตสำนึก ' + res.J + ' ถูกนำมาอ่านร่วมกับหมวด ' + (res.categoryName || res.category || 'คำถามนี้') + ' จึงไม่ใช่คำตอบกลางชุดเดียวกับทุกคำถาม',
       [
         {label:'พื้นดวงและเลขชื่อ',value:'เลขชื่อ ' + res.N + ' · รหัสพื้นดวง R1=' + res.R1},
