@@ -2397,6 +2397,11 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("กรุณากรอกชื่อ-นามสกุล และวัน เดือน ปีเกิด ให้ครบก่อนคำนวณค่ะ");
         return;
       }
+      var selectedOreguramQuestion = document.getElementById("oreguramQuestion");
+      if (!selectedOreguramQuestion || !parseInt(selectedOreguramQuestion.value, 10)) {
+        alert("กรุณาเลือกหมวดเรื่องและคำถามก่อนคำนวณค่ะ");
+        return;
+      }
       if (resultsBox) {
         resultsBox.style.display = "none";
         resultsBox.innerHTML = "";
