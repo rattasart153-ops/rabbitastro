@@ -733,7 +733,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function godRitualHtml(g) {
     if (!g) return '';
     var h = '<div class="pred-block" style="background:#fff7ed; border-color:#fed7aa;">';
-    h += '<h4 style="color:#9a3412;">🛕 คู่มือการบูชาแบบละเอียด (ขั้นตอน · คาถา · ข้อห้าม)</h4>';
+    h += '<h4 style="color:#9a3412;">🛕 วิธีบูชาและข้อควรรู้</h4>';
     if (g.why) h += '<div class="pred-section-item"><b>❓ เหตุใดจึงเป็นองค์นี้:</b><br/>' + g.why + '</div>';
     if (g.bestTime) h += '<div class="pred-section-item"><b>🕐 เวลาที่เหมาะสม:</b><br/>' + g.bestTime + '</div>';
     if (g.chantCount) h += '<div class="pred-section-item"><b>🔁 จำนวนสวดและความต่อเนื่อง:</b><br/>' + g.chantCount + '</div>';
@@ -877,7 +877,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (reading.catKey === 'love' && reading.name === 'ลักษณะคนที่เข้ามา') {
       var ent = Engine.LOVE_ENTRANT[num];
       if (ent) {
-        h += '<div class="pred-section-item"><b>👤 วิเคราะห์ลักษณะคนที่เข้ามา ตามหลักโหรกระต่าย:</b><br/>' +
+        h += '<div class="pred-section-item"><b>👤 ลักษณะคนที่มีแนวโน้มเข้ามา:</b><br/>' +
           '<b>' + ent.type + '</b><br/>' + ent.detail +
           '<div class="dd-grid" style="margin-top:8px;">' +
           '<div class="dd-box dd-do"><b>✔ จุดเด่นของคนที่เข้ามา</b><ul><li>' + ent.good + '</li></ul></div>' +
@@ -1844,7 +1844,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</ol></div>';
     // สังเคราะห์ทุกคำตอบจากคู่ RHD จริงในรอบนี้: เลขสถานการณ์ + วิธีรับมือ
     // น้ำเสียงเป็นการชวนสำรวจ ไม่ฟันธง ไม่วินิจฉัย และไม่ตัดสินผู้ใช้
-    var rhdSituationText = (rabbit.name || 'สถานการณ์ตรงหน้า') + ' — ' + (rabbit.short || rabbit.desc || 'เรื่องที่กำลังเกิดขึ้น');
+    var rhdSituationText = (rabbit.name || 'สถานการณ์ตรงหน้า') + ': ' + (rabbit.short || rabbit.desc || 'เรื่องที่กำลังเกิดขึ้น');
     var rhdCopingText = hd.response || 'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง';
     var rhdDecisionText = data.decision || hd.decision || 'ลองให้เวลาตัวเองทบทวนก่อนเลือกก้าวต่อไป';
     var rhdCautionText = data.caution || hd.caution || 'ค่อย ๆ สังเกตสิ่งที่เกิดขึ้นโดยไม่ตำหนิตัวเอง';
