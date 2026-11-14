@@ -402,3 +402,48 @@ img, svg, video, canvas {
   .nav-button.logout { grid-column: 1 / -1; margin-top: 2px; }
   .login-panel { margin: 26px auto; padding: 20px; }
 }
+
+
+/* ---------- Keep all rendered Thai text inside its card without shrinking fonts ---------- */
+:where(
+  .card-title, .daily-element-title, .pred-block h3, .pred-block h4,
+  .pred-section-title, .section-title, .thai-heading-block,
+  .pred-section-item > b, .pred-section-item > strong,
+  .answer-box > b, .role-box > b, .god-box > b, .god-detail-box > b
+) {
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+.pred-block, .answer-box, .pred-section-item, .god-detail-box,
+.god-message-box, .god-lead, .rhd-tile, .rhd-section, .rhd-combined,
+.topic-line, .hint-box, .role-box, .chant-box {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.pred-section-item > b,
+.pred-section-item > strong,
+.answer-box > b,
+.role-box > b,
+.god-box > b,
+.god-detail-box > b {
+  display: inline;
+}
+.chip-btn {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.chip-btn small {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.thai-heading-block {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
