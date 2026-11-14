@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("dailyDateText").innerText = dailyRes.dateText || "-";
       document.getElementById("dailyElementVal").innerText = "ธาตุ" + (elem.name || "ดิน") + " (" + (elem.symbol || "⛰️") + ")";
       document.getElementById("dailyElementIcon").innerText = elem.symbol || "⛰️";
-      document.getElementById("dailyElementDesc").innerText = "🐇 กระต่ายเลข " + dailyRes.finalNum + " (" + rabbit.name + ")   " + (elem.story || "") + " · จุดเด่น: " + (elem.good || "");
+      document.getElementById("dailyElementDesc").innerText = "🐇 " + rabbit.name + "   " + (elem.story || "") + " · จุดเด่น: " + (elem.good || "");
       document.getElementById("dailyElementWarn").innerText = "⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน: " + (elem.bad || "");
       document.getElementById("dailyElementSuggest").innerText = elem.good || "";
       box.classList.remove("card-elem-น้ำ", "card-elem-ไฟ", "card-elem-ไม้", "card-elem-เหล็ก", "card-elem-ดิน", "card-elem-ทอง");
@@ -1619,29 +1619,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!Engine || !Engine.RHD || !res || featureKey !== 'rhd') return '';
     // ใช้วันที่ปัจจุบันเท่านั้น ไม่ใช้ชั่วโมง/นาทีที่กดคำนวณ
     var rhdQueryTime = new Date();
-    var nameResult = (inputData && inputData.fName && inputData.fLast && typeof calcNameNumber === 'function')
-      ? calcNameNumber(inputData.fName, inputData.fLast)
-      : null;
-    var nameNumber = nameResult ? parseInt(nameResult.num, 10) : parseInt(res.N, 10);
-    if (!isFinite(nameNumber) || nameNumber < 1 || nameNumber > 9) nameNumber = 5;
-
-    // วิธีรับมือ: เลขชื่อ-สกุล + ((วัน+เดือน+ปีเกิด) × เลขกำลังวันเกิด)
-    var habitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
-      nameNumber: nameNumber,
-      bDay: inputData && inputData.bDay,
-      bMonth: inputData && inputData.bMonth,
-      bYear: inputData && inputData.bYear
-    });
-    var habit = parseInt(habitCalc && habitCalc.number, 10);
+    // รหัสวิธีรับมือยึดพื้นดวงจากโหรกระต่ายโดยตรง
+    var habit = parseInt(res.baseCode, 10);
     if (!isFinite(habit) || habit < 1 || habit > 9) habit = 9;
 
-    // สถานการณ์รายวัน: (วัน+เดือน+ปีปัจจุบัน) × เลขกำลังของวันปัจจุบัน
-    var situationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
-      queryDay: rhdQueryTime.getDate(),
-      queryMonth: rhdQueryTime.getMonth() + 1,
-      queryYear: rhdQueryTime.getFullYear()
-    });
-    var rabbitNumber = parseInt(situationCalc && situationCalc.number, 10);
+    // สถานการณ์ประจำวันยึดผลธาตุประจำวันจากโหรกระต่าย
+    var dailyRabbit = Engine.calcDailyElement(rhdQueryTime);
+    var rabbitNumber = parseInt(dailyRabbit && dailyRabbit.finalNum, 10);
     if (!isFinite(rabbitNumber) || rabbitNumber < 1 || rabbitNumber > 9) rabbitNumber = 9;
     var data = {};
     try {
@@ -1681,13 +1665,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // หากคำนวณส่วนนี้ไม่ได้ ให้คำทำนาย RHD ส่วนอื่นแสดงตามปกติ
       }
     }
-    h += personalizedBlendBlock('ผล RHD จากวิธีรับมือและสถานการณ์ของคุณ',
-      'เลขวิธีรับมือ ' + habit + ' คำนวณจากชื่อและข้อมูลวันเกิดของคุณ ส่วนเลขสถานการณ์ ' + rabbitNumber + ' มาจากวันที่นำมาคำนวณ เมื่อนำสองค่านี้มาประกบกัน จึงอ่านได้ทั้งรูปแบบที่คุณใช้รับมือและแรงกดดันหรือโอกาสที่ควรสังเกตในวันนี้',
-      [
-        {label:'วิธีรับมือ · เลข ' + habit,value:(hd.name || '') + ' ' + (hd.response || '')},
-        {label:'สถานการณ์ปัจจุบัน · เลข ' + rabbitNumber,value:(rabbit.name || '') + ' ' + (rabbit.short || '')},
-        {label:'ความหมายจากผลรวม RHD',value:(data.description || '') + ' ' + (data.mind || '')}
-      ]);
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
@@ -1884,6 +1861,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
+  function hideCalculationDisclosure(root) {
+    if (!root || !root.querySelectorAll) return;
+    var sensitive = /วิธีคำนวณ|สูตรคำนวณ|ขั้นตอนคำนวณ|สูตรโหรกระต่าย|เลขศาสตร์ชื่อ|เลขชื่อ-นามสกุล|เลขโหรกระต่าย|เลขกระต่าย|รหัสคำทำนาย|รหัสกระต่าย|เลขเทพประจำตัว|พลังวันเกิด|พลังวันปัจจุบัน|เลขกำลังวัน|ผลรวมสุดท้าย|ตัวคูณ|เลขทิศทาง|เพนดูลัม|R1\\s*=|R2\\s*=|R3\\s*=|R4\\s*=|คำนวณจาก/i;
+    var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.rhd-section,.answer-box,.topic-line');
+    for (var i = candidates.length - 1; i >= 0; i--) {
+      var node = candidates[i];
+      if (node.parentNode && sensitive.test(node.textContent || '')) node.parentNode.removeChild(node);
+    }
+  }
+
   function improvePredictionReadability(root, rabbitNum, featureKey) {
     if (!root) return;
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
@@ -1983,6 +1970,7 @@ document.addEventListener("DOMContentLoaded", function () {
     walk(root);
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
+    hideCalculationDisclosure(root);
     // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
   }
 
@@ -2098,7 +2086,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var bc = res.birthCard || {}, ec = res.eventCard || {}, pr = res.personalCrystal || {}, dc = res.dailyCrystalDate || {};
       var esc = function(v){return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
-        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
+        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
     setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
@@ -2152,7 +2140,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if(resultsBox){
         var safeError = tarotRuneError.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         resultsBox.style.display='block';
-        setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ขั้นตอนที่ผิดพลาด: <code style="white-space:pre-wrap;overflow-wrap:anywhere;">'+safeError+'</code><br/><small>ระบบได้แยกข้อผิดพลาดจากการคำนวณ การแสดงผล และการเลื่อนหน้าจอแล้ว กรุณาใช้ข้อความนี้เพื่อตรวจจุดที่เหลือ</small></div>');
+        setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>');
       }
     }
   });
@@ -2235,13 +2223,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
     if (window.RABBITASTRO_ADMIN_MODE !== true) h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
     h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
-    if (window.RABBITASTRO_ADMIN_MODE === true) h += personalizedBlendBlock('คำอ่านเทพประจำตัวที่ผสานโหรกระต่าย',
-      'รหัสพื้นดวงโหรกระต่าย ' + rabbitNum + ' เป็นแกนอ่านตัวตน ขณะที่เลขเทพ ' + deityNum + ' (' + (god.name || 'องค์เทพที่คำนวณได้') + ') เป็นศาสตร์เสริมด้านสัญลักษณ์ พลังวันเกิด ' + ((godRes.components && godRes.components.dayPower) || '-') + ' และเลขชื่อ ' + ((godRes.components && godRes.components.nameNumber) || '-') + ' เป็นข้อมูลที่เชื่อมสองศาสตร์เข้าด้วยกัน',
-      [
-        {label:'พื้นดวงโหรกระต่าย · เลข ' + rabbitNum,value:(rabbitInfo.desc || rabbitInfo.short || '') + ' ' + (rabbitRes.baseDeep && rabbitRes.baseDeep.core || '')},
-        {label:'เลขเทพประจำตัว · เลข ' + deityNum,value:(god.bless || '') + ' ' + ((godRes.components && godRes.components.dayPowerName) || '')},
-        {label:'พลังชื่อและนามสกุล',value:(godRes.nameRes && godRes.nameRes.prediction && godRes.nameRes.prediction.desc) || ''}
-      ]);
     h += '<div class="god-lead"><b>🌿 ลองทำสิ่งนี้ต่อจากนี้</b><br/>' + rabbitMessage.action + '</div>';
     h += '<div class="god-detail-box" style="margin-top:10px;"><div class="god-detail-title">✨ ความหมายขององค์เทพในความเชื่อ</div>' + (god.bless || 'ใช้สติและความตั้งใจเป็นแนวทางในการดำเนินชีวิต') + '</div>';
     h += '</div>';
@@ -2262,7 +2243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     h += '<div class="pred-block god-comfort-block" style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-left:5px solid #ea580c;border-radius:12px;padding:13px;line-height:1.8;"><h4 style="margin:0 0 7px;color:#9a3412;">🤍 ประโยคที่อยากให้หัวใจของคุณได้ยิน</h4><div>' + (godComfort[rabbitNum] || godComfort[9]) + '</div><div style="margin-top:7px;font-size:12px;color:#7c5b4b;">ไม่จำเป็นต้องฝืนให้ตัวเองรู้สึกดีทันที แค่ค่อย ๆ รับฟังใจตัวเองก็พอ</div></div>';
     h += '</div>';
-    h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
+    h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">องค์เทพเป็นสัญลักษณ์ประกอบคำอ่าน โดยยึดพื้นดวงตามโหรกระต่ายเป็นหลัก</p>';
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
@@ -2328,14 +2309,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
-    if (window.RABBITASTRO_ADMIN_MODE === true) h += personalizedBlendBlock('คำทำนายโอเรกุรัมจากรหัสเฉพาะคำถามนี้',
-      'คำถามหมายเลข ' + res.questionId + ' ทำให้เกิดรหัส R1=' + res.R1 + ', R2=' + res.R2 + ', R3=' + res.R3 + ' และรหัสกระต่ายสุดท้าย R4=' + res.R4 + '. เลขชื่อ ' + res.N + ', พลังวันเกิด ' + res.D + ', พลังวันปัจจุบัน ' + res.T + ' และจิตสำนึก ' + res.J + ' ถูกนำมาอ่านร่วมกับหมวด ' + (res.categoryName || res.category || 'คำถามนี้') + ' จึงไม่ใช่คำตอบกลางชุดเดียวกับทุกคำถาม',
-      [
-        {label:'พื้นดวงและเลขชื่อ',value:'เลขชื่อ ' + res.N + ' · รหัสพื้นดวง R1=' + res.R1},
-        {label:'พลังวันเกิดและวันปัจจุบัน',value:'พลังวันเกิด ' + res.birthPowerName + ' (' + res.D + ') เทียบกับพลังวันปัจจุบัน ' + res.powerName + ' (' + res.T + ')'},
-        {label:'จิตสำนึกและรหัสคำถาม',value:'จิตสำนึก ' + res.J + ' · คำถาม ' + res.questionId + ' · ตัวคูณ ' + res.questionMultiplier},
-        {label:'ศาสตร์เพนดูลัม',value:res.pendulumDirection ? (res.pendulumDirection.name + ' · ' + res.pendulumDirection.meaning) : ''}
-      ]);
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
     if (res.catPrediction && res.catPrediction.overview) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.catPrediction.overview) + '</div>';
     else if (res.deep && res.deep.focus) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.deep.focus) + '</div>';
@@ -2351,12 +2324,6 @@ document.addEventListener("DOMContentLoaded", function () {
       h += '<div class="pred-section-item"><b>ธาตุประจำผล:</b> ' + ((res.element && res.element.name) || '-') + ' ' + ((res.element && res.element.symbol) || '') + '</div></div>';
     }
 
-    if (res.pendulumDirection) {
-      h += '<div class="pred-block" style="background:#f5f3ff;border-color:#ddd6fe;border-left:5px solid #7c3aed;">';
-      h += '<h4 style="color:#5b21b6;">🧭 ทิศทางจากศาสตร์เพนดูลัม</h4>';
-      h += '<div class="answer-box" style="margin-top:8px;background:#faf5ff;border-color:#d8b4fe;"><b>' + res.pendulumDirection.symbol + ' ทิศที่เพนดูลัมชี้:</b><br/><span style="font-size:18px;color:#5b21b6;">' + res.pendulumDirection.name + '</span><br/><span style="font-size:12.5px;color:#4a5568;">เลขทิศทาง ' + res.pendulumDirectionNo + ' · ' + res.pendulumDirection.meaning + '</span></div>';
-      h += '</div>';
-    }
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
