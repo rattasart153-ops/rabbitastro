@@ -945,3 +945,24 @@ img, svg, video, canvas {
   cursor: not-allowed;
 }
 .oreguram-input-group { min-width: 0; width: 100%; }
+
+
+/* ---------- Oreguram horizontal slide bars ---------- */
+.oreguram-slider {
+  display:flex; align-items:stretch; gap:8px; width:100%; max-width:100%; min-width:0;
+  padding:4px 2px 10px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+  scrollbar-width:thin; scrollbar-color:#c9b9a6 #f4eee7;
+}
+.oreguram-slide-option {
+  flex:0 0 auto; width:max-content; max-width:min(78vw,300px); min-height:44px;
+  padding:10px 14px; border:1px solid #e7e0d7; border-radius:999px; background:#fff;
+  color:var(--text-main); font:inherit; font-size:14px; line-height:1.45; text-align:center;
+  white-space:normal; overflow-wrap:anywhere; cursor:pointer; scroll-snap-align:start;
+}
+.oreguram-slide-option.active {
+  border-color:#8d6038; background:#8d6038; color:#fff; box-shadow:0 3px 9px rgba(112,74,39,.16);
+}
+.oreguram-slider-placeholder { display:block; padding:10px 4px; color:var(--text-muted); font-size:13px; }
+.oreguram-question-slider .oreguram-slide-option { max-width:min(84vw,340px); text-align:left; }
+.oreguram-slider:focus-within .oreguram-slide-option:focus-visible { outline:3px solid rgba(217,119,6,.35); outline-offset:2px; }
