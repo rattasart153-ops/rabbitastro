@@ -1112,7 +1112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') +
         '</div></div>';
       if (res.nameRes && res.nameRes.prediction) {
-        h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4>' +
+        h += '<div class="pred-block"><h4>🔢 คำทำนายชื่อ-นามสกุล</h4>' +
           '<div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div>' +
           '<div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>';
       }
@@ -1432,7 +1432,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderLoveEntrantSection(res) {
     var h='<span class="card-title">👤 ลักษณะคนที่จะเข้ามา · วิเคราะห์ตามโหรกระต่าย</span>';
-    h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">รหัสกระต่าย <b>'+res.R4+'</b> · '+res.rabbit.name+'   '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">'+res.highlight+'</div></div>';
+    } else {
+      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">รหัสกระต่าย <b>'+res.R4+'</b> · '+res.rabbit.name+'   '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
+    }
     h+='<div class="pred-block"><h4>👤 ลักษณะคนที่จะเข้ามา</h4><div class="mth3">';
     h+='<div class="mth"><b>🎂 อายุ</b><br/>'+res.age+'</div>';
     h+='<div class="mth"><b>🧠 ลักษณะนิสัย</b><br/>'+res.personality+'</div>';
@@ -1441,7 +1445,11 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="mth"><b>📍 ช่องทางหรือจังหวะที่พบ</b><br/>'+res.meeting+'</div>';
     h+='<div class="mth"><b>❤️ รูปแบบความสัมพันธ์</b><br/>'+res.relationship+'</div>';
     h+='</div></div>';
-    h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน</h4><div class="pred-section-item">'+res.caution+'</div></div>';
+    } else {
+      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
+    }
     return h;
   }
 
