@@ -1333,7 +1333,7 @@ document.addEventListener("DOMContentLoaded", function () {
       function ascAdviceNorm(value) {
         return String(value || '').toLowerCase()
           .replace(/<[^>]*>/g, ' ')
-          .replace(/[\sๆ.,!?;:()“”‘’"'“”ฯ๚—–-]/g, '')
+          .replace(/[\sๆ.,!?;:()“”‘’"'“”ฯ๚–-]/g, '')
           .trim();
       }
       function ascAdviceIsDuplicate(value, priorValues) {
@@ -2284,7 +2284,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai personal deity calculation error:",err);if(resultsBox){resultsBox.style.display='block';setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบค้นหาองค์เทพประจำตัวขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>');}}
   });
 
-  // ---------- Engine 3: ตำราโอเรกุรัม — คำทำนายที่อบอุ่นและชวนเข้าใจตัวเอง ----------
+  // ---------- Engine 3: ตำราโอเรกุรัม คำทำนายที่อบอุ่นและชวนเข้าใจตัวเอง ----------
   // ปรับเฉพาะภาษาที่แสดงใน Engine 3 โดยไม่เปลี่ยนสูตรคำนวณหรือข้อมูลของ Engine อื่น
   function warmOreguramText(text) {
     if (text == null) return '';
