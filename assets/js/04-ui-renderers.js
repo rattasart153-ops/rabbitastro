@@ -2431,8 +2431,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
-    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนายเฉพาะคำถามนี้</h4>';
-    h += '<div class="pred-section-item"><b>ผลตามคำถามที่เลือก:</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
+    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของคำถามนี้</h4>';
+    // ไม่แสดงผลคำทำนายหลักซ้ำ เพราะแสดงไว้ในกล่อง "ผลคำทำนาย" ด้านบนแล้ว
     var questionLevelLabels = {
       good: 'หากเรื่องนี้เป็นไปในทางที่ดี',
       mid: 'หากเรื่องนี้ยังต้องใช้เวลา',
