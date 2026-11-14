@@ -2218,7 +2218,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
-    h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
+    if (window.RABBITASTRO_ADMIN_MODE !== true) h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
     h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) h += personalizedBlendBlock('คำอ่านเทพประจำตัวที่ผสานโหรกระต่าย',
       'รหัสพื้นดวงโหรกระต่าย ' + rabbitNum + ' เป็นแกนอ่านตัวตน ขณะที่เลขเทพ ' + deityNum + ' (' + (god.name || 'องค์เทพที่คำนวณได้') + ') เป็นศาสตร์เสริมด้านสัญลักษณ์ พลังวันเกิด ' + ((godRes.components && godRes.components.dayPower) || '-') + ' และเลขชื่อ ' + ((godRes.components && godRes.components.nameNumber) || '-') + ' เป็นข้อมูลที่เชื่อมสองศาสตร์เข้าด้วยกัน',
@@ -2331,8 +2331,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
-    h += '<div class="pred-block"><h4>🐇 รหัสคำทำนาย</h4><div class="pred-section-item"><b>' + ((res.rabbit && res.rabbit.name) || 'รหัสกระต่าย ' + res.R4) + ' · เลข ' + res.R4 + '</b></div>';
-    h += '<div class="pred-section-item"><b>ธาตุประจำผล:</b> ' + ((res.element && res.element.name) || '-') + ' ' + ((res.element && res.element.symbol) || '') + '</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE !== true) {
+      h += '<div class="pred-block"><h4>🐇 รหัสคำทำนาย</h4><div class="pred-section-item"><b>' + ((res.rabbit && res.rabbit.name) || 'รหัสกระต่าย ' + res.R4) + ' · เลข ' + res.R4 + '</b></div>';
+      h += '<div class="pred-section-item"><b>ธาตุประจำผล:</b> ' + ((res.element && res.element.name) || '-') + ' ' + ((res.element && res.element.symbol) || '') + '</div></div>';
+    }
 
     if (res.pendulumDirection) {
       h += '<div class="pred-block" style="background:#f5f3ff;border-color:#ddd6fe;border-left:5px solid #7c3aed;">';
