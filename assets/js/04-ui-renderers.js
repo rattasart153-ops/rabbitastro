@@ -1134,7 +1134,7 @@ document.addEventListener("DOMContentLoaded", function () {
       h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
       h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
       if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายจากชื่อ-นามสกุล</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
-      h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
+      h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
       h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
       h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
       h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
@@ -1293,7 +1293,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
     // ── เสียงในใจ
     if (inn) {
-      h += '<span class="mini-h">🎭 เสียงในใจของลัคนานี้ (รหัสกระต่าย ' + res.ascInner + ' ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + ')</span>';
+      h += '<span class="mini-h">🎭 เสียงในใจของลัคนา · ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + '</span>';
       h += '<div class="pred-section-item"><b>🚀 แรงขับลึก:</b><br/>' + inn.drive + '</div>';
       h += '<div class="pred-section-item"><b>🤫 เสียงที่พูดกับตัวเองบ่อยที่สุด:</b><br/>' + inn.whisper + '</div>';
       h += '<div class="pred-section-item"><b>😰 สิ่งที่กลัวที่สุดในใจ:</b><br/>' + inn.fear + '</div>';
