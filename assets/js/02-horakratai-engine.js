@@ -2858,52 +2858,23 @@
       caution:'ระวังรอให้ทุกชิ้นส่วนสมบูรณ์จนไม่ยอมเลือก หรือแบกรับข้อมูลของทุกฝ่ายมากเกินไป' }
   };
 
-  // Calculation Engine ของ RHD
-  // สูตร RHD ไม่แก้/ไม่เขียนทับสูตร Rabbit Astrology เดิม
-  // ไม่ใช้ชั่วโมงและนาทีเกิดอีกต่อไป ใช้เลขกำลังวันเกิดแทน
-  // เลขศาสตร์ชื่อ-สกุล + ((วัน + เดือน + ปี) × เลขกำลังวันเกิด) -> ลดเหลือ 1-9
+  // RHD เป็นส่วนหนึ่งของโหรกระต่าย ใช้ผลพื้นดวงและพลังประจำวันจากระบบหลัก
+  // ตาราง RHD ทำหน้าที่แปลความหมาย ไม่สร้างสูตรคำนวณแยกจากโหรกระต่าย
   var RHD_CALCULATOR = {
     temporary: false,
-    // วิธีรับมือ: เลขศาสตร์ชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ) -> เลขเดียว 1-9
-    calculateHabitNumber: function(params){
-      params = params || {};
-      function asInt(value) {
-        if (value === null || value === undefined || String(value).trim() === '') return 0;
-        var n = Number(value);
-        return isFinite(n) ? Math.trunc(n) : 0;
-      }
-      var nameNumber = Math.max(0, asInt(params.nameNumber));
-      var day = Math.max(0, asInt(params.bDay));
-      var month = Math.max(0, asInt(params.bMonth));
-      var year = Math.max(0, asInt(params.bYear));
-      var birthDate = new Date(year, Math.max(0, month - 1), Math.max(1, day));
-      var dayPowerInfo = getDayPower(birthDate);
-      var dateSum = day + month + year;
-      var multipliedDate = dateSum * dayPowerInfo.power;
-      var dateNumber = reduce1(multipliedDate);
-      var total = nameNumber + dateNumber;
-      var number = reduce1(total);
-      if (!isFinite(number) || number < 1 || number > 9) number = 9;
-      return { number:number, total:total, nameNumber:nameNumber, day:day, month:month, year:year, dayPower:dayPowerInfo.power, dayPowerName:dayPowerInfo.name, dateSum:dateSum, multipliedDate:multipliedDate, dateNumber:dateNumber, noBirthTime:true };
+    calculateHabitNumber: function(params) {
+      var base = calcBaseFeature(params || {});
+      var number = reduce1(base && base.baseCode || 9);
+      return { number: number, rabbitNumber: number };
     },
-    // สถานการณ์: วันเดือนปีและเวลาจริง ณ ขณะที่ผู้ใช้กดปุ่มคำนวณ -> เลขเดียว 1-9
-    calculateSituationNumber: function(params){
+    calculateSituationNumber: function(params) {
       params = params || {};
-      function asInt(value) {
-        if (value === null || value === undefined || String(value).trim() === '') return 0;
-        var n = Number(value);
-        return isFinite(n) ? Math.trunc(n) : 0;
-      }
-      var day = Math.max(1, Math.min(31, asInt(params.queryDay) || 1));
-      var month = Math.max(1, Math.min(12, asInt(params.queryMonth) || 1));
-      var year = Math.max(0, asInt(params.queryYear));
-      var queryDate = new Date(year, month - 1, day);
-      var dayPowerInfo = getDayPower(queryDate);
-      var dateSum = day + month + year;
-      var multipliedDate = dateSum * dayPowerInfo.power;
-      var number = reduce1(multipliedDate);
-      if (!isFinite(number) || number < 1 || number > 9) number = 9;
-      return { number:number, total:multipliedDate, day:day, month:month, year:year, dayPower:dayPowerInfo.power, dayPowerName:dayPowerInfo.name, dateSum:dateSum, multipliedDate:multipliedDate };
+      var day = Math.max(1, Math.min(31, parseInt(params.queryDay, 10) || 1));
+      var month = Math.max(1, Math.min(12, parseInt(params.queryMonth, 10) || 1));
+      var year = Math.max(0, parseInt(params.queryYear, 10) || 0);
+      var daily = calcDailyElement(new Date(year, month - 1, day));
+      var number = reduce1(daily && daily.finalNum || 9);
+      return { number: number, rabbitNumber: number };
     }
   };
 
@@ -3690,33 +3661,29 @@
     var now=params.nowDate instanceof Date?params.nowDate:new Date();
     var dateSum=now.getDate()+(now.getMonth()+1)+now.getFullYear();
     var dateDigit=reduce1(dateSum),birthDigit=reduce1(birthSum);
+    // ไพ่และรูนเป็นข้อมูลเชิงสัญลักษณ์ประกอบคำอ่าน ไม่เปลี่ยนรหัสหลักของโหรกระต่าย
     var eventCard=tarotMinorFromNumber(dateDigit*birthDigit);
     var runeNum=b.noBirthTime?null:rune24(b.bHour+b.bMin);
     var rune=b.noBirthTime?null:RUNE_DATA[runeNum-1];
     var dailyRuneNum=rune24(birthSum+dateSum),dailyRune=RUNE_DATA[dailyRuneNum-1];
     var dailyElement=calcDailyElement(now);
-    // รหัสส่วนตัว: รหัสโหรกระต่ายเดิม + หมายเลขไพ่ประจำตัว + หมายเลขรูนประจำตัว
-    // หากไม่ทราบเวลาเกิด จะไม่ใส่เลขรูนส่วนตัวที่ไม่มีข้อมูล แต่ยังคงใช้รูนประจำวันในรหัสรายวัน
-    var personalCardRuneSum=(j.R4||9)+(birthCard.number||0)+(runeNum||0);
-    var personalFusionCode=reduce1(personalCardRuneSum);
-    // รหัสรายวัน: รหัสโหรกระต่าย + หมายเลขไพ่เหตุการณ์ + หมายเลขรูนประจำวัน + รหัสธาตุประจำวัน
-    var dailyCardRuneSum=(j.R4||9)+(eventCard.number||0)+(dailyRuneNum||0)+(dailyElement.finalNum||9);
-    var dailyFusionCode=reduce1(dailyCardRuneSum);
-    var dailyCrystalDateNumber=reduce1(dateSum*6);
-    var dailyCrystalRabbitElementNumber=reduce1(dailyFusionCode+(dailyElement.finalNum||9));
-    var personalCrystalNumber=reduce1(birthSum);
-    var nameParts=birthNameParts(b);
+    // ผลหลักและคริสตัลยึดรหัสโหรกระต่ายเท่านั้น
+    var personalFusionCode=reduce1(j.R4||9);
+    var dailyFusionCode=reduce1(dailyElement.finalNum||9);
+    var dailyCrystalDateNumber=reduce1(dailyElement.finalNum||9);
+    var dailyCrystalRabbitElementNumber=reduce1(personalFusionCode+dailyFusionCode);
+    var personalCrystalNumber=personalFusionCode;
     return {
       feature:'tarotRune',noBirthTime:b.noBirthTime,birthSum:birthSum,birthCard:birthCard,
-      dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,eventProduct:dateDigit*birthDigit,
+      dailyDateSum:dateSum,dailyDateDigit:dateDigit,birthDigit:birthDigit,
       eventCard:eventCard,dailyCard:eventCard,runeRaw:b.noBirthTime?null:b.bHour+b.bMin,runeNumber:runeNum,rune:rune,
       dailyRuneRaw:birthSum+dateSum,dailyRuneNumber:dailyRuneNum,dailyRune:dailyRune,
-      rabbitJoint:j,R4:personalFusionCode,baseCode:personalFusionCode,personalCardRuneSum:personalCardRuneSum,rabbitFusionCode:personalFusionCode,
+      rabbitJoint:j,R4:personalFusionCode,baseCode:personalFusionCode,rabbitFusionCode:personalFusionCode,
       rabbitFusionRabbit:RABBITS[personalFusionCode]||RABBITS[9],
-      dailyCardRuneSum:dailyCardRuneSum,dailyRabbitFusionCode:dailyFusionCode,
+      dailyRabbitFusionCode:dailyFusionCode,
       dailyRabbitFusionRabbit:RABBITS[dailyFusionCode]||RABBITS[9],
-      element:getElement(personalFusionCode),nameRes:nameParts.nameRes,ownerElement:nameParts.ownerElement,
-      dailyElement:dailyElement,dailyCrystalDateNumber:dailyCrystalDateNumber,
+      element:getElement(personalFusionCode),dailyElement:dailyElement,
+      dailyCrystalDateNumber:dailyCrystalDateNumber,
       dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),
       dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,
       dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber),
@@ -3762,27 +3729,17 @@
     return fn(params);
   }
 
-  // Engine 2: องค์เทพประจำตัว — ใช้เลขศาสตร์ชื่อ-สกุล + วันเดือนปีและเวลาเกิด
-  // ตัดสูตรโหรกระต่าย/หมวดคำถามเดิมออกจากการหาองค์เทพทั้งหมด
+  // Engine 2: องค์เทพประจำตัว ใช้รหัสพื้นดวงจากโหรกระต่ายเป็นตัวกำหนดองค์เทพ
   function calcGod(params) {
-    var b = readBirthInput(params || {});
-    var nameRes = calcNameNumber(b.fName, b.fLast);
-    var nameNumber = nameRes ? nameRes.num : 0;
-    var birthDate = new Date(b.bYear, b.bMonth - 1, b.bDay);
-    var dayPowerInfo = getDayPower(birthDate);
-    var dateSum = b.bDay + b.bMonth + b.bYear;
-    var multipliedDate = dateSum * dayPowerInfo.power;
-    var dateNumber = reduce1(multipliedDate);
-    var combinedSum = nameNumber + dateNumber;
-    var num = reduce1(combinedSum);
+    var rabbitBase = calcBaseFeature(params || {});
+    var num = reduce1(rabbitBase && rabbitBase.baseCode || 9);
     return {
       godNum: num,
-      godInfo: GOD_DATA[num] || GOD_DATA[1],
+      godInfo: GOD_DATA[num] || GOD_DATA[9],
       godRitual: GOD_RITUAL[num] || null,
-      nameRes: nameRes,
+      rabbitBase: rabbitBase,
       noBirthTime: true,
-      combinedSum: combinedSum,
-      components: { nameNumber: nameNumber, day: b.bDay, month: b.bMonth, year: b.bYear, dayPower: dayPowerInfo.power, dayPowerName: dayPowerInfo.name, dateSum: dateSum, multipliedDate: multipliedDate, dateNumber: dateNumber }
+      components: { rabbitNumber: num }
     };
   }
 
