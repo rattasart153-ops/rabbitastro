@@ -659,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function nameTileHtml(nameRes) {
     if (!nameRes) return '';
-    return tileHtml('เลขศาสตร์ชื่อ-นามสกุล (เลข ' + nameRes.num + ') ' + elementTag(nameRes.element),
+    return tileHtml('พลังของชื่อ-นามสกุล ' + elementTag(nameRes.element),
       nameRes.prediction.title, nameRes.prediction.desc, false);
   }
 
@@ -962,7 +962,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     god: {
       title:'🔬 เจาะลึกการมูเทพเฉพาะองค์',
-      intro:'ชั้นนี้อ่าน “ความสอดคล้องระหว่างรหัสกระต่ายกับองค์เทพที่ได้” จึงเน้นเรื่องที่องค์นั้นเหมาะจะหนุน วิธีตั้งเจตนา สิ่งที่ควรทำควบคู่ และสัญญาณว่าควรปรับวิธีบูชา',
+      intro:'ชั้นนี้อ่าน “ความสอดคล้องระหว่างพื้นดวงกับองค์เทพที่ได้” จึงเน้นเรื่องที่องค์นั้นเหมาะจะหนุน วิธีตั้งเจตนา สิ่งที่ควรทำควบคู่ และสัญญาณว่าควรปรับวิธีบูชา',
       labels:['🙏 เหตุผลที่องค์นี้สอดคล้องกับดวง','🎯 เรื่องที่เหมาะแก่การขอพร','🕯️ วิธีตั้งเจตนา','🌟 สิ่งที่ควรทำควบคู่','⚠️ สิ่งที่ไม่ควรคาดหวัง','🔔 สัญญาณการเปลี่ยนแปลง']
     }
   };
@@ -972,7 +972,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var catObj = Engine.SHORT_CATEGORIES && Engine.SHORT_CATEGORIES[category];
     var cat = (catObj && catObj.name) || category || 'เรื่องที่เลือก';
     var sub = subTopicName ? ' (' + subTopicName + ')' : '';
-    var name = r.name || ('รหัสกระต่าย ' + code);
+    var name = r.name || 'พื้นดวงกระต่าย';
     var short = r.short || '';
     var common = {
       1:{base:'พลังของผู้เปิดทาง',asc:'มักแสดงออกก่อนคิดครบเมื่อรู้สึกว่าควรเริ่ม',short:'เหตุการณ์ใหม่มีน้ำหนักสูงและต้องอาศัยการลงมือ',month:'เดือนแรกเหมาะกับการเปิดเรื่อง เดือนถัดไปต้องรักษาแรงส่ง',god:'เหมาะกับการตั้งเจตนาเรื่องการเปิดทางและการเริ่มต้น',oregu:'คำตอบชี้ไปที่การเปิดประตูหรือทางเลือกใหม่'},
@@ -1032,7 +1032,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var guide = FEATURE_DEEP_GUIDE[feature] || FEATURE_DEEP_GUIDE.oregu;
     if (!d) return '';
     var h='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">'+guide.title+' · รหัสกระต่าย '+code+'</h4>';
+    h+='<h4 style="color:#9a3412;">'+guide.title+' · '+((Engine.RABBITS[code] && Engine.RABBITS[code].name) || 'พื้นดวงกระต่าย')+'</h4>';
     h+='<div class="pred-section-item"><b>📖 ขอบเขตการอ่าน:</b><br/>'+guide.intro+'</div>';
     h+='<div class="pred-section-item"><b>'+guide.labels[0]+':</b><br/>'+d.core+'</div>';
     h+='<div class="pred-section-item"><b>'+guide.labels[1]+':</b><br/>'+d.detail+'</div>';
@@ -1118,7 +1118,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       h += '<div class="pred-block"><h4>⚠️ จุดที่ควรระวัง</h4><div class="pred-section-item">' +
         (b.blind || '-') +
-        (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
+        (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
         '</div></div>';
       h += '<div class="pred-block"><h4>🧱 บทเรียนสำคัญ</h4><div class="pred-section-item">' +
         (b.lesson || '-') +
@@ -1133,7 +1133,7 @@ document.addEventListener("DOMContentLoaded", function () {
       h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
       h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
       h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
-      if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
+      if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายจากชื่อ-นามสกุล</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
       h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' พลังวันเกิดอีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
       h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
       h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
@@ -1142,7 +1142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     var nameCode = res.nameRes && res.nameRes.num;
     var baseCode = parseInt(res.baseCode, 10) || 9;
-    var baseName = (res.baseRabbit && res.baseRabbit.name) || (Engine.RABBITS[baseCode] && Engine.RABBITS[baseCode].name) || 'รหัสกระต่าย ' + baseCode;
+    var baseName = (res.baseRabbit && res.baseRabbit.name) || (Engine.RABBITS[baseCode] && Engine.RABBITS[baseCode].name) || 'พื้นดวงกระต่าย';
     return h;
   }
   function renderAscSection(res) {
@@ -1307,7 +1307,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // แสดงเฉพาะคำแนะนำที่ไม่ซ้ำกับคำทำนายส่วนอื่นของลัคนา
       var ascDoList = (d.do || []).slice();
       var ascDontList = (d.dont || []).slice();
-      if (weekday.advice) ascDoList.push('คำแนะนำจากพลังวันเกิด: ' + weekday.advice);
+      if (weekday.advice) ascDoList.push('คำแนะนำเพิ่มเติม: ' + weekday.advice);
       var ascOtherPredictionText = [
         d.strength, d.watch, d.people, d.timing,
         inn && inn.drive, inn && inn.whisper, inn && inn.fear, inn && inn.need, inn && inn.when
@@ -1366,7 +1366,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    var ascRabbitName = rabbit && rabbit.name ? rabbit.name : 'รหัสกระต่าย ' + num;
+    var ascRabbitName = rabbit && rabbit.name ? rabbit.name : 'พื้นดวงกระต่าย';
     return h + '</div>';
   }
 
@@ -1442,7 +1442,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.RABBITASTRO_ADMIN_MODE === true) {
       h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">'+res.highlight+'</div></div>';
     } else {
-      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">รหัสกระต่าย <b>'+res.R4+'</b> · '+res.rabbit.name+'   '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
+      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item"><b>'+res.rabbit.name+'</b> · '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
     }
     h+='<div class="pred-block"><h4>👤 ลักษณะคนที่จะเข้ามา</h4><div class="mth3">';
     h+='<div class="mth"><b>🎂 อายุ</b><br/>'+res.age+'</div>';
@@ -1455,7 +1455,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.RABBITASTRO_ADMIN_MODE === true) {
       h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน</h4><div class="pred-section-item">'+res.caution+'</div></div>';
     } else {
-      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
+      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้พฤติกรรมของกระต่าย '+((res.rabbitJoint.rabbit && res.rabbitJoint.rabbit.name) || 'ตามพื้นดวง')+' เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
     }
     return h;
   }
@@ -1510,7 +1510,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var cta = {
       base: {
         title: '🐇 อยากรู้พื้นดวงของตัวเองให้ลึกกว่านี้?',
-        text: 'พื้นดวงไม่ได้มีแค่รหัสกระต่าย แต่ยังมีรายละเอียดของตัวตน จุดแข็ง พรสวรรค์ บทเรียน และจังหวะชีวิตที่อ่านต่อได้แบบเฉพาะบุคคล'
+        text: 'พื้นดวงยังมีรายละเอียดของตัวตน จุดแข็ง พรสวรรค์ บทเรียน และจังหวะชีวิตที่อ่านต่อได้แบบเฉพาะบุคคล'
       },
       asc: {
         title: '🌅 อยากอ่านลัคนาให้ละเอียดขึ้น?',
