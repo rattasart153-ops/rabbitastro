@@ -386,7 +386,64 @@ document.addEventListener("DOMContentLoaded", function () {
     ogSelect.addEventListener("change", function () {
       ogSelect.setAttribute("data-current-question", String(parseInt(ogSelect.value, 10) || 1));
       clearOreguramPreviousResult();
+      syncOreguramQuestionCards();
     });
+
+    // แสดงคำถามเป็นกล่องแยกตาม 6 หมวด โดยยังเก็บ select เดิมไว้เป็นค่ากลางให้ระบบคำนวณ
+    var ogQuestionPanels = document.getElementById("oreguramQuestionPanels");
+    function syncOreguramQuestionCards() {
+      if (!ogQuestionPanels) return;
+      var selectedId = String(parseInt(ogSelect.value, 10) || "");
+      ogQuestionPanels.querySelectorAll("[data-oreguram-question]").forEach(function (button) {
+        var active = button.getAttribute("data-oreguram-question") === selectedId;
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+        button.style.borderColor = active ? "#7c3aed" : "#e5e7eb";
+        button.style.background = active ? "#f3e8ff" : "#ffffff";
+        button.style.boxShadow = active ? "0 0 0 1px #7c3aed" : "none";
+      });
+    }
+    function renderOreguramQuestionCards() {
+      if (!ogQuestionPanels) return;
+      ogQuestionPanels.innerHTML = "";
+      OREGURAM_UI_GROUPS.forEach(function (group, groupIndex) {
+        var groupQuestions = oreguramQuestionBank.filter(function (item) { return item.cat === group.key; });
+        if (!groupQuestions.length) return;
+        var details = document.createElement("details");
+        details.className = "oreguram-question-group";
+        details.open = groupIndex === 0;
+        details.style.cssText = "margin:10px 0;border:1px solid #e5e7eb;border-radius:12px;background:#fff;overflow:hidden;";
+        var summary = document.createElement("summary");
+        summary.textContent = group.label + " · " + groupQuestions.length + " คำถาม";
+        summary.style.cssText = "padding:12px 14px;font-weight:700;cursor:pointer;color:var(--text-color,#312e81);";
+        details.appendChild(summary);
+        var list = document.createElement("div");
+        list.style.cssText = "display:grid;grid-template-columns:1fr;gap:8px;padding:0 10px 10px;";
+        groupQuestions.forEach(function (question) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "oreguram-question-option";
+          button.setAttribute("data-oreguram-question", String(question.id));
+          button.setAttribute("aria-pressed", "false");
+          button.style.cssText = "display:block;width:100%;max-width:100%;padding:11px 12px;text-align:left;white-space:normal;overflow-wrap:anywhere;line-height:1.55;border:1px solid #e5e7eb;border-radius:9px;background:#fff;color:inherit;font:inherit;cursor:pointer;";
+          button.textContent = question.text;
+          button.addEventListener("click", function () {
+            ogCategory.value = group.key;
+            populateOreguramTopics();
+            ogTopic.value = String(question.topic || "เรื่องทั่วไป");
+            populateOreguramQuestions();
+            ogSelect.value = String(question.id);
+            ogSelect.setAttribute("data-current-question", String(question.id));
+            syncOreguramQuestionCards();
+            clearOreguramPreviousResult();
+          });
+          list.appendChild(button);
+        });
+        details.appendChild(list);
+        ogQuestionPanels.appendChild(details);
+      });
+      syncOreguramQuestionCards();
+    }
+    renderOreguramQuestionCards();
   }
 
   function renderDailyElement() {
