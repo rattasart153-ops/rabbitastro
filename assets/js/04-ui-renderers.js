@@ -424,8 +424,9 @@ document.addEventListener("DOMContentLoaded", function () {
           button.className = "oreguram-question-option";
           button.setAttribute("data-oreguram-question", String(question.id));
           button.setAttribute("aria-pressed", "false");
-          button.style.cssText = "display:block;width:100%;max-width:100%;padding:11px 12px;text-align:left;white-space:normal;overflow-wrap:anywhere;line-height:1.55;border:1px solid #e5e7eb;border-radius:9px;background:#fff;color:inherit;font:inherit;cursor:pointer;";
-          button.textContent = question.text;
+          button.style.cssText = "display:block;width:100%;max-width:100%;padding:11px 12px;text-align:left;white-space:normal;overflow-wrap:anywhere;line-height:1.55;border:1px solid #e5e7eb;border-radius:9px;background:#fff;color:inherit;font:inherit;cursor:pointer;list-style:none;counter-reset:none;counter-increment:none;";
+          // แสดงเฉพาะข้อความคำถาม ไม่แสดงเลขลำดับหรือเลขข้อที่อาจติดมากับข้อความ
+          button.textContent = String(question.text || "").replace(/^\s*(?:(?:ข้อที่|ข้อ)\s*)?\d+\s*[.)、:-]\s*/, "");
           button.addEventListener("click", function () {
             ogCategory.value = group.key;
             populateOreguramTopics();
