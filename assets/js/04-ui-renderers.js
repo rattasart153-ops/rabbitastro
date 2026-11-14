@@ -2431,14 +2431,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
-    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
-    if (res.catPrediction && res.catPrediction.overview) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.catPrediction.overview) + '</div>';
-    else if (res.deep && res.deep.focus) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.deep.focus) + '</div>';
-    if (res.catPrediction && res.catPrediction.detail) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.detail) + '</div>';
-    else if (res.catPrediction && res.catPrediction.example) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.example) + '</div>';
-    if (res.deep && res.deep.action) h += '<div class="pred-section-item"><b>สิ่งที่ควรทำ:</b><br/>' + warmOreguramText(res.deep.action) + '</div>';
-    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><div class="thai-heading-block">คำแนะนำ</div><div>' + warmOreguramText(res.catPrediction.advice) + '</div></div>';
-    if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
+    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนายเฉพาะคำถามนี้</h4>';
+    h += '<div class="pred-section-item"><b>ผลตามคำถามที่เลือก:</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
+    var questionLevelLabels = {
+      good: 'หากเรื่องนี้เป็นไปในทางที่ดี',
+      mid: 'หากเรื่องนี้ยังต้องใช้เวลา',
+      warn: 'สิ่งที่ควรระวังในเรื่องนี้'
+    };
+    ['good', 'mid', 'warn'].forEach(function (levelKey) {
+      if (levelKey === res.bucket || !res.qLevels || !res.qLevels[levelKey]) return;
+      h += '<div class="pred-section-item"><b>' + questionLevelLabels[levelKey] + ':</b><br/>' + warmOreguramText(res.qLevels[levelKey]) + '</div>';
+    });
+    h += '<div class="pred-section-item"><span class="muted">คำทำนายแต่ละส่วนอ้างอิงจากคำถามที่เลือกโดยตรง ไม่ใช่คำทำนายภาพรวมของหมวดหมู่</span></div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
