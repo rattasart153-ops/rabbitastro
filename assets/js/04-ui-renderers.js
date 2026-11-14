@@ -1863,7 +1863,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
   function hideCalculationDisclosure(root) {
     if (!root || !root.querySelectorAll) return;
-    var sensitive = /วิธีคำนวณ|สูตรคำนวณ|ขั้นตอนคำนวณ|สูตรโหรกระต่าย|เลขศาสตร์ชื่อ|เลขชื่อ-นามสกุล|เลขโหรกระต่าย|เลขกระต่าย|รหัสคำทำนาย|รหัสกระต่าย|เลขเทพประจำตัว|พลังวันเกิด|พลังวันปัจจุบัน|เลขกำลังวัน|ผลรวมสุดท้าย|ตัวคูณ|เลขทิศทาง|เพนดูลัม|R1\\s*=|R2\\s*=|R3\\s*=|R4\\s*=|คำนวณจาก/i;
+    var sensitive = /วิธีคำนวณ|สูตรคำนวณ|ขั้นตอนคำนวณ|สูตรโหรกระต่าย|เลขศาสตร์ชื่อ|เลขชื่อ-นามสกุล|เลขโหรกระต่าย|เลขกระต่าย|รหัสคำทำนาย|รหัสกระต่าย|เลขเทพประจำตัว|พลังวันเกิด|พลังวันปัจจุบัน|เลขกำลังวัน|ผลรวมสุดท้าย|ตัวคูณ|เลขทิศทาง|เพนดูลัม|R1\s*=|R2\s*=|R3\s*=|R4\s*=|คำนวณจาก/i;
     var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.rhd-section,.answer-box,.topic-line');
     for (var i = candidates.length - 1; i >= 0; i--) {
       var node = candidates[i];
@@ -2123,7 +2123,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai main calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + escapeHTML(err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>');
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>');
       }
     } finally {
       setTimeout(function(){ target.__horakHandled = false; }, 0);
@@ -2351,8 +2351,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        var errorMessage = err && err.message != null && String(err.message).trim() ? String(err.message) : (typeof err === "string" && err.trim() ? err : "เกิดข้อผิดพลาดระหว่างคำนวณโอเรกุรัม");
-        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(errorMessage) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>');
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง</div>');
       }
     }
   });
