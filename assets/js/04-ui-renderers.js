@@ -773,7 +773,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function rabbitTileHtml(num, rabbit, element, label) {
-    return tileHtml(label || ('🐇 พฤติกรรมกระต่ายเลข ' + num), rabbit.name + ' ' + elementTag(element),
+    return tileHtml(label || '🐇 ลักษณะเด่นของกระต่าย', rabbit.name + ' ' + elementTag(element),
       '<b>' + rabbit.short + '</b>   ' + rabbit.desc, true);
   }
 
@@ -823,7 +823,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!lucky) return '';
     var chips = [];
     if (lucky.color) chips.push('🎨 สีมงคล: ' + lucky.color);
-    if (lucky.number) chips.push('🔢 เลขเสริม: ' + lucky.number);
     if (lucky.direction) chips.push('🧭 ทิศ: ' + lucky.direction);
     if (lucky.day) chips.push('📅 วัน: ' + lucky.day);
     if (!chips.length) return '';
@@ -975,7 +974,6 @@ document.addEventListener("DOMContentLoaded", function () {
       isHot: !!(info.subs[key].hot),
       num: r.R4, rabbit: r.rabbit, element: r.element,
       frame: Engine.getSubFrame(catKey, key),
-      trace: 'รหัสคำทำนายเฉพาะหัวข้อนี้: ' + r.R4
     };
   }
 
@@ -1124,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sign:'สัญญาณที่มีประโยชน์ที่สุดคือความชัดเจนของตัวเองและการเปลี่ยนแปลงของการกระทำ ไม่ควรใช้เหตุบังเอิญเพียงอย่างเดียวเป็นหลักตัดสิน'
     };
     return {
-      core:'สำหรับคำถามโอเรกุรัมข้อนี้ รหัส '+code+' ('+short+') ทำให้ '+c.oregu,
+      core:'สำหรับคำถามโอเรกุรัมข้อนี้ '+c.oregu,
       detail:'ให้ใช้คำตอบเป็นกรอบสะท้อนสถานการณ์ ไม่ใช่คำรับประกันผลลัพธ์ โดยเทียบกับข้อมูลจริงของเรื่องที่กำลังถาม',
       action:'เขียนคำถามต่อยอด 1 ข้อจากคำตอบ แล้วเลือกการกระทำที่ตรวจสอบผลได้ภายในกรอบเวลาที่เหมาะกับเรื่องนั้น',
       sign:'หากสถานการณ์จริงให้ข้อมูลใหม่ที่ขัดกับคำตอบเดิม ให้ถือข้อมูลจริงเป็นสิ่งที่ต้องนำมาพิจารณาและคำนวณใหม่'
