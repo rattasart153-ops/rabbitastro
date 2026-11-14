@@ -877,3 +877,48 @@ img, svg, video, canvas {
   overflow-wrap: break-word !important;
   word-break: normal !important;
 }
+
+/* CTA layout: keep every Engine's title, description and LINE button inside its card. */
+.prediction-cta {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.prediction-cta,
+.prediction-cta * {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+.prediction-cta .line-cta-title,
+.prediction-cta .line-cta-text {
+  display: block;
+  width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  text-overflow: clip;
+}
+.prediction-cta .line-cta-title {
+  line-height: 1.55;
+}
+.prediction-cta .line-cta-text {
+  line-height: 1.7;
+}
+.prediction-cta .line-cta-btn {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: center;
+  line-height: 1.5;
+}
