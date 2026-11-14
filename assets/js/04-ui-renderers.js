@@ -1645,6 +1645,31 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) {
       data = {};
     }
+
+    // Admin: ย้ายคำทำนายเรื่องคนที่จะเข้ามาจาก Engine 1 มาแสดงภายใน RHD
+    if (window.RABBITASTRO_ADMIN_MODE === true && typeof Engine.calcPerson === 'function') {
+      try {
+        var entrantRes = Engine.calcPerson({
+          feature: 'loveEntrant',
+          fName: inputData && inputData.fName,
+          fLast: inputData && inputData.fLast,
+          bDay: inputData && inputData.bDay,
+          bMonth: inputData && inputData.bMonth,
+          bYear: inputData && inputData.bYear,
+          bHour: inputData && inputData.bHour,
+          bMin: inputData && inputData.bMin,
+          noBirthTime: inputData && inputData.noBirthTime
+        });
+        if (entrantRes) {
+          h += '<div class="pred-block rhd-entrant-block" style="margin-top:14px;background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">';
+          h += '<h4 style="color:#9a3412;">👤 คำทำนายเรื่องคนที่จะเข้ามา</h4>';
+          h += renderLoveEntrantSection(entrantRes);
+          h += '</div>';
+        }
+      } catch (entrantError) {
+        // หากคำนวณส่วนนี้ไม่ได้ ให้คำทำนาย RHD ส่วนอื่นแสดงตามปกติ
+      }
+    }
     if (!data.rabbit && typeof Engine.RHD.synthesize === 'function') {
       try { data = Engine.RHD.synthesize(rabbitNumber, habit) || data; } catch (e) {}
     }
@@ -2004,7 +2029,9 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (featureKey === 'asc') {
       body = renderAscSection(res);
     } else if (featureKey === 'loveEntrant') {
-      body = renderLoveEntrantSection(res);
+      body = window.RABBITASTRO_ADMIN_MODE === true
+        ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
+        : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
       body = renderTopicMonthSection(res);
     } else {
