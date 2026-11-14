@@ -3853,22 +3853,7 @@
     var multipliedSum = finalSum * questionMultiplier;
     var R4 = reduce1(multipliedSum);
 
-    // ศาสตร์เพนดูลัม: ใช้เลขข้อมูลก่อนคูณของโอเรกุรัม × เลขโหรกระต่าย
-    // เพื่อหาเลขทิศทาง แล้วแปลงเป็นทิศทางหลัก 8 ทิศ
-    var pendulumBase = finalSum * R4;
-    var pendulumDirectionNo = ((pendulumBase - 1) % 8) + 1;
-    var PENDULUM_DIRECTIONS = {
-      1: { name: 'ทิศเหนือ', symbol: '↑', meaning: 'เหมาะกับการตั้งหลัก วางเป้าหมาย และมองภาพระยะยาว' },
-      2: { name: 'ทิศตะวันออกเฉียงเหนือ', symbol: '↗', meaning: 'เหมาะกับการเรียนรู้ ขอข้อมูลเพิ่ม และเปิดรับโอกาสใหม่' },
-      3: { name: 'ทิศตะวันออก', symbol: '→', meaning: 'เหมาะกับการเริ่มต้น ลงมือ และผลักเรื่องให้เดินหน้า' },
-      4: { name: 'ทิศตะวันออกเฉียงใต้', symbol: '↘', meaning: 'เหมาะกับการประสานงาน ความสัมพันธ์ และการขยับอย่างยืดหยุ่น' },
-      5: { name: 'ทิศใต้', symbol: '↓', meaning: 'เหมาะกับการแสดงพลัง ความมั่นใจ และการตัดสินใจให้ชัด' },
-      6: { name: 'ทิศตะวันตกเฉียงใต้', symbol: '↙', meaning: 'เหมาะกับการทบทวน จัดการสิ่งค้าง และลดความเสี่ยงก่อนเดินต่อ' },
-      7: { name: 'ทิศตะวันตก', symbol: '←', meaning: 'เหมาะกับการหยุดดูผลที่ผ่านมา ปิดเรื่องเก่า และกะใหม่' },
-      8: { name: 'ทิศตะวันตกเฉียงเหนือ', symbol: '↖', meaning: 'เหมาะกับการปรับแผน เปลี่ยนมุมมอง และเลือกทางที่สมดุลกว่าเดิม' }
-    };
-    var pendulumDirection = PENDULUM_DIRECTIONS[pendulumDirectionNo];
-
+    // ผลคำทำนายใช้รหัสและเกณฑ์ของโหรกระต่ายเท่านั้น
     var bucket = OREGU_BUCKET[R4] || 'mid';
     var bucketInfo = OREGU_BUCKET_LABEL[bucket];
     var archetype = OREGU_ARCHETYPE[R4] || OREGU_ARCHETYPE[8];
@@ -3884,19 +3869,11 @@
       ? SPECIFIC_PREDICTIONS_DETAILED[qObj.cat][R4] : null;
     var catName = (SHORT_CATEGORIES[qObj.cat] && SHORT_CATEGORIES[qObj.cat].name) || '';
 
-    var formulaText =
-      'R1 = ' + b.bDay + ' + ' + b.bMonth + ' + ' + b.bYear + ' + ' + N + ' = ' + R1_sum + ' → ' + R1 +
-      ' | R2 = ' + D + ' + ' + N + ' + ' + questionId + ' = ' + R2_sum + ' → ' + R2 +
-      ' | R3 = ' + D + ' + ' + T + ' + ' + N + ' + ' + questionId + ' = ' + R3_sum + ' → ' + R3 +
-      ' | ผลรวมสุดท้าย = ' + R1 + ' + ' + R2 + ' + ' + R3 + ' + ' + J + ' + ' + N + ' + ' + questionId + ' = ' + finalSum +
-      ' | คูณตามลำดับคำถาม (' + questionMultiplier + ') = ' + multipliedSum + ' → รหัสกระต่าย ' + R4;
-
     return {
       questionId: questionId,
       questionText: modernOreguText(qObj.text), topic: modernOreguText(qObj.topic),
       category: qObj.cat, categoryName: catName,
       sum: multipliedSum, finalSum: finalSum, questionMultiplier: questionMultiplier, multipliedSum: multipliedSum, R1: R1, R1_sum: R1_sum, R2: R2, R2_sum: R2_sum, R3: R3, R3_sum: R3_sum, R4: R4,
-      pendulumBase: pendulumBase, pendulumDirectionNo: pendulumDirectionNo, pendulumDirection: pendulumDirection,
       N: N, D: D, T: T, J: J, Jsum: b.bHour + b.bMin,
       birthPowerName: D_info.name, powerName: dayPowerInfo.name, powerValue: T,
       symbol: OREGURAM_SYMBOLS[R4] || 'o o o o',
@@ -3906,7 +3883,6 @@
       ascendant: ascInfo, ascBase: ascBase, ascRabbit: ascRabbit, ascElement: ascElement, noBirthTime: b.noBirthTime,
       qLevels: { good: modernOreguText(qObj.good), mid: modernOreguText(qObj.mid), warn: modernOreguText(qObj.warn) },
       catPrediction: catPred, nameRes: namePart.nameRes,
-      formulaText: formulaText,
       deep: qObj.selfDepth || OREGU_DEEP[questionId] || OREGU_EXTRA_DEEP[questionId] || null,
       easy: OREGU_EASY[questionId] || null
     };
