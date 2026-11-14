@@ -1210,6 +1210,14 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับโหรกระต่ายวันนี้: '+dailyCrystalRabbitElement.name+'</b><br/>'+dailyCrystalRabbitElement.healing+'</div>';
     h+='<div class="pred-section-item"><b>🌤️ คำทำนายรวมกับโหรกระต่าย (เลข '+code+'):</b><br/>'+rabbitText+' วันนี้ลองนำสิ่งที่ไพ่และรูนสะท้อนมาเทียบกับความรู้สึกและเหตุการณ์จริง ไม่จำเป็นต้องเชื่อทุกอย่างหรือรีบหาคำตอบทันที</div>';
     h+='</div>';
+    h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+    h+='<h4 style="color:#6d28d9;">🪞 ภาพสะท้อนสภาพใจเบื้องต้นจากไพ่และรูน</h4>';
+    h+='<div class="pred-section-item"><b>💗 อารมณ์ในช่วงนี้</b><br/>ไพ่ประจำตัว '+birthName+' และรูนประจำตัว '+runeName+' ชวนให้สังเกตความรู้สึกในช่วงนี้ โดยพิจารณาความหมายของไพ่และรูนร่วมกัน: '+birthMeaning+' '+runeMeaning+'</div>';
+    h+='<div class="pred-section-item"><b>💭 สิ่งที่กำลังอยู่ในความคิด</b><br/>ไพ่เหตุการณ์ '+eventName+' และรูนประจำวัน '+dailyName+' อาจสะท้อนเรื่องที่กำลังให้ความสนใจหรืออยากได้ความชัดเจน: '+eventMeaning+' '+dailyMeaning+'</div>';
+    h+='<div class="pred-section-item"><b>🌿 สิ่งที่ควรใส่ใจ</b><br/>ลองสังเกตว่าสถานการณ์ใดทำให้รู้สึกเหนื่อยหรือใช้พลังใจมากเป็นพิเศษ โดยไม่จำเป็นต้องรีบหาคำตอบในทันที</div>';
+    h+='<div class="pred-section-item"><b>🤍 คำแนะนำเล็ก ๆ</b><br/>ให้เวลาตัวเองได้พักและเลือกจัดการทีละเรื่อง หากมีเรื่องหนักใจ ลองพูดคุยกับคนที่ไว้ใจได้</div>';
+    h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">เป็นการอ่านเชิงสัญลักษณ์เพื่อทบทวนอารมณ์เบื้องต้น ไม่ใช่แบบประเมินหรือการวินิจฉัย โปรดพิจารณาร่วมกับความรู้สึกและประสบการณ์จริง</div>';
+    h+='</div>';
     return h;
   }
 
