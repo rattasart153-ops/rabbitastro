@@ -1864,7 +1864,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function hideCalculationDisclosure(root) {
     if (!root || !root.querySelectorAll) return;
     var sensitive = /วิธีคำนวณ|สูตรคำนวณ|ขั้นตอนคำนวณ|สูตรโหรกระต่าย|เลขศาสตร์ชื่อ|เลขชื่อ-นามสกุล|เลขโหรกระต่าย|เลขกระต่าย|รหัสคำทำนาย|รหัสกระต่าย|เลขเทพประจำตัว|พลังวันเกิด|พลังวันปัจจุบัน|เลขกำลังวัน|ผลรวมสุดท้าย|ตัวคูณ|เลขทิศทาง|เพนดูลัม|R1\s*=|R2\s*=|R3\s*=|R4\s*=|คำนวณจาก/i;
-    var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.rhd-section,.answer-box,.topic-line');
+    var candidates = root.querySelectorAll('.pred-block,.pred-section-item,.mini-h,.num-grid,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.rhd-section,.answer-box,.topic-line');
     for (var i = candidates.length - 1; i >= 0; i--) {
       var node = candidates[i];
       if (node.parentNode && sensitive.test(node.textContent || '')) node.parentNode.removeChild(node);
@@ -2221,7 +2221,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
-    if (window.RABBITASTRO_ADMIN_MODE !== true) h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
+    // ไม่แสดงรหัสหรือตัวเลขเบื้องหลังในหน้า UI
     h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
     h += '<div class="god-lead"><b>🌿 ลองทำสิ่งนี้ต่อจากนี้</b><br/>' + rabbitMessage.action + '</div>';
     h += '<div class="god-detail-box" style="margin-top:10px;"><div class="god-detail-title">✨ ความหมายขององค์เทพในความเชื่อ</div>' + (god.bless || 'ใช้สติและความตั้งใจเป็นแนวทางในการดำเนินชีวิต') + '</div>';
@@ -2319,11 +2319,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
-    if (window.RABBITASTRO_ADMIN_MODE !== true) {
-      h += '<div class="pred-block"><h4>🐇 รหัสคำทำนาย</h4><div class="pred-section-item"><b>' + ((res.rabbit && res.rabbit.name) || 'รหัสกระต่าย ' + res.R4) + ' · เลข ' + res.R4 + '</b></div>';
-      h += '<div class="pred-section-item"><b>ธาตุประจำผล:</b> ' + ((res.element && res.element.name) || '-') + ' ' + ((res.element && res.element.symbol) || '') + '</div></div>';
-    }
-
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
