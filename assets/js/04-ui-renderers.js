@@ -2283,27 +2283,29 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/แนวโน้มสูญเสียถาวร/g, 'ยังมีความไม่แน่นอน และอาจต้องเตรียมใจรับความเป็นไปได้หลายแบบ')
       .replace(/มีเกณฑ์ถูกโจมตี/g, 'อาจมีสถานการณ์ที่ทำให้คุณรู้สึกถูกกดดัน')
       .replace(/ด่วน/g, 'อย่างใจเย็นและรอบคอบ')
-      .replace(/ต้อง/g, 'อาจต้อง')
-      .replace(/ควร/g, 'ลอง')
       .replace(/อย่าเพิ่ง/g, 'คุณยังไม่จำเป็นต้องรีบ')
       .replace(/ระวัง/g, 'ลองใส่ใจ');
   }
 
-  function oreguramSelfReflection(category, bucket) {
+  function oreguramOutcomeMessage(bucket) {
+    var messages = {
+      warn: 'หากผลนี้ไม่ตรงกับสิ่งที่คุณหวัง ขอให้รู้ไว้ว่ามันไม่ได้ลดคุณค่าของคุณ และไม่ได้ตัดสินว่าอนาคตจะต้องเป็นแบบนี้ คุณมีสิทธิ์รู้สึกผิดหวังหรือเหนื่อยได้ โดยไม่ต้องตำหนิตัวเอง ค่อย ๆ มองหาทางเลือกที่ปลอดภัยและเหมาะกับกำลังของตัวเองทีละก้าวนะ',
+      mid: 'แม้ตอนนี้คำตอบจะยังไม่ชัด แต่คุณไม่จำเป็นต้องรอให้ทุกอย่างพร้อมสมบูรณ์ ลองเริ่มจากสิ่งเล็ก ๆ ที่ทำได้ในวันนี้ เก็บข้อมูลเพิ่มอีกนิด แล้วค่อยปรับทางเดินตามสิ่งที่เกิดขึ้นจริง',
+      good: 'นี่เป็นจังหวะที่ดีในการเชื่อมั่นในตัวเองและเริ่มขยับไปหาสิ่งที่ต้องการ ลองเลือกหนึ่งอย่างที่ทำได้ทันที วางก้าวแรกให้ชัด แล้วใช้โอกาสนี้สร้างความคืบหน้าอย่างต่อเนื่อง'
+    };
+    return messages[bucket] || messages.mid;
+  }
+
+  function oreguramSelfReflection(category) {
     var prompts = {
       work: 'เรื่องงานอาจแตะทั้งความมั่นคง ความสามารถ และความรู้สึกว่าตัวเองมีคุณค่า ลองถามใจตัวเองว่า งานแบบไหนที่ทำให้คุณเติบโต โดยไม่ต้องฝืนจนหมดแรง?',
       money: 'เรื่องเงินอาจทำให้ใจไม่มั่นคงได้ง่ายนะ ลองมองตัวเลขตามจริงโดยไม่ตำหนิตัวเอง แล้วถามว่า ตอนนี้สิ่งไหนจะช่วยให้คุณรู้สึกปลอดภัยขึ้นได้ทีละนิด?',
       love: 'ความรักไม่จำเป็นต้องให้คุณเดาใจอีกฝ่ายอยู่คนเดียว ลองสังเกตทั้งคำพูดและการกระทำ พร้อมถามตัวเองว่า ความสัมพันธ์แบบไหนที่ทำให้คุณรู้สึกได้รับความใส่ใจและเป็นตัวเองได้?',
       health: 'ขอให้คุณใจดีกับตัวเองเป็นพิเศษนะ ลองฟังสัญญาณจากร่างกายและให้ความสำคัญกับการดูแลที่เหมาะสม คุณไม่จำเป็นต้องเข้มแข็งหรือรับมือทุกอย่างเพียงลำพัง',
-      interest: 'สิ่งที่คุณหวังอาจบอกอะไรบางอย่างเกี่ยวกับความต้องการลึก ๆ ในใจ ลองถามตัวเองว่า หากไม่ต้องกลัวว่าจะทำให้ใครผิดหวัง คุณอยากเลือกอะไรให้ตัวเองมากที่สุด?',
+      interest: 'สิ่งที่คุณหวังอาจบอกอะไรบางอย่างเกี่ยวกับความต้องการในใจ ลองถามตัวเองว่า หากไม่ต้องกลัวว่าจะทำให้ใครผิดหวัง คุณอยากเลือกอะไรให้ตัวเองมากที่สุด?',
       other: 'ไม่ว่าเรื่องนี้จะลงเอยอย่างไร ความรู้สึกและความต้องการของคุณก็มีความหมาย ลองแยกสิ่งที่ควบคุมได้ออกจากสิ่งที่ควบคุมไม่ได้ แล้วเลือกดูแลส่วนที่อยู่ในมือของคุณก่อนนะ'
     };
-    var endings = {
-      good: 'ถ้าผลนี้ทำให้คุณมีความหวัง ก็รับความหวังนั้นไว้ได้เลย พร้อมค่อย ๆ ลงมือในแบบที่ปลอดภัยและเหมาะกับชีวิตจริงของคุณ',
-      mid: 'ถ้าตอนนี้ยังไม่ชัดเจน คุณไม่จำเป็นต้องรีบหาคำตอบทั้งหมด ค่อย ๆ เก็บข้อมูลและให้เวลาตัวเองได้คิดอย่างสบายใจ',
-      warn: 'ถ้าผลนี้ทำให้กังวล ขอให้หายใจลึก ๆ ก่อนนะ นี่ไม่ใช่คำตัดสินอนาคต แต่เป็นโอกาสให้คุณทบทวนทางเลือกและดูแลตัวเองให้รอบคอบขึ้น'
-    };
-    return (prompts[category] || prompts.other) + ' ' + (endings[bucket] || endings.mid);
+    return prompts[category] || prompts.other;
   }
 
   function renderOreguramResult(data, fromButton) {
@@ -2317,7 +2319,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
-    h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
+    h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '<div class="pred-section-item" style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(120,90,70,.18);line-height:1.8;">' + oreguramOutcomeMessage(res.bucket) + '</div></div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของคำถามนี้</h4>';
     // ไม่แสดงผลคำทำนายหลักซ้ำ เพราะแสดงไว้ในกล่อง "ผลคำทำนาย" ด้านบนแล้ว
     var questionLevelLabels = {
@@ -2331,7 +2333,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     h += '<div class="pred-section-item"><span class="muted">คำทำนายแต่ละส่วนอ้างอิงจากคำถามที่เลือกโดยตรง ไม่ใช่คำทำนายภาพรวมของหมวดหมู่</span></div>';
     h += '</div>';
-    h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
+    h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
