@@ -1451,15 +1451,18 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="pred-section-item"><div class="thai-heading-block">💎 คริสตัลประจำวัน</div><div><b>'+esc(dailyCrystal.name||'-')+'</b></div><div>'+esc(dailyCrystal.healing||'')+'</div><div><b>คำแนะนำ:</b> ใช้ความหมายของคริสตัลเป็นเครื่องเตือนใจให้กลับมาใส่ใจสิ่งที่จำเป็นในวันนี้</div></div>';
     if(joinedCrystal&&joinedCrystal.name) h+='<div class="pred-section-item"><b>💎 คริสตัลเสริมจังหวะวันนี้: '+esc(joinedCrystal.name)+'</b><br/>'+esc(joinedCrystal.healing||'')+'</div>';
     h+='</div>';
-    h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
-    h+='<h4 style="color:#6d28d9;">🔮 คำทำนายภาพรวมและแนวทางรับมือ</h4>';
-    h+='<div class="pred-section-item"><b>ภาพรวมของตัวคุณ</b><br/>'+esc(personalPrediction)+' '+esc(birthMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>สิ่งที่กำลังเกิดขึ้น</b><br/>'+esc(dailyPrediction)+' '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>จุดแข็งที่นำมาใช้ได้</b><br/>'+esc(personalStrength)+' '+esc(todayStrength)+'</div>';
-    h+='<div class="pred-section-item"><b>สิ่งที่ควรระวังและวิธีรับมือ</b><br/>'+esc(personalCaution)+' '+esc(todayCaution)+' ค่อย ๆ ตรวจสอบสถานการณ์จริงก่อนตัดสินใจเรื่องสำคัญ</div>';
-    h+='<div class="pred-section-item"><b>คำแนะนำสำหรับก้าวต่อไป</b><br/>เลือกหนึ่งเรื่องที่ต้องการจัดการให้ชัด แล้วเริ่มจากสิ่งเล็ก ๆ ที่ทำได้ในวันนี้ หากยังไม่พร้อมตัดสินใจ การรอข้อมูลเพิ่มก็เป็นทางเลือกที่ดี</div>';
-    h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">คำทำนายนี้เป็นการอ่านเชิงสัญลักษณ์จากไพ่ รูน และโหรกระต่าย ใช้เป็นมุมมองประกอบการทบทวนได้ แต่ไม่ใช่ข้อสรุปตายตัวแทนประสบการณ์และการตัดสินใจของคุณ</div>';
-    h+='</div>';
+    // ส่วนนี้คงไว้เฉพาะ Admin ตามรูปแบบเดิม ส่วนหน้า Main ไม่แสดง
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+      h+='<h4 style="color:#6d28d9;">🔮 คำทำนายภาพรวมและแนวทางรับมือ</h4>';
+      h+='<div class="pred-section-item"><b>ภาพรวมของตัวคุณ</b><br/>'+esc(personalPrediction)+' '+esc(birthMeaning)+'</div>';
+      h+='<div class="pred-section-item"><b>สิ่งที่กำลังเกิดขึ้น</b><br/>'+esc(dailyPrediction)+' '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
+      h+='<div class="pred-section-item"><b>จุดแข็งที่นำมาใช้ได้</b><br/>'+esc(personalStrength)+' '+esc(todayStrength)+'</div>';
+      h+='<div class="pred-section-item"><b>สิ่งที่ควรระวังและวิธีรับมือ</b><br/>'+esc(personalCaution)+' '+esc(todayCaution)+' ค่อย ๆ ตรวจสอบสถานการณ์จริงก่อนตัดสินใจเรื่องสำคัญ</div>';
+      h+='<div class="pred-section-item"><b>คำแนะนำสำหรับก้าวต่อไป</b><br/>เลือกหนึ่งเรื่องที่ต้องการจัดการให้ชัด แล้วเริ่มจากสิ่งเล็ก ๆ ที่ทำได้ในวันนี้ หากยังไม่พร้อมตัดสินใจ การรอข้อมูลเพิ่มก็เป็นทางเลือกที่ดี</div>';
+      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">คำทำนายนี้เป็นการอ่านเชิงสัญลักษณ์จากไพ่ รูน และโหรกระต่าย ใช้เป็นมุมมองประกอบการทบทวนได้ แต่ไม่ใช่ข้อสรุปตายตัวแทนประสบการณ์และการตัดสินใจของคุณ</div>';
+      h+='</div>';
+    }
     if (window.RABBITASTRO_ADMIN_MODE === true) {
       h+='<div class="pred-block" style="background:#fdf4ff;border-color:#e9d5ff;border-left:5px solid #a855f7;">';
       h+='<h4 style="color:#7e22ce;">🪞 อ่านสภาพใจเชิงลึกจากไพ่และรูน</h4>';
