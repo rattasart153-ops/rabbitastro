@@ -3854,26 +3854,21 @@
 
   // สร้างรายละเอียดโอเรกุรัมจากคำถามที่เลือก + เลขพฤติกรรม RHD + เลขกระต่ายของสถานการณ์
   // เลขพฤติกรรมใช้รหัสพื้นดวง (baseCode) ตามระบบ RHD เดิม ไม่สร้างสูตรใหม่
+  // รายละเอียดสั้นแบบภาษาพูด เชื่อมคำถามกับเลขพฤติกรรม RHD และผลโอเรกุรัม
   function buildOreguramBehaviorDetail(qObj, bucket, behaviorNumber, situationNumber) {
     var habit = RHD_HABITS[behaviorNumber] || RHD_HABITS[5];
     var situation = RABBITS[situationNumber] || RABBITS[9];
-    var topic = modernOreguText(qObj.topic || 'เรื่องที่ถาม');
-    var question = modernOreguText(qObj.text || 'คำถามที่เลือก');
-    var outcome = modernOreguText(qObj[bucket] || qObj.mid || '');
+    var topic = modernOreguText(qObj.topic || 'เรื่องนี้');
+    var behaviorLine = habit.name + ' มัก ' + habit.response;
     var direction = bucket === 'good'
-      ? 'ผลนี้เปิดพื้นที่ให้คุณใช้จุดแข็งของตัวเองเดินหน้าได้ ลองเลือกหนึ่งก้าวที่ทำได้จริง แล้วติดตามผลจากสิ่งที่เกิดขึ้น'
+      ? 'จังหวะนี้ลองใช้จุดแข็งของตัวเองเดินหน้าทีละก้าว อย่าลืมดูแลสิ่งที่สำคัญระหว่างทาง'
       : bucket === 'warn'
-        ? 'ผลนี้ชวนให้ดูแลความเสี่ยงก่อน ไม่ได้หมายความว่าทุกอย่างจะต้องจบไม่ดี ค่อย ๆ แยกสิ่งที่ควบคุมได้และปกป้องสิ่งสำคัญของตัวเอง'
-        : 'ผลนี้ยังมีพื้นที่ให้สถานการณ์เปลี่ยนได้ ใช้วิธีทดลองทีละขั้นและเก็บข้อมูลเพิ่มก่อนตัดสินใจเรื่องใหญ่';
+        ? 'ช่วงนี้ค่อย ๆ ดูให้รอบก่อนตัดสินใจ ไม่ต้องรีบฝืนหรือโทษตัวเอง'
+        : 'เรื่องนี้ยังต้องใช้เวลาอีกนิด ค่อย ๆ ดูการเปลี่ยนแปลงและเลือกจังหวะที่เหมาะกับตัวเอง';
     return {
       behaviorNumber: behaviorNumber,
       behaviorName: habit.name,
-      questionFocus: 'คำถาม “' + question + '” กำลังเจาะเรื่อง' + topic + ' วิธีรับมือของคุณจึงเป็นส่วนสำคัญว่าจะจัดการเรื่องนี้อย่างไร',
-      behaviorStrength: 'เลขพฤติกรรมกระต่าย ' + behaviorNumber + ' · ' + habit.name + ' : ' + habit.response + ' จุดแข็งนี้นำมาใช้กับเรื่อง' + topic + 'ได้โดย ' + habit.decision,
-      behaviorCaution: 'สิ่งที่ควรสังเกตจากรูปแบบพฤติกรรมนี้คือ ' + habit.caution,
-      situationReading: 'พลังสถานการณ์ของคำถามนี้เป็นกระต่ายเลข ' + situationNumber + ' · ' + situation.name + ' : ' + situation.desc,
-      outcomeGuidance: direction,
-      outcomeBasis: 'เมื่อนำผลคำทำนายของคำถามนี้มาประกอบกับรูปแบบพฤติกรรม จะเห็นประเด็นว่า ' + outcome
+      summary: 'เรื่อง' + topic + 'ครั้งนี้ คุณมีแนวโน้มรับมือแบบ' + behaviorLine + ' พลังของสถานการณ์เป็นกระต่าย' + situationNumber + ' (' + situation.name + ') ' + direction
     };
   }
 
