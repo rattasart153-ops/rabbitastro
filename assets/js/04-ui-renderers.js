@@ -2319,19 +2319,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
-    h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '<div class="pred-section-item" style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(120,90,70,.18);line-height:1.8;">' + oreguramOutcomeMessage(res.bucket) + '</div></div>';
-    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของคำถามนี้</h4>';
-    // ไม่แสดงผลคำทำนายหลักซ้ำ เพราะแสดงไว้ในกล่อง "ผลคำทำนาย" ด้านบนแล้ว
-    var questionLevelLabels = {
-      good: 'หากเรื่องนี้เป็นไปในทางที่ดี',
-      mid: 'หากเรื่องนี้ยังต้องใช้เวลา',
-      warn: 'สิ่งที่ควรระวังในเรื่องนี้'
-    };
-    ['good', 'mid', 'warn'].forEach(function (levelKey) {
-      if (levelKey === res.bucket || !res.qLevels || !res.qLevels[levelKey]) return;
-      h += '<div class="pred-section-item"><b>' + questionLevelLabels[levelKey] + ':</b><br/>' + warmOreguramText(res.qLevels[levelKey]) + '</div>';
-    });
-    h += '<div class="pred-section-item"><span class="muted">คำทำนายแต่ละส่วนอ้างอิงจากคำถามที่เลือกโดยตรง ไม่ใช่คำทำนายภาพรวมของหมวดหมู่</span></div>';
+    h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
+    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
+    // แสดงเฉพาะแนวทางที่สอดคล้องกับผลที่คำนวณได้ ไม่ดึงคำทำนายของผลระดับอื่นมาแสดงปะปน
+    h += '<div class="pred-section-item" style="line-height:1.85;">' + oreguramOutcomeMessage(res.bucket) + '</div>';
+    h += '<div class="pred-section-item"><span class="muted">รายละเอียดนี้ขยายความจากผลคำทำนายเดียวกัน และไม่ใช่ผลลัพธ์อีกระดับหนึ่ง</span></div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
