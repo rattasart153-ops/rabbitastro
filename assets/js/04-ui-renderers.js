@@ -2312,15 +2312,9 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
-    // รายละเอียดสร้างจากคำถามที่เลือก เลขพฤติกรรม RHD ของเจ้าชะตา และเลขกระต่ายของสถานการณ์
+    // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
     var detail = res.detail || {};
-    h += '<div class="pred-section-item"><b>🐇 เลขพฤติกรรมกระต่าย ' + (detail.behaviorNumber || res.behaviorNumber || '-') + ' · ' + warmOreguramText(detail.behaviorName || '') + '</b></div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.questionFocus || '') + '</div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.behaviorStrength || '') + '</div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.behaviorCaution || '') + '</div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.situationReading || '') + '</div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.outcomeGuidance || '') + '</div>';
-    h += '<div class="pred-section-item" style="line-height:1.85;">' + warmOreguramText(detail.outcomeBasis || '') + '</div>';
+    h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
