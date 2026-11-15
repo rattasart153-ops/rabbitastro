@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/อันควร/g, 'ที่เหมาะสม')
       .replace(/พึงตระหนักว่า/g, 'อยากให้จำไว้ว่านะ')
       .replace(/จงระวัง/g, 'ลองใส่ใจเรื่องนี้เป็นพิเศษ')
-      .replace(/จง/g, 'ลอง')
+      .replace(/จง(?=\s|$)/g, 'ลอง')
       .replace(/ท่าน/g, 'คุณ')
-      .replace(/พึง/g, 'ควร')
+      .replace(/พึง(?=\s|$)/g, 'ควร')
       .replace(/ประสบความสำเร็จ/g, 'ทำสิ่งที่ตั้งใจได้สำเร็จ')
       .replace(/พิจารณาโดยละเอียด/g, 'ลองดูให้ชัดเจน')
       .replace(/ตรวจสอบข้อเท็จจริง/g, 'เช็กข้อมูลจริง')
@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/สัญญาณบอกเหตุ/g, 'สิ่งที่ควรสังเกต')
       .replace(/แก่นของคำทำนาย/g, 'ใจความสำคัญ')
       .replace(/พลังงาน/g, 'แรงใจและกำลัง')
+      .replace(/ศักยภาพที่ซ่อนอยู่/g, 'ความสามารถที่ยังไม่ได้ใช้เต็มที่')
       .replace(/ศักยภาพ/g, 'ความสามารถที่มี')
       .replace(/บูรณาการ/g, 'นำมาปรับใช้ร่วมกัน')
       .replace(/สถานการณ์/g, 'สถานการณ์')
@@ -143,15 +144,133 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/ควรตระหนัก/g, 'อยากให้ใส่ใจ')
       .replace(/อย่ากดดันตัวเอง/g, 'ไม่ต้องกดดันตัวเองมากนะ')
       .replace(/ให้กำลังใจตนเอง/g, 'ให้กำลังใจตัวเองด้วยนะ')
-      .replace(/ค่อยเป็นค่อยไป/g, 'ค่อย ๆ ทำไปทีละขั้นนะ');
+      .replace(/ค่อยเป็นค่อยไป/g, 'ค่อย ๆ ทำไปทีละขั้นนะ')
+      // คำเฉพาะทางโหราศาสตร์และคำที่มักอ่านยาก: แปลเป็นภาษาทั่วไป
+      .replace(/ลัคนาสายนี้/g, 'คนที่มีราศีขึ้นแบบนี้')
+      .replace(/ลัคนานี้/g, 'ราศีที่ขึ้นตอนเกิดของคุณ')
+      .replace(/ลัคนาราศี/g, 'ราศีที่ขึ้นตอนเกิด')
+      .replace(/ลัคนา/g, 'ราศีที่ขึ้นตอนเกิด')
+      .replace(/เรือนชะตา|ภพชะตา/g, 'ด้านต่าง ๆ ของชีวิต')
+      .replace(/กดุมภะ/g, 'เรื่องการเงิน')
+      .replace(/สหัชชะ/g, 'การสื่อสารและคนใกล้ตัว')
+      .replace(/พันธุ/g, 'บ้านและครอบครัว')
+      .replace(/ปุตตะ/g, 'ความคิดสร้างสรรค์และสิ่งที่รัก')
+      .replace(/อริ/g, 'ปัญหาและคู่แข่ง')
+      .replace(/ปัตนิ/g, 'ความรักและคู่ครอง')
+      .replace(/มรณะ/g, 'การเปลี่ยนแปลงครั้งใหญ่')
+      .replace(/ศุภะ/g, 'การเรียนรู้และโอกาสใหม่')
+      .replace(/กัมมะ/g, 'การงาน')
+      .replace(/ลาภะ/g, 'รายได้และผลประโยชน์')
+      .replace(/วินาศ/g, 'เรื่องที่ต้องระวังหรือปล่อยวาง')
+      .replace(/ตนุ/g, 'ตัวตน')
+      .replace(/ธาตุเจ้าเรือน/g, 'ธาตุพื้นฐานประจำตัว')
+      .replace(/ดาวเสวยอายุ/g, 'ดาวที่ส่งผลกับช่วงวัยนี้')
+      .replace(/ดาวจร/g, 'ตำแหน่งดาวในช่วงนี้')
+      .replace(/ดาวเดิม/g, 'ตำแหน่งดาวตอนเกิด')
+      .replace(/ตรีโกณ/g, 'มุมที่ส่งเสริมกัน')
+      .replace(/เล็งกัน/g, 'อยู่ตรงข้ามกัน')
+      .replace(/กุมกัน/g, 'อยู่ร่วมตำแหน่งเดียวกัน')
+      .replace(/มหาทักษา|ทักษา/g, 'หลักดูดาวตามวันเกิด')
+      .replace(/นวางค์|ตรียางค์/g, 'ส่วนย่อยของดวงกำเนิด')
+      .replace(/โยคเกณฑ์/g, 'ความเกี่ยวข้องระหว่างตำแหน่งดาว')
+      .replace(/ประเกษตร/g, 'ตำแหน่งที่ดาวต้องใช้ความพยายาม')
+      .replace(/เกษตร/g, 'ตำแหน่งที่ดาวมีกำลังดี')
+      .replace(/อุจจ์/g, 'ตำแหน่งที่ดาวส่งเสริม')
+      .replace(/นิจ/g, 'ตำแหน่งที่ดาวมีกำลังน้อย')
+      .replace(/พักร์/g, 'เคลื่อนถอยหลัง')
+      .replace(/มุมสัมพันธ์/g, 'ความเกี่ยวข้องระหว่างตำแหน่งดาว')
+      .replace(/อุปถัมภ์|อุปการะ/g, 'การช่วยเหลือ')
+      .replace(/เกียรติยศชื่อเสียง/g, 'ชื่อเสียงและการยอมรับ')
+      .replace(/มหาโชค/g, 'โอกาสดี')
+      .replace(/วาสนา/g, 'โอกาสและพื้นฐานชีวิต')
+      .replace(/สัมพันธภาพ/g, 'ความสัมพันธ์')
+      .replace(/สัมพันธไมตรี/g, 'ความสัมพันธ์ที่ดี')
+      .replace(/นัยสำคัญ/g, 'ความหมายสำคัญ')
+      .replace(/ภาวะวิกฤต/g, 'ช่วงที่มีปัญหาหนัก')
+      .replace(/ประเด็นละเอียดอ่อน/g, 'เรื่องที่ต้องค่อย ๆ พูดคุย')
+      .replace(/ปัจจัยเกื้อหนุน/g, 'สิ่งที่ช่วยให้เรื่องต่าง ๆ ดีขึ้น')
+      .replace(/ขัดเกลาตนเอง/g, 'ปรับตัวและพัฒนาตัวเอง')
+      .replace(/บรรลุเป้าหมาย/g, 'ทำสิ่งที่ตั้งใจให้สำเร็จ')
+      .replace(/เผชิญบททดสอบ/g, 'เจอเรื่องที่ต้องเรียนรู้')
+      .replace(/เสริมสร้างความมั่นคง/g, 'ทำให้ชีวิตมั่นคงขึ้น')
+      .replace(/จิตใต้สำนึก/g, 'ความรู้สึกลึก ๆ ที่อยู่ข้างใน')
+      .replace(/จิตสำนึก/g, 'วิธีคิดและความรู้สึก')
+      .replace(/อัตลักษณ์/g, 'ตัวตน')
+      .replace(/แก่นแท้/g, 'ตัวตนที่ลึกที่สุด')
+      .replace(/แรงขับเคลื่อน/g, 'สิ่งที่ผลักดันคุณ')
+      .replace(/แรงขับ/g, 'สิ่งที่ผลักดันคุณ')
+      .replace(/ความเปราะบาง/g, 'จุดที่ทำให้คุณรู้สึกอ่อนไหว')
+      .replace(/กลไกป้องกันตัว/g, 'วิธีที่ใจใช้ปกป้องตัวเอง')
+      .replace(/การเยียวยา/g, 'การดูแลใจ')
+      .replace(/ปฏิสัมพันธ์/g, 'การตอบโต้กัน')
+      .replace(/พลวัต/g, 'การเปลี่ยนแปลง')
+      .replace(/สภาวะ/g, 'สภาพ')
+      .replace(/บริบท/g, 'สถานการณ์แวดล้อม')
+      .replace(/บ่งชี้/g, 'บอกให้เห็น')
+      .replace(/สอดคล้อง/g, 'เข้ากัน')
+      .replace(/แปรผัน/g, 'เปลี่ยนไป')
+      .replace(/บรรเทา/g, 'ช่วยให้เบาลง')
+      .replace(/กระทบกระเทือน/g, 'ส่งผล')
+      .replace(/เกื้อกูล/g, 'ช่วยเหลือ')
+      .replace(/เจ้าตัว/g, 'คุณ')
+      .replace(/เจรจาติดต่อประสานงาน/g, 'พูดคุยและประสานงาน')
+      .replace(/การขยับขยาย/g, 'การขยายงานหรือโอกาส')
+      .replace(/ผลลัพธ์/g, 'ผลที่เกิดขึ้น')
+      .replace(/องค์ประกอบ/g, 'ส่วนต่าง ๆ')
+      .replace(/ปัจจัย/g, 'สิ่งที่เกี่ยวข้อง')
+      .replace(/สังเคราะห์/g, 'นำมารวมกัน')
+      .replace(/ประเมิน/g, 'ลองดู')
+      .replace(/วิเคราะห์เชิงลึก/g, 'ดูรายละเอียดให้ชัดขึ้น')
+      .replace(/ข้อจำกัด/g, 'สิ่งที่ทำได้ไม่เต็มที่')
+      .replace(/ข้อได้เปรียบ/g, 'จุดที่ได้เปรียบ')
+      .replace(/ความไม่แน่นอน/g, 'เรื่องที่ยังไม่ชัดเจน')
+      .replace(/ข้อผูกมัด/g, 'สิ่งที่ผูกพันอยู่')
+      .replace(/ภาระผูกพัน/g, 'หน้าที่ที่ต้องรับผิดชอบ')
+      .replace(/ดำรงอยู่/g, 'อยู่ต่อไป')
+      .replace(/บ่มเพาะ/g, 'ค่อย ๆ สร้าง')
+      .replace(/หล่อหลอม/g, 'สร้างให้เป็น')
+      .replace(/เปราะบาง/g, 'อ่อนไหว')
+      .replace(/ตระหนักรู้/g, 'เข้าใจและสังเกตเห็น')
+      .replace(/พื้นดวงกำเนิด/g, 'ภาพรวมพื้นฐานชีวิตจากวันเกิด')
+      .replace(/พื้นดวงนี้/g, 'พื้นฐานชีวิตของคุณ')
+      .replace(/พื้นดวง/g, 'พื้นฐานชีวิตจากวันเกิด')
+      .replace(/เงามืด/g, 'ด้านที่ซ่อนอยู่')
+      .replace(/เงาภายใน/g, 'ด้านที่ซ่อนอยู่ในใจ')
+      .replace(/จุดเปราะบาง/g, 'จุดที่ทำให้รู้สึกอ่อนไหว')
+      .replace(/ปมภายใน/g, 'เรื่องค้างคาในใจ')
+      .replace(/ความขัดแย้งภายใน/g, 'ความรู้สึกสองด้านที่ไม่ตรงกัน')
+      .replace(/แรงกดดัน/g, 'ความกดดัน')
+      .replace(/ความสัมพันธ์เชิงลึก/g, 'ความสัมพันธ์ที่เข้าใจกันมากขึ้น')
+      .replace(/ภารกิจชีวิต/g, 'สิ่งสำคัญที่คุณอยากทำในชีวิต')
+      .replace(/บททดสอบชีวิต/g, 'เรื่องยากที่ชีวิตชวนให้เรียนรู้')
+      .replace(/พรสวรรค์ติดตัว/g, 'ความสามารถที่มีมาตั้งแต่เดิม')
+      .replace(/ศักยภาพที่ซ่อนอยู่/g, 'ความสามารถที่ยังไม่ได้ใช้เต็มที่')
+      // เปลี่ยนภาษาที่กดทับใจให้เป็นการชวนดูแลตัวเอง โดยไม่ลบสาระของคำเตือน
+      .replace(/สิ่งที่ควรระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง')
+      .replace(/ข้อควรระวัง/g, 'สิ่งที่ใจอยากให้ใส่ใจ')
+      .replace(/สิ่งที่ต้องระวัง/g, 'เรื่องที่ควรดูแลอย่างอ่อนโยน')
+      .replace(/จุดอ่อนของคุณ/g, 'ด้านที่ต้องการความเข้าใจ')
+      .replace(/จุดอ่อน/g, 'ด้านที่ต้องการการดูแล')
+      .replace(/ความล้มเหลว/g, 'ผลลัพธ์ที่ยังไม่เป็นอย่างหวัง')
+      .replace(/ล้มเหลว/g, 'ยังไม่เป็นอย่างที่หวัง')
+      .replace(/พ่ายแพ้/g, 'ยังไม่ได้ผลอย่างที่ตั้งใจ')
+      .replace(/ผิดพลาดซ้ำ/g, 'กลับไปใช้วิธีเดิมอีกครั้ง')
+      .replace(/คุณไม่มีทางเลือก/g, 'ตอนนี้คุณอาจยังมองไม่เห็นทางเลือก')
+      .replace(/หมดหวัง/g, 'กำลังรู้สึกว่าทางออกยังไม่ชัด')
+      .replace(/ต้องอดทน/g, 'คุณอาจค่อย ๆ ประคองตัวเอง')
+      .replace(/ต้องเข้มแข็ง/g, 'คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา')
+      .replace(/ห้าม/g, 'อยากชวนให้หลีกเลี่ยง')
+      .replace(/จงระวัง/g, 'ลองดูแลเรื่องนี้เป็นพิเศษ')
+      .replace(/ระวังให้มาก/g, 'ค่อย ๆ ใส่ใจและดูแลตัวเองให้ดี')
+      .replace(/เป็นกรรมเก่า/g, 'อาจเป็นรูปแบบเดิมที่คุณกำลังเรียนรู้จะเปลี่ยน')
+      .replace(/ถูกกำหนดไว้แล้ว/g, 'ยังมีพื้นที่ให้คุณเลือกและเปลี่ยนแปลงได้');
   }
 
   function simplifyPredictionOutput(root) {
     if (!root || !document.createTreeWalker) return;
     var title = root.querySelector ? root.querySelector('.card-title') : null;
     var titleText = title ? (title.textContent || '') : '';
-    // Engine 2 มีน้ำเสียงเฉพาะขององค์เทพ จึงคงข้อความเดิมทั้งหมด
-    if (/คำทำนายมูเทพ|เทพองค์นี้อยากจะบอกอะไรกับคุณ|ข้อความจากองค์เทพ/i.test(titleText)) return;
+    // ใช้ภาษาที่อ่านง่ายและอ่อนโยนร่วมกันทุก Engine รวมถึงข้อความจากองค์เทพ
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
     var nodes = [], node;
     while ((node = walker.nextNode())) nodes.push(node);
@@ -166,42 +285,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   var ogSelect = document.getElementById("oreguramQuestion");
-  if (ogSelect && Engine && Array.isArray(Engine.OREGURAM_QUESTIONS)) {
-    // จัดคำถามตามหมวดหมู่ที่กำหนดในข้อมูลแต่ละข้อโดยตรง
-    if (ogSelect.options.length <= 1) {
-      if (ogSelect.options.length === 1 && !ogSelect.options[0].value) ogSelect.remove(0);
-      var OREGURAM_UI_GROUPS = [
-        { key: "work", label: "💼 การงาน" },
-        { key: "money", label: "💰 การเงิน" },
-        { key: "love", label: "❤️ ความรัก" },
-        { key: "health", label: "🌿 สุขภาพ" },
-        { key: "interest", label: "✨ เรื่องที่สนใจและการพัฒนาตัวเอง" },
-        { key: "other", label: "🧭 เรื่องอื่นๆ" }
-      ];
-      OREGURAM_UI_GROUPS.forEach(function (group) {
-        var items = Engine.OREGURAM_QUESTIONS.filter(function (item) { return item.cat === group.key; });
-        if (!items.length) return;
-        var optgroup = document.createElement("optgroup");
-        optgroup.label = group.label + " · " + items.length + " คำถาม";
-        items.forEach(function (q) {
-          var opt = document.createElement("option");
-          opt.value = String(q.id);
-          opt.innerText = q.text;
-          optgroup.appendChild(opt);
-        });
-        ogSelect.appendChild(optgroup);
+  var ogCategory = document.getElementById("oreguramCategory");
+  var ogTopic = document.getElementById("oreguramTopic");
+  var ogCategorySlider = document.getElementById("oreguramCategorySlider");
+  var ogQuestionSlider = document.getElementById("oreguramQuestionSlider");
+  if (ogSelect && ogCategory && ogTopic && ogCategorySlider && ogQuestionSlider &&
+      Engine && Array.isArray(Engine.OREGURAM_QUESTIONS)) {
+    // แถบเลื่อนหมวดและคำถามแยกกัน โดยคำถามจะเปลี่ยนตามหมวดที่เลือก
+    var oreguramQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS)
+      ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
+    var OREGURAM_UI_GROUPS = [
+      { key: "work", label: "💼 การงาน" },
+      { key: "money", label: "💰 การเงิน" },
+      { key: "love", label: "❤️ ความรัก" },
+      { key: "health", label: "🌿 สุขภาพ" },
+      { key: "interest", label: "✨ เรื่องที่สนใจและการพัฒนาตัวเอง" },
+      { key: "other", label: "🧭 เรื่องอื่น ๆ" }
+    ];
+    function clearOreguramPreviousResult() {
+      if (resultsBox) { resultsBox.style.display = "none"; resultsBox.innerHTML = ""; }
+    }
+    function addOreguramOption(select, value, label) {
+      var option = document.createElement("option");
+      option.value = String(value); option.textContent = label; select.appendChild(option);
+    }
+    function setOreguramSliderActive(container, selectedValue) {
+      container.querySelectorAll(".oreguram-slide-option").forEach(function (button) {
+        var active = button.getAttribute("data-value") === String(selectedValue);
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
       });
     }
-    // ทุกครั้งที่เปลี่ยนคำถาม ให้ถือว่าผลเดิมหมดอายุทันที
-    // เพื่อป้องกันไม่ให้หน้าจอแสดงคำทำนายของข้อก่อนหน้า
-    ogSelect.addEventListener("change", function () {
-      ogSelect.setAttribute("data-current-question", String(parseInt(ogSelect.value, 10) || 1));
-      if (resultsBox) {
-        resultsBox.style.display = "none";
-        resultsBox.innerHTML = "";
-      }
+    function resetOreguramQuestionSlider(message) {
+      ogQuestionSlider.innerHTML = "";
+      var placeholder = document.createElement("span");
+      placeholder.className = "oreguram-slider-placeholder";
+      placeholder.textContent = message || "กรุณาเลือกหมวดคำถามก่อน";
+      ogQuestionSlider.appendChild(placeholder);
+      ogSelect.innerHTML = ""; addOreguramOption(ogSelect, "", "เลือกคำถาม");
+      ogSelect.disabled = true; ogSelect.removeAttribute("data-current-question");
+      ogTopic.innerHTML = ""; addOreguramOption(ogTopic, "", "เลือกหัวข้อ"); ogTopic.disabled = true;
+    }
+    function chooseOreguramQuestion(question) {
+      ogSelect.value = String(question.id);
+      ogTopic.innerHTML = "";
+      addOreguramOption(ogTopic, String(question.topic || "เรื่องทั่วไป"), String(question.topic || "เรื่องทั่วไป"));
+      ogTopic.disabled = false;
+      ogSelect.setAttribute("data-current-question", String(question.id));
+      setOreguramSliderActive(ogQuestionSlider, question.id);
+      clearOreguramPreviousResult();
+    }
+    function populateOreguramQuestions(categoryKey) {
+      var questions = oreguramQuestionBank.filter(function (item) { return item.cat === categoryKey; });
+      resetOreguramQuestionSlider(questions.length ? "เลือกคำถามจากแถบนี้" : "ยังไม่มีคำถามในหมวดนี้");
+      if (!questions.length) return;
+      ogQuestionSlider.innerHTML = "";
+      questions.forEach(function (question) {
+        addOreguramOption(ogSelect, question.id, question.text);
+        var button = document.createElement("button");
+        button.type = "button"; button.className = "oreguram-slide-option";
+        button.setAttribute("data-value", String(question.id)); button.setAttribute("aria-pressed", "false");
+        button.textContent = question.text;
+        button.addEventListener("click", function () { chooseOreguramQuestion(question); });
+        ogQuestionSlider.appendChild(button);
+      });
+      ogSelect.disabled = false;
+    }
+    OREGURAM_UI_GROUPS.forEach(function (group) {
+      var count = oreguramQuestionBank.filter(function (item) { return item.cat === group.key; }).length;
+      if (!count) return;
+      addOreguramOption(ogCategory, group.key, group.label);
+      var button = document.createElement("button");
+      button.type = "button"; button.className = "oreguram-slide-option";
+      button.setAttribute("data-value", group.key); button.setAttribute("aria-pressed", "false");
+      button.textContent = group.label;
+      button.addEventListener("click", function () {
+        ogCategory.value = group.key; setOreguramSliderActive(ogCategorySlider, group.key);
+        populateOreguramQuestions(group.key); clearOreguramPreviousResult();
+      });
+      ogCategorySlider.appendChild(button);
     });
-    ogSelect.setAttribute("data-current-question", String(parseInt(ogSelect.value, 10) || 1));
+    resetOreguramQuestionSlider();
   }
 
   function renderDailyElement() {
@@ -214,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("dailyDateText").innerText = dailyRes.dateText || "-";
       document.getElementById("dailyElementVal").innerText = "ธาตุ" + (elem.name || "ดิน") + " (" + (elem.symbol || "⛰️") + ")";
       document.getElementById("dailyElementIcon").innerText = elem.symbol || "⛰️";
-      document.getElementById("dailyElementDesc").innerText = "🐇 กระต่ายเลข " + dailyRes.finalNum + " (" + rabbit.name + ")   " + (elem.story || "") + " · จุดเด่น: " + (elem.good || "");
+      document.getElementById("dailyElementDesc").innerText = "🐇 " + rabbit.name + "   " + (elem.story || "") + " · จุดเด่น: " + (elem.good || "");
       document.getElementById("dailyElementWarn").innerText = "⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน: " + (elem.bad || "");
       document.getElementById("dailyElementSuggest").innerText = elem.good || "";
       box.classList.remove("card-elem-น้ำ", "card-elem-ไฟ", "card-elem-ไม้", "card-elem-เหล็ก", "card-elem-ดิน", "card-elem-ทอง");
@@ -278,6 +442,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function switchTab(activeId) {
+    var sharedForm = document.getElementById("sharedForm");
+    var dailyElement = document.getElementById("dailyElementBox");
+    var references = document.querySelector(".refs");
     Object.keys(tabs).forEach(function (key) {
       if (key === activeId) {
         tabs[key].style.display = "block";
@@ -528,13 +695,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function rabbitTileHtml(num, rabbit, element, label) {
-    return tileHtml(label || ('🐇 พฤติกรรมกระต่ายเลข ' + num), rabbit.name + ' ' + elementTag(element),
+    return tileHtml(label || '🐇 ลักษณะเด่นของกระต่าย', rabbit.name + ' ' + elementTag(element),
       '<b>' + rabbit.short + '</b>   ' + rabbit.desc, true);
   }
 
   function nameTileHtml(nameRes) {
     if (!nameRes) return '';
-    return tileHtml('เลขศาสตร์ชื่อ-นามสกุล (เลข ' + nameRes.num + ') ' + elementTag(nameRes.element),
+    return tileHtml('พลังของชื่อ-นามสกุล ' + elementTag(nameRes.element),
       nameRes.prediction.title, nameRes.prediction.desc, false);
   }
 
@@ -578,7 +745,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!lucky) return '';
     var chips = [];
     if (lucky.color) chips.push('🎨 สีมงคล: ' + lucky.color);
-    if (lucky.number) chips.push('🔢 เลขเสริม: ' + lucky.number);
     if (lucky.direction) chips.push('🧭 ทิศ: ' + lucky.direction);
     if (lucky.day) chips.push('📅 วัน: ' + lucky.day);
     if (!chips.length) return '';
@@ -608,7 +774,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function godRitualHtml(g) {
     if (!g) return '';
     var h = '<div class="pred-block" style="background:#fff7ed; border-color:#fed7aa;">';
-    h += '<h4 style="color:#9a3412;">🛕 คู่มือการบูชาแบบละเอียด (ขั้นตอน · คาถา · ข้อห้าม)</h4>';
+    h += '<h4 style="color:#9a3412;">🛕 วิธีบูชาและข้อควรรู้</h4>';
     if (g.why) h += '<div class="pred-section-item"><b>❓ เหตุใดจึงเป็นองค์นี้:</b><br/>' + g.why + '</div>';
     if (g.bestTime) h += '<div class="pred-section-item"><b>🕐 เวลาที่เหมาะสม:</b><br/>' + g.bestTime + '</div>';
     if (g.chantCount) h += '<div class="pred-section-item"><b>🔁 จำนวนสวดและความต่อเนื่อง:</b><br/>' + g.chantCount + '</div>';
@@ -639,7 +805,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (a.deepen) h += '<div class="pred-section-item"><b>🧠 ใจความสำคัญ:</b><br/>' + modernOreguText(a.deepen) + '</div>';
     if (a.boost) h += '<div class="pred-section-item"><b>🚀 วิธีช่วยให้คืบหน้า:</b><br/>' + modernOreguText(a.boost) + '</div>';
     var extra = a[bucket === 'good' ? 'goodBoost' : (bucket === 'warn' ? 'warnFix' : 'midBoost')];
-    if (extra) h += '<div class="role-box"><b>🎯 คำแนะนำเฉพาะผลลัพธ์ระดับนี้:</b> ' + modernOreguText(extra) + '</div>';
+    if (extra) h += '<div class="role-box"><b class="thai-keep">🎯 คำแนะนำเฉพาะผลลัพธ์ระดับนี้:</b> ' + modernOreguText(extra) + '</div>';
     return h + '</div>';
   }
 
@@ -730,7 +896,6 @@ document.addEventListener("DOMContentLoaded", function () {
       isHot: !!(info.subs[key].hot),
       num: r.R4, rabbit: r.rabbit, element: r.element,
       frame: Engine.getSubFrame(catKey, key),
-      trace: 'รหัสคำทำนายเฉพาะหัวข้อนี้: ' + r.R4
     };
   }
 
@@ -752,7 +917,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (reading.catKey === 'love' && reading.name === 'ลักษณะคนที่เข้ามา') {
       var ent = Engine.LOVE_ENTRANT[num];
       if (ent) {
-        h += '<div class="pred-section-item"><b>👤 วิเคราะห์ลักษณะคนที่เข้ามา ตามหลักโหรกระต่าย:</b><br/>' +
+        h += '<div class="pred-section-item"><b>👤 ลักษณะคนที่มีแนวโน้มเข้ามา:</b><br/>' +
           '<b>' + ent.type + '</b><br/>' + ent.detail +
           '<div class="dd-grid" style="margin-top:8px;">' +
           '<div class="dd-box dd-do"><b>✔ จุดเด่นของคนที่เข้ามา</b><ul><li>' + ent.good + '</li></ul></div>' +
@@ -772,24 +937,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------- ส่วนหัว/ท้ายที่แต่ละส่วนคำนวณและแสดงของตัวเอง ----------
   // บัตรข้อมูล 3 ใบ (รหัสของส่วนนั้น · เลขศาสตร์ชื่อ · ความสัมพันธ์ธาตุ)
   function sectionTilesHtml(res, num, rabbit, element, rel, tileLabel) {
-    return '<div class="num-grid">' +
-      rabbitTileHtml(num, rabbit, element, tileLabel) +
-      nameTileHtml(res.nameRes) +
-      relationTileHtml(rel) +
-      '</div>';
+    // ทั้ง Main และ Admin แสดงเฉพาะคำทำนายที่เรียบเรียงแล้ว ไม่แสดงเลขหรือข้อมูลดิบจากการคำนวณ
+    return '';
   }
 
   // บล็อกข้อมูลดวงโดยรวม พร้อมที่มาของเลขของส่วนนั้น ๆ
   function sectionFactsHtml(res, traceHtml) {
-    return '<div class="pred-block" style="background:#fffaf0; border-color:#fbd38d;">' +
-      '<h4 style="color:#975a16;">🕉️ ข้อมูลดวงโดยรวม</h4>' +
-      '<div class="pred-section-item"><b>ธาตุเจ้าชะตา:</b> ธาตุ' + res.ownerElement.name + ' ' + res.ownerElement.symbol +
-        '   จุดเด่น: ' + res.ownerElement.good + '</div>' +
-      '<div class="pred-section-item"><b>ข้อควรระวัง:</b> ' + res.ownerElement.bad + '</div>' +
-      '<div class="pred-section-item"><b>พลังวันเกิด:</b> วัน' + res.birthPowerName + ' กำลัง ' + res.birthPowerValue +
-        ' (ใช้เป็นค่าตั้งต้นของดวง)</div>' +
-      traceHtml +
-      '</div>';
+    // ข้อมูลดิบและที่มาของค่าคำนวณใช้ภายในเท่านั้น ทั้ง Main และ Admin
+    return '';
   }
 
   // ---------- ตัวประกอบผลลัพธ์ของแต่ละส่วน (บัตรข้อมูล + เนื้อหา + ข้อมูลดวงโดยรวม) ----------
@@ -798,7 +953,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ชั้นนี้เป็นคำทำนายเพิ่มเติมจากข้อมูลเดิม เพื่อให้แต่ละผลมีมุมมองเชิงพฤติกรรม
   // รูปแบบการตัดสินใจ จุดเปลี่ยน สัญญาณเตือน และแผนปฏิบัติที่ละเอียดขึ้น
   var RABBIT_EXTRA_DEEP = {
-    1: { hidden:'ศักยภาพที่ยังใช้ไม่เต็มที่คือการเปลี่ยนความคิดใหม่ให้กลายเป็นระบบที่ทำซ้ำได้ ไม่ใช่เพียงการเป็นคนเริ่มต้น เมื่อคุณสร้างวิธีทำงานที่คนอื่นทำตามได้ พลังของเลขนี้จะเปลี่ยนจาก “ผู้เปิดทาง” เป็น “ผู้สร้างเส้นทาง”', pattern:'รูปแบบที่เกิดซ้ำคือเริ่มเร็ว ตื่นเต้นเร็ว และอยากเปลี่ยนเร็ว เมื่อเจอช่วงที่งานเริ่มละเอียดหรือช้า คุณอาจรู้สึกว่าหมดแรงทั้งที่เรื่องนั้นยังมีโอกาสไปต่อ', decision:'ก่อนเริ่มเรื่องใหม่ ให้ถามตัวเองว่าเรื่องเดิมปิดแล้วหรือยัง และกำหนด “จุดจบที่วัดได้” ให้ชัดเจนก่อนเริ่มเรื่องถัดไป', relation:'ความสัมพันธ์จะดีเมื่ออีกฝ่ายเข้าใจความต้องการเติบโตของคุณ แต่ต้องระวังการมองว่าความนิ่งเท่ากับความเบื่อ', money:'เงินมีโอกาสไหลออกกับการทดลอง โครงการใหม่ และของที่ช่วยให้เริ่มเร็ว จึงควรแยกเงินทดลองออกจากเงินใช้จ่ายประจำอย่างชัดเจน', turning:'จุดเปลี่ยนมักเกิดเมื่อคุณเลือกทำสิ่งหนึ่งให้จบแทนการเปิดทางใหม่หลายทางพร้อมกัน', plan:['เลือกเป้าหมายหลักเพียง 1 เรื่อง','แบ่งงานเป็นช่วงสั้นและกำหนดวันปิดงาน','เมื่อปิดงานแล้วจึงเปิดโครงการใหม่'], sign:'ถ้าคุณเริ่มพูดว่า “เดี๋ยวค่อยกลับมาทำ” หลายครั้ง นั่นคือสัญญาณว่าควรหยุดเปิดเรื่องใหม่และกลับมาปิดเรื่องเดิม' },
+    1: { hidden:'ศักยภาพที่ยังใช้ไม่เต็มที่คือการเปลี่ยนความคิดใหม่ให้กลายเป็นระบบที่ทำซ้ำได้ ไม่ใช่เพียงการเป็นคนเริ่มต้น เมื่อคุณสร้างวิธีทำงานที่คนอื่นทำตามได้ จุดเด่นนี้จะพัฒนาไปเป็น “ผู้เปิดทาง” เป็น “ผู้สร้างเส้นทาง”', pattern:'รูปแบบที่เกิดซ้ำคือเริ่มเร็ว ตื่นเต้นเร็ว และอยากเปลี่ยนเร็ว เมื่อเจอช่วงที่งานเริ่มละเอียดหรือช้า คุณอาจรู้สึกว่าหมดแรงทั้งที่เรื่องนั้นยังมีโอกาสไปต่อ', decision:'ก่อนเริ่มเรื่องใหม่ ให้ถามตัวเองว่าเรื่องเดิมปิดแล้วหรือยัง และกำหนด “จุดจบที่วัดได้” ให้ชัดเจนก่อนเริ่มเรื่องถัดไป', relation:'ความสัมพันธ์จะดีเมื่ออีกฝ่ายเข้าใจความต้องการเติบโตของคุณ แต่ต้องระวังการมองว่าความนิ่งเท่ากับความเบื่อ', money:'เงินมีโอกาสไหลออกกับการทดลอง โครงการใหม่ และของที่ช่วยให้เริ่มเร็ว จึงควรแยกเงินทดลองออกจากเงินใช้จ่ายประจำอย่างชัดเจน', turning:'จุดเปลี่ยนมักเกิดเมื่อคุณเลือกทำสิ่งหนึ่งให้จบแทนการเปิดทางใหม่หลายทางพร้อมกัน', plan:['เลือกเป้าหมายหลักเพียง 1 เรื่อง','แบ่งงานเป็นช่วงสั้นและกำหนดวันปิดงาน','เมื่อปิดงานแล้วจึงเปิดโครงการใหม่'], sign:'ถ้าคุณเริ่มพูดว่า “เดี๋ยวค่อยกลับมาทำ” หลายครั้ง นั่นคือสัญญาณว่าควรหยุดเปิดเรื่องใหม่และกลับมาปิดเรื่องเดิม' },
     2: { hidden:'ศักยภาพสำคัญคือความสามารถในการประคองคนและสถานการณ์ให้เดินต่อโดยไม่ต้องแย่งพื้นที่กับใคร คุณอ่านอารมณ์และจังหวะของคนอื่นได้ดี แต่พลังนี้จะเด่นที่สุดเมื่อคุณกล้าบอกความต้องการของตัวเองด้วย', pattern:'มักรับความรู้สึกของคนอื่นเข้ามาเป็นภาระของตัวเอง และใช้เวลานานกว่าจะยอมรับว่าตัวเองเหนื่อย', decision:'อย่าตัดสินใจจากความกลัวว่าจะทำให้ใครไม่พอใจ ให้แยก “ความรับผิดชอบของเรา” ออกจาก “ความรู้สึกของคนอื่น”', relation:'ความรักและมิตรภาพต้องมีขอบเขตที่ชัด ไม่เช่นนั้นคุณจะกลายเป็นคนแก้ปัญหาให้ทุกคนจนความต้องการของตัวเองถูกเลื่อนออกไป', money:'การเงินเหมาะกับการสะสมแบบค่อยเป็นค่อยไปและรายได้จากงานที่ต้องใช้ความละเอียด ความไว้ใจ หรือการดูแลลูกค้า', turning:'จุดเปลี่ยนเกิดเมื่อคุณพูดคำว่า “ไม่” ได้โดยไม่รู้สึกว่าตัวเองเป็นคนใจร้าย', plan:['กำหนดขอบเขตที่รับได้','สื่อสารความต้องการก่อนสะสมความอึดอัด','เก็บเงินหรือเวลาส่วนตัวไว้เป็นสัดส่วนที่ห้ามแตะ'], sign:'ถ้าคุณเริ่มรู้สึกเหนื่อยแต่ยังตอบรับทุกคำขอ นั่นคือสัญญาณให้ทบทวนขอบเขตทันที' },
     3: { hidden:'ศักยภาพเด่นคือการทำให้เรื่องยากกลายเป็นเรื่องที่คนเข้าใจง่าย คุณมีพลังจากภาษา ความคิดสร้างสรรค์ และการเชื่อมคนเข้าหากัน', pattern:'เมื่อได้รับความสนใจคุณจะทำงานได้เร็วมาก แต่ถ้าผลงานไม่มีคนตอบรับอาจเปลี่ยนใจหรือเปลี่ยนทิศเร็วเกินไป', decision:'ให้คุณค่ากับคุณภาพและความสม่ำเสมอมากกว่าคำชมระยะสั้น และเก็บผลงานไว้เป็นหลักฐานของความก้าวหน้า', relation:'ต้องการความสัมพันธ์ที่พูดคุยกันได้จริงและมีพื้นที่ให้เป็นตัวเอง ระวังการใช้มุกหรือการเงียบเพื่อเลี่ยงบทสนทนาที่ยาก', money:'รายได้เด่นจากการสื่อสาร การขาย การสร้างคอนเทนต์ งานสร้างสรรค์ และสิ่งที่ต้องใช้บุคลิกเฉพาะตัว', turning:'จุดเปลี่ยนเกิดเมื่อคุณเปลี่ยนความสามารถในการพูดให้กลายเป็นทรัพย์สินหรือผลงานที่สะสมได้', plan:['เลือกช่องทางหลักหนึ่งช่อง','ผลิตผลงานตามตารางที่ทำซ้ำได้','เก็บสถิติและปรับจากข้อมูลแทนอารมณ์'], sign:'ถ้าคุณเริ่มเปรียบเทียบตัวเองกับคนอื่นมากกว่าดูพัฒนาการของตัวเอง ให้กลับมาวัดจากผลงานย้อนหลังของคุณเอง' },
     4: { hidden:'พลังที่ยังใช้ไม่เต็มที่คือความสามารถในการสร้างระบบที่มั่นคงและทำให้คนอื่นพึ่งพาได้ คุณอาจไม่ได้เร็วที่สุด แต่มีโอกาสสร้างสิ่งที่อยู่ได้นาน', pattern:'มักคิดรอบคอบจนเริ่มช้ากว่าที่ควร และบางครั้งแบกมาตรฐานสูงจนกลายเป็นกดดันตัวเอง', decision:'กำหนดเส้นแบ่งระหว่าง “ต้องละเอียด” กับ “ดีพอสำหรับการเดินหน้าต่อ” เพื่อไม่ให้ความสมบูรณ์แบบกลายเป็นตัวขวาง', relation:'ความรักต้องการความชัดเจนและความสม่ำเสมอ ระวังการแสดงความรักด้วยการรับผิดชอบทุกอย่างแทนอีกฝ่าย', money:'เหมาะกับการวางงบประมาณ ทรัพย์สินระยะยาว งานระบบ และรายได้ที่เติบโตจากความเชี่ยวชาญสะสม', turning:'จุดเปลี่ยนเกิดเมื่อระบบที่คุณสร้างเริ่มทำงานได้แม้วันที่คุณไม่ได้ควบคุมทุกขั้นตอน', plan:['วางระบบก่อนเร่งผล','กำหนดมาตรฐานขั้นต่ำที่ทำได้ทุกวัน','มอบหมายงานที่ไม่จำเป็นต้องทำเอง'], sign:'ถ้าคุณรู้สึกว่าทุกอย่างต้องผ่านมือคุณจึงจะเรียบร้อย ให้เริ่มสร้างระบบหรือคู่มือแทนการเพิ่มภาระตัวเอง' },
@@ -834,7 +989,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     god: {
       title:'🔬 เจาะลึกการมูเทพเฉพาะองค์',
-      intro:'ชั้นนี้อ่าน “ความสอดคล้องระหว่างรหัสกระต่ายกับองค์เทพที่ได้” จึงเน้นเรื่องที่องค์นั้นเหมาะจะหนุน วิธีตั้งเจตนา สิ่งที่ควรทำควบคู่ และสัญญาณว่าควรปรับวิธีบูชา',
+      intro:'ชั้นนี้อ่าน “ความสอดคล้องระหว่างพื้นดวงกับองค์เทพที่ได้” จึงเน้นเรื่องที่องค์นั้นเหมาะจะหนุน วิธีตั้งเจตนา สิ่งที่ควรทำควบคู่ และสัญญาณว่าควรปรับวิธีบูชา',
       labels:['🙏 เหตุผลที่องค์นี้สอดคล้องกับดวง','🎯 เรื่องที่เหมาะแก่การขอพร','🕯️ วิธีตั้งเจตนา','🌟 สิ่งที่ควรทำควบคู่','⚠️ สิ่งที่ไม่ควรคาดหวัง','🔔 สัญญาณการเปลี่ยนแปลง']
     }
   };
@@ -844,7 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var catObj = Engine.SHORT_CATEGORIES && Engine.SHORT_CATEGORIES[category];
     var cat = (catObj && catObj.name) || category || 'เรื่องที่เลือก';
     var sub = subTopicName ? ' (' + subTopicName + ')' : '';
-    var name = r.name || ('รหัสกระต่าย ' + code);
+    var name = r.name || 'พื้นดวงกระต่าย';
     var short = r.short || '';
     var common = {
       1:{base:'พลังของผู้เปิดทาง',asc:'มักแสดงออกก่อนคิดครบเมื่อรู้สึกว่าควรเริ่ม',short:'เหตุการณ์ใหม่มีน้ำหนักสูงและต้องอาศัยการลงมือ',month:'เดือนแรกเหมาะกับการเปิดเรื่อง เดือนถัดไปต้องรักษาแรงส่ง',god:'เหมาะกับการตั้งเจตนาเรื่องการเปิดทางและการเริ่มต้น',oregu:'คำตอบชี้ไปที่การเปิดประตูหรือทางเลือกใหม่'},
@@ -859,10 +1014,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     var c=common[code]||common[9];
     if(feature==='base') return {
-      core:c.base+' โดยรหัส '+code+' ('+short+') ทำให้พื้นดวงเน้นสิ่งที่ต้องสร้างให้ต่อเนื่องมากกว่าผลสำเร็จชั่วครั้ง',
-      detail:'ในระยะยาว จุดแข็งจะทำงานเต็มที่เมื่อคุณจัดชีวิตให้สอดคล้องกับธรรมชาติของรหัสนี้ และไม่ใช้จุดเด่นของตัวเองเกินขอบเขตจนกลายเป็นจุดอ่อน',
+      core:c.base+' ทำให้พื้นดวงเน้นสิ่งที่ต้องสร้างให้ต่อเนื่องมากกว่าผลสำเร็จชั่วครั้ง',
+      detail:'ในระยะยาว จุดแข็งจะทำงานเต็มที่เมื่อคุณจัดชีวิตให้สอดคล้องกับจุดเด่นนี้ และไม่ใช้จุดเด่นของตัวเองเกินขอบเขตจนกลายเป็นจุดอ่อน',
       action:'เลือก 1 โครงสร้างชีวิตที่ต้องการทำให้มั่นคง เช่น งาน เงิน ความสัมพันธ์ หรือการดูแลตัวเอง แล้วสร้างกติกาที่ทำซ้ำได้',
-      sign:'เมื่อชีวิตเริ่มสวนทางกับธรรมชาติของรหัส เช่น ฝืนมากเกินไปหรือรับบทที่ไม่ใช่ตัวเอง ให้ถือเป็นสัญญาณทบทวนทิศทาง'
+      sign:'เมื่อชีวิตเริ่มสวนทางกับลักษณะเด่นนี้ เช่น ฝืนมากเกินไปหรือรับบทที่ไม่ใช่ตัวเอง ให้ถือเป็นสัญญาณทบทวนทิศทาง'
     };
     if(feature==='asc') return {
       core:c.asc+' ดังนั้นลัคนาไม่ได้บอกเพียงว่าคนอื่นเห็นคุณอย่างไร แต่ยังบอกวิธีที่คุณตอบสนองต่อสถานการณ์ก่อนที่ตัวตนชั้นในจะได้คิด',
@@ -871,25 +1026,25 @@ document.addEventListener("DOMContentLoaded", function () {
       sign:'ถ้าคนรอบตัวสะท้อนภาพคุณแบบเดิมซ้ำ ๆ ทั้งที่คุณรู้สึกว่าตัวเองไม่ใช่แบบนั้น นั่นคือข้อมูลสำคัญของลัคนา'
     };
     if(feature==='topicShort') return {
-      core:'สำหรับ'+cat+sub+' รหัส '+code+' ('+short+') ทำให้ภาพรวมของเรื่องนี้เน้น '+c.short,
+      core:'สำหรับ'+cat+sub+' ภาพรวมของเรื่องนี้เน้น '+c.short,
       detail:'ให้อ่านเป็นแนวโน้มโดยรวมของเรื่องที่เลือก แล้วเทียบกับสถานการณ์จริง จุดแข็ง และข้อจำกัดที่กำลังเผชิญอยู่',
       action:'เลือกประเด็นสำคัญหนึ่งข้อจากคำทำนาย แล้วกำหนดการกระทำที่เหมาะสมและตรวจสอบผลได้จริง',
       sign:'หากเหตุการณ์จริงเริ่มแสดงรูปแบบตรงกับคำเตือนหรือสัญญาณของข้อคำถาม ให้ชะลอ/เร่งตามระดับนั้นแทนการตัดสินใจจากความรู้สึกอย่างเดียว'
     };
     if(feature==='topicMonth') return {
-      core:'สำหรับ'+cat+sub+' รหัส '+code+' ('+short+') ทำให้การอ่าน 3 เดือนเน้น '+c.month,
+      core:'สำหรับ'+cat+sub+' การอ่าน 3 เดือนเน้น '+c.month,
       detail:'อย่าอ่านทั้งสามเดือนเป็นเหตุการณ์เดียวกัน แต่ให้มองเป็นกระบวนการต่อเนื่อง: เดือนแรกสร้างเงื่อนไข เดือนสองเห็นการเปลี่ยน และเดือนสามกะผล',
       action:'ตั้งเป้าหมายรายเดือน 1 ข้อ พร้อมตัวชี้วัดที่ตรวจได้ เพื่อให้รู้ว่าควรเดินหน้าหรือปรับแผน',
       sign:'ถ้าผลเดือนหนึ่งไม่เป็นไปตามคาด ให้ใช้เป็นข้อมูลปรับเดือนถัดไป ไม่ควรตีความว่าทั้งสามเดือนต้องเหมือนกัน'
     };
     if(feature==='god') return {
-      core:c.god+' โดยให้รหัส '+code+' เป็นแกนจับคู่ ไม่ได้หมายความว่าองค์เทพจะเปลี่ยนเหตุการณ์แทนการลงมือของผู้ใช้',
+      core:c.god+' จึงใช้เป็นแนวทางประกอบการตั้งเจตนา โดยไม่ใช่สิ่งที่เปลี่ยนเหตุการณ์แทนการลงมือของคุณ',
       detail:'การมูในชั้นนี้จึงควรตั้งเจตนาให้ตรงกับเรื่องที่ต้องการหนุน และทำการกระทำในโลกจริงควบคู่กัน เช่น วางแผน เจรจา แก้เอกสาร หรือสร้างวินัย',
       action:'ตั้งเจตนาให้ชัด 1 เรื่อง แล้วกำหนดการกระทำจริง 1 อย่างที่ทำได้ทันทีหลังการสักการะ',
       sign:'สัญญาณที่มีประโยชน์ที่สุดคือความชัดเจนของตัวเองและการเปลี่ยนแปลงของการกระทำ ไม่ควรใช้เหตุบังเอิญเพียงอย่างเดียวเป็นหลักตัดสิน'
     };
     return {
-      core:'สำหรับคำถามโอเรกุรัมข้อนี้ รหัส '+code+' ('+short+') ทำให้ '+c.oregu,
+      core:'สำหรับคำถามโอเรกุรัมข้อนี้ '+c.oregu,
       detail:'ให้ใช้คำตอบเป็นกรอบสะท้อนสถานการณ์ ไม่ใช่คำรับประกันผลลัพธ์ โดยเทียบกับข้อมูลจริงของเรื่องที่กำลังถาม',
       action:'เขียนคำถามต่อยอด 1 ข้อจากคำตอบ แล้วเลือกการกระทำที่ตรวจสอบผลได้ภายในกรอบเวลาที่เหมาะกับเรื่องนั้น',
       sign:'หากสถานการณ์จริงให้ข้อมูลใหม่ที่ขัดกับคำตอบเดิม ให้ถือข้อมูลจริงเป็นสิ่งที่ต้องนำมาพิจารณาและคำนวณใหม่'
@@ -904,7 +1059,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var guide = FEATURE_DEEP_GUIDE[feature] || FEATURE_DEEP_GUIDE.oregu;
     if (!d) return '';
     var h='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">'+guide.title+' · รหัสกระต่าย '+code+'</h4>';
+    h+='<h4 style="color:#9a3412;">'+guide.title+' · '+((Engine.RABBITS[code] && Engine.RABBITS[code].name) || 'พื้นดวงกระต่าย')+'</h4>';
     h+='<div class="pred-section-item"><b>📖 ขอบเขตการอ่าน:</b><br/>'+guide.intro+'</div>';
     h+='<div class="pred-section-item"><b>'+guide.labels[0]+':</b><br/>'+d.core+'</div>';
     h+='<div class="pred-section-item"><b>'+guide.labels[1]+':</b><br/>'+d.detail+'</div>';
@@ -927,23 +1082,87 @@ document.addEventListener("DOMContentLoaded", function () {
       '</div>';
   }
 
-  function renderBaseSection(res) {
-    var b = res.baseDeep || {};
-    var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
-    var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 รหัสพื้นดวงเลข ' + res.baseCode);
-    h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
-    h += '<h4 style="color:#166534;">🔎 สรุปพื้นดวงแบบอ่านแล้วเข้าใจทันที</h4>';
-    h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + '</div>';
-    if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายเลขชื่อ-นามสกุล · เลข ' + res.nameRes.num + '</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
-    h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
-    h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
-    h += '</div>';
-    return h;
+  // คำทำนายวันเกิดใช้ประกอบเฉพาะพื้นดวงและลัคนา ไม่ส่งผลต่อสูตรคำนวณ
+  function weekdayInfluenceHtml(profile, context) {
+    if (!profile || !profile.name) return '';
+    var isAsc = context === 'asc';
+    var heading = isAsc ? '☀️ วันเกิดกับลัคนา' : '📅 วันเกิดกับพื้นดวง';
+    var reading = isAsc
+      ? 'ลัคนาบอกวิธีที่คนอื่นมองเห็นคุณ ส่วนวันเกิดช่วยอธิบายแรงขับข้างใน'
+      : 'พื้นดวงบอกแนวทางชีวิต ส่วนวันเกิดช่วยเสริมภาพนิสัยและตัวตน';
+    return '<div class="pred-block weekday-influence-block" style="background:#fffbeb;border-color:#fde68a;border-left:5px solid #d97706;">' +
+      '<h4 style="color:#92400e;">' + heading + '</h4>' +
+      '<div class="pred-section-item"><b>🗓️ เกิดวัน:</b><br/>วัน' + profile.name + ' · ดาว' + profile.planet + '</div>' +
+      '<div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + reading + ' คนเกิดวัน' + profile.name + ' ' + profile.core + '</div>' +
+      '<div class="pred-section-item"><b>💪 จุดแข็ง:</b><br/>' + profile.strength + '</div>' +
+      '<div class="pred-section-item"><b>🌘 จุดที่ควรระวัง:</b><br/>' + profile.shadow + '</div>' +
+      '<div class="pred-section-item"><b>🧭 คำแนะนำ:</b><br/>' + profile.advice + '</div>' +
+      '</div>';
   }
 
+
+  // สังเคราะห์คำอ่านเฉพาะบุคคลจากผลคำนวณจริงของแต่ละศาสตร์ โดยไม่เปลี่ยนสูตร
+  function predictionSafeText(value) {
+    var raw = String(value == null ? '' : value);
+    if (typeof escapeHTML === 'function') return escapeHTML(raw);
+    return raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function personalizedBlendBlock(title, synthesis, evidence) {
+    // ไม่แสดงชุดข้อมูลดิบ/หลักฐานตัวเลขที่ใช้ผสมผลคำนวณใน UI ทั้ง Main และ Admin
+    return '';
+  }
+
+  function renderBaseSection(res) {
+    var b = res.baseDeep || {};
+    var weekday = res.birthWeekday || {};
+    var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
+    var rel = Engine.calcElementRelation(res.ownerElement && res.ownerElement.name, res.baseElement && res.baseElement.name);
+    var h = sectionTilesHtml(res, res.baseCode, res.baseRabbit, res.baseElement, rel, '🐇 ภาพรวมพื้นดวง');
+
+    if (compactMain) {
+      // หน้า Main แยกคำทำนายเป็นหัวข้ออิสระ อ่านทีละส่วน ไม่รวมไว้ในกล่องใหญ่ใบเดียว
+      h += '<div class="pred-block"><h4>🧬 ตัวตนและแกนชีวิต</h4><div class="pred-section-item">' +
+        (b.core || b.title || '-') +
+        (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>👤 ตัวตนที่เด่น</h4><div class="pred-section-item">' +
+        (b.self || '-') +
+        (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') +
+        '</div></div>';
+      if (res.nameRes && res.nameRes.prediction) {
+        h += '<div class="pred-block"><h4>🔢 คำทำนายชื่อ-นามสกุล</h4>' +
+          '<div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div>' +
+          '<div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>';
+      }
+      h += '<div class="pred-block"><h4>⚠️ จุดที่ควรระวัง</h4><div class="pred-section-item">' +
+        (b.blind || '-') +
+        (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>🧱 บทเรียนสำคัญ</h4><div class="pred-section-item">' +
+        (b.lesson || '-') +
+        (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') +
+        '</div></div>';
+      h += '<div class="pred-block"><h4>🔀 จุดเปลี่ยนของชีวิต</h4><div class="pred-section-item">' +
+        (b.turn || '-') + '</div></div>';
+      h += '<div class="pred-block"><h4>⏳ จังหวะชีวิต</h4><div class="pred-section-item">' +
+        (b.timing || '-') + '</div></div>';
+    } else {
+      // คงรูปแบบรายละเอียดเดิมของหน้า Admin ไว้
+      h += '<div class="pred-block" style="background:#f0fdf4;border-color:#bbf7d0;border-left:5px solid #15803d;">';
+      h += '<div class="answer-box good"><b>🧬 ตัวตนและแกนชีวิต</b><br/>' + (b.core || b.title || '-') + (weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '') + '</div>';
+      h += '<div class="pred-section-item"><b>👤 ตัวตนที่เด่น:</b><br/>' + (b.self || '-') + (weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '') + '</div>';
+      if (res.nameRes && res.nameRes.prediction) { h += '<div class="pred-block"><h4>🔢 คำทำนายจากชื่อ-นามสกุล</h4><div class="pred-section-item"><b>✨ พลังของชื่อ:</b><br/>' + (res.nameRes.prediction.title || '-') + '</div><div class="pred-section-item"><b>🔮 คำทำนาย:</b><br/>' + (res.nameRes.prediction.desc || '-') + '</div></div>'; }
+      h += '<div class="pred-section-item"><b>⚠️ จุดที่ควรระวัง:</b><br/>' + (b.blind || '-') + (weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '') + '</div>';
+      h += '<div class="pred-section-item"><b>🧱 บทเรียนสำคัญ:</b><br/>' + (b.lesson || '-') + (weekday.advice ? ' ลองนำคำแนะนำของวันเกิดไปใช้ด้วย คือ' + weekday.advice : '') + '</div>';
+      h += '<div class="pred-section-item"><b>🔀 จุดเปลี่ยนของชีวิต:</b><br/>' + (b.turn || '-') + '</div>';
+      h += '<div class="pred-section-item"><b>⏳ จังหวะชีวิต:</b><br/>' + (b.timing || '-') + '</div>';
+      h += '</div>';
+    }
+    var nameCode = res.nameRes && res.nameRes.num;
+    var baseCode = parseInt(res.baseCode, 10) || 9;
+    var baseName = (res.baseRabbit && res.baseRabbit.name) || (Engine.RABBITS[baseCode] && Engine.RABBITS[baseCode].name) || 'พื้นดวงกระต่าย';
+    return h;
+  }
   function renderAscSection(res) {
     return ascendantHtml(res, { noLucky: true, noChant: true });
   }
@@ -970,10 +1189,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var rabbitNum = parseInt(res.R4, 10) || 9;
     var voice = rabbitSubconsciousVoice(rabbitNum);
     var topic = (res.categoryName || 'เรื่องที่เลือก') + (res.subTopicName ? ' · ' + res.subTopicName : '');
+    var nameSignal = res.nameRes && res.nameRes.prediction ? res.nameRes.prediction.desc : '';
+    var weekdaySignal = res.birthWeekday && (res.birthWeekday.core || res.birthWeekday.strength) || '';
+    var elementSignal = res.element && (res.element.story || res.element.good) || '';
     var focusText = frame && frame.focus ? frame.focus : (pred.answer || pred.easy || 'ค่อย ๆ มองสถานการณ์จริงและสิ่งที่สำคัญกับคุณ');
     var questionText = frame && frame.question ? frame.question : 'อะไรคือสิ่งที่คุณต้องการและให้ความสำคัญที่สุดในเรื่องนี้';
     var lookText = frame && frame.look ? frame.look : 'สังเกตข้อมูลจริง การกระทำของคนที่เกี่ยวข้อง และความรู้สึกของตัวเอง';
-    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายพื้นฐานเลข ' + res.R4);
+    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 ภาพรวมคำทำนาย');
     h += '<div class="pred-block subconscious-shared-voice" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
     h += '<h4 style="color:#9a3412;">🎯 ภาพรวมเรื่อง' + topic + ' · เสียงสะท้อนจากใจคุณ</h4>';
     h += '<div class="pred-section-item"><b>💗 ภาพที่ใจอาจกำลังสะท้อน:</b><br/>' + voice.core + ' เมื่อมองเรื่อง' + topic + ' ลองใช้สิ่งนี้เป็นมุมหนึ่งในการทำความเข้าใจตัวเอง ไม่ใช่ข้อสรุปตายตัว</div>';
@@ -987,7 +1209,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderTopicMonthSection(res) {
     var topicLabel = 'เรื่อง' + res.categoryName + (res.subTopicName ? ' (' + res.subTopicName + ')' : '');
-    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 รหัสคำทำนายเลข ' + res.R4);
+    var h = sectionTilesHtml(res, res.R4, res.rabbit, res.element, res.relation, '🐇 ภาพรวมคำทำนาย');
     h += monthTrendHtml(res.monthPredictions, '#eef2ff', '#c7d2fe', '#3730a3', '📅 ' + topicLabel + ' · 3 เดือน', '');
     return h;
   }
@@ -1055,21 +1277,21 @@ document.addEventListener("DOMContentLoaded", function () {
     var d = res.ascDeep;
     var inn = res.ascInnerDeep;
     var face = res.ascFaceDeep;
-    var timeText = res.noBirthTime
-      ? 'ไม่ทราบเวลาเกิด · ใช้ 12:00 น. เป็นค่ากลาง'
-      : pad2(res.birthHour) + ':' + pad2(res.birthMin) + ' น.';
+    var weekday = res.birthWeekday || {};
+    var compactMain = window.RABBITASTRO_ADMIN_MODE !== true;
+    var weekdayCore = weekday.core ? ' พลังของคนเกิดวัน' + weekday.name + ' ช่วยเสริมให้คุณ' + weekday.core : '';
+    var weekdayStrength = weekday.strength ? ' จุดแข็งจากวันเกิดคือ' + weekday.strength : '';
+    var weekdayShadow = weekday.shadow ? ' อีกด้านที่ควรระวังคือ' + weekday.shadow : '';
 
     var h = '<div class="pred-block" style="background:#f0f9ff; border-color:#bae6fd; border-left:5px solid #0369a1;">';
-    h += '<h4 style="color:#075985;">🌅 ลัคนาราศี · จิตสำนึกจากเวลาเกิดของเจ้าชะตา</h4>';
-
     h += '<div class="pred-section-item"><b>✨ ลัคนาราศี:</b><br/>' +
       '<b style="font-size:14px;">ราศี' + s.name + ' ' + s.symbol + '</b></div>';
-    h += '<div class="pred-section-item"><b>🪞 ลัคนาราศีนี้เป็นอย่างไร:</b><br/>' + s.trait + '</div>';
+    h += '<div class="pred-section-item"><b>🪞 ลัคนาราศีนี้เป็นอย่างไร:</b><br/>' + s.trait + weekdayCore + '</div>';
     if (d) {
-      // แสดงเฉพาะจุดแข็งและจุดที่ต้องระวัง โดยตัดหัวข้อที่ผู้ใช้ไม่ต้องการออก
+      // ผสมพลังวันเกิดเข้ากับจุดแข็งและจุดที่ควรระวังของลัคนา
       h += '<div class="dd-grid">' +
-        kvBox('💪 จุดแข็งที่ลัคนานี้มอบให้', 'dd-do', d.strength) +
-        kvBox('⚠️ จุดที่ต้องระวัง', 'dd-dont', d.watch) +
+        kvBox('💪 จุดแข็งที่ลัคนานี้มอบให้', 'dd-do', d.strength + weekdayStrength) +
+        kvBox('⚠️ จุดที่ต้องระวัง', 'dd-dont', d.watch + weekdayShadow) +
         '</div>';
 
       // คงไว้เฉพาะสังคมและจังหวะเวลา ตามที่ผู้ใช้ต้องการ
@@ -1080,14 +1302,22 @@ document.addEventListener("DOMContentLoaded", function () {
         '</div>';
     }
 
+    if (compactMain) {
+    // สรุปเสียงในใจให้เหลือใจความเดียว ลดข้อความซ้ำและอ่านได้เร็วขึ้น
+    if (inn) {
+      h += '<div class="pred-section-item"><b>🎭 สิ่งที่ใจต้องการ:</b><br/>' +
+        (inn.need || inn.drive || 'ลองสังเกตความต้องการของตัวเองในช่วงนี้') + '</div>';
+    }
+    } else {
     // ── เสียงในใจ
     if (inn) {
-      h += '<span class="mini-h">🎭 เสียงในใจของลัคนานี้ (รหัสกระต่าย ' + res.ascInner + ' ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + ')</span>';
+      h += '<span class="mini-h">🎭 เสียงในใจของลัคนา · ' + (res.ascInnerRabbit ? res.ascInnerRabbit.name : '') + '</span>';
       h += '<div class="pred-section-item"><b>🚀 แรงขับลึก:</b><br/>' + inn.drive + '</div>';
       h += '<div class="pred-section-item"><b>🤫 เสียงที่พูดกับตัวเองบ่อยที่สุด:</b><br/>' + inn.whisper + '</div>';
       h += '<div class="pred-section-item"><b>😰 สิ่งที่กลัวที่สุดในใจ:</b><br/>' + inn.fear + '</div>';
       h += '<div class="pred-section-item"><b>🫶 สิ่งที่ต้องการจริง ๆ:</b><br/>' + inn.need + '</div>';
       h += '<div class="pred-section-item"><b>📣 เสียงนี้จะดังที่สุดเมื่อ:</b><br/>' + inn.when + '</div>';
+    }
     }
 
     if (d) {
@@ -1095,6 +1325,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // แสดงเฉพาะคำแนะนำที่ไม่ซ้ำกับคำทำนายส่วนอื่นของลัคนา
       var ascDoList = (d.do || []).slice();
       var ascDontList = (d.dont || []).slice();
+      if (weekday.advice) ascDoList.push('คำแนะนำเพิ่มเติม: ' + weekday.advice);
       var ascOtherPredictionText = [
         d.strength, d.watch, d.people, d.timing,
         inn && inn.drive, inn && inn.whisper, inn && inn.fear, inn && inn.need, inn && inn.when
@@ -1102,7 +1333,7 @@ document.addEventListener("DOMContentLoaded", function () {
       function ascAdviceNorm(value) {
         return String(value || '').toLowerCase()
           .replace(/<[^>]*>/g, ' ')
-          .replace(/[\sๆ.,!?;:()“”‘’"'“”ฯ๚—–-]/g, '')
+          .replace(/[\sๆ.,!?;:()“”‘’"'“”ฯ๚–-]/g, '')
           .trim();
       }
       function ascAdviceIsDuplicate(value, priorValues) {
@@ -1128,6 +1359,15 @@ document.addEventListener("DOMContentLoaded", function () {
         usedAscAdvice.push(item);
         return true;
       }).slice(0, 5);
+      if (compactMain) {
+      h += '<span class="mini-h">🧭 คำแนะนำสั้น ๆ</span>' +
+        '<div class="pred-section-item"><b>ควรทำ:</b> ' + (ascDoList.slice(0, 2).join(' · ') || 'ค่อย ๆ ทำตามเป้าหมาย') +
+        '<br/><b>ควรเลี่ยง:</b> ' + (ascDontList.slice(0, 2).join(' · ') || 'อย่ารีบตัดสินใจ') + '</div>';
+
+      // แสดงเฉพาะสัญลักษณ์มงคลที่จำเป็น ลดส่วนข้อความที่ซ้ำกับคำทำนายหลัก
+      if (!noLucky) h += luckyChipsHtml(d.lucky);
+      if (!noChant) h += chantBoxHtml(d.chant, 'คาถาประจำลัคนา');
+      } else {
       h += '<span class="mini-h">🧭 สิ่งที่ควรทำและสิ่งที่ควรเลี่ยงตามลัคนานี้</span>' +
         (ascDoList.length || ascDontList.length ? doDontHtml(ascDoList, ascDontList) : '<div class="pred-section-item">คำแนะนำของลัคนานี้มีเนื้อหาซ้ำกับคำทำนายส่วนอื่น จึงไม่แสดงซ้ำ</div>');
 
@@ -1141,8 +1381,10 @@ document.addEventListener("DOMContentLoaded", function () {
         h += '<span class="mini-h">❓ คำถามสำรวจจิตสำนึกของตัวเอง (ตอบกับตัวเองตามจริง)</span>';
         h += '<div class="pred-section-item">' + listHtml(d.questions) + '</div>';
       }
+      }
     }
 
+    var ascRabbitName = rabbit && rabbit.name ? rabbit.name : 'พื้นดวงกระต่าย';
     return h + '</div>';
   }
 
@@ -1167,48 +1409,56 @@ document.addEventListener("DOMContentLoaded", function () {
     return html;
   }
 
-  function renderTarotRuneSection(res) {
-    var birth=res.birthCard||{}, event=res.eventCard||res.dailyCard||{}, rune=res.rune||[], dailyRune=res.dailyRune||[];
-    var joint=res.rabbitJoint||{}, rabbit=joint.rabbit||res.rabbitFusionRabbit||{}, code=joint.R4||9;
-    var minorRankThai={Ace:'เอซ',Two:'สอง',Three:'สาม',Four:'สี่',Five:'ห้า',Six:'หก',Seven:'เจ็ด',Eight:'แปด',Nine:'เก้า',Ten:'สิบ',Page:'เพจ',Knight:'ไนท์',Queen:'ควีน',King:'คิง'};
-    var suitThai=event.thaiSuit||(event.suit==='Wands'?'ไม้เท้า':event.suit==='Cups'?'ถ้วย':event.suit==='Pentacles'?'เหรียญ':event.suit==='Swords'?'ดาบ':'');
-    var eventName=event.name||'Daily Tarot Card';
-    var birthName=birth.name||'-', runeName=rune[0]||'รูน', runeSymbol=rune[1]||'', dailyName=dailyRune[0]||'รูนประจำวัน', dailySymbol=dailyRune[1]||'';
-    var birthMeaning=(Engine && typeof Engine.tarotSelfMeaning==='function' ? Engine.tarotSelfMeaning(birth,'personal') : '')||'ใช้ความหมายของไพ่ใบนี้เป็นจุดเริ่มต้นในการทบทวนตัวเองอย่างอ่อนโยน', eventMeaning=(Engine && typeof Engine.tarotSelfMeaning==='function' ? Engine.tarotSelfMeaning(event,'daily') : '')||'ลองสังเกตว่าเหตุการณ์วันนี้สะท้อนความต้องการหรือความกังวลอะไรในใจ', runeMeaning=(Engine && typeof Engine.runeSelfMeaning==='function' ? Engine.runeSelfMeaning(rune) : (rune && rune[2] || 'ใช้รูนเป็นจุดเริ่มต้นในการทบทวนตัวเอง')), dailyMeaning=(Engine && typeof Engine.runeSelfMeaning==='function' ? Engine.runeSelfMeaning(dailyRune) : (dailyRune && dailyRune[2] || 'ลองใช้ความหมายของรูนเป็นแนวทางทบทวนวันนี้'));
-    var personalCrystal=res.personalCrystal||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber(res.birthSum||1) : {name:'คริสตัลประจำตัว',healing:'ใช้เป็นสัญลักษณ์เตือนใจในการดูแลตัวเอง'});
-    var dailyElement=res.dailyElement||(Engine && typeof Engine.calcDailyElement==='function' ? Engine.calcDailyElement(new Date()) : {dateSum:0,finalNum:9});
-    var dateSum=dailyElement.dateSum||((new Date()).getDate()+(new Date()).getMonth()+1+(new Date()).getFullYear());
-    var dailyCrystalDate=res.dailyCrystalDate||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber(dateSum*6) : {name:'คริสตัลประจำวัน',healing:'ใช้เป็นเครื่องเตือนใจให้กลับมาอยู่กับปัจจุบัน'});
-    var dailyCrystalRabbitElement=res.dailyCrystalRabbitElement||(Engine && typeof Engine.crystalFromNumber==='function' ? Engine.crystalFromNumber((res.rabbitJoint&&res.rabbitJoint.R4||9)+(dailyElement.finalNum||9)) : {name:'คริสตัลเชื่อมโหรกระต่าย',healing:'ใช้เป็นสัญลักษณ์เตือนใจให้เข้าใจตัวเอง'});
-    var rabbitReflection={
-      1:'คุณอาจกำลังรอความมั่นใจเพื่อเริ่มต้น ไพ่ รูน และคริสตัลวันนี้ชวนให้เชื่อในก้าวเล็ก ๆ โดยไม่ต้องพิสูจน์ทุกอย่างให้ใครเห็น',
-      2:'คุณอาจรับรู้ความรู้สึกละเอียดอ่อนของตัวเองและคนรอบข้างได้มาก ลองให้เวลากับใจ พร้อมแยกความรู้สึกออกจากข้อเท็จจริงอย่างอ่อนโยน',
-      3:'การสื่อสารและการแสดงตัวตนเป็นประเด็นสำคัญ ลองถามตัวเองว่าคุณได้พูดสิ่งที่ต้องการจริง ๆ หรือกำลังพูดเพื่อให้ทุกคนพอใจ',
-      4:'คุณอาจต้องการความมั่นคงและความชัดเจน ลองจัดระบบในสิ่งที่ควบคุมได้ พร้อมยอมให้บางเรื่องค่อย ๆ คลี่คลายตามเวลา',
-      5:'คุณอาจกำลังปรับตัวกับทางเลือกหรือการเปลี่ยนแปลง ไม่จำเป็นต้องรู้คำตอบทั้งหมดในวันนี้ เลือกก้าวที่เหมาะกับตัวเองตอนนี้ก็พอ',
-      6:'คุณอาจดูแลความต้องการของคนอื่นจนลืมถามใจตัวเอง ลองให้ความสำคัญกับขอบเขตและความต้องการของตัวเองเท่า ๆ กับคนที่คุณรัก',
-      7:'คุณอาจต้องการความแน่ใจและข้อมูลที่ครบถ้วน ลองใช้การทบทวนเพื่อช่วยตัดสินใจ ไม่ใช่เพื่อทำให้ตัวเองติดอยู่กับความคิดวนซ้ำ',
-      8:'เป้าหมายและความสำเร็จอาจมีน้ำหนักมากในใจ ลองถามว่าคุณกำลังสร้างชีวิตที่ต้องการจริง ๆ หรือกำลังเหนื่อยกับการต้องดูเข้มแข็งตลอดเวลา',
-      9:'คุณอาจอยู่ในช่วงทบทวนหรือปล่อยบางสิ่งที่หมดความหมาย ให้พื้นที่กับความรู้สึกเสียดายได้ โดยไม่จำเป็นต้องกลับไปแบกสิ่งเดิมอีก'
-    };
-    var rabbitAdvice={1:'เริ่มจากสิ่งเล็กที่ทำได้จริง',2:'ฟังใจตัวเองและตรวจสอบข้อเท็จจริง',3:'สื่อสารความต้องการอย่างตรงไปตรงมา',4:'แบ่งเรื่องใหญ่เป็นขั้นตอนเล็ก ๆ',5:'เปิดรับทางเลือกโดยไม่เร่งตัดสิน',6:'ดูแลตัวเองพร้อมกับดูแลคนอื่น',7:'หยุดคิดวนเมื่อมีข้อมูลเพียงพอ',8:'ให้คุณค่ากับตัวเองนอกเหนือจากผลงาน',9:'ค่อย ๆ วางสิ่งที่ไม่จำเป็นต้องแบก'};
-    var rabbitText=rabbitReflection[code]||'ใช้สัญลักษณ์เหล่านี้เป็นจุดเริ่มต้นในการสำรวจความรู้สึก แล้วเลือกสิ่งที่สอดคล้องกับชีวิตจริงของคุณ';
+  function renderTarotRuneSection(res, inputData) {
+    var birth=res.birthCard||{}, event=res.eventCard||res.dailyCard||{};
+    var rune=res.rune||[], dailyRune=res.dailyRune||[];
+    var element=res.element||{}, dailyElement=res.dailyElement||{};
+    var birthName=birth.name||'-', eventName=event.name||'-';
+    var birthMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(birth,'personal'):'')||birth.meaning||'';
+    var eventMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(event,'daily'):'')||event.meaning||'';
+    var runeMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(rune):'')||(rune[2]||'');
+    var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
+    var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
+    var esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
     var h='';
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">🌙 พลังประจำตัว · ไพ่ + รูน + คริสตัล + โหรกระต่าย</h4>';
-    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+birthName+'</b><br/>'+birthMeaning+'</div>';
-    if (res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+runeName+' '+runeSymbol+'</b><br/>'+runeMeaning+'</div>';
-    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว:</b><br/>ไม่ได้คำนวณเพราะไม่ได้ระบุเวลาเกิด คุณยังใช้ไพ่และคริสตัลเป็นจุดเริ่มต้นในการทบทวนตัวเองได้</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+personalCrystal.name+'</b><br/>'+personalCrystal.healing+' ใช้เป็นสัญลักษณ์เตือนใจ ไม่ใช่สิ่งที่กำหนดตัวตนของคุณ</div>';
-    h+='<div class="pred-section-item"><b>🐇 โหรกระต่ายกับการเข้าใจตัวเอง (เลข '+code+'):</b><br/>'+rabbitText+'<br/><b>ก้าวที่อาจช่วยได้:</b> '+(rabbitAdvice[code]||'ค่อย ๆ เลือกสิ่งที่เหมาะกับตัวเอง')+'</div>';
+    h+='<h4 style="color:#9a3412;">🪞 ไพ่และรูนประจำตัว</h4>';
+    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+esc(birthName)+'</b><br/>'+esc(birthMeaning)+'</div>';
+    if(res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+esc(rune[0]||'')+' '+esc(rune[1]||'')+'</b><br/>'+esc(runeMeaning)+'</div>';
+    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและรูนส่วนอื่นที่มี</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
     h+='</div>';
     h+='<div class="pred-block" style="background:#ecfeff;border-color:#a5f3fc;border-left:5px solid #0891b2;">';
-    h+='<h4 style="color:#0e7490;">☀️ พลังประจำวัน · ไพ่ + รูน + คริสตัล + โหรกระต่าย</h4>';
-    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำวัน / ไพ่เหตุการณ์: '+eventName+'</b><br/>'+eventMeaning+'</div>';
-    h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+dailyName+' '+dailySymbol+'</b><br/>'+dailyMeaning+'</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+dailyCrystalDate.name+'</b><br/>'+dailyCrystalDate.healing+'</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลที่เชื่อมกับโหรกระต่ายวันนี้: '+dailyCrystalRabbitElement.name+'</b><br/>'+dailyCrystalRabbitElement.healing+'</div>';
-    h+='<div class="pred-section-item"><b>🌤️ คำทำนายรวมกับโหรกระต่าย (เลข '+code+'):</b><br/>'+rabbitText+' วันนี้ลองนำสิ่งที่ไพ่และรูนสะท้อนมาเทียบกับความรู้สึกและเหตุการณ์จริง ไม่จำเป็นต้องเชื่อทุกอย่างหรือรีบหาคำตอบทันที</div>';
+    h+='<h4 style="color:#0e7490;">☀️ ไพ่และรูนที่สะท้อนสถานการณ์ปัจจุบัน</h4>';
+    h+='<div class="pred-section-item"><b>🃏 ไพ่เหตุการณ์: '+esc(eventName)+'</b><br/>'+esc(eventMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+esc(dailyRune[0]||'-')+' '+esc(dailyRune[1]||'')+'</b><br/>'+esc(dailyMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>ธาตุประจำวัน: '+esc(dailyElement.element&&dailyElement.element.name||'-')+'</b><br/>'+esc(dailyElement.element&&dailyElement.element.story||'')+'</div>';
+    h+='<div class="pred-section-item"><div class="thai-heading-block">💎 คริสตัลประจำวัน</div><div><b>'+esc(dailyCrystal.name||'-')+'</b></div><div>'+esc(dailyCrystal.healing||'')+'</div></div>';
+    h+='</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+      h+='<h4 style="color:#6d28d9;">🪞 อ่านสภาพใจเชิงลึกจากไพ่และรูน</h4>';
+      h+='<div class="pred-section-item"><b>1. ภาพที่ใจแสดงออกในช่วงนี้</b><br/>ไพ่ประจำตัว '+esc(birthName)+' และรูนประจำตัว '+esc(rune[0]||'')+' เป็นภาพแทนของแนวโน้มด้านตัวตนและวิธีรับมือกับชีวิต ความหมายที่ปรากฏคือ '+esc(birthMeaning)+' '+esc(runeMeaning)+' ลองเทียบกับพฤติกรรมช่วงนี้ว่าเวลาต้องรับมือกับเรื่องสำคัญ คุณมักแสดงความรู้สึกออกมาตรง ๆ เก็บไว้ก่อน หรือเลือกจัดการทุกอย่างด้วยตัวเอง</div>';
+      h+='<div class="pred-section-item"><b>2. ความรู้สึกที่อาจอยู่ใต้ปฏิกิริยา</b><br/>บางครั้งอารมณ์ที่เห็นชัดอาจไม่ใช่ความรู้สึกทั้งหมด ความหมายของไพ่และรูนชุดนี้ชวนให้ลองแยกความรู้สึกชั้นแรก เช่น หงุดหงิด กังวล หรือเหนื่อย ออกจากความต้องการที่อาจอยู่ข้างใต้ เช่น อยากได้รับความเข้าใจ ต้องการความมั่นคง หรืออยากมีพื้นที่ตัดสินใจด้วยตัวเอง ทั้งหมดนี้เป็นประเด็นให้สำรวจ ไม่ใช่ข้อสรุปแทนตัวคุณ</div>';
+      h+='<div class="pred-section-item"><b>3. สิ่งที่สถานการณ์ปัจจุบันกำลังกระตุ้น</b><br/>ไพ่เหตุการณ์ '+esc(eventName)+' และรูนประจำวัน '+esc(dailyRune[0]||'')+' สะท้อนประเด็นปัจจุบันผ่านความหมายว่า '+esc(eventMeaning)+' '+esc(dailyMeaning)+' ลองพิจารณาว่าเหตุการณ์นี้แตะเรื่องใดในใจมากที่สุด ระหว่างความคาดหวัง ความไม่แน่นอน ความสัมพันธ์ ความรับผิดชอบ หรือการเปลี่ยนแปลง</div>';
+      h+='<div class="pred-section-item"><b>4. ความขัดแย้งภายในที่ควรสังเกต</b><br/>ลองตรวจดูว่ามีส่วนใดในตัวคุณที่ต้องการเดินหน้า แต่อีกส่วนหนึ่งยังอยากระวังตัวหรือรอความมั่นใจหรือไม่ หรือคุณกำลังพยายามรักษาความสงบให้คนอื่นจนละเลยความต้องการของตัวเอง หากไม่ตรงกับประสบการณ์จริง ก็ไม่จำเป็นต้องนำไปตีความ</div>';
+      h+='<div class="pred-section-item"><b>5. รูปแบบการตอบสนองเมื่อรู้สึกกดดัน</b><br/>สังเกตว่าคุณมักตอบสนองด้วยการควบคุมทุกอย่าง คิดทบทวนซ้ำ ๆ ถอยออกมาเงียบ ๆ รีบแก้ปัญหา หรือพยายามทำให้ทุกคนพอใจ รูปแบบเหล่านี้อาจเคยช่วยให้ผ่านสถานการณ์ยาก ๆ มาได้ แต่ควรดูด้วยว่าวันนี้ยังเหมาะกับสถานการณ์อยู่หรือไม่</div>';
+      h+='<div class="pred-section-item"><b>6. ความต้องการและขอบเขตที่อาจถูกมองข้าม</b><br/>ความหมายของธาตุประจำตัว '+esc(element.name||'-')+' และคำแนะนำของธาตุประจำวัน '+esc(dailyElement.element&&dailyElement.element.name||'-')+' ชวนให้สำรวจว่าตอนนี้คุณต้องการอะไรเพิ่มขึ้น เช่น เวลาพัก ความชัดเจน การยอมรับ การสนับสนุน หรือสิทธิในการปฏิเสธ ลองถามตัวเองว่ามีขอบเขตใดที่ควรสื่อสารให้ชัดขึ้น</div>';
+      h+='<div class="pred-section-item"><b>7. จุดแข็งที่สามารถนำกลับมาใช้</b><br/>'+esc(element.good||'ค่อย ๆ กลับมารับฟังความต้องการของตัวเอง')+' '+esc(dailyElement.element&&dailyElement.element.good||'')+' ไพ่และรูนไม่ได้สะท้อนเพียงสิ่งที่หนักใจ แต่ยังใช้เตือนถึงทักษะหรือทรัพยากรภายในที่คุณเคยใช้รับมือกับเรื่องต่าง ๆ ได้ ลองนึกถึงช่วงเวลาที่คุณผ่านความยากลำบากมาได้และสิ่งใดช่วยคุณในตอนนั้น</div>';
+      h+='<div class="pred-section-item"><b>8. สิ่งที่ควรคลี่คลายทีละขั้น</b><br/>แยกสิ่งที่ควบคุมได้ออกจากสิ่งที่อยู่นอกเหนือการควบคุม เลือกหนึ่งเรื่องที่จัดการได้ในวันนี้ และเลื่อนการตัดสินใจเรื่องใหญ่หากยังมีข้อมูลไม่เพียงพอ การพักไม่ใช่ความล้มเหลว และการขอความช่วยเหลือไม่ใช่การสูญเสียความสามารถ</div>';
+      h+='<div class="pred-section-item"><b>9. คำถามสะท้อนใจสำหรับการทบทวน</b><br/>• ตอนนี้ฉันรู้สึกอะไรจริง ๆ โดยไม่ต้องรีบอธิบายให้ใครเข้าใจ?<br/>• ฉันกำลังพยายามแบกรับอะไรที่ไม่จำเป็นต้องรับไว้คนเดียว?<br/>• ฉันต้องการอะไร แต่ยังไม่ได้พูดออกไป?<br/>• ก้าวเล็กที่สุดที่ช่วยให้ฉันรู้สึกมั่นคงขึ้นคืออะไร?</div>';
+      h+='<div class="pred-section-item"><b>10. แนวทางดูแลใจในระยะใกล้</b><br/>ให้ความสำคัญกับการพักผ่อน กิจวัตรพื้นฐาน และการพูดคุยกับคนที่ปลอดภัยสำหรับคุณ เลือกเป้าหมายเล็ก ๆ ที่ทำได้จริง แล้วกลับมาทบทวนความรู้สึกหลังลงมือ ไม่จำเป็นต้องแก้ทุกประเด็นพร้อมกัน</div>';
+      h+='<div class="pred-section-item"><b>สรุปภาพรวม</b><br/>ไพ่และรูนชุดนี้เป็นเครื่องมือเชิงสัญลักษณ์สำหรับเปิดมุมมองต่ออารมณ์ ความคิด และวิธีรับมือของคุณ ประเด็นสำคัญคือใช้ความหมายเหล่านี้ตั้งคำถามกับตัวเอง ไม่ใช่ใช้ตัดสินว่าคุณเป็นคนแบบใดหรือกำลังมีภาวะใด</div>';
+      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">การอ่านเชิงลึกนี้ไม่ใช่แบบประเมินทางจิตวิทยา ไม่ใช่การวินิจฉัยโรค และไม่สามารถยืนยันความคิด ความทรงจำ หรือสภาพจิตใจที่ซ่อนอยู่ได้ คำตีความเป็นเพียงสมมติฐานจากสัญลักษณ์ไพ่และรูน ให้เลือกใช้เฉพาะส่วนที่ตรงกับประสบการณ์จริง หากความทุกข์ใจรบกวนชีวิตประจำวันหรือรู้สึกไม่ปลอดภัย ควรติดต่อผู้เชี่ยวชาญหรือคนที่ไว้ใจเพื่อรับความช่วยเหลือ</div>';
+      h+='</div>';
+    }
+    h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+    h+='<h4 style="color:#6d28d9;">🪞 ภาพสะท้อนสภาพใจเบื้องต้นจากไพ่และรูน</h4>';
+    h+='<div class="pred-section-item"><b>💗 อารมณ์ในช่วงนี้</b><br/>ไพ่ประจำตัว '+esc(birthName)+' และรูนประจำตัว '+esc(rune[0]||'รูน')+' ชวนให้สังเกตความรู้สึกในช่วงนี้ โดยพิจารณาความหมายของไพ่และรูนร่วมกัน: '+esc(birthMeaning)+' '+esc(runeMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>💭 สิ่งที่กำลังอยู่ในความคิด</b><br/>ไพ่เหตุการณ์ '+esc(eventName)+' และรูนประจำวัน '+esc(dailyRune[0]||'รูนประจำวัน')+' อาจสะท้อนเรื่องที่กำลังให้ความสนใจหรืออยากได้ความชัดเจน: '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
+    h+='<div class="pred-section-item"><b>🌿 สิ่งที่ควรใส่ใจ</b><br/>ลองสังเกตว่าสถานการณ์ใดทำให้รู้สึกเหนื่อยหรือใช้พลังใจมากเป็นพิเศษ โดยไม่จำเป็นต้องรีบหาคำตอบในทันที</div>';
+    h+='<div class="pred-section-item"><b>🤍 คำแนะนำเล็ก ๆ</b><br/>ให้เวลาตัวเองได้พักและเลือกจัดการทีละเรื่อง หากมีเรื่องหนักใจ ลองพูดคุยกับคนที่ไว้ใจได้</div>';
+    h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">เป็นการอ่านเชิงสัญลักษณ์เพื่อทบทวนอารมณ์เบื้องต้น ไม่ใช่แบบประเมินหรือการวินิจฉัย โปรดพิจารณาร่วมกับความรู้สึกและประสบการณ์จริง</div>';
     h+='</div>';
     h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
     h+='<h4 style="color:#6d28d9;">🪞 ภาพสะท้อนสภาพใจเบื้องต้นจากไพ่และรูน</h4>';
@@ -1223,7 +1473,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderLoveEntrantSection(res) {
     var h='<span class="card-title">👤 ลักษณะคนที่จะเข้ามา · วิเคราะห์ตามโหรกระต่าย</span>';
-    h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">รหัสกระต่าย <b>'+res.R4+'</b> · '+res.rabbit.name+'   '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item">'+res.highlight+'</div></div>';
+    } else {
+      h+='<div class="pred-block"><h4>🎯 สรุปให้เข้าใจทันที</h4><div class="pred-section-item"><b>'+res.rabbit.name+'</b> · '+res.rabbit.short+'<br/>'+res.highlight+'</div></div>';
+    }
     h+='<div class="pred-block"><h4>👤 ลักษณะคนที่จะเข้ามา</h4><div class="mth3">';
     h+='<div class="mth"><b>🎂 อายุ</b><br/>'+res.age+'</div>';
     h+='<div class="mth"><b>🧠 ลักษณะนิสัย</b><br/>'+res.personality+'</div>';
@@ -1232,7 +1486,11 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<div class="mth"><b>📍 ช่องทางหรือจังหวะที่พบ</b><br/>'+res.meeting+'</div>';
     h+='<div class="mth"><b>❤️ รูปแบบความสัมพันธ์</b><br/>'+res.relationship+'</div>';
     h+='</div></div>';
-    h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้รหัสกระต่าย <b>'+res.rabbitJoint.R4+'</b> เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน</h4><div class="pred-section-item">'+res.caution+'</div></div>';
+    } else {
+      h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;"><h4>🐇 โหรกระต่ายเป็นแกนกลาง</h4><div class="pred-section-item">ใช้พฤติกรรมของกระต่าย '+((res.rabbitJoint.rabbit && res.rabbitJoint.rabbit.name) || 'ตามพื้นดวง')+' เป็นแกนอ่านบุคลิกและจังหวะของคนที่มีแนวโน้มเข้ามา โดยควรนำพฤติกรรมจริงและการสื่อสารมาเทียบร่วมด้วย</div><div class="pred-section-item"><b>⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน:</b><br/>'+res.caution+'</div></div>';
+    }
     return h;
   }
 
@@ -1282,98 +1540,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---------- CTA แอดไลน์: แยกข้อความตามฟีเจอร์ ----------
   function featureCtaHtml(featureKey) {
+    if (window.RABBITASTRO_ADMIN_MODE === true) return "";
     var cta = {
-      base: {
-        title: '🐇 อยากรู้พื้นดวงของตัวเองให้ลึกกว่านี้?',
-        text: 'พื้นดวงไม่ได้มีแค่รหัสกระต่าย แต่ยังมีรายละเอียดของตัวตน จุดแข็ง พรสวรรค์ บทเรียน และจังหวะชีวิตที่อ่านต่อได้แบบเฉพาะบุคคล'
-      },
-      asc: {
-        title: '🌅 อยากอ่านลัคนาให้ละเอียดขึ้น?',
-        text: 'ลัคนาช่วยเปิดมุมการแสดงออก จิตสำนึก และรูปแบบที่คุณรับมือกับโลกภายนอก หากอยากเจาะรายละเอียดเฉพาะตัวมากขึ้น แอดไลน์เพื่อดูดวงแบบเจาะลึกได้เลย'
-      },
-      rhd: {
-        title: '🐇 อยากอ่าน Rabbit’s Habit Design ให้ละเอียดขึ้น?',
-        text: 'RHD ช่วยแยกให้เห็นว่าชีวิตกำลังเผชิญสถานการณ์แบบใด และตัวคุณมีแนวโน้มใช้พลัง ตอบสนอง และตัดสินใจอย่างไรในสถานการณ์นั้น'
-      },
-      loveEntrant: {
-        title: '❤️ อยากรู้เรื่องคนที่จะเข้ามาให้ละเอียดขึ้น?',
-        text: 'ดูต่อได้ทั้งลักษณะนิสัย อายุ บุคลิก ช่องทางที่มีโอกาสพบ และรูปแบบความสัมพันธ์ พร้อมอ่านจังหวะของความสัมพันธ์ให้ละเอียดกว่าเดิม'
-      },
-      topicShort: {
-        title: '🎯 อยากรู้ภาพรวมของเรื่องนี้ให้ลึกกว่านี้?',
-        text: 'หากอยากเจาะรายละเอียดของเรื่องที่ถาม ทั้งจังหวะ โอกาส จุดที่ต้องระวัง และแนวทางรับมือแบบเฉพาะเรื่อง แอดไลน์เพื่อดูดวงแบบเจาะลึกได้เลย'
-      },
-      topicMonth: {
-        title: '📅 อยากดูแนวโน้ม 3 เดือนแบบละเอียด?',
-        text: 'อ่านต่อได้ทั้งจังหวะเปลี่ยนแปลง โอกาสสำคัญ จุดที่ควรเตรียมตัว และแนวทางในแต่ละช่วง เพื่อให้วางแผนเรื่องนี้ได้ละเอียดขึ้น'
-      },
-      god: {
-        title: '⛩️ อยากรู้ว่าองค์เทพจะหนุนเรื่องของคุณอย่างไร?',
-        text: 'ดูต่อแบบเจาะลึกได้ทั้งความหมายขององค์เทพที่สัมพันธ์กับดวง จุดที่ควรเสริม วิธีสักการะ และจังหวะที่เหมาะกับเรื่องที่คุณถาม'
-      },
-      oregu: {
-        title: '🔮 อยากได้คำตอบที่ชัดขึ้นสำหรับคำถามนี้?',
-        text: 'แอดไลน์เพื่อดูดวงเจาะคำถาม พร้อมอ่านแนวโน้ม จังหวะที่ควรจับตา สิ่งที่ควรระวัง และทางเลือกที่เหมาะกับสถานการณ์ของคุณ'
-      },
-      oreguWork: {
-        title: '💼 อยากรู้ว่าการงานควรไปต่อหรือเปลี่ยนทาง?',
-        text: 'แอดไลน์ดูดวงการงานแบบเจาะลึก เพื่อสำรวจโอกาสที่กำลังเปิด จุดติดขัด คนหรือสถานการณ์ที่ควรสังเกต และจังหวะลงมือให้เหมาะกับคุณ'
-      },
-      oreguMoney: {
-        title: '💰 อยากวางแผนเรื่องเงินให้มั่นใจขึ้นไหม?',
-        text: 'แอดไลน์ดูดวงการเงิน เพื่ออ่านแนวโน้มรายรับรายจ่าย โอกาสที่ควรพิจารณา จุดเสี่ยงที่ควรระวัง และแนวทางตัดสินใจอย่างรอบคอบ'
-      },
-      oreguLove: {
-        title: '❤️ อยากเห็นทิศทางความรักให้ชัดกว่าเดิม?',
-        text: 'แอดไลน์ดูดวงความรักแบบเจาะคำถาม เพื่อทบทวนความรู้สึก ความสัมพันธ์ สัญญาณที่ควรสังเกต และวิธีดูแลหัวใจโดยไม่มองข้ามความจริง'
-      },
-      tarotRune: {
-        title: '🃏 อยากอ่านไพ่ + รูนให้ลึกกว่านี้?',
-        text: 'ดูต่อได้ทั้งไพ่ประจำตัว ไพ่เหตุการณ์ รูน และโหรกระต่าย เพื่ออ่านทั้งตัวตน แนวโน้มสถานการณ์ และจังหวะที่ควรลงมือแบบละเอียดขึ้น'
-      }
+      base: { title: '🐇 มาทำความรู้จักตัวเองให้ลึกขึ้นอีกนิดไหม?', text: 'ลองดูรายละเอียดเรื่องตัวตนและนิสัย จุดแข็งและพรสวรรค์ การงาน การเงิน ความรัก และจังหวะชีวิต เพื่อค่อย ๆ เห็นภาพของตัวเองชัดขึ้น และค้นพบมุมที่อาจยังไม่เคยสังเกต' },
+      asc: { title: '🌅 อยากเข้าใจตัวเองในสายตาคนรอบข้างมากขึ้นไหม?', text: 'ดูเพิ่มเติมได้ทั้งบุคลิกภายนอก วิธีแสดงออก จุดเด่น จุดที่พัฒนาได้ และการรับมือกับคนรอบตัว มาทำความเข้าใจว่าตัวตนข้างในกับสิ่งที่คนอื่นมองเห็นเชื่อมโยงกันอย่างไร' },
+      rhd: { title: '🐇 มาลองทำความเข้าใจวิธีรับมือกับชีวิตของตัวเองกันไหม?', text: 'เจาะลึกรูปแบบความคิด การตอบสนอง พฤติกรรมที่เกิดซ้ำ และแนวทางปรับการตัดสินใจ เพื่อให้เห็นรูปแบบเดิมของตัวเองชัดขึ้น และมองหาวิธีรับมือที่เหมาะกับคุณกว่าเดิม' },
+      loveEntrant: { title: '❤️ อยากเปิดมุมมองเรื่องความรักครั้งต่อไปไหม?', text: 'ลองอ่านลักษณะคนที่มีโอกาสเข้ามา จังหวะหรือโอกาสที่จะได้พบ และแนวโน้มความสัมพันธ์ เพื่อให้คุณรู้ว่าควรสังเกตอะไร พร้อมเปิดใจโดยไม่ลืมดูแลความรู้สึกของตัวเอง' },
+      topicShort: { title: '🎯 มาดูเรื่องที่คุณสงสัยให้ชัดขึ้นอีกหน่อยไหม?', text: 'ดูแนวโน้มของเรื่องที่ถาม โอกาสและอุปสรรค จังหวะสำคัญ และสิ่งที่ควรระวัง เพื่อให้เห็นภาพรอบด้านขึ้นและมีมุมประกอบการตัดสินใจก่อนก้าวต่อไป' },
+      topicMonth: { title: '📅 อยากรู้ว่าช่วง 3 เดือนข้างหน้ามีอะไรที่ควรเตรียมใจไหม?', text: 'อ่านแนวโน้มแยกแต่ละเดือน โอกาสเด่น ช่วงเวลาที่เหมาะ และเรื่องที่ควรระวัง มาวางแผนล่วงหน้าและเตรียมรับมือกับสิ่งที่อาจเกิดขึ้นอย่างสบายใจขึ้น' },
+      engine2: { title: '⛩️ มาทำความรู้จักองค์เทพที่เชื่อมโยงกับพื้นดวงของคุณไหม?', text: 'ดูความหมายขององค์เทพ จุดเด่นที่สื่อถึงตัวคุณ สิ่งที่ช่วยส่งเสริม และแนวทางสักการะ เพื่อเข้าใจความเชื่อมโยงเหล่านี้มากขึ้น และนำสิ่งที่ได้ไปเป็นแรงใจในชีวิตประจำวัน' },
+      god: { title: '⛩️ มาทำความรู้จักองค์เทพที่เชื่อมโยงกับพื้นดวงของคุณไหม?', text: 'ดูความหมายขององค์เทพ จุดเด่นที่สื่อถึงตัวคุณ สิ่งที่ช่วยส่งเสริม และแนวทางสักการะ เพื่อเข้าใจความเชื่อมโยงเหล่านี้มากขึ้น และนำสิ่งที่ได้ไปเป็นแรงใจในชีวิตประจำวัน' },
+      oregu: { title: '🔮 อยากมองคำตอบของคำถามนี้ให้รอบด้านขึ้นไหม?', text: 'อ่านแนวโน้มของคำถาม ทางเลือกที่เป็นไปได้ จังหวะสำคัญ และข้อควรระวัง เผื่อจะช่วยให้คุณเห็นอีกมุมที่ยังไม่ได้คิด และเลือกทางที่เหมาะกับตัวเองได้ชัดขึ้น' },
+      oreguWork: { title: '💼 มาดูทิศทางเรื่องงานของคุณให้ชัดขึ้นไหม?', text: 'เจาะดูโอกาสก้าวหน้า การเปลี่ยนแปลงในงาน ความสัมพันธ์กับคนร่วมงาน และจุดที่ควรระวัง เพื่อให้คุณเตรียมตัวกับก้าวต่อไปได้อย่างมั่นใจขึ้น' },
+      oreguMoney: { title: '💰 อยากเข้าใจจังหวะการเงินของตัวเองมากขึ้นไหม?', text: 'ดูแนวโน้มรายรับรายจ่าย โอกาสทางการเงิน ภาระที่ต้องจัดการ และความเสี่ยงที่ควรใส่ใจ เพื่อมองเห็นภาพรวมและวางแผนเรื่องเงินได้รอบคอบขึ้น' },
+      oreguLove: { title: '❤️ มาลองมองความสัมพันธ์นี้ให้ชัดขึ้นด้วยกันไหม?', text: 'อ่านความรู้สึกและท่าทีของอีกฝ่าย แนวโน้มความสัมพันธ์ โอกาสพัฒนา และสิ่งที่ควรสังเกต เพื่อให้คุณเข้าใจสถานการณ์มากขึ้น พร้อมดูแลหัวใจและขอบเขตของตัวเอง' },
+      tarotRune: { title: '🃏 อยากค้นหาความหมายจากไพ่และรูนให้ลึกขึ้นไหม?', text: 'ดูไพ่และรูนประจำตัว ไพ่และรูนประจำวัน ความหมายของสัญลักษณ์ และคริสตัลที่เกี่ยวข้อง มาต่อภาพจากสิ่งเหล่านี้ให้เป็นมุมมองที่นำกลับไปทบทวนและใช้กับชีวิตได้' }
     };
     var x = cta[featureKey] || cta.topicShort;
     return '<section class="line-cta prediction-cta">' +
       '<div class="line-cta-title">' + x.title + '</div>' +
       '<div class="line-cta-text">' + x.text + '</div>' +
-      '<a class="line-cta-btn" href="https://lin.ee/6Jwz5RD" target="_blank" rel="noopener noreferrer">💚 แอดไลน์ รับคำปรึกษาดูดวง</a>' +
+      '<a class="line-cta-btn" href="https://lin.ee/6Jwz5RD" target="_blank" rel="noopener noreferrer">💚 ปรึกษาเพิ่มเติมทาง LINE</a>' +
       '</section>';
   }
 
   // ---------- Rabbit’s Habit Design renderer ----------
   // Renderer แยกผลคำนวณ RHD ออกจาก Rabbit Astrology และสลับบทบาทเลขสถานการณ์/วิธีรับมือตามที่กำหนด
-  function renderRHDSection(res, featureKey, inputData) {
-    if (!Engine || !Engine.RHD || !res || (featureKey !== 'base' && featureKey !== 'rhd')) return '';
-    // บันทึกวันและเวลาจริง ณ จังหวะที่ผู้ใช้กดปุ่มคำนวณ
-    var rhdQueryTime = new Date();
-    var nameResult = (inputData && inputData.fName && inputData.fLast && typeof calcNameNumber === 'function')
-      ? calcNameNumber(inputData.fName, inputData.fLast)
-      : null;
-    var nameNumber = nameResult ? parseInt(nameResult.num, 10) : parseInt(res.N, 10);
-    if (!isFinite(nameNumber) || nameNumber < 1 || nameNumber > 9) nameNumber = 5;
 
-    // วิธีรับมือใช้ข้อมูลประจำตัว: เลขชื่อ-สกุล + วันเดือนปีเกิด + เวลาเกิด (ถ้าทราบ)
-    var habitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
-      nameNumber: nameNumber,
-      bDay: inputData && inputData.bDay,
-      bMonth: inputData && inputData.bMonth,
-      bYear: inputData && inputData.bYear,
-      bHour: inputData && inputData.bHour,
-      bMin: inputData && inputData.bMin,
-      noBirthTime: !!(inputData && inputData.noBirthTime)
+  // กระจายบทสะท้อนจิตใต้สำนึกเข้าไปใน Engine ที่เกี่ยวข้อง โดยไม่สร้างแถบ Deep Self แยก
+  function renderAdminInnerReflection(inputData, engineKey) {
+    if (!window.RABBITASTRO_ADMIN_MODE || !Engine || !inputData) return '';
+    var base = Engine.calcPerson(Object.assign({}, inputData, {feature:'base'})) || {};
+    var asc = inputData.noBirthTime ? null : (Engine.calcPerson(Object.assign({}, inputData, {feature:'asc'})) || {});
+    var d = base.baseDeep || {};
+    var inner = asc && Engine.ASC_INNER ? (Engine.ASC_INNER[asc.ascInner] || {}) : {};
+    var face = asc && Engine.ASC_FACE ? (Engine.ASC_FACE[asc.ascFace] || {}) : {};
+    var shadow = asc && Engine.ASC_DEEP ? (Engine.ASC_DEEP[asc.ascNum] || {}) : {};
+    var esc = typeof escapeHTML === 'function' ? escapeHTML : function(v) {
+      return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    };
+    var sections = {
+      person: {
+        title: '🪞 ตัวตน ความสัมพันธ์ และคุณค่าในใจ',
+        items: [
+          ['หน้ากากที่ใช้เพื่อให้คนอื่นยอมรับ', face.role || face.impression, 'ฉันแสดงด้านไหนให้คนอื่นเห็นเพื่อให้ได้รับการยอมรับ และมีด้านไหนที่ซ่อนไว้เพราะกลัวว่าจะไม่เป็นที่รัก?'],
+          ['ความเชื่อเกี่ยวกับคุณค่าของตัวเอง', d.self || d.core, 'ฉันเผลอเชื่อหรือไม่ว่าต้องเก่ง ต้องมีประโยชน์ หรือต้องทำให้ทุกคนพอใจ จึงจะคู่ควรกับความรักและการยอมรับ?'],
+          ['รูปแบบความผูกพันและความใกล้ชิด', d.love || inner.need, 'เมื่อฉันรักหรือผูกพัน ฉันกล้าเป็นตัวเองแค่ไหน ฉันสื่อสารความต้องการตรง ๆ ได้หรือยัง?']
+        ],
+        prompts: [
+          'ฉันกำลังพยายามเป็นคนแบบไหน เพื่อให้รู้สึกว่าตัวเองมีคุณค่า?',
+          'มีความต้องการอะไรที่ฉันลดทอนหรือซ่อนไว้ เพราะกลัวว่าจะเป็นภาระของคนอื่น?'
+        ]
+      }
+    };
+    var section = sections[engineKey];
+    if (!section) return '';
+    var out = '<div class="pred-section-item admin-inner-reflection" style="margin-top:12px;">' +
+      '<b>' + section.title + '</b>' +
+      '<p style="font-size:12px;color:var(--text-muted);margin:4px 0 9px;">คำถามเหล่านี้เป็นพื้นที่ให้สำรวจตัวเอง ไม่ใช่ข้อสรุปตายตัวหรือการวินิจฉัย เลือกเก็บเฉพาะสิ่งที่ตรงกับประสบการณ์จริง</p>';
+    section.items.forEach(function(item) {
+      out += '<div style="margin:9px 0;padding:10px;background:rgba(148,163,184,.07);border-radius:9px;">' +
+        '<b>' + esc(item[0]) + '</b>' +
+        (item[1] && String(item[1]).trim() ? '<p style="margin:5px 0;"><b>ภาพสะท้อนจากพื้นดวง:</b> ' + esc(item[1]) + '</p>' : '') +
+        '<p style="margin:5px 0 0;"><b>ลองถามใจตัวเอง:</b> ' + esc(item[2]) + '</p></div>';
     });
-    var habit = parseInt(habitCalc && habitCalc.number, 10);
+    if (section.prompts.length) {
+      out += '<p style="margin:9px 0 4px;"><b>คำถามชวนทบทวน</b></p><ul style="padding-left:21px;margin:4px 0;">';
+      section.prompts.forEach(function(q) { out += '<li style="margin:5px 0;">' + esc(q) + '</li>'; });
+      out += '</ul>';
+    }
+    out += '<p style="font-size:12px;color:var(--text-muted);margin:8px 0 0;">คุณไม่จำเป็นต้องเปิดแผลทุกเรื่องในคราวเดียว และไม่จำเป็นต้องให้อภัยหรือเปลี่ยนแปลงก่อนที่ตัวเองจะพร้อม</p>';
+    if (inputData.noBirthTime) out += '<p style="font-size:12px;color:var(--text-muted);margin:5px 0 0;">ส่วนนี้อิงข้อมูลพื้นดวงที่คำนวณได้ โดยไม่ใช้ข้อมูลลัคนาหรือส่วนที่ต้องอาศัยเวลาเกิด</p>';
+    return out + '</div>';
+  }
+
+  function renderRHDSection(res, featureKey, inputData) {
+    if (!Engine || !Engine.RHD || !res || featureKey !== 'rhd') return '';
+    // ใช้วันที่ปัจจุบันเท่านั้น ไม่ใช้ชั่วโมง/นาทีที่กดคำนวณ
+    var rhdQueryTime = new Date();
+    // รหัสวิธีรับมือยึดพื้นดวงจากโหรกระต่ายโดยตรง
+    var habit = parseInt(res.baseCode, 10);
     if (!isFinite(habit) || habit < 1 || habit > 9) habit = 9;
 
-    // สถานการณ์ใช้วันเดือนปีและเวลาที่กดคำนวณในขณะนั้นเท่านั้น
-    var situationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
-      queryDay: rhdQueryTime.getDate(),
-      queryMonth: rhdQueryTime.getMonth() + 1,
-      queryYear: rhdQueryTime.getFullYear(),
-      queryHour: rhdQueryTime.getHours(),
-      queryMinute: rhdQueryTime.getMinutes()
-    });
-    var rabbitNumber = parseInt(situationCalc && situationCalc.number, 10);
+    // สถานการณ์ประจำวันยึดผลธาตุประจำวันจากโหรกระต่าย
+    var dailyRabbit = Engine.calcDailyElement(rhdQueryTime);
+    var rabbitNumber = parseInt(dailyRabbit && dailyRabbit.finalNum, 10);
     if (!isFinite(rabbitNumber) || rabbitNumber < 1 || rabbitNumber > 9) rabbitNumber = 9;
     var data = {};
     try {
@@ -1381,6 +1632,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) {
       data = {};
     }
+
     if (!data.rabbit && typeof Engine.RHD.synthesize === 'function') {
       try { data = Engine.RHD.synthesize(rabbitNumber, habit) || data; } catch (e) {}
     }
@@ -1388,6 +1640,31 @@ document.addEventListener("DOMContentLoaded", function () {
     var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
     var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
     h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
+    // Admin: ย้ายคำทำนายเรื่องคนที่จะเข้ามาจาก Engine 1 มาแสดงภายใน RHD
+    if (window.RABBITASTRO_ADMIN_MODE === true && typeof Engine.calcPerson === 'function') {
+      try {
+        var entrantRes = Engine.calcPerson({
+          feature: 'loveEntrant',
+          fName: inputData && inputData.fName,
+          fLast: inputData && inputData.fLast,
+          bDay: inputData && inputData.bDay,
+          bMonth: inputData && inputData.bMonth,
+          bYear: inputData && inputData.bYear,
+          bHour: inputData && inputData.bHour,
+          bMin: inputData && inputData.bMin,
+          noBirthTime: inputData && inputData.noBirthTime
+        });
+        if (entrantRes) {
+          h += '<div class="pred-block rhd-entrant-block" style="margin-top:14px;background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">';
+          h += '<h4 style="color:#9a3412;">👤 คำทำนายเรื่องคนที่จะเข้ามา</h4>';
+          h += renderLoveEntrantSection(entrantRes);
+          h += '</div>';
+        }
+      } catch (entrantError) {
+        // หากคำนวณส่วนนี้ไม่ได้ ให้คำทำนาย RHD ส่วนอื่นแสดงตามปกติ
+      }
+    }
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
     h += '<div class="rhd-grid">';
@@ -1522,7 +1799,7 @@ document.addEventListener("DOMContentLoaded", function () {
       8:'คุณไม่จำเป็นต้องรู้ทุกคำตอบก่อนจะเริ่ม และไม่ต้องคิดจนหมดแรงเพื่อให้แน่ใจทุกอย่าง ลองเชื่อใจตัวเองทีละนิด พร้อมเปิดรับความช่วยเหลือและข้อมูลใหม่ ๆ ได้',
       9:'คุณไม่จำเป็นต้องเป็นคนแก้ปัญหาหรือเข้าใจทุกฝ่ายเสมอไป เลือกดูแลสิ่งที่สำคัญกับคุณก่อนก็ได้ คุณมีสิทธิ์วางภาระบางอย่างลงและใช้ชีวิตที่เบาขึ้น'
     };
-    h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+'”</span><div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
+    h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+' '+(data.overall || 'คุณค่อย ๆ ไปต่อในจังหวะของตัวเองได้')+'”</span><div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
     var questionBank = (window.RHD_SELF_QUESTIONS && typeof window.RHD_SELF_QUESTIONS === 'object' && !Array.isArray(window.RHD_SELF_QUESTIONS)) ? window.RHD_SELF_QUESTIONS : {};
     var candidateQuestions = Object.prototype.hasOwnProperty.call(questionBank, habit) ? questionBank[habit] : questionBank[1];
     var selfQuestions = Array.isArray(candidateQuestions)
@@ -1531,18 +1808,99 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="rhd-section rhd-self-questions"><b>❓ คำถามสำรวจแนวทางของตัวเอง</b><ol style="margin:6px 0 0;padding-left:22px;">';
     for (var qi = 0; qi < selfQuestions.length; qi++) { h += '<li style="margin:4px 0;">' + escapeHTML(selfQuestions[qi]) + '</li>'; }
     h += '</ol></div>';
+    // สังเคราะห์ทุกคำตอบจากคู่ RHD จริงในรอบนี้: เลขสถานการณ์ + วิธีรับมือ
+    // น้ำเสียงเป็นการชวนสำรวจ ไม่ฟันธง ไม่วินิจฉัย และไม่ตัดสินผู้ใช้
+    var rhdSituationText = (rabbit.name || 'สถานการณ์ตรงหน้า') + ': ' + (rabbit.short || rabbit.desc || 'เรื่องที่กำลังเกิดขึ้น');
+    var rhdCopingText = hd.response || 'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง';
+    var rhdDecisionText = data.decision || hd.decision || 'ลองให้เวลาตัวเองทบทวนก่อนเลือกก้าวต่อไป';
+    var rhdCautionText = data.caution || hd.caution || 'ค่อย ๆ สังเกตสิ่งที่เกิดขึ้นโดยไม่ตำหนิตัวเอง';
+    var rhdOverallText = data.overall || data.description || 'คุณยังมีทางเลือกและค่อย ๆ ปรับวิธีรับมือได้';
+    var rhdGentleAnswers = [
+      'อาจมีบางเรื่องที่คุณยังไม่พร้อมเข้าไปแตะ โดยเฉพาะเมื่อสถานการณ์ตอนนี้คือ “'+rhdSituationText+'” วิธีรับมือของคุณมีแนวโน้มเป็นแบบ “'+rhdCopingText+'” บางทีการเว้นระยะหรือคิดให้รอบคอบอาจเป็นวิธีปกป้องใจในช่วงหนึ่ง ไม่ได้แปลว่าคุณอ่อนแอ ลองถามตัวเองเบา ๆ ว่าเรื่องไหนที่อยากค่อย ๆ เข้าไปทำความเข้าใจ และก้าวเล็กที่สุดที่ปลอดภัยสำหรับใจคืออะไร',
+      'ความกังวลที่แบกอยู่อาจเกี่ยวข้องกับความไม่แน่นอนหรือผลที่จะตามมาจาก “'+rhdSituationText+'” เมื่อคุณรับมือด้วยการ “'+rhdCopingText+'” ใจอาจพยายามเตรียมพร้อมเพื่อไม่ให้พลาด สิ่งที่ช่วยได้คือแยกสิ่งที่รู้แน่ชัดออกจากสิ่งที่ยังคาดเดา แล้วค่อยพิจารณาตามนี้: '+rhdCautionText+' คุณไม่จำเป็นต้องแก้ทุกความกังวลในคราวเดียว',
+      'สิ่งที่อาจขัดกับความต้องการข้างใน คือการใช้วิธีรับมือแบบ “'+rhdCopingText+'” มากเกินไปจนไม่ได้ฟังว่าตัวเองต้องการอะไรในสถานการณ์ “'+rhdSituationText+'” ลองสังเกตกิจวัตรที่ทำเพราะความเคยชิน ความเกรงใจ หรือความกลัว แล้วเลือกปรับเพียงหนึ่งอย่าง โดยไม่ต้องตำหนิตัวเองที่เคยทำเช่นนั้น',
+      'สิ่งที่อาจต้องวางลงไม่จำเป็นต้องเป็นคนหรือความสัมพันธ์ แต่อาจเป็นภาระ ความคาดหวัง หรือความคิดว่าคุณต้องจัดการทุกอย่างด้วยวิธีเดิม ในสถานการณ์นี้ คุณอาจคุ้นกับการ “'+rhdCopingText+'” ลองใช้แนวทางนี้เป็นจุดเริ่มต้น: '+rhdDecisionText+' การปล่อยวางทีละนิดไม่ใช่การยอมแพ้ แต่เป็นการเปิดพื้นที่ให้ทั้งสองฝ่ายเดินต่ออย่างเข้าใจกันมากขึ้น',
+      'ตัวคุณในวัยเด็กอาจต้องการได้รับการรับฟังและรู้สึกปลอดภัย โดยเฉพาะเมื่อวันนี้คุณกำลังรับมือกับ “'+rhdSituationText+'” ด้วยวิธี “'+rhdCopingText+'” ลองนึกถึงสิ่งที่เด็กคนนั้นต้องการในวันที่เหนื่อย แล้วมอบสิ่งนั้นให้ตัวเองในแบบที่ทำได้ตอนนี้ คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา และไม่ต้องตำหนิตัวเองที่ยังมีบางเรื่องเปราะบาง',
+      'หากไม่ต้องทำให้ใครยอมรับ ชีวิตที่คุณต้องการอาจเป็นชีวิตที่มีพื้นที่ให้เลือกตามความรู้สึกและคุณค่าของตัวเองมากขึ้น สำหรับสถานการณ์ตอนนี้ ลองถามว่า “ถ้าไม่ต้องรีบพิสูจน์อะไร ฉันอยากรับมือกับเรื่องนี้อย่างไร?” วิธี “'+rhdCopingText+'” อาจเป็นจุดแข็งของคุณ แต่คุณก็อนุญาตให้ตัวเองเลือกวิธีใหม่ที่เบาสบายกว่าได้',
+      'สิ่งที่ดูดพลังอาจไม่ใช่แค่ตัวเหตุการณ์ แต่อาจเป็นการต้องรับมือกับมันซ้ำ ๆ ด้วยวิธี “'+rhdCopingText+'” หรือการพยายามควบคุมสิ่งที่ยังไม่แน่นอน คุณอาจยังปล่อยไม่ได้เพราะเรื่องนี้มีความหมายหรือมีบางอย่างที่ยังค้างใจ ลองเริ่มจากแยกสิ่งที่คุณดูแลได้กับสิ่งที่อยู่นอกเหนือการควบคุม แล้วใช้คำแนะนำนี้เป็นหลัก: '+rhdDecisionText
+    ];
+    if (window.RABBITASTRO_ADMIN_MODE) {
+      var adminRhdPrompts=[
+        'ฉันกำลังหลีกเลี่ยงอะไรบางอย่างอยู่หรือเปล่า',
+        'ความกลัวหรือความกังวลที่ใหญ่ที่สุดที่เรากำลังแบกไว้อยู่ตอนนี้ คือเรื่องอะไรกันแน่',
+        'สิ่งใดที่ฉันกำลังทำอยู่ในชีวิตประจำวัน ที่ขัดแย้งกับความต้องการที่แท้จริงของเธอ',
+        'ฉันต้องปล่อยวางเรื่องอะไร เพื่อให้เราสองคนเป็นหนึ่งเดียวกันและเดินหน้าต่อได้',
+        'ตัวฉันในวัยเด็กกำลังรู้สึกอย่างไรกับชีวิตของฉันในตอนนี้ และเขาอยากบอกอะไรฉันมากที่สุด',
+        'ถ้าฉันไม่ต้องพยายามทำให้ใครยอมรับหรือประทับใจเลย ชีวิตที่ฉันต้องการจริงๆ จะมีหน้าตาอย่างไร',
+        'เรื่องอะไรในตอนนี้ที่สูบพลังงานชีวิตของฉันไปมากที่สุด และทำไมฉันถึงยังปล่อยมันไปไม่ได้'
+      ];
+      h+='<div class="rhd-section rhd-admin-reflections"><b>🪞 7 คำถามเจาะลึกและคำทำนายจาก RHD</b><p style="margin:6px 0 10px;">คำตอบทั้ง 7 ข้ออ่านจากสถานการณ์ปัจจุบันร่วมกับวิธีรับมือของคุณ จึงอาจเปลี่ยนไปเมื่อวันเวลาและรูปแบบการรับมือเปลี่ยนแปลง</p>';
+      for (var ai=0;ai<adminRhdPrompts.length;ai++) {
+        h+='<div class="rhd-reflection-answer" style="margin:10px 0;padding:10px;background:#fff;border:1px solid #f3d7bf;border-radius:9px;"><b>'+(ai+1)+'. '+escapeHTML(adminRhdPrompts[ai])+'</b><p style="margin:6px 0 0;line-height:1.85;">'+escapeHTML(rhdGentleAnswers[ai])+'</p></div>';
+      }
+      var rhdDeepPrompts=[
+        ['หน้ากากและการยอมรับ','ฉันกำลังแสดงบทบาทแบบไหนเพื่อให้คนอื่นยอมรับ และฉันกลัวอะไรหากเลิกแสดงบทบาทนั้น?','บางครั้งวิธีรับมือแบบ “'+rhdCopingText+'” อาจช่วยให้คุณผ่านสถานการณ์ “'+rhdSituationText+'” มาได้ ลองสำรวจว่ามันเป็นตัวตนที่คุณเลือก หรือเป็นบทบาทที่คุณรู้สึกว่าจำเป็นต้องเล่นเพื่อให้ปลอดภัย'],
+        ['ความเชื่อเรื่องคุณค่าในตัวเอง','ฉันเชื่อว่าต้องทำอะไรจึงจะคู่ควรกับความรัก ความสนใจ หรือการพักผ่อน?','ลองสังเกตว่าคุณผูกคุณค่าของตัวเองไว้กับการทำหน้าที่ การดูแลคนอื่น หรือการทำให้ทุกอย่างเรียบร้อยหรือไม่ คุณมีคุณค่าอยู่แล้ว แม้ในวันที่ไม่ได้ทำอะไรให้ใคร'],
+        ['ความกลัวที่อยู่ใต้พฤติกรรม','ถ้าฉันไม่ใช้วิธีรับมือแบบเดิม ฉันกลัวว่าจะเกิดอะไรขึ้น?','วิธี “'+rhdCopingText+'” อาจเคยปกป้องคุณจากความผิดหวังหรือความไม่แน่นอน ลองถามว่าความกลัวนั้นยังตรงกับสถานการณ์ปัจจุบันหรือไม่ และมีวิธีที่อ่อนโยนกับตัวเองกว่าเดิมหรือเปล่า'],
+        ['ความต้องการที่ไม่กล้าพูด','มีอะไรที่ฉันอยากขอ แต่กลัวว่าจะถูกมองว่าเห็นแก่ตัว อ่อนแอ หรือเรียกร้องมากเกินไป?','ความต้องการที่จะได้รับการรับฟัง ความช่วยเหลือ ความชัดเจน หรือพื้นที่ส่วนตัวไม่ใช่เรื่องผิด ลองเริ่มจากบอกความต้องการหนึ่งอย่างกับคนที่คุณไว้ใจได้'],
+        ['บาดแผลเดิมและตัวฉันในวัยเยาว์','ในวันที่ฉันรู้สึกไม่ปลอดภัย ฉันอยากให้ใครสักคนทำอะไรให้ และวันนี้ฉันทำสิ่งนั้นให้ตัวเองได้อย่างไร?','คุณไม่จำเป็นต้องย้อนกลับไปเผชิญความทรงจำที่ยังไม่พร้อม แค่สังเกตว่าตอนนี้อะไรช่วยให้รู้สึกปลอดภัยขึ้น และเลือกดูแลตัวเองทีละนิดก็เพียงพอ'],
+        ['ความจริงที่อยากยอมรับและก้าวใหม่','ถ้าฉันไม่ต้องรักษาภาพเดิมหรือทำให้ใครพอใจ ฉันอยากยอมรับความจริงข้อไหนกับตัวเอง?','คุณอาจเริ่มจากยอมรับความรู้สึกหนึ่งอย่างโดยไม่ต้องรีบลงมือเปลี่ยนทุกอย่าง แล้วค่อยเลือกก้าวที่สอดคล้องกับคุณค่าของตัวเอง: '+rhdDecisionText]
+      ];
+      h+='<div class="rhd-deep-layer" style="margin-top:14px;padding:12px;background:#faf7ff;border:1px solid #ddd6fe;border-radius:10px;"><b>🪞 สำรวจชั้นลึกของจิตใต้สำนึก · Admin</b><p>คำถามเหล่านี้ชวนสำรวจบทบาท ความเชื่อ ความกลัว และความต้องการที่อาจซ่อนอยู่ใต้รูปแบบการรับมือ ไม่ใช่ข้อสรุปตายตัวเกี่ยวกับตัวคุณ</p>';
+      for(var di=0;di<rhdDeepPrompts.length;di++){
+        h+='<div style="margin:10px 0;padding:10px;background:#fff;border:1px solid #e9d5ff;border-radius:9px;"><b>'+(di+8)+'. '+escapeHTML(rhdDeepPrompts[di][0])+'</b><p><b>คำถามถึงตัวเอง:</b> '+escapeHTML(rhdDeepPrompts[di][1])+'</p><p><b>เสียงสะท้อนจากสถานการณ์นี้:</b> '+escapeHTML(rhdDeepPrompts[di][2])+'</p></div>';
+      }
+      h+='</div>';
+      h+='</div>';
+      h+='<div class="rhd-section rhd-situation-guidance" style="background:#fffaf5;border:1px solid #f3d7bf;border-radius:10px;padding:11px;"><b>🌱 วิธีดูแลตัวเองให้สอดคล้องกับสถานการณ์นี้</b><p>'+escapeHTML(rhdOverallText)+'</p><p><b>แนวทางที่เข้ากับวิธีรับมือของคุณ:</b> '+escapeHTML(rhdCopingText)+'</p><p><b>จุดที่อยากชวนให้ระวังอย่างอ่อนโยน:</b> '+escapeHTML(rhdCautionText)+'</p><p><b>ก้าวถัดไปที่พอทำได้:</b> '+escapeHTML(rhdDecisionText)+'</p></div>';
+    }
     h += '<div class="rhd-note">ข้อความเหล่านี้เป็นเพียงกระจกสะท้อนให้คุณสำรวจใจ ไม่ใช่การอ่านใจหรือคำตัดสินตายตัว คุณเป็นคนที่รู้จักตัวเองได้ลึกที่สุด และเลือกตอบกลับเสียงข้างในในแบบของคุณได้เสมอ</div>';
     h += '</div>';
     return h;
   }
 
   // ปรับถ้อยคำคำทำนายทุก Engine ให้ตรงไปตรงมาและอ่านง่ายขึ้น โดยไม่แตะสูตรหรือข้อมูลคำนวณ
+  function hideCalculationDisclosure(root) {
+    if (!root || !root.querySelectorAll) return;
+    // ซ่อนเฉพาะองค์ประกอบที่เป็นข้อมูลคำนวณดิบโดยตรง ไม่ลบคำทำนายทั้งกล่อง
+    var rawSelectors = '.num-grid,.num-tile,.god-code-row,.rhd-grid,.rhd-tile,.calculation-trace,.formula-details,[data-calculation-raw="true"]';
+    root.querySelectorAll(rawSelectors).forEach(function(node) {
+      if (node.parentNode) node.parentNode.removeChild(node);
+    });
+
+    // ตัดเฉพาะข้อความที่เปิดเผยรหัสหรือตัวเลขเบื้องหลัง โดยรักษาคำทำนายรอบข้างไว้
+    var rawPatterns = [
+      /รหัส(?:คำทำนาย(?:พื้นฐาน|เฉพาะหัวข้อนี้)?|พื้นดวง|โหรกระต่าย|กระต่าย)(?:เลข)?\s*[:：]?\s*[0-9๐-๙]+/g,
+      /เลข(?:โหรกระต่าย|กระต่าย|เทพประจำตัว)(?:เลข)?\s*[:：]?\s*[0-9๐-๙]+/g,
+      /เลขชื่อ-สกุลของคุณอยู่ที่\s*[0-9๐-๙]+/g,
+      /พลังวันเกิด\s*[^()·,;]*?\s*กำลัง\s*[0-9๐-๙]+/g,
+      /(?:R[1-4]|ผลรวม(?:สุดท้าย)?|ตัวคูณ)\s*[:=]\s*[0-9๐-๙]+/gi
+    ];
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    var textNodes = [];
+    var current;
+    while ((current = walker.nextNode())) textNodes.push(current);
+    textNodes.forEach(function(node) {
+      var value = node.nodeValue || '';
+      rawPatterns.forEach(function(pattern) {
+        pattern.lastIndex = 0;
+        value = value.replace(pattern, '');
+      });
+      if (value !== node.nodeValue) node.nodeValue = value;
+    });
+
+    // เอากล่อง metadata ที่เหลือเพียงป้ายกำกับเปล่าออก โดยไม่แตะกล่องคำทำนายที่มีเนื้อหา
+    root.querySelectorAll('.pred-section-item,.topic-line,.mini-h').forEach(function(node) {
+      var text = (node.textContent || '').replace(/[\s\u200b\u200c\u200d·:：🐇🔢📌]/g, '');
+      if (!text && node.parentNode) node.parentNode.removeChild(node);
+    });
+  }
+
   function improvePredictionReadability(root, rabbitNum, featureKey) {
     if (!root) return;
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
     var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
-    // คงน้ำเสียงเฉพาะของ Engine 2 ไว้ ส่วน Engine อื่นปรับเป็นภาษาที่เข้าใจง่าย
-    if (/คำทำนายมูเทพ|เทพองค์นี้อยากจะบอกอะไรกับคุณ|ข้อความจากองค์เทพ/i.test(resultTitleText)) return;
+    // ใช้แนวทางการสื่อสารที่อ่อนโยนกับทุก Engine โดยคงเนื้อหาหลักและผลคำนวณเดิม
     var isEngineOne = /ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย|ผลการวิเคราะห์ดวงชะตาบุคคล/.test(resultTitleText);
     var replacements = [
       [/พลังงานขับเคลื่อนเปิดกว้าง/g, 'มีโอกาสเริ่มต้นสิ่งใหม่'],
@@ -1587,7 +1945,18 @@ document.addEventListener("DOMContentLoaded", function () {
       [/อย่างมีโครงสร้าง/g, 'อย่างเป็นขั้นตอน'],
       [/สม่ำเสมอ/g, 'ต่อเนื่อง'],
       [/โดยสังเขป/g, 'แบบสั้น ๆ'],
-      [/ให้ถือเป็นสัญญาณ/g, 'ให้มองว่าเป็นสัญญาณ']
+      [/ให้ถือเป็นสัญญาณ/g, 'ให้มองว่าเป็นสัญญาณ'],
+      [/สิ่งที่ต้องระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง'],
+      [/สิ่งที่ควรระวัง/g, 'เรื่องที่อยากชวนให้ดูแลตัวเอง'],
+      [/ข้อควรระวัง/g, 'สิ่งที่ใจอยากให้ใส่ใจ'],
+      [/จุดอ่อน/g, 'ด้านที่ต้องการความเข้าใจ'],
+      [/คำเตือน/g, 'สิ่งที่อยากชวนให้สังเกต'],
+      [/คุณจะต้อง/g, 'คุณอาจค่อย ๆ'],
+      [/ไม่มีทางออก/g, 'ยังมองไม่เห็นทางออกในตอนนี้'],
+      [/เป็นไปไม่ได้/g, 'อาจยังไม่ใช่จังหวะที่เหมาะ'],
+      [/อย่าตำหนิตัวเอง/g, 'ลองพูดกับตัวเองอย่างเข้าใจแทนการตำหนิ'],
+      [/ต้องแบกรับ/g, 'อาจกำลังแบกรับ'],
+      [/ฝืนทน/g, 'ฝืนตัวเองต่อไป']
     ];
     // ปรับคำที่ฟังเหมือนตำราให้เป็นภาษาพูดที่อ่อนโยน เฉพาะ Engine 1 และไม่แตะ RHD
     if (isEngineOne) {
@@ -1626,21 +1995,8 @@ document.addEventListener("DOMContentLoaded", function () {
     walk(root);
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
-    // ใช้กรอบสะท้อนใจแบบเดียวกันใน Engine 1, 3 และ 4; ไม่แตะ Engine 2 หรือโครงสร้างเฉพาะของ RHD
-    var n = parseInt(rabbitNum, 10);
-    if (n >= 1 && n <= 9 && featureKey !== 'rhd' && !root.querySelector('.subconscious-shared-voice')) {
-      var voice = rabbitSubconsciousVoice(n);
-      var box = document.createElement('div');
-      box.className = 'pred-block subconscious-shared-voice';
-      box.style.cssText = 'background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;';
-      setSafeHTML(box, '<h4 style="color:#9a3412;">💗 เสียงสะท้อนจากใจคุณ · เลขกระต่าย ' + n + '</h4>' +
-        '<div class="pred-section-item"><b>สิ่งที่ใจอาจกำลังบอก:</b><br/>' + voice.core + '</div>' +
-        '<div class="pred-section-item"><b>คำถามที่ลองถามตัวเองได้:</b><br/>' + voice.worry + '</div>' +
-        '<div class="pred-section-item"><b>สิ่งที่คุณอาจต้องการในตอนนี้:</b><br/>' + voice.need + '</div>' +
-        '<div class="pred-section-item"><b>ก้าวเล็ก ๆ ที่อ่อนโยนกับตัวเอง:</b><br/>' + voice.step + '</div>' +
-        '<div style="font-size:12px;color:#7c5b46;margin-top:8px;">ข้อความนี้เป็นมุมสะท้อนเพื่อชวนสำรวจใจ ไม่ใช่การสรุปความรู้สึกของคุณอย่างแน่นอน</div>');
-      root.appendChild(box);
-    }
+    hideCalculationDisclosure(root);
+    // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
   }
 
   // ---------- Engine 1: ดวงบุคคล ----------
@@ -1684,12 +2040,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var body;
     if (featureKey === 'base') {
       body = renderBaseSection(res);
+      body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
       body = renderAscSection(res);
     } else if (featureKey === 'loveEntrant') {
-      body = renderLoveEntrantSection(res);
+      body = window.RABBITASTRO_ADMIN_MODE === true
+        ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
+        : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
       body = renderTopicMonthSection(res);
     } else {
@@ -1698,7 +2057,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsBox.style.display = "block";
     var rhdBody = '';
-    setSafeHTML(resultsBox, '<span class="card-title">' + titleText + '</span>' + body + rhdBody + featureCtaHtml(featureKey));
+    var resultTitleHtml = featureKey === 'base'
+      ? '<span class="card-title result-heading">ผลการวิเคราะห์พื้นฐานชีวิตจากวันเกิดตามโหรกระต่าย<br>ภาพรวมพื้นฐานชีวิตจากวันเกิด</span>'
+      : '<span class="card-title result-heading">' + titleText + '</span>';
+    setSafeHTML(resultsBox, resultTitleHtml + body + rhdBody + featureCtaHtml(featureKey));
     improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
@@ -1742,16 +2104,16 @@ document.addEventListener("DOMContentLoaded", function () {
     resultsBox.style.display = 'block';
     var body = '';
     try {
-      body = renderTarotRuneSection(res);
+      body = renderTarotRuneSection(res, data);
     } catch (renderError) {
       // ป้องกันข้อผิดพลาดในส่วนตกแต่ง/คำอธิบายทำให้ผลคำนวณทั้งหมดหายไป
       console.error('Tarot/Rune detailed renderer failed; using safe fallback:', renderError);
       var bc = res.birthCard || {}, ec = res.eventCard || {}, pr = res.personalCrystal || {}, dc = res.dailyCrystalDate || {};
       var esc = function(v){return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
-        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน:</b> '+esc(dc.name || 'ยังไม่ระบุ')+'</p><p>ส่วนคำอธิบายฉบับละเอียดมีปัญหา จึงแสดงผลคำนวณหลักไว้ก่อน</p></div>';
+        '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
-    setSafeHTML(resultsBox, '<span class="card-title">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
+    setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
     // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
@@ -1786,7 +2148,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai main calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>' + escapeHTML(err && err.message ? String(err.message) : "เกิดข้อผิดพลาดระหว่างคำนวณ") + '<br/><small>กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</small></div>');
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>');
       }
     } finally {
       setTimeout(function(){ target.__horakHandled = false; }, 0);
@@ -1803,10 +2165,29 @@ document.addEventListener("DOMContentLoaded", function () {
       if(resultsBox){
         var safeError = tarotRuneError.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         resultsBox.style.display='block';
-        setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ขั้นตอนที่ผิดพลาด: <code style="white-space:pre-wrap;overflow-wrap:anywhere;">'+safeError+'</code><br/><small>ระบบได้แยกข้อผิดพลาดจากการคำนวณ การแสดงผล และการเลื่อนหน้าจอแล้ว กรุณาใช้ข้อความนี้เพื่อตรวจจุดที่เหลือ</small></div>');
+        setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบไพ่ทาโรต์ + รูนขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาตรวจสอบข้อมูลแล้วลองใหม่อีกครั้ง</div>');
       }
     }
   });
+
+  // สร้างบทนำคำทำนายที่อ้างอิงข้อมูลจริงของแต่ละบุคคล ใช้ร่วมกันทั้ง Front และ Admin
+  function personalizedReadingLead(data, rabbitNumber, contextLabel) {
+    data = data || {};
+    var firstName = String(data.fName || '').trim();
+    var date = new Date(parseInt(data.bYear,10), parseInt(data.bMonth,10)-1, parseInt(data.bDay,10));
+    var weekdayNames = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+    var weekday = weekdayNames[date.getDay()] || '';
+    var dayPower = Engine && typeof Engine.getDayPower === 'function' ? Engine.getDayPower(new Date(date.getFullYear(),date.getMonth(),date.getDate())) : null;
+    var nameData = Engine && typeof Engine.calcNameNumber === 'function' ? Engine.calcNameNumber(data.fName || '',data.fLast || '') : null;
+    var safeName = typeof escapeHTML === 'function' ? escapeHTML(firstName) : firstName.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});
+    var identity = nameData && nameData.prediction ? 'ความหมายจากชื่อและนามสกุลของคุณ' : 'ข้อมูลชื่อของคุณ';
+    var power = dayPower ? 'แนวโน้มจากวันเกิด ' + dayPower.name : 'วันเกิด ' + weekday;
+    return '<div class="pred-section-item personal-reading-lead" style="margin:10px 0;padding:11px 13px;border-left:4px solid #b77945;background:#fffaf5;border-radius:9px;line-height:1.85;">' +
+      '<b>✦ อ่านจากข้อมูลเฉพาะตัว' + (safeName ? 'ของคุณ ' + safeName : '') + '</b><br/>' +
+      'คำอ่าน' + (contextLabel ? 'เรื่อง' + contextLabel : 'ครั้งนี้') + ' เชื่อมโยงความหมายจากวันเกิด' + weekday + ' (' + power + ') ร่วมกับ' + identity + ' ตามแนวทางโหรกระต่าย จึงสะท้อนทั้งพื้นนิสัย จุดแข็ง และวิธีรับมือของคุณ ไม่ใช่คำทำนายกลางที่ใช้แทนกันได้ทุกคน' +
+      '<br/><span style="display:block;margin-top:6px;color:#765b4b;">ลองอ่านสิ่งที่ตามมาเหมือนบทสนทนากับจิตใต้สำนึกของตัวเองนะ ประโยคไหนตรงกับใจค่อยเก็บไว้ ส่วนไหนไม่ตรงก็ไม่จำเป็นต้องฝืนเชื่อ คุณมีสิทธิ์รู้สึก ตั้งคำถาม และเลือกเส้นทางของตัวเองเสมอ</span>' +
+      '</div>';
+  }
 
   // ---------- Engine 2: องค์เทพประจำตัว ----------
   function renderGodResult(data, fromButton) {
@@ -1817,49 +2198,11 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     var godRes = Engine.calcGod(params);
     var god = godRes.godInfo || {}, ritual = godRes.godRitual || {};
+    var deityNum = parseInt(godRes.godNum, 10) || 1;
     // ใช้เลขกระต่ายจากพื้นดวงตาม Engine โหรกระต่าย ไม่ใช้เลขเทพเป็นตัวเขียนคำทำนาย
     var rabbitRes = Engine.calcPerson(Object.assign({}, params, {feature:'base'})) || {};
     var rabbitNum = parseInt(rabbitRes.baseCode, 10) || 9;
     var rabbitInfo = (Engine.RABBITS && Engine.RABBITS[rabbitNum]) || {name:'พบทางออก',desc:'ค่อย ๆ มองหาทางเลือกที่เหมาะกับตัวเอง'};
-
-    // นำข้อมูล RHD มาใช้เฉพาะ 2 ส่วนในการปรับบทพูดของเทพ: วิธีรับมือ และสถานการณ์
-    // คำนวณด้วยข้อมูลเกิด/ชื่อของเจ้าชะตา และเวลาที่กดคำนวณ เหมือนส่วน RHD โดยไม่ดึงรายละเอียด RHD อื่นมาใช้
-    var godRhdContext = { habitNumber:9, situationNumber:9, habitName:'วิธีรับมือของคุณ', habitResponse:'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง', situationName:'สถานการณ์ปัจจุบัน', situationShort:'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง' };
-    try {
-      if (Engine.RHD && Engine.RHD.CALCULATOR) {
-        var godRhdNow = new Date();
-        var godNameResult = (data && data.fName && data.fLast && typeof calcNameNumber === 'function') ? calcNameNumber(data.fName, data.fLast) : null;
-        var godNameNumber = godNameResult ? parseInt(godNameResult.num, 10) : NaN;
-        if (!isFinite(godNameNumber) || godNameNumber < 1 || godNameNumber > 9) godNameNumber = parseInt(rabbitRes.N, 10);
-        if (!isFinite(godNameNumber) || godNameNumber < 1 || godNameNumber > 9) godNameNumber = 5;
-        var godHabitCalc = Engine.RHD.CALCULATOR.calculateHabitNumber({
-          nameNumber: godNameNumber, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear,
-          bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime
-        });
-        var godHabitNumber = parseInt(godHabitCalc && godHabitCalc.number, 10);
-        if (!isFinite(godHabitNumber) || godHabitNumber < 1 || godHabitNumber > 9) godHabitNumber = 9;
-        var godSituationCalc = Engine.RHD.CALCULATOR.calculateSituationNumber({
-          queryDay: godRhdNow.getDate(), queryMonth: godRhdNow.getMonth()+1, queryYear: godRhdNow.getFullYear(),
-          queryHour: godRhdNow.getHours(), queryMinute: godRhdNow.getMinutes()
-        });
-        var godSituationNumber = parseInt(godSituationCalc && godSituationCalc.number, 10);
-        if (!isFinite(godSituationNumber) || godSituationNumber < 1 || godSituationNumber > 9) godSituationNumber = 9;
-        var godRhdData = Engine.RHD.getCombined(godSituationNumber, godHabitNumber) || {};
-        if (!godRhdData.rabbit && typeof Engine.RHD.synthesize === 'function') godRhdData = Engine.RHD.synthesize(godSituationNumber, godHabitNumber) || godRhdData;
-        var godRhdHabit = godRhdData.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[godHabitNumber]) || {};
-        var godRhdRabbit = godRhdData.rabbit || (Engine.RABBITS && Engine.RABBITS[godSituationNumber]) || {};
-        godRhdContext = {
-          habitNumber: godHabitNumber,
-          situationNumber: godSituationNumber,
-          habitName: godRhdHabit.name || 'วิธีรับมือของคุณ',
-          habitResponse: godRhdHabit.response || 'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง',
-          situationName: godRhdRabbit.name || 'สถานการณ์ปัจจุบัน',
-          situationShort: godRhdRabbit.short || 'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง'
-        };
-      }
-    } catch (godRhdError) {
-      console.warn('ไม่สามารถนำบริบท RHD มาปรับบทพูดเทพได้ ใช้ข้อความพื้นฐานแทน', godRhdError);
-    }
 
     var rabbitMessages = {
       1: {message:'ถึงเวลาลองเริ่มสิ่งที่คุณคิดไว้มานานแล้ว ไม่จำเป็นต้องรอให้ทุกอย่างพร้อม 100% เลือกก้าวเล็ก ๆ ที่ทำได้วันนี้ แล้วค่อยปรับระหว่างทาง แต่อย่าลืมบอกคนที่เกี่ยวข้องให้เข้าใจตรงกัน', action:'เลือกเป้าหมายหนึ่งอย่าง แล้วลงมือทำขั้นแรกภายในวันนี้ อย่าแบกทุกอย่างไว้คนเดียว'},
@@ -1874,6 +2217,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     var rabbitMessage = rabbitMessages[rabbitNum] || rabbitMessages[9];
     // บทสนทนาจากองค์เทพประจำตัว เขียนเป็นภาษาพูดโดยอิงความหมายเลขโหรกระต่าย
+    // บทสนทนาในน้ำเสียงขององค์เทพที่คำนวณได้ โดยผูกกับเลขเทพ ไม่ใช่เลขกระต่าย
     var godConversation = {
       1: 'ลูกเอ๋ย… มีความฝันบางอย่างที่เจ้าเก็บเงียบ ๆ ไว้ในใจมานานหรือไม่ บางทีสิ่งที่ทำให้เจ้ายังไม่เริ่ม อาจไม่ใช่เพราะเจ้าไม่เก่งพอ แต่เป็นเพราะกลัวว่าจะผิดหวังอีกครั้ง ข้าอยากให้เจ้ารู้ว่า เจ้าไม่ต้องมั่นใจเต็มร้อยจึงจะเริ่มได้ แค่ซื่อตรงกับสิ่งที่หัวใจต้องการ แล้วค่อย ๆ ก้าวไปทีละก้าวก็พอ วันนี้ขอเพียงอย่าทอดทิ้งความหวังของตัวเองนะ',
       2: 'ลูกเอ๋ย… เจ้าไม่จำเป็นต้องรีบหาคำตอบเพื่อทำให้ทุกคนพอใจ บางครั้งเสียงรอบตัวก็ดังจนเราแทบไม่ได้ยินใจตัวเอง ลองให้เวลาตัวเองได้สงบลง แล้วถามอย่างอ่อนโยนว่า “จริง ๆ แล้ว ฉันต้องการอะไร และอะไรคือสิ่งที่ดีต่อฉัน” เจ้าไม่จำเป็นต้องตัดสินใจในวันที่ใจยังวุ่นวาย ค่อย ๆ ดูให้ชัด แล้วเลือกด้วยความเข้าใจ ไม่ใช่ด้วยความกลัวนะ',
@@ -1885,61 +2229,30 @@ document.addEventListener("DOMContentLoaded", function () {
       8: 'ลูกเอ๋ย… เจ้าไม่จำเป็นต้องพิสูจน์คุณค่าของตัวเองด้วยการทำงานไม่หยุด หรือรับทุกเรื่องไว้บนบ่า คุณมีคุณค่าแม้ในวันที่พัก แม้ในวันที่ยังไม่มีคำตอบ และแม้ในวันที่ทำได้ไม่เท่าที่ตั้งใจ ลองวางสิ่งที่ไม่จำเป็นลงบ้าง แล้วกลับมาดูแลสิ่งพื้นฐานในชีวิตทีละอย่าง การค่อย ๆ ประคองตัวเองให้มั่นคงไม่ใช่การถอยหลัง แต่เป็นการให้ใจมีแรงเดินต่อเมื่อถึงเวลา',
       9: 'ลูกเอ๋ย… หากตอนนี้ทุกอย่างดูพันกันยุ่งไปหมด อย่าเพิ่งตัดสินว่าตัวเองไม่มีทางออกนะ เมื่อใจเหนื่อย ปัญหาทุกเรื่องอาจดูใหญ่กว่าที่เป็นจริง ลองหยุดพัก แล้วแยกสิ่งที่กังวลออกมาทีละข้อ เลือกจัดการเพียงเรื่องเดียวที่พอเริ่มได้ก่อน เจ้าสามารถขอความช่วยเหลือได้ ไม่จำเป็นต้องผ่านทุกอย่างลำพัง แม้วันนี้ยังมองไม่เห็นทางทั้งหมด ก็ไม่เป็นไร ขอเพียงอย่าลืมว่าตัวเองยังมีสิทธิ์เริ่มต้นใหม่ทีละนิด'
     };
-    // สร้างบทพูดใหม่จาก RHD จริงทั้งสองแกน: สถานการณ์ (WHAT/WHERE) + วิธีรับมือ (HOW)
-    // ไม่ใช้เลขพื้นดวง rabbitNum มาแทนสถานการณ์ RHD และไม่ดึงข้อมูล RHD ส่วนอื่นมาใช้
-    var godSituationVoice = {
-      1: 'นี่เป็นจังหวะของการเริ่มต้น ประตูบานใหม่อาจยังไม่ได้เปิดกว้างทั้งหมด แต่เจ้าเริ่มจากก้าวเล็ก ๆ ที่ปลอดภัยได้ ไม่ต้องรอให้มั่นใจทุกอย่างก่อนนะ',
-      2: 'นี่เป็นจังหวะที่ควรฟังและสังเกตให้มากกว่าการรีบตอบ บางข้อมูลยังมาไม่ครบ เจ้าจึงให้เวลาตัวเองดูการกระทำและรายละเอียดได้ โดยไม่ต้องตีความความเงียบว่าเป็นคำตอบสุดท้าย',
-      3: 'นี่เป็นจังหวะที่มีแรงส่งให้ขยับไปข้างหน้า หากมีโอกาสที่สอดคล้องกับสิ่งที่เจ้าต้องการ ก็ลองก้าวเข้าไปอย่างมีสติ ไม่จำเป็นต้องคว้าทุกอย่างพร้อมกัน',
-      4: 'นี่เป็นจังหวะที่ควรชะลอเพื่อตรวจดูรายละเอียด โดยเฉพาะสิ่งที่ย้อนกลับไปแก้ได้ยาก การหยุดเช็กไม่ได้ทำให้เจ้าพลาด แต่ช่วยให้เลือกได้อย่างมั่นใจขึ้น',
-      5: 'นี่เป็นจังหวะของการเก็บแรงและเตรียมตัว เจ้าไม่จำเป็นต้องเปิดเผยทุกแผนหรือเร่งให้ทุกอย่างเกิดขึ้นทันที ใช้เวลานี้ดูแลสิ่งจำเป็นและสะสมกำลังอย่างมีเป้าหมาย',
-      6: 'นี่เป็นจังหวะที่อาจต้องปรับแผนหรือเปลี่ยนวิธี หากทางเดิมไม่พาไปไหน ลองเปิดพื้นที่ให้ทางเลือกใหม่ แต่เปลี่ยนทีละส่วนและดูผลจริงก่อนตัดสินใจครั้งใหญ่',
-      7: 'นี่เป็นจังหวะของการย้อนกลับไปสะสางสิ่งที่ยังค้างอยู่ ไม่ใช่เพื่อโทษตัวเอง แต่เพื่อเข้าใจว่าอะไรเกิดขึ้นและอะไรควรทำต่างไป เมื่อปิดเรื่องสำคัญได้ เจ้าจะมีพื้นที่เดินต่อมากขึ้น',
-      8: 'นี่เป็นจังหวะที่ทุกอย่างอาจยังไม่เคลื่อนไหวชัดเจน การรักษาความมั่นคงและทำสิ่งพื้นฐานให้ดีมีความหมายมากแล้ว ไม่ต้องบังคับให้ทุกเรื่องต้องมีคำตอบในวันนี้',
-      9: 'นี่เป็นจังหวะที่ทางออกเริ่มมองเห็นได้ชัดขึ้น ลองเลือกเรื่องที่คลี่คลายได้ก่อน แล้วค่อยต่อยอดไปเรื่องถัดไป ไม่จำเป็นต้องจัดการทุกอย่างให้จบในคราวเดียว'
+    var adminGodConversation = {
+      1: 'ลูกเอ๋ย… ข้าคือท้าวเวสสุวรรณ ผู้ยืนเฝ้าประตูและคุ้มครองสิ่งที่เจ้าหวงแหน ข้าอยากให้เจ้าลองมองว่า บางครั้งกำแพงที่เจ้าสร้างขึ้นเพื่อป้องกันตัวเอง อาจสูงจนแม้แต่คนที่รักเจ้าก็เข้าไม่ถึง เจ้าไม่จำเป็นต้องระแวงทุกคนเพื่อให้ปลอดภัย จงเรียนรู้ที่จะดูการกระทำ วางขอบเขตให้ชัด และเปิดใจเท่าที่ใจเจ้าพร้อม ความเข้มแข็งที่แท้จริงไม่ใช่การไม่กลัว แต่คือการรู้ว่าอะไรควรปกป้อง และอะไรไม่จำเป็นต้องแบกอีกต่อไป',
+      2: 'ลูกเอ๋ย… ข้าคือพระศิวะ ผู้ทำลายสิ่งเก่าที่หมดหน้าที่ เพื่อเปิดทางให้การเปลี่ยนแปลง ข้าอยากถามว่า เจ้ายังยึดตัวตนแบบเดิมไว้เพราะมันยังใช่ หรือเพราะกลัวว่าหากปล่อยไปแล้วจะไม่รู้ว่าตัวเองเป็นใคร? ความผิดพลาดในอดีตไม่ใช่ตัวตนทั้งหมดของเจ้า และการเปลี่ยนใจไม่ใช่ความพ่ายแพ้ จงกล้ามองความจริงที่ไม่สบายใจ แล้วเลือกวางสิ่งที่ทำให้เจ้าต้องฝืนเป็นคนอื่น เพื่อให้ตัวตนที่แท้จริงได้เติบโต',
+      3: 'ลูกเอ๋ย… ข้าคือพระแม่ลักษมี ผู้เตือนให้เจ้ารู้จักคุณค่าและการรับสิ่งดีงาม ข้าอยากให้เจ้าถามตัวเองว่า เหตุใดเจ้าจึงต้องพยายามทำให้ตัวเองคู่ควรอยู่ตลอดเวลา? เจ้าไม่จำเป็นต้องสวยงาม สมบูรณ์แบบ ประสบความสำเร็จ หรือเป็นที่ต้องการของใครก่อน จึงจะมีคุณค่า ความรักที่ดีไม่ควรทำให้เจ้าต้องลดตัวเองลงเพื่อรักษามัน จงฝึกยอมรับความช่วยเหลือ คำชม และความรัก โดยไม่รีบคิดว่าต้องตอบแทนด้วยการเสียสละตัวเอง',
+      4: 'ลูกเอ๋ย… ข้าคือพระพิฆเนศวร ผู้เปิดทางเมื่อเจ้ากล้าเรียนรู้จากอุปสรรค ข้าเห็นว่าเจ้าบางครั้งรอให้ทุกอย่างพร้อม หรือกลัวว่าหากเริ่มแล้วจะทำได้ไม่ดีพอ ข้าอยากให้เจ้ารู้ว่า ความไม่สมบูรณ์แบบไม่ใช่เหตุผลที่ต้องหยุดชีวิตไว้ เจ้าอาจกำลังใช้การคิดให้รอบคอบเป็นเกราะป้องกันความกลัวที่จะถูกตัดสิน ลองเริ่มจากก้าวเล็ก ๆ ยอมให้ตัวเองเรียนรู้ และอย่าใช้ความผิดพลาดเพียงครั้งเดียวมาตัดสินคุณค่าทั้งชีวิต',
+      5: 'ลูกเอ๋ย… ข้าคือพระพรหม ผู้มองเห็นหลายบทบาทและหลายด้านในชีวิตเจ้า ข้าอยากถามว่า เจ้ากำลังใช้ชีวิตตามสิ่งที่หัวใจต้องการ หรือกำลังทำหน้าที่จนลืมไปว่าตัวเองก็เป็นคนคนหนึ่งที่ต้องการการดูแล? เจ้าไม่จำเป็นต้องเป็นลูกที่ดี คนรักที่ดี ผู้ทำงานที่ดี และที่พึ่งของทุกคนตลอดเวลา จนไม่มีพื้นที่ให้ความต้องการของตัวเอง จงอนุญาตให้ชีวิตมีสมดุล และยอมรับว่าเจ้ามีสิทธิ์เลือกเส้นทางที่เหมาะกับตัวเองด้วย',
+      6: 'ลูกเอ๋ย… ข้าคือไฉ่ซิงเอี้ย ผู้เป็นสัญลักษณ์แห่งทรัพย์และความมั่นคง ข้าอยากให้เจ้ามองลึกลงไปว่า ความกังวลเรื่องเงินกำลังบอกอะไรเกี่ยวกับความรู้สึกปลอดภัยของเจ้า เจ้ากลัวการขาดแคลน กลัวเป็นภาระ หรือกลัวว่าหากไม่มีผลงานแล้วจะไม่มีใครเห็นคุณค่า? ทรัพย์สินช่วยให้ชีวิตมั่นคงได้ แต่ไม่ควรเป็นเครื่องตัดสินว่าเจ้ามีค่ามากน้อยเพียงใด จงวางแผนอย่างมีสติ พร้อมดูแลหัวใจที่อาจเหนื่อยจากการต้องมั่นคงให้ทุกคนเห็นอยู่เสมอ',
+      7: 'ลูกเอ๋ย… ข้าคือพระแม่สุรัสวดี ผู้ดูแลปัญญา ความรู้ และเสียงที่เปล่งออกมาจากตัวตน ข้าอยากให้เจ้าฟังเสียงของตัวเองให้ชัด เจ้าเงียบเพราะกำลังเลือกคำอย่างรอบคอบ หรือเงียบเพราะกลัวว่าความคิดของตัวเองจะไม่ดีพอ? ความรู้ไม่จำเป็นต้องสมบูรณ์ก่อนจึงจะแบ่งปันได้ และเจ้าไม่จำเป็นต้องรู้ทุกอย่างเพื่อมีสิทธิ์พูด จงให้พื้นที่กับความคิดสร้างสรรค์ ความสงสัย และความผิดพลาด เพราะสิ่งเหล่านี้เป็นส่วนหนึ่งของการเติบโต',
+      8: 'ลูกเอ๋ย… ข้าคือพระแม่กวนอิม ผู้เตือนให้เมตตาต่อความทุกข์ของสรรพชีวิต รวมถึงตัวเจ้าเองด้วย ข้าอยากให้เจ้าหยุดมองความอ่อนไหวเป็นข้อบกพร่อง บางทีเจ้าฝึกเข้าใจคนอื่นจนเก่ง แต่กลับไม่ยอมรับฟังความเจ็บปวดของตัวเอง เจ้าไม่จำเป็นต้องให้อภัยใครก่อนพร้อม ไม่จำเป็นต้องอยู่ในความสัมพันธ์ที่ทำร้ายใจเพื่อพิสูจน์ว่าเป็นคนดี เมตตาไม่ได้แปลว่าไร้ขอบเขต จงเริ่มจากการไม่ทอดทิ้งตัวเองในวันที่ใจเหนื่อย',
+      9: 'ลูกเอ๋ย… ข้าคือพระแม่กาลี ผู้กล้าสบตาความจริงและตัดสิ่งที่กดทับชีวิต ข้าอยากให้เจ้ามองด้านที่เคยซ่อนไว้ ทั้งความโกรธ ความเจ็บ ความอิจฉา หรือความต้องการที่จะพูดว่าไม่ สิ่งเหล่านี้ไม่ได้ทำให้เจ้าเป็นคนเลวเสมอไป บางครั้งมันกำลังชี้ให้เห็นว่าขอบเขตของเจ้าถูกล้ำ หรือความต้องการสำคัญถูกมองข้าม จงใช้พลังนั้นเพื่อปกป้องตัวเองอย่างมีสติ ไม่ใช่ทำร้ายตัวเองหรือผู้อื่น และอย่ากลัวที่จะยอมรับความจริงที่ทำให้เจ้าเป็นอิสระ'
     };
-    var godHabitVoice = {
-      1: 'เจ้าเป็นคนที่มักอยากเริ่มและเปิดทางด้วยตัวเอง จุดแข็งนี้ช่วยให้เกิดความคืบหน้าได้ แต่ขอให้บอกคนที่เกี่ยวข้องให้เข้าใจตรงกัน และไม่รับทุกภาระไว้คนเดียว',
-      2: 'เจ้าอาจต้องเห็นสิ่งที่เกิดขึ้นจริงก่อนจึงจะรู้ว่าควรไปต่อหรือถอย นั่นไม่ใช่ความลังเลเสมอไป ลองกำหนดให้ชัดว่ากำลังรอสัญญาณอะไร และจะกลับมาทบทวนเมื่อไร',
-      3: 'เจ้าเรียนรู้ได้ดีจากการลองทำและปรับระหว่างทาง จึงไม่จำเป็นต้องหาคำตอบที่สมบูรณ์ก่อนเริ่ม แต่ขอให้ทดลองทีละอย่าง เพื่อไม่ให้พลังของเจ้ากระจายไปหลายทางเกินไป',
-      4: 'เจ้ามักมองภาพรวม อ่านคนและระบบก่อนลงมือ นี่เป็นความสามารถที่มีค่า แต่ไม่จำเป็นต้องแก้ทุกอย่างแทนทุกคน ลองแยกให้ชัดว่าส่วนไหนเป็นหน้าที่ของเจ้าและส่วนไหนควรให้คนอื่นรับผิดชอบ',
-      5: 'เจ้าไวต่อบรรยากาศและความรู้สึกของคนรอบตัว ก่อนเลือกทางใด ขอให้ถามตัวเองด้วยว่า “นี่คือสิ่งที่ฉันต้องการจริง ๆ หรือฉันกำลังรับความคาดหวังของคนอื่นมาแบก”',
-      6: 'เจ้ามักจับสัญญาณเล็ก ๆ ได้เร็ว จงรับฟังความรู้สึกนั้นอย่างอ่อนโยน แล้วตรวจสอบกับข้อเท็จจริงอีกชั้น ไม่ต้องปฏิเสธสัญชาตญาณของตัวเอง และไม่ต้องให้ความกลัวเป็นคนตัดสินแทน',
-      7: 'เมื่อความรู้สึกกำลังขึ้นลง เจ้าอาจต้องมีระยะห่างก่อนจะเห็นคำตอบชัดขึ้น หากเรื่องนี้สำคัญ ขอให้พักแล้วกลับมาคิดอีกครั้งเมื่อใจสงบ แทนการบังคับตัวเองให้ตอบทันที',
-      8: 'เจ้ามักอยากเข้าใจให้มากพอก่อนจึงค่อยเชื่อหรือเลือกทาง นั่นช่วยให้รอบคอบได้ดี ลองกำหนดข้อมูลที่จำเป็นจริง ๆ และจุดที่พอแล้วจะตัดสินใจ เพื่อไม่ให้การค้นหากลายเป็นความเหนื่อยล้า',
-      9: 'เจ้ามักเชื่อมโยงข้อมูลและความรู้สึกหลายด้านเข้าด้วยกันก่อนสรุป นี่ช่วยให้เห็นภาพกว้าง แต่ไม่จำเป็นต้องรอให้ทุกอย่างสมบูรณ์ ลองเลือกจากข้อมูลสำคัญที่สุดที่มีอยู่ในตอนนี้'
-    };
-    var godSituationNextStep = {
-      1:'เลือกก้าวเริ่มต้นหนึ่งอย่างที่ทำได้จริงในวันนี้',
-      2:'จดสิ่งที่รู้แล้วกับสิ่งที่ยังต้องถามให้ชัดก่อนเลือก',
-      3:'เลือกโอกาสสำคัญที่สุดหนึ่งอย่าง แล้วลงมืออย่างมีแผน',
-      4:'ตรวจข้อเท็จจริง เงื่อนไข และความเสี่ยงก่อนตกลง',
-      5:'ดูแลพลังของตัวเองและเตรียมสิ่งจำเป็นทีละข้อ',
-      6:'ทดลองปรับวิธีหนึ่งอย่างก่อนเปลี่ยนแผนทั้งหมด',
-      7:'สะสางเรื่องค้างคาหนึ่งเรื่องโดยไม่ตำหนิตัวเอง',
-      8:'รักษากิจวัตรและความมั่นคง พร้อมสังเกตสัญญาณใหม่',
-      9:'เริ่มจากปัญหาหนึ่งข้อที่มีทางคลี่คลายได้ก่อน'
-    };
-    var godSituationNumber = godRhdContext.situationNumber || 9;
-    var godHabitNumber = godRhdContext.habitNumber || 9;
-    var godConversationText = 'ลูกเอ๋ย… ข้าอยากคุยกับเจ้าจากสิ่งที่กำลังเกิดขึ้นจริง ๆ นะ ' +
-      '<br/><br/><b>เรื่องที่เจ้าเผชิญอยู่ตอนนี้ — ' + godRhdContext.situationName + '</b><br/>' +
-      (godSituationVoice[godSituationNumber] || godSituationVoice[9]) + ' ' +
-      '<br/><br/><b>วิธีที่เจ้ามักใช้รับมือ — ' + godRhdContext.habitName + '</b><br/>' +
-      (godHabitVoice[godHabitNumber] || godHabitVoice[9]) +
-      '<br/><br/>เพราะฉะนั้น ก้าวถัดไปที่ข้าอยากชวนให้เจ้าลองคือ <b>' +
-      (godSituationNextStep[godSituationNumber] || godSituationNextStep[9]) + '</b> แล้วใช้วิธีที่เข้ากับตัวเจ้า โดย ' +
-      godRhdContext.habitResponse + ' หากสองอย่างนี้ดูเหมือนดึงเจ้าไปคนละทาง ก็ไม่ต้องฝืนเลือกให้สมบูรณ์แบบ แค่ค่อย ๆ ปรับให้พอดีกับสถานการณ์จริงและดูแลหัวใจของตัวเองไปด้วย ข้าอยู่ข้างเจ้าเสมอในวันที่เจ้ากำลังเรียนรู้ว่าจะเดินต่ออย่างไร';
+    var godConversationText = window.RABBITASTRO_ADMIN_MODE ? (adminGodConversation[deityNum] || adminGodConversation[1]) : (godConversation[rabbitNum] || godConversation[9]);
     var h = '<span class="card-title">💌 เทพองค์นี้อยากจะบอกอะไรกับคุณ</span>';
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="god-card god-card-main">';
     h += '<div class="god-title">⛩️ ' + (god.name || '-') + ' <span class="god-type">' + (god.type || '') + '</span></div>';
-    h += '<div class="god-code-row"><span>🐇 เลขโหรกระต่ายของคุณ: ' + rabbitNum + ' · ' + rabbitInfo.name + '</span></div>';
+    // ไม่แสดงรหัสหรือตัวเลขเบื้องหลังในหน้า UI
     h += '<div class="answer-box good god-message-box"><b>💌 ข้อความที่อยากให้คุณรับรู้</b><br/>' + rabbitMessage.message + '</div>';
     h += '<div class="god-lead"><b>🌿 ลองทำสิ่งนี้ต่อจากนี้</b><br/>' + rabbitMessage.action + '</div>';
     h += '<div class="god-detail-box" style="margin-top:10px;"><div class="god-detail-title">✨ ความหมายขององค์เทพในความเชื่อ</div>' + (god.bless || 'ใช้สติและความตั้งใจเป็นแนวทางในการดำเนินชีวิต') + '</div>';
     h += '</div>';
-    h += '<div class="pred-block god-conversation-block"><h4 style="color:#92400e;">🗣️ ข้อความจากองค์เทพถึงหัวใจของคุณ</h4>';
+    h += '<div class="pred-block god-conversation-block"><h4 style="color:#92400e;">' + (window.RABBITASTRO_ADMIN_MODE ? '🗣️ ถ้อยคำจาก ' + (god.name || 'องค์เทพประจำตัว') + ' ถึงหัวใจของคุณ' : '🗣️ ข้อความจากองค์เทพถึงหัวใจของคุณ') + '</h4>';
     h += '<div class="answer-box good god-message-box"><b>⛩️ ' + (god.name || 'เทพประจำตัว') + ' พูดกับคุณว่า...</b><br/>' + godConversationText + '</div>';
+    if (window.RABBITASTRO_ADMIN_MODE) h += '<div class="pred-section-item" style="margin-top:8px;"><b>🌱 แก่นที่องค์เทพชวนให้สำรวจ:</b> ความกลัวที่ซ่อนอยู่ ความต้องการที่ไม่กล้าพูด และความเชื่อที่ใช้ตัดสินคุณค่าตัวเอง ลองเลือกเพียงประเด็นที่ตรงกับชีวิตจริง ไม่จำเป็นต้องยอมรับทุกข้อความในครั้งเดียว</div>';
     h += '<div class="pred-section-item" style="margin-top:10px;">ลองอ่านช้า ๆ แล้วสังเกตว่าประโยคไหนทำให้คุณหยุดคิดหรือรู้สึกบางอย่าง ไม่จำเป็นต้องเชื่อทุกคำ เลือกเก็บไว้เฉพาะสิ่งที่ช่วยให้เข้าใจตัวเองและดูแลชีวิตได้ดีขึ้น</div>';
     var godComfort = {
       1:'ถึงคุณคนที่พยายามเริ่มต้นอยู่เสมอ… คุณไม่จำเป็นต้องพิสูจน์ว่าตัวเองเก่งพอในทุกวัน แค่ยังไม่ทอดทิ้งสิ่งที่สำคัญกับใจ และยอมให้ตัวเองเริ่มจากก้าวเล็ก ๆ ก็มีความหมายมากแล้ว',
@@ -1954,7 +2267,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     h += '<div class="pred-block god-comfort-block" style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-left:5px solid #ea580c;border-radius:12px;padding:13px;line-height:1.8;"><h4 style="margin:0 0 7px;color:#9a3412;">🤍 ประโยคที่อยากให้หัวใจของคุณได้ยิน</h4><div>' + (godComfort[rabbitNum] || godComfort[9]) + '</div><div style="margin-top:7px;font-size:12px;color:#7c5b4b;">ไม่จำเป็นต้องฝืนให้ตัวเองรู้สึกดีทันที แค่ค่อย ๆ รับฟังใจตัวเองก็พอ</div></div>';
     h += '</div>';
-    h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">ผลนี้เป็นการจับคู่ตามศาสตร์เลขศาสตร์และความเชื่อส่วนบุคคล</p>';
+    h += '<p style="font-size:12px;color:var(--text-muted);margin-top:12px;">องค์เทพเป็นสัญลักษณ์ประกอบคำอ่าน โดยยึดพื้นดวงตามโหรกระต่ายเป็นหลัก</p>';
+    h += featureCtaHtml('engine2');
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, rabbitNum, 'god');
@@ -1968,7 +2282,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try{showResultFor("tabGod",true);}catch(err){console.error("Horakratai personal deity calculation error:",err);if(resultsBox){resultsBox.style.display='block';setSafeHTML(resultsBox,'<div class="god-detail-box warn"><b>⚠️ ระบบค้นหาองค์เทพประจำตัวขัดข้อง</b><br/>กรุณาตรวจสอบข้อมูลที่กรอกแล้วลองกดคำนวณใหม่อีกครั้ง</div>');}}
   });
 
-  // ---------- Engine 3: ตำราโอเรกุรัม — คำทำนายที่อบอุ่นและชวนเข้าใจตัวเอง ----------
+  // ---------- Engine 3: ตำราโอเรกุรัม คำทำนายที่อบอุ่นและชวนเข้าใจตัวเอง ----------
   // ปรับเฉพาะภาษาที่แสดงใน Engine 3 โดยไม่เปลี่ยนสูตรคำนวณหรือข้อมูลของ Engine อื่น
   function warmOreguramText(text) {
     if (text == null) return '';
@@ -1985,58 +2299,40 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/แนวโน้มสูญเสียถาวร/g, 'ยังมีความไม่แน่นอน และอาจต้องเตรียมใจรับความเป็นไปได้หลายแบบ')
       .replace(/มีเกณฑ์ถูกโจมตี/g, 'อาจมีสถานการณ์ที่ทำให้คุณรู้สึกถูกกดดัน')
       .replace(/ด่วน/g, 'อย่างใจเย็นและรอบคอบ')
-      .replace(/ต้อง/g, 'อาจต้อง')
-      .replace(/ควร/g, 'ลอง')
       .replace(/อย่าเพิ่ง/g, 'คุณยังไม่จำเป็นต้องรีบ')
       .replace(/ระวัง/g, 'ลองใส่ใจ');
   }
 
-  function oreguramSelfReflection(category, bucket) {
+  function oreguramSelfReflection(category) {
     var prompts = {
       work: 'เรื่องงานอาจแตะทั้งความมั่นคง ความสามารถ และความรู้สึกว่าตัวเองมีคุณค่า ลองถามใจตัวเองว่า งานแบบไหนที่ทำให้คุณเติบโต โดยไม่ต้องฝืนจนหมดแรง?',
       money: 'เรื่องเงินอาจทำให้ใจไม่มั่นคงได้ง่ายนะ ลองมองตัวเลขตามจริงโดยไม่ตำหนิตัวเอง แล้วถามว่า ตอนนี้สิ่งไหนจะช่วยให้คุณรู้สึกปลอดภัยขึ้นได้ทีละนิด?',
       love: 'ความรักไม่จำเป็นต้องให้คุณเดาใจอีกฝ่ายอยู่คนเดียว ลองสังเกตทั้งคำพูดและการกระทำ พร้อมถามตัวเองว่า ความสัมพันธ์แบบไหนที่ทำให้คุณรู้สึกได้รับความใส่ใจและเป็นตัวเองได้?',
       health: 'ขอให้คุณใจดีกับตัวเองเป็นพิเศษนะ ลองฟังสัญญาณจากร่างกายและให้ความสำคัญกับการดูแลที่เหมาะสม คุณไม่จำเป็นต้องเข้มแข็งหรือรับมือทุกอย่างเพียงลำพัง',
-      interest: 'สิ่งที่คุณหวังอาจบอกอะไรบางอย่างเกี่ยวกับความต้องการลึก ๆ ในใจ ลองถามตัวเองว่า หากไม่ต้องกลัวว่าจะทำให้ใครผิดหวัง คุณอยากเลือกอะไรให้ตัวเองมากที่สุด?',
+      interest: 'สิ่งที่คุณหวังอาจบอกอะไรบางอย่างเกี่ยวกับความต้องการในใจ ลองถามตัวเองว่า หากไม่ต้องกลัวว่าจะทำให้ใครผิดหวัง คุณอยากเลือกอะไรให้ตัวเองมากที่สุด?',
       other: 'ไม่ว่าเรื่องนี้จะลงเอยอย่างไร ความรู้สึกและความต้องการของคุณก็มีความหมาย ลองแยกสิ่งที่ควบคุมได้ออกจากสิ่งที่ควบคุมไม่ได้ แล้วเลือกดูแลส่วนที่อยู่ในมือของคุณก่อนนะ'
     };
-    var endings = {
-      good: 'ถ้าผลนี้ทำให้คุณมีความหวัง ก็รับความหวังนั้นไว้ได้เลย พร้อมค่อย ๆ ลงมือในแบบที่ปลอดภัยและเหมาะกับชีวิตจริงของคุณ',
-      mid: 'ถ้าตอนนี้ยังไม่ชัดเจน คุณไม่จำเป็นต้องรีบหาคำตอบทั้งหมด ค่อย ๆ เก็บข้อมูลและให้เวลาตัวเองได้คิดอย่างสบายใจ',
-      warn: 'ถ้าผลนี้ทำให้กังวล ขอให้หายใจลึก ๆ ก่อนนะ นี่ไม่ใช่คำตัดสินอนาคต แต่เป็นโอกาสให้คุณทบทวนทางเลือกและดูแลตัวเองให้รอบคอบขึ้น'
-    };
-    return (prompts[category] || prompts.other) + ' ' + (endings[bucket] || endings.mid);
+    return prompts[category] || prompts.other;
   }
 
   function renderOreguramResult(data, fromButton) {
     if (!data) data = {};
     var q = document.getElementById('oreguramQuestion');
     var qId = q ? parseInt(q.value, 10) : 1;
-    if (!qId || !Engine.OREGURAM_QUESTIONS.some(function (x) { return x.id === qId; })) qId = 1;
-    var res = Engine.calcOreguram({ questionId: qId, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
+    var activeQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS) ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
+    if (!qId || !activeQuestionBank.some(function (x) { return x.id === qId; })) qId = 1;
+    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
+    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
-    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดคำทำนาย</h4>';
-    if (res.catPrediction && res.catPrediction.overview) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.catPrediction.overview) + '</div>';
-    else if (res.deep && res.deep.focus) h += '<div class="pred-section-item"><b>แนวโน้ม:</b><br/>' + warmOreguramText(res.deep.focus) + '</div>';
-    if (res.catPrediction && res.catPrediction.detail) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.detail) + '</div>';
-    else if (res.catPrediction && res.catPrediction.example) h += '<div class="pred-section-item"><b>สิ่งที่อาจเกิดขึ้น:</b><br/>' + warmOreguramText(res.catPrediction.example) + '</div>';
-    if (res.deep && res.deep.action) h += '<div class="pred-section-item"><b>สิ่งที่ควรทำ:</b><br/>' + warmOreguramText(res.deep.action) + '</div>';
-    else if (res.catPrediction && res.catPrediction.advice) h += '<div class="pred-section-item"><b>คำแนะนำ:</b><br/>' + warmOreguramText(res.catPrediction.advice) + '</div>';
-    if (res.deep && res.deep.caution) h += '<div class="pred-section-item"><b>ข้อควรระวัง:</b><br/>' + warmOreguramText(res.deep.caution) + '</div>';
+    h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
+    // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
+    var detail = res.detail || {};
+    h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
-    h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category, res.bucket) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
-    h += '<div class="pred-block"><h4>🐇 รหัสคำทำนาย</h4><div class="pred-section-item"><b>' + ((res.rabbit && res.rabbit.name) || 'รหัสกระต่าย ' + res.R4) + ' · เลข ' + res.R4 + '</b></div>';
-    h += '<div class="pred-section-item"><b>ธาตุประจำผล:</b> ' + ((res.element && res.element.name) || '-') + ' ' + ((res.element && res.element.symbol) || '') + '</div></div>';
-
-    if (res.pendulumDirection) {
-      h += '<div class="pred-block" style="background:#f5f3ff;border-color:#ddd6fe;border-left:5px solid #7c3aed;">';
-      h += '<h4 style="color:#5b21b6;">🧭 ทิศทางจากศาสตร์เพนดูลัม</h4>';
-      h += '<div class="answer-box" style="margin-top:8px;background:#faf5ff;border-color:#d8b4fe;"><b>' + res.pendulumDirection.symbol + ' ทิศที่เพนดูลัมชี้:</b><br/><span style="font-size:18px;color:#5b21b6;">' + res.pendulumDirection.name + '</span><br/><span style="font-size:12.5px;color:#4a5568;">เลขทิศทาง ' + res.pendulumDirectionNo + ' · ' + res.pendulumDirection.meaning + '</span></div>';
-      h += '</div>';
-    }
+    h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
@@ -2055,6 +2351,11 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("กรุณากรอกชื่อ-นามสกุล และวัน เดือน ปีเกิด ให้ครบก่อนคำนวณค่ะ");
         return;
       }
+      var selectedOreguramQuestion = document.getElementById("oreguramQuestion");
+      if (!selectedOreguramQuestion || !parseInt(selectedOreguramQuestion.value, 10)) {
+        alert("กรุณาเลือกหมวดเรื่องและคำถามก่อนคำนวณค่ะ");
+        return;
+      }
       if (resultsBox) {
         resultsBox.style.display = "none";
         resultsBox.innerHTML = "";
@@ -2064,8 +2365,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
         resultsBox.style.display = "block";
-        var errorMessage = err && err.message != null && String(err.message).trim() ? String(err.message) : (typeof err === "string" && err.trim() ? err : "เกิดข้อผิดพลาดระหว่างคำนวณโอเรกุรัม");
-        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>เกิดข้อผิดพลาด: ' + escapeHTML(errorMessage) + '<br/><small>กรุณาลองคำนวณใหม่อีกครั้ง</small></div>');
+        setSafeHTML(resultsBox, '<div class="god-detail-box warn"><b>⚠️ ระบบคำนวณโอเรกุรัมขัดข้อง</b><br/>ไม่สามารถแสดงผลได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง</div>');
       }
     }
   });

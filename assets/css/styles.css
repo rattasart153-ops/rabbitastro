@@ -419,7 +419,7 @@ button { -webkit-tap-highlight-color: transparent; }
 .daily-element-desc, .daily-element-warn, .daily-element-badge { font-size: 14px; line-height: 1.7; }
 .pred-block { padding: 16px; margin: 13px 0; }
 .pred-block h4 { font-size: 18px; }
-.pred-section-item { font-size: 16px; line-height: 1.85; overflow-wrap: anywhere; }
+.pred-section-item { font-size: 16px; line-height: 1.85; overflow-wrap: break-word; }
 .answer-box { padding: 14px 16px; font-size: 15.5px; }
 button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-visible {
   outline: 3px solid rgba(217,119,6,.45);
@@ -453,3 +453,516 @@ button:focus-visible, a:focus-visible, .chip-btn:focus-visible, .tab-btn:focus-v
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
   
+
+/* ---------- ปรับขนาดตัวอักษรในช่องกรอกข้อมูลให้พอดีกับ Text Box ---------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select,
+textarea {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px !important;
+  line-height: 1.45;
+}
+textarea {
+  overflow-wrap: break-word;
+}
+input::placeholder,
+textarea::placeholder {
+  font-size: 12.5px;
+}
+
+
+/* ---------- Rabbitastro visual refresh: minimal, warm, premium ---------- */
+:root {
+  --bg-color: #f7f5f1;
+  --card-bg: #fffefa;
+  --text-main: #29251f;
+  --text-muted: #81796f;
+  --primary-orange: #a66b36;
+  --primary-orange-light: #f5ede3;
+  --dark-btn: #29251f;
+  --border-color: #ece6dd;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow: 0 8px 24px rgba(48, 38, 26, .045);
+}
+body { background: var(--bg-color); color: var(--text-main); letter-spacing: .005em; }
+.wrap { max-width: 520px; padding-top: 24px; }
+header.hero { padding: 14px 0 20px; }
+.hero .bunny-badge {
+  width: 54px; height: 54px; background: #f3e9dc; border: 1px solid #e8d8c5;
+  box-shadow: 0 5px 16px rgba(80,55,28,.07);
+}
+.hero h1 { font-size: clamp(22px, 5vw, 26px); letter-spacing: -.035em; }
+.hero p { color: #8b8175; font-size: 13px; }
+.engine-tabs {
+  gap: 5px; padding: 5px; background: #eee9e1; border: 1px solid #e7e0d6;
+  border-radius: 15px; margin: 16px 0 14px;
+}
+.tab-btn {
+  border-radius: 11px; padding: 10px 8px; color: #786f64;
+  font-size: 12.5px; transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.tab-btn.active {
+  color: #7e4f27; background: #fffefa; box-shadow: 0 2px 8px rgba(44,35,25,.08);
+}
+.card {
+  background: var(--card-bg); border: 1px solid #ece6dd; border-radius: 18px;
+  padding: 19px; box-shadow: 0 5px 18px rgba(48,38,26,.035);
+}
+.card-title { color: #9a8875; letter-spacing: .055em; font-size: 11px; }
+label { color: #71685e; }
+input, select, textarea {
+  background: #fff; border-color: #e7e0d7; border-radius: 11px;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #b88b5d; box-shadow: 0 0 0 3px rgba(166,107,54,.10);
+}
+.chip-group { gap: 7px; }
+.chip-btn {
+  background: #faf8f4; border-color: #eee8df; border-radius: 11px;
+  color: #62594f; transition: .18s ease;
+}
+.chip-btn.active {
+  background: #8d6038; border-color: #8d6038; color: #fff;
+  box-shadow: 0 4px 10px rgba(112,74,39,.16);
+}
+.chip-btn-sub { background: #faf8f4; border-color: #eee8df; }
+.chip-btn-sub.active { background: #f4ece2; border-color: #dfc7ac; color: #875a32; }
+.btn-submit {
+  border-radius: 12px; background: #29251f; box-shadow: 0 6px 16px rgba(41,37,31,.14);
+  letter-spacing: .01em; min-height: 48px;
+}
+.btn-submit:hover { background: #514638; transform: translateY(-1px); }
+.daily-element-card {
+  border-radius: 18px; box-shadow: 0 8px 20px rgba(60,45,30,.10);
+}
+.pred-block { background: #fbf9f5; border-color: #eee8df; border-radius: 14px; }
+.pred-block h4 { color: #95663b; border-color: #eee8df; }
+.answer-box { border-radius: 13px; }
+.hint-box { background: #f8f6f1; border-color: #e8e1d7; color: #776d61; }
+.line-cta {
+  border-radius: 17px; box-shadow: 0 8px 18px rgba(21,128,61,.12);
+}
+@media (max-width: 600px) {
+  .wrap { padding-left: 14px; padding-right: 14px; }
+  .card { padding: 16px; border-radius: 16px; }
+  .tab-btn { min-height: 43px; }
+}
+
+
+/* ---------- Responsive typography and layout: phone / tablet / desktop ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-size: 15px; line-height: 1.65; }
+.wrap { width: min(100% - 32px, 760px); max-width: 760px; }
+.hero h1 { font-size: clamp(1.45rem, 2.4vw, 1.9rem); line-height: 1.25; }
+.hero p { font-size: clamp(.84rem, 1.15vw, .98rem); }
+.card-title { font-size: clamp(.72rem, .9vw, .82rem); }
+label { font-size: clamp(.82rem, 1vw, .94rem); line-height: 1.5; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select, textarea {
+  font-size: 1rem !important; line-height: 1.5; min-height: 46px;
+}
+textarea { min-height: 104px; }
+input::placeholder, textarea::placeholder { font-size: .88rem; }
+button, .tab-btn, .chip-btn, .chip-btn-sub, .line-cta-btn { font-size: .92rem; line-height: 1.4; }
+.tab-btn, .chip-btn { min-height: 46px; }
+.pred-section-item, .answer-box { font-size: clamp(.96rem, 1.25vw, 1.08rem); line-height: 1.8; }
+.pred-block h4 { font-size: clamp(1.02rem, 1.4vw, 1.18rem); }
+@media (min-width: 600px) {
+  .wrap { width: min(100% - 48px, 760px); padding-top: 30px; }
+  .card { padding: clamp(20px, 2.4vw, 28px); }
+  .f-row { gap: 14px; }
+  .engine-tabs { gap: 8px; }
+  .tab-btn { flex: 1 1 auto; font-size: .9rem; padding: 12px 10px; }
+}
+@media (min-width: 900px) {
+  body { font-size: 16px; }
+  .wrap { width: min(100% - 64px, 820px); max-width: 820px; }
+  .hero { padding: 24px 0 26px; }
+  .hero h1 { font-size: 30px; }
+  .engine-tabs { position: static; }
+  .card { margin-bottom: 20px; }
+}
+@media (max-width: 599px) {
+  body { font-size: 14.5px; }
+  .wrap { width: calc(100% - 24px); padding: 14px 0 36px; }
+  .hero h1 { font-size: clamp(1.35rem, 6vw, 1.55rem); }
+  .card { padding: 15px; }
+  .f-row { gap: 9px; }
+  .f-row .field { min-width: 0; flex: 1 1 100%; }
+  .engine-tabs { gap: 5px; }
+  .tab-btn { flex: 1 1 calc(50% - 5px); min-height: 46px; font-size: .84rem; padding: 9px 5px; }
+  .chip-btn { flex: 1 1 calc(50% - 7px); min-height: 46px; }
+  .pred-section-item, .answer-box { font-size: .96rem; }
+}
+@media (max-width: 360px) {
+  .wrap { width: calc(100% - 20px); }
+  .card { padding: 13px; }
+  .tab-btn { font-size: .78rem; }
+  .hero .bunny-badge { width: 46px; height: 46px; }
+}
+
+
+/* ---------- Global text wrapping and line-flow fix ---------- */
+/* Keep text inside its own layout area across all engines and screen sizes. */
+*, *::before, *::after {
+  min-width: 0;
+}
+body, main, section, article, aside, header, footer,
+.wrap, .card, .pred-block, .answer-box, .hint-box,
+.pred-section-item, .dd-box, .role-box, .chant-box,
+.god-card, .god-box, .god-detail-box, .god-message-box,
+.rhd-card, .rhd-tile, .rhd-combined, .rhd-section,
+.line-cta,
+.num-tile, .month-card, .topic-line, .mth,
+.field, .f-row {
+  min-width: 0;
+  max-width: 100%;
+}
+:where(p, li, label, small, strong, b, em, span, a, button,
+       h1, h2, h3, h4, h5, h6, summary, .tab-btn, .chip-btn,
+       .chip-btn-sub, .lucky-chip, .status, .god-type, .rhd-badge,
+       .rhd-matrix-count, .line-cta-text, .line-cta-title) {
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+}
+.pred-block, .answer-box, .pred-section-item, .dd-box,
+.god-box, .god-detail-box, .god-lead, .god-message-box,
+.rhd-tile, .rhd-combined, .rhd-section,
+.topic-line, .hint-box, .role-box, .chant-box {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.f-row > *, .engine-tabs > *, .chip-group > *,
+.rhd-grid > *, .num-grid > *, .month-grid > * {
+  min-width: 0;
+}
+input, select, textarea, button {
+  max-width: 100%;
+}
+textarea {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+pre, code, .mantra {
+  max-width: 100%;
+  overflow-x: auto;
+}
+img, svg, video, canvas {
+  max-width: 100%;
+}
+
+
+/* ---------- Keep short Thai UI phrases together ---------- */
+/* Prevent short headings and controls (e.g. "คำแนะนำ") from splitting across lines.
+   Long body copy remains naturally wrap-able on narrow screens. */
+:where(
+  .hero h1, .pred-block h3, .pred-block h4, .pred-section-title,
+  .section-title, .tab-btn, .chip-btn, .chip-btn-sub,
+  .status, .rhd-badge, .god-type, .line-cta-title
+) {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+
+/* Keep Thai UI labels intact while descriptions wrap naturally. */
+.pred-section-item > b,
+.pred-section-item > strong,
+.answer-box > b,
+.role-box > b,
+.god-box > b,
+.god-detail-box > b {
+  display: inline-block;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* ---------- Consistent title + description layout ---------- */
+/* A chip's first line is its title; its <small> line is supporting copy. */
+.chip-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  text-align: center;
+}
+.chip-btn small {
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-height: 1.35;
+  text-align: center;
+}
+/* Keep short section titles intact; descriptions remain separate block elements. */
+.card-title,
+.daily-element-title,
+.pred-block h3,
+.pred-block h4,
+.pred-section-title,
+.section-title {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+
+/* Keep the complete Thai label "คำแนะนำ" on one line in rendered results. */
+.thai-keep {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+
+/* Force result subheadings onto their own line; thai-keep is inline-block for compact labels. */
+.thai-heading-block { display:block !important; width:100%; white-space:normal; word-break:keep-all; overflow-wrap:normal; margin-bottom:4px; }
+
+
+/* Daily recommendation and crystal: force the heading and each value onto separate rows. */
+.daily-element-stack {
+  display: block !important;
+  width: 100%;
+  white-space: normal !important;
+  text-align: left;
+}
+.daily-element-stack > div { display: block; width: 100%; }
+.daily-element-stack .daily-element-stack-title {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+.daily-element-stack #dailyElementSuggest,
+.daily-element-stack #dailyCrystalName,
+.daily-element-stack #dailyCrystalHealing,
+.daily-element-stack #dailyCrystalSupport {
+  display: block;
+  white-space: normal;
+}
+.daily-crystal-stack #dailyCrystalName { font-weight: 800; }
+
+
+/* Shared personal form: keep each requested field group on a single row on every device. */
+#sharedForm .personal-name-row,
+#sharedForm .birth-date-row,
+#sharedForm .birth-time-row {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start;
+  width: 100%;
+  gap: clamp(6px, 2vw, 10px);
+}
+#sharedForm .personal-name-row > .field,
+#sharedForm .birth-date-row > .field,
+#sharedForm .birth-time-row > .field {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  width: 0;
+}
+#sharedForm .personal-name-row label,
+#sharedForm .birth-date-row label,
+#sharedForm .birth-time-row label {
+  white-space: nowrap;
+  font-size: clamp(10px, 2.8vw, 13px);
+  line-height: 1.35;
+}
+#sharedForm .personal-name-row input,
+#sharedForm .birth-date-row input,
+#sharedForm .birth-time-row input {
+  width: 100%;
+  min-width: 0;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+
+/* Keep the added weekday interpretation fully inside its prediction card. */
+.weekday-influence-block {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.weekday-influence-block *,
+.weekday-influence-block *::before,
+.weekday-influence-block *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+.weekday-influence-block h4,
+.weekday-influence-block .pred-section-item,
+.weekday-influence-block .pred-section-item b,
+.weekday-influence-block .dd-box,
+.weekday-influence-block .dd-box li {
+  width: 100%;
+  max-width: 100%;
+}
+.weekday-influence-block .dd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* Result headings can wrap safely on narrow screens; explicit line breaks separate long titles. */
+.result-heading {
+  display: block;
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.5;
+}
+.result-heading br { display: block; content: ""; margin-top: 2px; }
+
+
+/* ---------- Keep all rendered Thai text inside its card without shrinking fonts ---------- */
+:where(
+  .card-title, .daily-element-title, .pred-block h3, .pred-block h4,
+  .pred-section-title, .section-title, .thai-heading-block,
+  .pred-section-item > b, .pred-section-item > strong,
+  .answer-box > b, .role-box > b, .god-box > b, .god-detail-box > b
+) {
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+.pred-block, .answer-box, .pred-section-item, .god-detail-box,
+.god-message-box, .god-lead, .rhd-tile, .rhd-section, .rhd-combined,
+.topic-line, .hint-box, .role-box, .chant-box {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.pred-section-item > b,
+.pred-section-item > strong,
+.answer-box > b,
+.role-box > b,
+.god-box > b,
+.god-detail-box > b {
+  display: inline;
+}
+.chip-btn {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.chip-btn small {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.thai-heading-block {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+/* CTA layout: keep every Engine's title, description and LINE button inside its card. */
+.prediction-cta {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.prediction-cta,
+.prediction-cta * {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+.prediction-cta .line-cta-title,
+.prediction-cta .line-cta-text {
+  display: block;
+  width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  text-overflow: clip;
+}
+.prediction-cta .line-cta-title {
+  line-height: 1.55;
+}
+.prediction-cta .line-cta-text {
+  line-height: 1.7;
+}
+.prediction-cta .line-cta-btn {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: center;
+  line-height: 1.5;
+}
+
+
+/* ---------- Oreguram dependent selection bars ---------- */
+.oreguram-select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 42px 11px 13px;
+  border: 1px solid #e7e0d7;
+  border-radius: 11px;
+  background-color: #fff;
+  color: var(--text-main);
+  font: inherit;
+  line-height: 1.5;
+  white-space: normal;
+}
+.oreguram-select:disabled {
+  opacity: .65;
+  background-color: #f4f1ec;
+  cursor: not-allowed;
+}
+.oreguram-input-group { min-width: 0; width: 100%; }
+
+
+/* ---------- Oreguram horizontal slide bars ---------- */
+.oreguram-slider {
+  display:flex; align-items:stretch; gap:8px; width:100%; max-width:100%; min-width:0;
+  padding:4px 2px 10px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+  scrollbar-width:thin; scrollbar-color:#c9b9a6 #f4eee7;
+}
+.oreguram-slide-option {
+  flex:0 0 auto; width:max-content; max-width:min(78vw,300px); min-height:44px;
+  padding:10px 14px; border:1px solid #e7e0d7; border-radius:999px; background:#fff;
+  color:var(--text-main); font:inherit; font-size:14px; line-height:1.45; text-align:center;
+  white-space:normal; overflow-wrap:anywhere; cursor:pointer; scroll-snap-align:start;
+}
+.oreguram-slide-option.active {
+  border-color:#8d6038; background:#8d6038; color:#fff; box-shadow:0 3px 9px rgba(112,74,39,.16);
+}
+.oreguram-slider-placeholder { display:block; padding:10px 4px; color:var(--text-muted); font-size:13px; }
+.oreguram-question-slider .oreguram-slide-option { max-width:min(84vw,340px); text-align:left; }
+.oreguram-slider:focus-within .oreguram-slide-option:focus-visible { outline:3px solid rgba(217,119,6,.35); outline-offset:2px; }

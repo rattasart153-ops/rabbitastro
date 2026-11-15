@@ -4,16 +4,28 @@
 
 ## Current source layout
 
-- `index.html` — หน้าเว็บหลักและลำดับการโหลดสคริปต์
-- `assets/css/styles.css` — CSS ที่แยกจากเอกสารต้นฉบับ
+- `index.html` — หน้าเว็บหลัก
+- `assets/css/styles.css` — รูปแบบการแสดงผล
 - `assets/js/01-daily-r9.js` — ระบบเลขกระต่ายประจำวัน
 - `assets/js/02-horakratai-engine.js` — Engine หลักของโหรกระต่าย
-- `assets/js/03-daily-element.js` — การแสดงผลธาตุประจำวัน
-- `assets/js/04-ui-renderers.js` — UI, การจัดการฟอร์ม และ renderer
+- `assets/js/03-daily-element.js` — การคำนวณและแสดงผลธาตุประจำวัน
+- `assets/js/04-ui-renderers.js` — การจัดการแท็บ ฟอร์ม และผลคำทำนาย
 - `assets/js/05-form-storage.js` — การจัดเก็บข้อมูลฟอร์มใน Local Storage
 - `assets/js/06-subconscious-presentation.js` — ส่วนแสดงผล subconscious
+- `admin/` — พื้นที่เครื่องมือคำนวณและแสดงผลสำหรับผู้ดูแล มีระบบ Login แยกจากระบบจองคิว
+- `api/admin.js` และ `google-apps-script/Code.gs` — ยืนยันตัวตน Admin เท่านั้น ไม่มี Booking API หรือการเชื่อมต่อ Google Sheets
+- `docs/` — เอกสารโครงการ การตรวจสอบ และแผนทดสอบ
 
 JavaScript ใช้ classic script tags และต้องรักษาลำดับการโหลดตามหมายเลขไฟล์ เนื่องจากบางไฟล์ใช้ global ที่ประกาศโดยไฟล์ก่อนหน้า
+
+## Engines
+
+1. ดวงบุคคล
+2. เทพประจำตัว
+3. โอเรกุรัม
+4. ไพ่ทาโรต์ + รูน
+
+ระบบจองคิวดูดวงและส่วนเชื่อมต่อที่เกี่ยวข้องถูกถอดออกจาก Source Code แล้ว ระบบ Login ของ Admin ใช้สำหรับเข้าสู่เครื่องมือ Engine 1–4 เท่านั้น ข้อมูลการจองเดิมใน Google Sheets ไม่ได้ถูกลบโดยการเปลี่ยนแปลงนี้
 
 ## Project documents
 
@@ -21,15 +33,12 @@ JavaScript ใช้ classic script tags และต้องรักษาล
 
 ## Branch and source history
 
-- Branch หลักปัจจุบัน: `main`
-- โครงสร้างแยกไฟล์และเอกสาร Audit จากงานใน `index` และ `rabbitastro-sandbox` ถูกรวมเข้าประวัติของ `main`
+- Branch ที่ใช้งานสำหรับการเปลี่ยนแปลงชุดนี้: `test-admin`
+- ไม่แก้ไข `main` โดยตรง
 - เอกสาร Audit เดิมเป็นบันทึกตามวันที่และ Source baseline ในขณะนั้น ไม่ใช่ผลยืนยัน Runtime ปัจจุบัน
 
 ## Verification status
 
-- ตรวจว่า HTML shell หลังแยกไฟล์ตรงกับ markup ของ Source ต้นฉบับ โดยไม่นับช่องว่างและการเยื้อง: ผ่าน
-- ตรวจว่า CSS และ JavaScript ถูกแยกจาก Source เดิมโดยไม่แก้เนื้อหา: ผ่าน
-- ตรวจ JavaScript syntax แบบ compile-only ครบ 6 ไฟล์: ผ่าน
-- เจ้าของโครงการเคยรายงานว่าเปิดเว็บและคำนวณผ่าน Browser ได้บน Branch ที่ทดสอบก่อนการรวมครั้งนี้ แต่ยังไม่ได้ทดสอบ Browser ซ้ำหลังการรวมและแยกไฟล์รอบนี้
-
-การตรวจ Static ไม่ใช่สิ่งทดแทน Browser/runtime regression test
+- การถอดระบบจองคิวเป็นการเปลี่ยนแปลง Source Code บน Branch ทดลอง
+- ต้องทดสอบ Browser จริงทั้งหน้า Main และ `/admin` หลัง Deployment
+- การตรวจ Static ไม่ใช่สิ่งทดแทน Browser/runtime regression test
