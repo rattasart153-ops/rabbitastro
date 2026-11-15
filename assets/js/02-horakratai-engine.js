@@ -3852,6 +3852,31 @@
   }
 
 
+  // สร้างรายละเอียดโอเรกุรัมจากคำถามที่เลือก + เลขพฤติกรรม RHD + เลขกระต่ายของสถานการณ์
+  // เลขพฤติกรรมใช้รหัสพื้นดวง (baseCode) ตามระบบ RHD เดิม ไม่สร้างสูตรใหม่
+  function buildOreguramBehaviorDetail(qObj, bucket, behaviorNumber, situationNumber) {
+    var habit = RHD_HABITS[behaviorNumber] || RHD_HABITS[5];
+    var situation = RABBITS[situationNumber] || RABBITS[9];
+    var topic = modernOreguText(qObj.topic || 'เรื่องที่ถาม');
+    var question = modernOreguText(qObj.text || 'คำถามที่เลือก');
+    var outcome = modernOreguText(qObj[bucket] || qObj.mid || '');
+    var direction = bucket === 'good'
+      ? 'ผลนี้เปิดพื้นที่ให้คุณใช้จุดแข็งของตัวเองเดินหน้าได้ ลองเลือกหนึ่งก้าวที่ทำได้จริง แล้วติดตามผลจากสิ่งที่เกิดขึ้น'
+      : bucket === 'warn'
+        ? 'ผลนี้ชวนให้ดูแลความเสี่ยงก่อน ไม่ได้หมายความว่าทุกอย่างจะต้องจบไม่ดี ค่อย ๆ แยกสิ่งที่ควบคุมได้และปกป้องสิ่งสำคัญของตัวเอง'
+        : 'ผลนี้ยังมีพื้นที่ให้สถานการณ์เปลี่ยนได้ ใช้วิธีทดลองทีละขั้นและเก็บข้อมูลเพิ่มก่อนตัดสินใจเรื่องใหญ่';
+    return {
+      behaviorNumber: behaviorNumber,
+      behaviorName: habit.name,
+      questionFocus: 'คำถาม “' + question + '” กำลังเจาะเรื่อง' + topic + ' วิธีรับมือของคุณจึงเป็นส่วนสำคัญว่าจะจัดการเรื่องนี้อย่างไร',
+      behaviorStrength: 'เลขพฤติกรรมกระต่าย ' + behaviorNumber + ' · ' + habit.name + ' : ' + habit.response + ' จุดแข็งนี้นำมาใช้กับเรื่อง' + topic + 'ได้โดย ' + habit.decision,
+      behaviorCaution: 'สิ่งที่ควรสังเกตจากรูปแบบพฤติกรรมนี้คือ ' + habit.caution,
+      situationReading: 'พลังสถานการณ์ของคำถามนี้เป็นกระต่ายเลข ' + situationNumber + ' · ' + situation.name + ' : ' + situation.desc,
+      outcomeGuidance: direction,
+      outcomeBasis: 'เมื่อนำผลคำทำนายของคำถามนี้มาประกอบกับรูปแบบพฤติกรรม จะเห็นประเด็นว่า ' + outcome
+    };
+  }
+
   function calcOreguram(params) {
     var questionId = parseInt(params.questionId || 1, 10);
     var b = readBirthInput(params);
@@ -3899,6 +3924,9 @@
     var advice = OREGU_ADVICE[R4] || OREGU_ADVICE[8];
     var directAnswer = qObj[bucket] || qObj.mid;
     var rabbit = RABBITS[R4];
+    var behaviorNumber = calcBaseFeature(params || {}).baseCode || 5;
+    var behaviorProfile = RHD_HABITS[behaviorNumber] || RHD_HABITS[5];
+    var behaviorDetail = buildOreguramBehaviorDetail(qObj, bucket, behaviorNumber, R4);
     var element = getElement(R4);
     var relation = calcElementRelation(namePart.ownerElement.name, element.name);
     var ascRabbit = ascBase ? (RABBITS[ascBase] || RABBITS[9]) : null;
@@ -3919,6 +3947,7 @@
       bucket: bucket, bucketInfo: bucketInfo,
       archetype: archetype, advice: modernOreguText(advice), directAnswer: modernOreguText(directAnswer),
       rabbit: rabbit, element: element, relation: relation,
+      behaviorNumber: behaviorNumber, behaviorProfile: behaviorProfile, detail: behaviorDetail,
       ascendant: ascInfo, ascBase: ascBase, ascRabbit: ascRabbit, ascElement: ascElement, noBirthTime: b.noBirthTime,
       qLevels: { good: modernOreguText(qObj.good), mid: modernOreguText(qObj.mid), warn: modernOreguText(qObj.warn) },
       catPrediction: catPred, nameRes: namePart.nameRes,
