@@ -1651,30 +1651,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
     var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
     h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
-    // Admin: ย้ายคำทำนายเรื่องคนที่จะเข้ามาจาก Engine 1 มาแสดงภายใน RHD
-    if (window.RABBITASTRO_ADMIN_MODE === true && typeof Engine.calcPerson === 'function') {
-      try {
-        var entrantRes = Engine.calcPerson({
-          feature: 'loveEntrant',
-          fName: inputData && inputData.fName,
-          fLast: inputData && inputData.fLast,
-          bDay: inputData && inputData.bDay,
-          bMonth: inputData && inputData.bMonth,
-          bYear: inputData && inputData.bYear,
-          bHour: inputData && inputData.bHour,
-          bMin: inputData && inputData.bMin,
-          noBirthTime: inputData && inputData.noBirthTime
-        });
-        if (entrantRes) {
-          h += '<div class="pred-block rhd-entrant-block" style="margin-top:14px;background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">';
-          h += '<h4 style="color:#9a3412;">👤 คำทำนายเรื่องคนที่จะเข้ามา</h4>';
-          h += renderLoveEntrantSection(entrantRes);
-          h += '</div>';
-        }
-      } catch (entrantError) {
-        // หากคำนวณส่วนนี้ไม่ได้ ให้คำทำนาย RHD ส่วนอื่นแสดงตามปกติ
-      }
-    }
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ส่วนนี้สรุปให้ตรง ๆ ว่าช่วงนี้คุณกำลังเจออะไร มีแนวโน้มรับมือแบบไหน และควรทำอะไรต่อ โดยใช้เป็นแนวทางประกอบการตัดสินใจได้เลย</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
@@ -2373,6 +2349,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
+    if (res.loveEntrant) {
+      h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
+      h += featureCtaHtml('oreguLove');
+      resultsBox.style.display = 'block';
+      setSafeHTML(resultsBox, h);
+      improvePredictionReadability(resultsBox, res.R4, 'oreguram');
+      if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
+      return true;
+    }
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
     // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
