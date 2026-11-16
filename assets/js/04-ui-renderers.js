@@ -1790,6 +1790,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     var reflection = rhdReflection[habit] || rhdReflection[1];
     h += '<div class="rhd-section rhd-inner-message" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin:10px 0;"><b>🧩 สิ่งที่ใจคุณกำลังบอก</b><p style="margin:7px 0 0;line-height:1.8;">'+escapeHTML(reflection.goal)+'</p></div>';
+    h += '<div class="rhd-section rhd-childhood-message" style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:10px 0;"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก คุณอยากบอกอะไรกับเด็กคนนั้น</b><p style="margin:7px 0 0;line-height:1.8;">“'+escapeHTML(reflection.child || 'เธอไม่จำเป็นต้องสมบูรณ์แบบก็มีคุณค่า ค่อย ๆ เติบโตในแบบของเธอ และอย่าลืมใจดีกับตัวเองนะ')+'”</p></div>';
     var situationName = rabbit.name || 'สถานการณ์วันนี้';
     var situationText = rabbit.short || rabbit.desc || 'วันนี้อาจมีเรื่องให้คุณต้องปรับตัว';
     var habitPlain = {
