@@ -1649,18 +1649,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     var rabbit = data.rabbit || (Engine.RABBITS && Engine.RABBITS[rabbitNumber]) || {};
     var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
+    var isAdminRHD = window.RABBITASTRO_ADMIN_MODE === true;
     var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
     h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
-    // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
-    h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ส่วนนี้สรุปให้ตรง ๆ ว่าช่วงนี้คุณกำลังเจออะไร มีแนวโน้มรับมือแบบไหน และควรทำอะไรต่อ โดยใช้เป็นแนวทางประกอบการตัดสินใจได้เลย</div>';
-    // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
-    h += '<div class="rhd-grid">';
-    h += '<div class="rhd-tile"><div class="rhd-k">วิธีรับมือ</div><div class="rhd-v">'+(hd.name||'')+'</div><div class="rhd-d">'+(hd.response||'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง')+'</div></div>';
-    h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
-    h += '</div>';
-    // ย้ายข้อความสะท้อนใจไปใช้คำทำนายที่สรุปตรง ๆ ตามรูปแบบการรับมือของแต่ละคนด้านล่าง
-    h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span></div>';
-    h += '<div class="rhd-section rhd-corrections" style="background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:11px;"><b>🛠️ สิ่งที่ฉันควรแก้ไข</b><br/>ลองเลือกปรับทีละเรื่อง โดยไม่ตำหนิตัวเอง:<ul style="margin:6px 0 0;padding-left:20px;"><li>แยกความกลัวออกจากข้อเท็จจริงก่อนตัดสินใจ</li><li>บอกความต้องการและขอบเขตให้ชัดเจน</li><li>เลือกปรับทีละเรื่อง แล้วทบทวนโดยไม่ตำหนิตัวเอง</li></ul><div style="margin-top:7px;">ถามตัวเองว่า: <i>พฤติกรรมอะไรที่ฉันอยากเปลี่ยน และก้าวเล็กที่สุดที่ฉันเริ่มทำได้ตอนนี้คืออะไร?</i></div></div>';
+    if (!isAdminRHD) {
+      // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
+      h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ส่วนนี้สรุปให้ตรง ๆ ว่าช่วงนี้คุณกำลังเจออะไร มีแนวโน้มรับมือแบบไหน และควรทำอะไรต่อ โดยใช้เป็นแนวทางประกอบการตัดสินใจได้เลย</div>';
+      // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
+      h += '<div class="rhd-grid">';
+      h += '<div class="rhd-tile"><div class="rhd-k">วิธีรับมือ</div><div class="rhd-v">'+(hd.name||'')+'</div><div class="rhd-d">'+(hd.response||'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง')+'</div></div>';
+      h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
+      h += '</div>';
+      // ย้ายข้อความสะท้อนใจไปใช้คำทำนายที่สรุปตรง ๆ ตามรูปแบบการรับมือของแต่ละคนด้านล่าง
+      h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span></div>';
+      h += '<div class="rhd-section rhd-corrections" style="background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:11px;"><b>🛠️ สิ่งที่ฉันควรแก้ไข</b><br/>ลองเลือกปรับทีละเรื่อง โดยไม่ตำหนิตัวเอง:<ul style="margin:6px 0 0;padding-left:20px;"><li>แยกความกลัวออกจากข้อเท็จจริงก่อนตัดสินใจ</li><li>บอกความต้องการและขอบเขตให้ชัดเจน</li><li>เลือกปรับทีละเรื่อง แล้วทบทวนโดยไม่ตำหนิตัวเอง</li></ul><div style="margin-top:7px;">ถามตัวเองว่า: <i>พฤติกรรมอะไรที่ฉันอยากเปลี่ยน และก้าวเล็กที่สุดที่ฉันเริ่มทำได้ตอนนี้คืออะไร?</i></div></div>';
+    }
     // คำทำนายเพิ่มเติมสำหรับ RHD สังเคราะห์จากเลขสถานการณ์โหรกระต่าย
     // ร่วมกับเลขพฤติกรรม เพื่อให้ทุกหัวข้อพูดกับจิตใต้สำนึกด้วยน้ำเสียงอ่อนโยน
     var rhdReflection = {
@@ -1765,6 +1768,36 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
     var reflection = rhdReflection[habit] || rhdReflection[1];
+    if (isAdminRHD) {
+      // Admin ใช้ลำดับการอ่านแบบเป็นขั้น: ภาพรวม > เข้าใจตัวเอง > จุดแข็ง/จุดที่ต้องดูแล > แนวทาง > กำลังใจ
+      var adminCard = function(icon, title, body, tone) {
+        return '<section class="rhd-admin-card rhd-admin-' + (tone || 'plain') + '" style="background:' +
+          (tone === 'warm' ? '#fffaf5' : tone === 'soft' ? '#fff7ed' : '#ffffff') +
+          ';border:1px solid ' + (tone === 'warm' ? '#f3d7bf' : tone === 'soft' ? '#fed7aa' : '#e5e7eb') +
+          ';border-left:4px solid ' + (tone === 'warm' ? '#ea580c' : tone === 'soft' ? '#f59e0b' : '#cbd5e1') +
+          ';border-radius:12px;padding:13px 14px;margin:10px 0;line-height:1.85;">' +
+          '<h5 style="margin:0 0 6px;font-size:15px;font-weight:700;color:#374151;">' + icon + ' ' + title + '</h5>' +
+          '<p style="margin:0;color:#4b5563;">' + body + '</p></section>';
+      };
+      h += '<div class="rhd-admin-intro" style="padding:12px 14px;background:#faf7f2;border:1px solid #eee3d6;border-radius:12px;line-height:1.8;margin:10px 0 14px;">คำทำนายส่วนนี้ชวนให้คุณค่อย ๆ ทำความเข้าใจตัวเอง มองทั้งสิ่งที่ทำได้ดีและสิ่งที่ยังต้องการการดูแล ไม่มีคำตอบไหนใช้ตัดสินคุณค่าของคุณได้</div>';
+      h += '<div class="rhd-admin-overview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0 14px;">';
+      h += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:13px;"><div style="font-size:12px;color:#64748b;margin-bottom:4px;">รูปแบบการรับมือ</div><div style="font-weight:700;color:#334155;">'+escapeHTML(hd.name || 'ค่อย ๆ รับมือในแบบของตัวเอง')+'</div><div style="font-size:13px;line-height:1.7;color:#64748b;margin-top:5px;">'+escapeHTML(hd.response || 'คุณสามารถเลือกวิธีที่เหมาะกับสถานการณ์ได้')+'</div></div>';
+      h += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:13px;"><div style="font-size:12px;color:#64748b;margin-bottom:4px;">บรรยากาศของวันนี้</div><div style="font-weight:700;color:#334155;">'+escapeHTML(rabbit.name || 'สถานการณ์วันนี้')+'</div><div style="font-size:13px;line-height:1.7;color:#64748b;margin-top:5px;">'+escapeHTML(rabbit.short || 'ค่อย ๆ มองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div></div>';
+      h += adminCard('🌿','สิ่งที่ใจคุณกำลังบอก',escapeHTML(reflection.goal || 'ลองฟังความรู้สึกของตัวเองอย่างใจเย็น'),'warm');
+      h += adminCard('✨','สิ่งดี ๆ ที่มีอยู่ในตัวคุณ',escapeHTML(reflection.gift || 'คุณมีคุณค่าและมีจุดแข็งในแบบของตัวเอง'),'plain');
+      h += adminCard('🪞','มุมที่คุณอาจมองข้าม',escapeHTML(reflection.overlook || 'ลองมองความต้องการของตัวเองควบคู่ไปกับเรื่องรอบตัว'),'plain');
+      h += adminCard('👀','คนรอบตัวอาจมองเห็นคุณแบบไหน',escapeHTML(reflection.outside || 'คนอื่นอาจเห็นเพียงบางมุมของคุณ ซึ่งไม่ใช่ทั้งหมดของตัวตน'),'plain');
+      h += adminCard('🌱','สิ่งที่คุณกำลังเรียนรู้ที่จะยอมรับ',escapeHTML(reflection.accept || 'คุณสามารถยอมรับตัวเองได้ แม้ยังมีเรื่องที่กำลังเรียนรู้'),'soft');
+      h += adminCard('🫶','ความรู้สึกที่ไม่จำเป็นต้องเก็บซ่อนไว้',escapeHTML(reflection.deny || 'คุณมีสิทธิ์รับรู้และบอกความรู้สึกของตัวเอง'),'soft');
+      h += adminCard('🤝','ความสัมพันธ์กับคนรอบตัว',escapeHTML(reflection.people || 'คุณสามารถใส่ใจคนอื่น พร้อมดูแลขอบเขตของตัวเองไปด้วย'),'plain');
+      h += adminCard('🧸','ถ้าได้เจอตัวเองในวัยเด็ก คุณอยากบอกอะไรกับเด็กคนนั้น','“'+escapeHTML(reflection.child || 'เธอมีคุณค่าเสมอ ไม่จำเป็นต้องเก่งหรือเข้มแข็งตลอดเวลาก็ได้')+'”','warm');
+      h += adminCard('🧭','ก้าวเล็ก ๆ ที่ลองทำได้ตอนนี้',escapeHTML(nextStep[habit] || nextStep[1]),'soft');
+      h += adminCard('💛','เรื่องที่อยากชวนให้ระวัง',escapeHTML(habitCaution[habit] || habitCaution[1]) + ' ' + escapeHTML(reflection.shadow || ''),'plain');
+      h += adminCard('🤍','ข้อความถึงคุณ',escapeHTML(rhdComfort[habit] || rhdComfort[1]),'warm');
+      h += '<div class="rhd-note" style="font-size:12px;line-height:1.7;color:#78716c;background:#fafaf9;border-radius:10px;padding:10px 12px;margin-top:12px;">คำทำนายนี้เป็นพื้นที่ให้คุณได้ทบทวนตัวเองอย่างอ่อนโยน ไม่ใช่คำตัดสินหรือข้อสรุปตายตัว คุณเลือกเก็บเฉพาะสิ่งที่ตรงกับชีวิต และค่อย ๆ ปรับในจังหวะของตัวเองได้</div>';
+      h += '</div>';
+      return h;
+    }
     h += '<div class="rhd-section rhd-inner-message" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin:10px 0;"><b>🧩 สิ่งที่ใจคุณกำลังบอก</b><p style="margin:7px 0 0;line-height:1.8;">'+escapeHTML(reflection.goal)+'</p></div>';
     h += '<div class="rhd-section rhd-childhood-message" style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:10px 0;"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก คุณอยากบอกอะไรกับเด็กคนนั้น</b><p style="margin:7px 0 0;line-height:1.8;">“'+escapeHTML(reflection.child || 'เธอไม่จำเป็นต้องสมบูรณ์แบบก็มีคุณค่า ค่อย ๆ เติบโตในแบบของเธอ และอย่าลืมใจดีกับตัวเองนะ')+'”</p></div>';
     var situationName = rabbit.name || 'สถานการณ์วันนี้';
