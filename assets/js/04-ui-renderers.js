@@ -1410,17 +1410,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderTarotRuneSection(res, inputData) {
-    var birth=res.birthCard||{}, event=res.eventCard||res.dailyCard||{};
+    var birth=res.birthCard||{}, dailyCard=res.dailyCard||res.eventCard||{};
     var rune=res.rune||[], dailyRune=res.dailyRune||[];
     var element=res.element||{}, dailyElement=res.dailyElement||{};
     var personalRabbit=res.rabbitFusionRabbit||{}, dailyRabbit=res.dailyRabbitFusionRabbit||{};
-    var birthName=birth.name||'-', eventName=event.name||'-';
+    var birthName=birth.name||'-', dailyCardName=dailyCard.name||'-';
     var birthMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(birth,'personal'):'')||birth.meaning||'';
-    var eventMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(event,'daily'):'')||event.meaning||'';
+    var dailyCardMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(dailyCard,'daily'):'')||dailyCard.meaning||'';
     var runeMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(rune):'')||(rune[2]||'');
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
     var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
-    var joinedCrystal=res.dailyCrystalRabbitElement||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
@@ -1430,45 +1429,42 @@ document.addEventListener("DOMContentLoaded", function () {
     var esc=typeof escapeHTML==='function'?escapeHTML:function(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
     var h='';
     h+='<div class="pred-block" style="background:#fff7ed;border-color:#fed7aa;border-left:5px solid #ea580c;">';
-    h+='<h4 style="color:#9a3412;">🪞 พื้นฐานเฉพาะบุคคล · ไพ่ + รูน + โหรกระต่าย</h4>';
+    h+='<h4 style="color:#9a3412;">🪞 คำทำนายประจำตัว · ไพ่ + รูน + คริสตัล</h4>';
     h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำตัว: '+esc(birthName)+'</b><br/>'+esc(birthMeaning)+'</div>';
     if(res.rune) h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว: '+esc(rune[0]||'')+' '+esc(rune[1]||'')+'</b><br/>'+esc(runeMeaning)+'</div>';
-    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและองค์ประกอบอื่นที่มี</div>';
-    h+='<div class="pred-section-item"><b>🐇 คำทำนายพื้นฐานเฉพาะตัว</b><br/>'+esc(personalPrediction)+'</div>';
+    else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและคริสตัลประจำตัวที่คำนวณได้</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
+    h+='<div class="pred-section-item"><b>🐇 พื้นฐานของคุณ</b><br/>'+esc(personalPrediction)+'</div>';
     h+='<div class="pred-section-item"><b>✨ จุดแข็งที่ส่งเสริมคุณ</b><br/>'+esc(personalStrength)+'</div>';
     h+='<div class="pred-section-item"><b>🌱 สิ่งที่ควรใส่ใจ</b><br/>'+esc(personalCaution)+'</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
-    h+='<div class="pred-section-item"><b>แนวทางนำไปใช้</b><br/>เลือกใช้จุดแข็งที่มีอยู่กับเรื่องสำคัญทีละเรื่อง ไม่จำเป็นต้องเร่งพิสูจน์ตัวเองหรือทำทุกอย่างให้สมบูรณ์ในครั้งเดียว</div>';
     h+='</div>';
+
     h+='<div class="pred-block" style="background:#ecfeff;border-color:#a5f3fc;border-left:5px solid #0891b2;">';
-    h+='<h4 style="color:#0e7490;">☀️ สถานการณ์ปัจจุบัน · ไพ่เหตุการณ์ + รูนประจำวัน</h4>';
-    h+='<div class="pred-section-item"><b>🃏 ไพ่เหตุการณ์: '+esc(eventName)+'</b><br/>'+esc(eventMeaning)+'</div>';
+    h+='<h4 style="color:#0e7490;">☀️ คำทำนายประจำวัน · ไพ่ + รูน + คริสตัล</h4>';
+    h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำวัน: '+esc(dailyCardName)+'</b><br/>'+esc(dailyCardMeaning)+'</div>';
     h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+esc(dailyRune[0]||'-')+' '+esc(dailyRune[1]||'')+'</b><br/>'+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>🌤️ ธาตุประจำวัน: '+esc(dailyElement.element&&dailyElement.element.name||'-')+'</b><br/>'+esc(dailyElement.element&&dailyElement.element.story||'')+'</div>';
-    h+='<div class="pred-section-item"><b>🔮 คำทำนายสถานการณ์ปัจจุบัน</b><br/>'+esc(dailyPrediction)+' '+esc(eventMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>💪 สิ่งที่ช่วยให้เรื่องเดินหน้า</b><br/>'+esc(todayStrength)+'</div>';
-    h+='<div class="pred-section-item"><b>⚠️ สิ่งที่ควรระวังในช่วงนี้</b><br/>'+esc(todayCaution)+' '+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><div class="thai-heading-block">💎 คริสตัลประจำวัน</div><div><b>'+esc(dailyCrystal.name||'-')+'</b></div><div>'+esc(dailyCrystal.healing||'')+'</div><div><b>คำแนะนำ:</b> ใช้ความหมายของคริสตัลเป็นเครื่องเตือนใจให้กลับมาใส่ใจสิ่งที่จำเป็นในวันนี้</div></div>';
-    if(joinedCrystal&&joinedCrystal.name) h+='<div class="pred-section-item"><b>💎 คริสตัลเสริมจังหวะวันนี้: '+esc(joinedCrystal.name)+'</b><br/>'+esc(joinedCrystal.healing||'')+'</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+esc(dailyCrystal.name||'-')+'</b><br/>'+esc(dailyCrystal.healing||'')+'</div>';
+    h+='<div class="pred-section-item"><b>🌤️ จังหวะของวันนี้</b><br/>'+esc(dailyPrediction)+'</div>';
+    h+='<div class="pred-section-item"><b>💪 สิ่งที่ช่วยให้วันนี้เดินหน้า</b><br/>'+esc(todayStrength)+'</div>';
+    h+='<div class="pred-section-item"><b>🍃 เรื่องที่ควรดูแลเป็นพิเศษ</b><br/>'+esc(todayCaution)+'</div>';
     h+='</div>';
-    // ส่วนนี้คงไว้เฉพาะ Admin ตามรูปแบบเดิม ส่วนหน้า Main ไม่แสดง
-    if (window.RABBITASTRO_ADMIN_MODE === true) {
-      h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
-      h+='<h4 style="color:#6d28d9;">🔮 คำทำนายภาพรวมและแนวทางรับมือ</h4>';
-      h+='<div class="pred-section-item"><b>ภาพรวมของตัวคุณ</b><br/>'+esc(personalPrediction)+' '+esc(birthMeaning)+'</div>';
-      h+='<div class="pred-section-item"><b>สิ่งที่กำลังเกิดขึ้น</b><br/>'+esc(dailyPrediction)+' '+esc(eventMeaning)+' '+esc(dailyMeaning)+'</div>';
-      h+='<div class="pred-section-item"><b>จุดแข็งที่นำมาใช้ได้</b><br/>'+esc(personalStrength)+' '+esc(todayStrength)+'</div>';
-      h+='<div class="pred-section-item"><b>สิ่งที่ควรระวังและวิธีรับมือ</b><br/>'+esc(personalCaution)+' '+esc(todayCaution)+' ค่อย ๆ ตรวจสอบสถานการณ์จริงก่อนตัดสินใจเรื่องสำคัญ</div>';
-      h+='<div class="pred-section-item"><b>คำแนะนำสำหรับก้าวต่อไป</b><br/>เลือกหนึ่งเรื่องที่ต้องการจัดการให้ชัด แล้วเริ่มจากสิ่งเล็ก ๆ ที่ทำได้ในวันนี้ หากยังไม่พร้อมตัดสินใจ การรอข้อมูลเพิ่มก็เป็นทางเลือกที่ดี</div>';
-      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">คำทำนายนี้เป็นการอ่านเชิงสัญลักษณ์จากไพ่ รูน และโหรกระต่าย ใช้เป็นมุมมองประกอบการทบทวนได้ แต่ไม่ใช่ข้อสรุปตายตัวแทนประสบการณ์และการตัดสินใจของคุณ</div>';
-      h+='</div>';
-    }
+
+    // Render แยกสำหรับคำแนะนำภาพรวม โดยเชื่อมสัญลักษณ์ประจำตัวทั้งสามกับสัญลักษณ์ประจำวันทั้งสาม
+    h+='<div class="pred-block" style="background:#faf5ff;border-color:#ddd6fe;border-left:5px solid #8b5cf6;">';
+    h+='<h4 style="color:#6d28d9;">🔮 คำแนะนำภาพรวม</h4>';
+    h+='<div class="pred-section-item"><b>พื้นฐานที่ติดตัวคุณมา</b><br/>ไพ่ประจำตัว '+esc(birthName)+' สะท้อนว่า '+esc(birthMeaning)+' รูนประจำตัว '+esc(res.rune?(rune[0]||''):'ที่ยังไม่มีข้อมูลเวลาเกิด')+' ชวนให้คุณ '+esc(res.rune?runeMeaning:'ใช้ความหมายจากไพ่และคริสตัลเป็นแนวทางทำความเข้าใจตัวเอง')+' ส่วนคริสตัลประจำตัว '+esc(personalCrystal.name||'-')+' ชวนให้ '+esc(personalCrystal.healing||'กลับมาใส่ใจความต้องการของตัวเอง')+'</div>';
+    h+='<div class="pred-section-item"><b>จังหวะที่กำลังพบในวันนี้</b><br/>ไพ่ประจำวัน '+esc(dailyCardName)+' สื่อถึง '+esc(dailyCardMeaning)+' ขณะที่รูนประจำวัน '+esc(dailyRune[0]||'-')+' ชวนให้ '+esc(dailyMeaning)+' และคริสตัลประจำวัน '+esc(dailyCrystal.name||'-')+' ช่วยเตือนใจให้ '+esc(dailyCrystal.healing||'ค่อย ๆ ดูแลตัวเองและสิ่งสำคัญตรงหน้า')+'</div>';
+    h+='<div class="pred-section-item"><b>เมื่อนำทั้งสองส่วนมารวมกัน</b><br/>'+esc(personalPrediction)+' เมื่อมาถึงวันนี้ '+esc(dailyPrediction)+' คุณจึงสามารถใช้จุดแข็งอย่าง '+esc(personalStrength)+' มารับมือกับจังหวะนี้ โดยไม่ลืมว่า '+esc(todayCaution)+'</div>';
+    h+='<div class="pred-section-item"><b>แนวทางที่อยากฝากไว้</b><br/>เลือกเรื่องสำคัญเพียงหนึ่งเรื่อง แล้วใช้ทั้งประสบการณ์และความเข้าใจตัวเองเป็นเข็มทิศ ค่อย ๆ ลงมือในจังหวะที่เหมาะ ไม่จำเป็นต้องเร่งให้ทุกอย่างสำเร็จในวันเดียว</div>';
+    h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">คำแนะนำนี้เชื่อมโยงความหมายเชิงสัญลักษณ์ของไพ่ รูน และคริสตัลประจำตัวกับประจำวัน ใช้เป็นมุมมองประกอบการทบทวน ไม่ใช่ข้อสรุปตายตัวแทนประสบการณ์จริงของคุณ</div>';
+    h+='</div>';
+
     if (window.RABBITASTRO_ADMIN_MODE === true) {
       h+='<div class="pred-block" style="background:#fdf4ff;border-color:#e9d5ff;border-left:5px solid #a855f7;">';
       h+='<h4 style="color:#7e22ce;">🪞 อ่านสภาพใจเชิงลึกจากไพ่และรูน</h4>';
       h+='<div class="pred-section-item"><b>1. ภาพที่ใจแสดงออกในช่วงนี้</b><br/>ไพ่ประจำตัว '+esc(birthName)+' และรูนประจำตัว '+esc(rune[0]||'')+' ชวนให้สังเกตว่าคุณมักแสดงความรู้สึกออกมาตรง ๆ เก็บไว้ก่อน หรือเลือกจัดการทุกอย่างด้วยตัวเอง</div>';
       h+='<div class="pred-section-item"><b>2. ความรู้สึกที่อาจอยู่ใต้ปฏิกิริยา</b><br/>ลองแยกความรู้สึกที่เห็นชัด เช่น กังวล เหนื่อย หรือหงุดหงิด ออกจากความต้องการที่อาจอยู่ข้างใต้ เช่น ความเข้าใจ ความมั่นคง หรือพื้นที่ตัดสินใจด้วยตัวเอง</div>';
-      h+='<div class="pred-section-item"><b>3. สิ่งที่สถานการณ์ปัจจุบันกำลังกระตุ้น</b><br/>ไพ่เหตุการณ์ '+esc(eventName)+' และรูนประจำวัน '+esc(dailyRune[0]||'')+' ชวนให้พิจารณาว่าเรื่องนี้แตะความคาดหวัง ความสัมพันธ์ ความรับผิดชอบ หรือการเปลี่ยนแปลงด้านใด</div>';
+      h+='<div class="pred-section-item"><b>3. สิ่งที่สถานการณ์ปัจจุบันกำลังกระตุ้น</b><br/>ไพ่ประจำวัน '+esc(dailyCardName)+' และรูนประจำวัน '+esc(dailyRune[0]||'')+' ชวนให้พิจารณาว่าเรื่องนี้แตะความคาดหวัง ความสัมพันธ์ ความรับผิดชอบ หรือการเปลี่ยนแปลงด้านใด</div>';
       h+='<div class="pred-section-item"><b>4. ความขัดแย้งภายในที่ควรสังเกต</b><br/>ลองดูว่ามีส่วนใดในตัวคุณที่อยากเดินหน้า แต่อีกส่วนยังต้องการเวลา หรือกำลังรักษาความสบายใจของคนอื่นจนละเลยความต้องการของตัวเองหรือไม่</div>';
       h+='<div class="pred-section-item"><b>5. รูปแบบการตอบสนองเมื่อรู้สึกกดดัน</b><br/>สังเกตว่าคุณมักควบคุมทุกอย่าง คิดทบทวนซ้ำ ๆ ถอยออกมาเงียบ ๆ รีบแก้ปัญหา หรือพยายามทำให้ทุกคนพอใจ รูปแบบเหล่านี้เป็นเพียงประเด็นให้สำรวจ ไม่ใช่ข้อสรุปแทนตัวคุณ</div>';
       h+='<div class="pred-section-item"><b>6. ความต้องการและขอบเขตที่อาจถูกมองข้าม</b><br/>ลองถามตัวเองว่าตอนนี้ต้องการเวลาพัก ความชัดเจน การยอมรับ การสนับสนุน หรือสิทธิในการปฏิเสธมากขึ้นหรือไม่</div>';
