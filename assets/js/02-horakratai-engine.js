@@ -3714,6 +3714,41 @@
     };
   }
 
+  // Engine 4 Admin Deep Talk: คำนวณแต่ละประเด็นด้วยรหัสเรื่องของโหรกระต่าย
+  function calcShadowTalkFeature(params) {
+    params = params || {};
+    var topics = [
+      { key: 'shadow', category: 'other', subTopicKey: 1, title: 'ด้านมืดและความกลัวที่ซ่อนอยู่' },
+      { key: 'mirror', category: 'love', subTopicKey: 2, title: 'สิ่งที่สะท้อนผ่านคนรอบข้าง' },
+      { key: 'value', category: 'money', subTopicKey: 3, title: 'คุณค่าที่หล่อเลี้ยงความหมายของชีวิต' },
+      { key: 'potential', category: 'work', subTopicKey: 4, title: 'ศักยภาพที่รอการปลดปล่อย' },
+      { key: 'belief', category: 'interest', subTopicKey: 5, title: 'ความเชื่อที่อาจใช้หลอกตัวเอง' }
+    ];
+    var readings = topics.map(function(topic) {
+      var result = topicCodeOf({
+        fName: params.fName || '', fLast: params.fLast || '',
+        bDay: params.bDay, bMonth: params.bMonth, bYear: params.bYear,
+        bHour: params.bHour, bMin: params.bMin, noBirthTime: !!params.noBirthTime,
+        category: topic.category, subTopicKey: topic.subTopicKey,
+        nowDate: params.nowDate instanceof Date ? params.nowDate : new Date()
+      });
+      var rabbit = result.rabbit || RABBITS[result.R4] || RABBITS[9];
+      var element = result.element || getElement(result.R4);
+      var deep = RABBIT_DEEP[result.R4] || {};
+      return {
+        key: topic.key, title: topic.title,
+        rabbit: rabbit, element: element,
+        rabbitDeepKeyword: deep.keyword || '',
+        rabbitDeepDetail: deep.detail || '',
+        strengths: element && element.good ? element.good : '',
+        shadow: element && element.bad ? element.bad : '',
+        advice: element && element.story ? element.story : '',
+        relation: result.relation || null
+      };
+    });
+    return { feature: 'shadowTalk', readings: readings, noBirthTime: !!params.noBirthTime };
+  }
+
   var PERSON_FEATURES = {
     identity: calcIdentityFeature,
     base: calcBaseFeature,
@@ -3721,7 +3756,8 @@
     topicShort: calcTopicShortFeature,
     topicMonth: calcTopicMonthFeature,
     loveEntrant: calcLoveEntrantFeature,
-    tarotRune: calcTarotRuneFeature
+    tarotRune: calcTarotRuneFeature,
+    shadowTalk: calcShadowTalkFeature
   };
 
   function mergeInto(target, src) {
