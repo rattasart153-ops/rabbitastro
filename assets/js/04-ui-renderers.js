@@ -1474,6 +1474,39 @@ document.addEventListener("DOMContentLoaded", function () {
       h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">การอ่านเชิงลึกนี้เป็นการสะท้อนใจผ่านสัญลักษณ์ ไม่ใช่แบบประเมินหรือการวินิจฉัยทางจิตวิทยา เลือกใช้เฉพาะส่วนที่ตรงกับประสบการณ์จริงของคุณ</div>';
       h+='</div>';
     }
+    // Admin-only Deep Talk: แยกแต่ละคำถามเป็น Render ของตัวเอง
+    // ข้อความทั้งหมดมาจากผลคำนวณใน Engine โดยใช้รหัสโหรกระต่ายเดิม
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      var deepTalkReadings = Array.isArray(res.deepTalkReadings) ? res.deepTalkReadings : [];
+      var deepTalkTitles = {
+        shadow: '🌑 ด้านมืดและความกลัวที่ซ่อนอยู่',
+        mirror: '🪞 สิ่งที่คนอื่นสะท้อนกลับมา',
+        values: '💎 คุณค่าที่ทำให้ชีวิตมีความหมาย',
+        potential: '🔥 ศักยภาพที่ถูกความกลัวกดทับ',
+        comfortZone: '🎭 เรื่องที่ฉันอาจกำลังหลอกตัวเอง'
+      };
+      h += '<div class="pred-block" style="background:#f5f3ff;border-color:#c4b5fd;border-left:5px solid #7c3aed;">';
+      h += '<h4 style="color:#6d28d9;">🧠 Deep Talk · สำรวจตัวตนในระดับลึก</h4>';
+      h += '<div class="pred-section-item">คำอ่านชุดนี้ใช้รหัสพื้นดวงและองค์ประกอบที่คำนวณได้จากโหรกระต่าย เพื่อสะท้อนมุมที่อาจมองข้าม ไม่ใช่การตัดสินตัวตนหรือฟันธงว่าคุณต้องเป็นเช่นนั้น</div>';
+      h += '</div>';
+      deepTalkReadings.forEach(function(item, index) {
+        if (!item) return;
+        var title = deepTalkTitles[item.key] || ('คำถามสำรวจตัวเองข้อที่ ' + (index + 1));
+        h += '<div class="pred-block" style="background:#fff;border-color:#ddd6fe;border-left:4px solid #8b5cf6;">';
+        h += '<h4 style="color:#6d28d9;">' + esc(title) + '</h4>';
+        h += '<div class="pred-section-item"><b>❓ คำถาม</b><br/>' + esc(item.question || '') + '</div>';
+        h += '<div class="pred-section-item"><b>🔮 คำทำนายเฉพาะบุคคลจากโหรกระต่าย</b><br/>' + esc(item.prediction || 'ยังไม่มีคำอ่านสำหรับข้อมูลชุดนี้') + '</div>';
+        h += '<div class="pred-section-item" style="background:#faf5ff;border-radius:10px;padding:10px;"><b>🤍 ลองถามใจตัวเองต่อ</b><br/>' + (
+          item.key === 'shadow' ? 'ความกลัวนี้มักปรากฏขึ้นในสถานการณ์แบบไหน และมีหลักฐานอะไรในปัจจุบันที่ช่วยให้คุณรับมือกับมันได้อย่างปลอดภัย?' :
+          item.key === 'mirror' ? 'พฤติกรรมที่คุณเห็นในคนอื่นมีส่วนไหนที่คุณเคยทำเช่นกัน และคุณอยากเลือกตอบสนองต่อมันต่างจากเดิมอย่างไร?' :
+          item.key === 'values' ? 'คุณกำลังใช้เวลาและพลังไปกับสิ่งที่สอดคล้องกับคุณค่านั้นอยู่หรือไม่ และมีอะไรที่อยากให้พื้นที่มากขึ้น?' :
+          item.key === 'potential' ? 'ถ้าไม่ต้องทำให้สมบูรณ์แบบในครั้งแรก ก้าวเล็กที่สุดที่คุณกล้าลองทำในสัปดาห์นี้คืออะไร?' :
+          'ความเชื่อนี้ช่วยปกป้องคุณจากอะไร และตอนนี้มันกำลังทำให้คุณพลาดโอกาสหรือความสุขแบบไหน?'
+        ) + '</div>';
+        h += '</div>';
+      });
+    }
+
     return h;
   }
 
