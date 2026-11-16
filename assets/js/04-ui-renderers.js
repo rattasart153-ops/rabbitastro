@@ -1746,16 +1746,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
     var reflection = rhdReflection[habit] || rhdReflection[1];
-    var situationName = rabbit.name || 'สถานการณ์ตรงหน้า';
-    h += '<div class="rhd-section rhd-reflection"><b>🎯 เป้าหมายของคุณ</b><br/>“'+reflection.goal+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>🍃 เรื่องที่ไม่จำเป็นต้องแบกไว้</b><br/>“'+reflection.overlook+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>👀 คนรอบข้างอาจมองเห็นคุณอย่างไร</b><br/>“'+reflection.outside+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>✨ จุดแข็งที่คุณมีอยู่</b><br/>“'+reflection.gift+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>🌙 มุมที่อยากชวนให้เข้าใจตัวเอง</b><br/>“'+reflection.shadow+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>🤍 สิ่งที่อนุญาตให้ตัวเองเป็นได้</b><br/>“'+reflection.accept+'”</div>';
-    h += '<div class="rhd-section rhd-reflection"><b>🪞 ความรู้สึกที่ไม่ต้องเก็บไว้คนเดียว</b><br/>“'+reflection.deny+'”</div>';
-    // คำทำนายเรื่องคนที่จะเข้ามาแสดงผ่านคำถามหมวดความรักของโอเรกุรัม
-    h += '<div class="rhd-section rhd-reflection"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก อยากบอกอะไรเด็กคนนั้น</b><br/>“'+reflection.child+'”</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#f8f4ff;color:#5b4b7a;font-weight:700;">💜 มุมต่าง ๆ ที่อยากชวนให้คุณรู้จักตัวเอง</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:9px 0;padding:13px;border:1px solid #eee5f5;border-left:4px solid #b9a2d2;border-radius:12px;background:#fff;"><b>🧩 สิ่งที่ใจคุณกำลังบอก</b><br/>“'+reflection.goal+'”</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div class="rhd-admin-reflection-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:9px;">';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🍃 เรื่องที่ไม่จำเป็นต้องแบกไว้</b><br/>“'+reflection.overlook+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>👀 คนรอบข้างอาจมองเห็นคุณอย่างไร</b><br/>“'+reflection.outside+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>✨ จุดแข็งที่คุณมีอยู่</b><br/>“'+reflection.gift+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🌙 มุมที่อยากชวนให้เข้าใจตัวเอง</b><br/>“'+reflection.shadow+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🤍 สิ่งที่อนุญาตให้ตัวเองเป็นได้</b><br/>“'+reflection.accept+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🪞 ความรู้สึกที่ไม่ต้องเก็บไว้คนเดียว</b><br/>“'+reflection.deny+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก อยากบอกอะไรเด็กคนนั้น</b><br/>“'+reflection.child+'”</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += '</div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#fff5eb;color:#8a5b36;font-weight:700;">🤍 พื้นที่พักใจและคำปลอบโยน</div>';
     var rhdComfort = {
       1:'คุณไม่จำเป็นต้องเป็นคนที่เข้มแข็งหรือเริ่มต้นทุกอย่างด้วยตัวเองเสมอไป การเหนื่อยไม่ได้ทำให้คุณมีค่าน้อยลง คุณพัก ขอความช่วยเหลือ และค่อย ๆ ไปต่อในจังหวะของตัวเองได้',
       2:'คุณไม่จำเป็นต้องทำให้ทุกคนพอใจเพื่อให้ตัวเองเป็นคนที่มีความหมาย ความรู้สึกและขอบเขตของคุณสำคัญเหมือนกัน คุณสามารถใจดีกับคนอื่น พร้อมกับใจดีกับตัวเองไปด้วยได้',
@@ -1768,6 +1770,7 @@ document.addEventListener("DOMContentLoaded", function () {
       9:'คุณไม่จำเป็นต้องเป็นคนแก้ปัญหาหรือเข้าใจทุกฝ่ายเสมอไป เลือกดูแลสิ่งที่สำคัญกับคุณก่อนก็ได้ คุณมีสิทธิ์วางภาระบางอย่างลงและใช้ชีวิตที่เบาขึ้น'
     };
     h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+' '+(data.overall || 'คุณค่อย ๆ ไปต่อในจังหวะของตัวเองได้')+'”</span><div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
+    if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#eff8f2;color:#41664d;font-weight:700;">🌱 ชวนตัวเองสำรวจและทำความเข้าใจต่อ</div>';
     var questionBank = (window.RHD_SELF_QUESTIONS && typeof window.RHD_SELF_QUESTIONS === 'object' && !Array.isArray(window.RHD_SELF_QUESTIONS)) ? window.RHD_SELF_QUESTIONS : {};
     var candidateQuestions = Object.prototype.hasOwnProperty.call(questionBank, habit) ? questionBank[habit] : questionBank[1];
     var selfQuestions = Array.isArray(candidateQuestions)
@@ -1811,7 +1814,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ['ความเชื่อเรื่องคุณค่าในตัวเอง','ฉันเชื่อว่าต้องทำอะไรจึงจะคู่ควรกับความรัก ความสนใจ หรือการพักผ่อน?','ลองสังเกตว่าคุณผูกคุณค่าของตัวเองไว้กับการทำหน้าที่ การดูแลคนอื่น หรือการทำให้ทุกอย่างเรียบร้อยหรือไม่ คุณมีคุณค่าอยู่แล้ว แม้ในวันที่ไม่ได้ทำอะไรให้ใคร'],
         ['ความกลัวที่อยู่ใต้พฤติกรรม','ถ้าฉันไม่ใช้วิธีรับมือแบบเดิม ฉันกลัวว่าจะเกิดอะไรขึ้น?','วิธี “'+rhdCopingText+'” อาจเคยปกป้องคุณจากความผิดหวังหรือความไม่แน่นอน ลองถามว่าความกลัวนั้นยังตรงกับสถานการณ์ปัจจุบันหรือไม่ และมีวิธีที่อ่อนโยนกับตัวเองกว่าเดิมหรือเปล่า'],
         ['ความต้องการที่ไม่กล้าพูด','มีอะไรที่ฉันอยากขอ แต่กลัวว่าจะถูกมองว่าเห็นแก่ตัว อ่อนแอ หรือเรียกร้องมากเกินไป?','ความต้องการที่จะได้รับการรับฟัง ความช่วยเหลือ ความชัดเจน หรือพื้นที่ส่วนตัวไม่ใช่เรื่องผิด ลองเริ่มจากบอกความต้องการหนึ่งอย่างกับคนที่คุณไว้ใจได้'],
-        ['บาดแผลเดิมและตัวฉันในวัยเยาว์','ในวันที่ฉันรู้สึกไม่ปลอดภัย ฉันอยากให้ใครสักคนทำอะไรให้ และวันนี้ฉันทำสิ่งนั้นให้ตัวเองได้อย่างไร?','คุณไม่จำเป็นต้องย้อนกลับไปเผชิญความทรงจำที่ยังไม่พร้อม แค่สังเกตว่าตอนนี้อะไรช่วยให้รู้สึกปลอดภัยขึ้น และเลือกดูแลตัวเองทีละนิดก็เพียงพอ'],
+        ['ความทรงจำและความต้องการในวัยเด็ก','ในวันที่ฉันรู้สึกไม่ปลอดภัย ฉันอยากให้ใครสักคนทำอะไรให้ และวันนี้ฉันทำสิ่งนั้นให้ตัวเองได้อย่างไร?','คุณไม่จำเป็นต้องย้อนกลับไปเผชิญความทรงจำที่ยังไม่พร้อม แค่สังเกตว่าตอนนี้อะไรช่วยให้รู้สึกปลอดภัยขึ้น และเลือกดูแลตัวเองทีละนิดก็เพียงพอ'],
         ['ความจริงที่อยากยอมรับและก้าวใหม่','ถ้าฉันไม่ต้องรักษาภาพเดิมหรือทำให้ใครพอใจ ฉันอยากยอมรับความจริงข้อไหนกับตัวเอง?','คุณอาจเริ่มจากยอมรับความรู้สึกหนึ่งอย่างโดยไม่ต้องรีบลงมือเปลี่ยนทุกอย่าง แล้วค่อยเลือกก้าวที่สอดคล้องกับคุณค่าของตัวเอง: '+rhdDecisionText]
       ];
       h+='<div class="rhd-deep-layer" style="margin-top:14px;padding:12px;background:#faf7ff;border:1px solid #ddd6fe;border-radius:10px;"><b>🪞 สำรวจชั้นลึกของจิตใต้สำนึก · Admin</b><p>คำถามเหล่านี้ชวนสำรวจบทบาท ความเชื่อ ความกลัว และความต้องการที่อาจซ่อนอยู่ใต้รูปแบบการรับมือ ไม่ใช่ข้อสรุปตายตัวเกี่ยวกับตัวคุณ</p>';
@@ -2294,6 +2297,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
+    if (res.loveEntrant) {
+      h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
+      h += featureCtaHtml('oreguLove');
+      resultsBox.style.display = 'block';
+      setSafeHTML(resultsBox, h);
+      improvePredictionReadability(resultsBox, res.R4, 'oreguram');
+      if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
+      return true;
+    }
     h += '<div class="answer-box ' + (bi.cls || '') + '"><b>🎯 ผลคำทำนาย</b><br/>' + warmOreguramText(res.directAnswer || '-') + '</div>';
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
     // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
