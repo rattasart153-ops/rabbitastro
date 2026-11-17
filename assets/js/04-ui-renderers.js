@@ -2490,7 +2490,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var qId = q ? parseInt(q.value, 10) : 1;
     var activeQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS) ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
     if (!qId || !activeQuestionBank.some(function (x) { return x.id === qId; })) qId = 1;
-    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '', nowDate: calculationTime instanceof Date ? calculationTime : new Date(), mbtiType: data.mbtiType });
+    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '', nowDate: calculationTime instanceof Date ? calculationTime : new Date() });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
