@@ -1027,3 +1027,10 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
   .hero h1 { font-size:23px; }
   .card { padding:14px; }
 }
+
+
+/* Optional MBTI companion insight */
+.mbti-card .hint-box { margin-top:9px; }
+.mbti-reading { border-left:4px solid #b99a78; background:linear-gradient(135deg,#fffdf9,#f8f2e9); }
+.mbti-reading .pred-section-item { margin:8px 0; line-height:1.75; }
+.mbti-note { font-size:12px; color:var(--text-muted); margin:8px 0 0; }
