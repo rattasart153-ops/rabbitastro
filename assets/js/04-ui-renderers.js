@@ -413,6 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fName: val("fName"), fLast: val("fLast"), bDay: val("bDay"), bMonth: val("bMonth"),
       bYear: val("bYear"), bHour: val("bHour"), bMin: val("bMin"),
       noBirthTime: !!(noTimeEl && noTimeEl.checked),
+      mbtiType: val("mbtiType").toUpperCase(),
       habitNumber: val("rhdHabitNumber") || "1"
     };
   }
@@ -429,6 +430,40 @@ document.addEventListener("DOMContentLoaded", function () {
     return "tabPerson";
   }
 
+
+  // MBTI เป็นข้อมูลเสริมสำหรับการตีความ ไม่เปลี่ยนสูตรหลักของโหรกระต่าย
+  function renderMbtiLens(inputData, engineKey) {
+    var type = String(inputData && inputData.mbtiType || '').toUpperCase();
+    var types = {
+      ISTJ:['ให้ความสำคัญกับความรับผิดชอบและความชัดเจน','วางแผนรอบคอบและทำอย่างสม่ำเสมอ','ยึดวิธีเดิมหรือแบกหน้าที่มากเกินไป','เปิดรับวิธีใหม่และพักเมื่อไม่จำเป็นต้องควบคุมทุกอย่าง'],
+      ISFJ:['ใส่ใจรายละเอียดและความรู้สึกของคนรอบตัว','เอาใจใส่ อดทน และน่าไว้วางใจ','เก็บความต้องการของตัวเองไว้ทีหลัง','บอกความต้องการและตั้งขอบเขตอย่างอ่อนโยน'],
+      INFJ:['มองหาความหมายเบื้องหลังเหตุการณ์และความสัมพันธ์','เข้าใจคนและมองภาพรวมได้ดี','คิดแทนคนอื่นหรือคาดหวังกับตัวเองสูง','ตรวจสอบข้อเท็จจริงควบคู่กับสัญชาตญาณ'],
+      INTJ:['มองภาพระยะยาวและจัดระบบเพื่อไปถึงเป้าหมาย','วิเคราะห์และวางแผนได้ดี','เคร่งกับมาตรฐานหรือมองข้ามความรู้สึก','เผื่อพื้นที่ให้ความไม่แน่นอนและรับฟังมุมมองอื่น'],
+      ISTP:['เรียนรู้จากการลงมือทำและแก้ปัญหาเฉพาะหน้า','ใจเย็น คิดเป็นเหตุผล และปรับตัวเก่ง','เก็บความรู้สึกจนคนอื่นไม่เข้าใจ','สื่อสารความต้องการก่อนลงมือแก้ปัญหา'],
+      ISFP:['ให้คุณค่ากับความเป็นตัวเองและความรู้สึกที่แท้จริง','อ่อนโยน ยืดหยุ่น และเข้าใจสิ่งที่มีความหมาย','หลีกเลี่ยงการเผชิญหน้าหรือไม่กล้าปฏิเสธ','พูดความต้องการโดยไม่รู้สึกผิดที่เลือกตัวเอง'],
+      INFP:['ให้ความสำคัญกับคุณค่าในใจและความหมายของสิ่งที่ทำ','จินตนาการดี เห็นอกเห็นใจ และซื่อตรงต่อตัวเอง','คิดวนเมื่อสิ่งต่าง ๆ ไม่ตรงกับอุดมคติ','แบ่งเป้าหมายเป็นขั้นเล็ก ๆ และยอมรับความไม่สมบูรณ์แบบ'],
+      INTP:['ชอบตั้งคำถาม วิเคราะห์ และมองหาคำอธิบาย','คิดเป็นระบบและมองได้หลายมุม','คิดนานจนเริ่มช้าหรืออธิบายความรู้สึกยาก','กำหนดเวลาตัดสินใจและสื่อสารความรู้สึกให้ง่ายขึ้น'],
+      ESTP:['เรียนรู้เร็วจากประสบการณ์และกล้ารับมือสถานการณ์','คล่องตัว กล้า และตัดสินใจได้รวดเร็ว','รีบตอบสนองหรือมองข้ามผลระยะยาว','ทบทวนผลที่จะตามมาก่อนตัดสินใจเรื่องสำคัญ'],
+      ESFP:['เชื่อมโยงกับผู้คนผ่านประสบการณ์และบรรยากาศ','เป็นมิตร เข้าถึงง่าย และสร้างพลังบวก','รับอารมณ์รอบตัวมากหรือเลี่ยงเรื่องไม่สบายใจ','จัดเวลาสงบให้ตัวเองและจัดการเรื่องยากทีละข้อ'],
+      ENFP:['มองเห็นความเป็นไปได้หลายทางและมีพลังกับสิ่งที่มีความหมาย','สร้างสรรค์ เชื่อมโยงผู้คน และเริ่มสิ่งใหม่ได้ดี','สนใจหลายอย่างจนพลังและเวลาแตกกระจาย','เลือกเรื่องสำคัญไม่กี่เรื่องและทำให้ต่อเนื่อง'],
+      ENTP:['สนุกกับการตั้งคำถามและทดลองแนวคิดใหม่','คิดไว แก้ปัญหาเก่ง และเห็นทางเลือก','เปลี่ยนประเด็นเร็วหรือโต้แย้งจนมองข้ามความรู้สึก','ฟังให้จบและเลือกแนวคิดที่นำไปใช้ได้จริง'],
+      ESTJ:['ให้ความสำคัญกับความชัดเจน ความรับผิดชอบ และผลลัพธ์','จัดการ ตัดสินใจ และทำให้แผนเกิดขึ้นจริง','คาดหวังมาตรฐานเดียวกันหรือควบคุมมากเกินไป','ยืดหยุ่นกับวิธีการและถามความเห็นคนที่เกี่ยวข้อง'],
+      ESFJ:['ใส่ใจความร่วมมือและความรู้สึกของคนรอบตัว','ประสานงานและดูแลความสัมพันธ์ได้ดี','พยายามทำให้ทุกคนพอใจจนละเลยตัวเอง','ยอมรับความเห็นต่างและไม่ต้องแก้ทุกความรู้สึก'],
+      ENFJ:['มองเห็นศักยภาพของคนและอยากให้สิ่งรอบตัวดีขึ้น','เข้าใจผู้คน สื่อสาร และสนับสนุนคนอื่นได้ดี','รับภาระของคนอื่นมากเกินไป','ช่วยเท่าที่ไหวและเว้นพื้นที่ให้คนอื่นรับผิดชอบตัวเอง'],
+      ENTJ:['มองเป้าหมายชัดและจัดทรัพยากรเพื่อให้เกิดผล','วางทิศทาง ตัดสินใจ และขับเคลื่อนงานได้ดี','เร่งผลลัพธ์จนมองข้ามจังหวะของตัวเองหรือผู้อื่น','ให้ความสำคัญกับความรู้สึกและความพร้อมพอ ๆ กับประสิทธิภาพ']
+    };
+    if (!types[type]) return '';
+    var titles = {
+      engine1:['ภาพบุคลิกภาพประกอบการอ่านพื้นดวง','จุดแข็งที่นำมาใช้ได้','ด้านที่ควรสังเกต','แนวทางดูแลและพัฒนาตัวเอง'],
+      engine3:['มุมมองบุคลิกภาพประกอบคำทำนายโอเรกุรัม','สิ่งที่ช่วยให้คุณรับมือได้ดี','สิ่งที่ควรระวังเมื่อต้องตัดสินใจ','คำแนะนำในการนำคำทำนายไปใช้'],
+      engine4:['มุมมองบุคลิกภาพประกอบไพ่และรูน','วิธีใช้จุดแข็งของตัวเอง','สิ่งที่อาจทำให้ตีความสถานการณ์คลาดเคลื่อน','วิธีนำสัญลักษณ์ไปปรับใช้กับชีวิต']
+    }[engineKey];
+    if (!titles) return '';
+    var esc = typeof escapeHTML === 'function' ? escapeHTML : function(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+    var p = types[type], out = '<div class="pred-block mbti-reading"><h4>🧠 MBTI · '+type+'</h4><p>'+esc(titles[0])+' โดยใช้ MBTI เป็นมุมมองเสริม ไม่ได้เปลี่ยนผลหลักจากโหรกระต่าย</p>';
+    for (var i=1;i<4;i++) out += '<div class="pred-section-item"><b>'+esc(titles[i])+'</b><br/>'+esc(p[i])+'</div>';
+    return out+'<p class="mbti-note">MBTI เป็นกรอบอธิบายความชอบและแนวโน้ม ไม่ใช่ข้อสรุปตายตัว ให้ยึดประสบการณ์จริงและความเข้าใจตัวเองเป็นหลัก</p></div>';
+  }
   function showResultFor(activeId, fromButton) {
     var data = readSharedInputs();
     if (!isSharedComplete(data)) {
@@ -2131,6 +2166,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = renderTopicShortSection(res, calcTopicReading(res));
     }
 
+    body += renderMbtiLens(data, 'engine1');
     resultsBox.style.display = "block";
     var rhdBody = '';
     var resultTitleHtml = featureKey === 'base'
@@ -2164,7 +2200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var res;
     try {
       res = Engine.calcPerson({
-        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '', mbtiType: data.mbtiType,
+        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '', mbtiType: data.mbtiType, mbtiType: data.mbtiType,
         bDay: day, bMonth: month, bYear: year, bHour: hour, bMin: minute,
         noBirthTime: !!data.noBirthTime
       });
@@ -2189,6 +2225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
+    body += renderMbtiLens(data, 'engine4');
     setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -2439,6 +2476,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (res.loveEntrant) {
       h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
       h += featureCtaHtml('oreguLove');
+      h += renderMbtiLens(data, 'engine3');
       resultsBox.style.display = 'block';
       setSafeHTML(resultsBox, h);
       improvePredictionReadability(resultsBox, res.R4, 'oreguram');
@@ -2454,6 +2492,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
+    h += renderMbtiLens(data, 'engine3');
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, res.R4, 'oreguram');
