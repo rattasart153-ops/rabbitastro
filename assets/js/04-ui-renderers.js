@@ -431,8 +431,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // MBTI เป็นข้อมูลเสริมสำหรับการตีความ ไม่เปลี่ยนสูตรหลักของโหรกระต่าย
-  function renderMbtiLens(inputData, engineKey) {
+  // อ่าน MBTI ควบคู่กับผลจริงของแต่ละ Engine โดยไม่แก้สูตรคำนวณพื้นฐาน
+  function renderMbtiLens(inputData, engineKey, engineResult, featureKey) {
     var type = String(inputData && inputData.mbtiType || '').toUpperCase();
     var types = {
       ISTJ:['ให้ความสำคัญกับความรับผิดชอบและความชัดเจน','วางแผนรอบคอบและทำอย่างสม่ำเสมอ','ยึดวิธีเดิมหรือแบกหน้าที่มากเกินไป','เปิดรับวิธีใหม่และพักเมื่อไม่จำเป็นต้องควบคุมทุกอย่าง'],
@@ -450,19 +450,39 @@ document.addEventListener("DOMContentLoaded", function () {
       ESTJ:['ให้ความสำคัญกับความชัดเจน ความรับผิดชอบ และผลลัพธ์','จัดการ ตัดสินใจ และทำให้แผนเกิดขึ้นจริง','คาดหวังมาตรฐานเดียวกันหรือควบคุมมากเกินไป','ยืดหยุ่นกับวิธีการและถามความเห็นคนที่เกี่ยวข้อง'],
       ESFJ:['ใส่ใจความร่วมมือและความรู้สึกของคนรอบตัว','ประสานงานและดูแลความสัมพันธ์ได้ดี','พยายามทำให้ทุกคนพอใจจนละเลยตัวเอง','ยอมรับความเห็นต่างและไม่ต้องแก้ทุกความรู้สึก'],
       ENFJ:['มองเห็นศักยภาพของคนและอยากให้สิ่งรอบตัวดีขึ้น','เข้าใจผู้คน สื่อสาร และสนับสนุนคนอื่นได้ดี','รับภาระของคนอื่นมากเกินไป','ช่วยเท่าที่ไหวและเว้นพื้นที่ให้คนอื่นรับผิดชอบตัวเอง'],
-      ENTJ:['มองเป้าหมายชัดและจัดทรัพยากรเพื่อให้เกิดผล','วางทิศทาง ตัดสินใจ และขับเคลื่อนงานได้ดี','เร่งผลลัพธ์จนมองข้ามจังหวะของตัวเองหรือผู้อื่น','ให้ความสำคัญกับความรู้สึกและความพร้อมพอ ๆ กับประสิทธิภาพ']
+      ENTJ:['มองเป้าหมายชัดและจัดทรัพยากรเพื่อให้เกิดผล','วางทิศทาง ตัดสินใจ และขับเคลื่อนงานได้','เร่งผลลัพธ์จนมองข้ามจังหวะของตัวเองหรือผู้อื่น','ให้ความสำคัญกับความรู้สึกและความพร้อมพอ ๆ กับประสิทธิภาพ']
     };
     if (!types[type]) return '';
-    var titles = {
-      engine1:['ภาพบุคลิกภาพประกอบการอ่านพื้นดวง','จุดแข็งที่นำมาใช้ได้','ด้านที่ควรสังเกต','แนวทางดูแลและพัฒนาตัวเอง'],
-      engine3:['มุมมองบุคลิกภาพประกอบคำทำนายโอเรกุรัม','สิ่งที่ช่วยให้คุณรับมือได้ดี','สิ่งที่ควรระวังเมื่อต้องตัดสินใจ','คำแนะนำในการนำคำทำนายไปใช้'],
-      engine4:['มุมมองบุคลิกภาพประกอบไพ่และรูน','วิธีใช้จุดแข็งของตัวเอง','สิ่งที่อาจทำให้ตีความสถานการณ์คลาดเคลื่อน','วิธีนำสัญลักษณ์ไปปรับใช้กับชีวิต']
-    }[engineKey];
-    if (!titles) return '';
+    var p = types[type], result = engineResult || {}, contextTitle = '', contextText = '';
+    if (engineKey === 'engine1') {
+      var featureNames = {base:'พื้นดวงกำเนิด',rhd:'รูปแบบการรับมือแบบ RHD',asc:'ลัคนาราศี',topicShort:'เรื่องที่คุณเลือก',topicMonth:'แนวโน้มรายเดือน'};
+      contextTitle = 'อ่านบุคลิกภาพร่วมกับ' + (featureNames[featureKey] || 'ผลโหรกระต่าย');
+      contextText = 'พื้นดวงบอกแนวโน้มของชีวิต ส่วน MBTI ช่วยสะท้อนว่าคุณอาจใช้จุดแข็ง ตัดสินใจ และรับมือกับแนวโน้มนั้นอย่างไร จึงควรอ่านทั้งสองส่วนประกอบกัน ไม่แยกจากกัน';
+    } else if (engineKey === 'engine3') {
+      contextTitle = 'อ่าน MBTI ประกอบคำตอบโอเรกุรัม';
+      var answer = result.directAnswer || (result.detail && result.detail.summary) || '';
+      contextText = answer
+        ? 'คำตอบโอเรกุรัมของเรื่องนี้คือ “' + answer + '” เมื่อนำมาอ่านร่วมกับบุคลิกภาพของคุณ จุดแข็งตาม MBTI จะช่วยให้เห็นวิธีรับมือที่เหมาะกับตัวเอง ขณะที่ข้อควรระวังจะช่วยให้ไม่รีบตัดสินใจจากความเคยชินเพียงด้านเดียว'
+        : 'ใช้บุคลิกภาพของคุณเป็นอีกมุมหนึ่งในการทำความเข้าใจคำตอบและเลือกวิธีรับมือกับสถานการณ์';
+    } else if (engineKey === 'engine4') {
+      contextTitle = 'อ่านไพ่และรูนร่วมกับบุคลิกภาพของคุณ';
+      var birthName = result.birthCard && result.birthCard.name;
+      var dailyName = (result.dailyCard || result.eventCard || {}).name;
+      var runeName = result.rune && result.rune.length ? result.rune[0] : '';
+      var symbols = [birthName ? 'ไพ่ประจำตัว ' + birthName : '', dailyName ? 'ไพ่ประจำวัน ' + dailyName : '', runeName ? 'รูน ' + runeName : ''].filter(Boolean).join(' · ');
+      contextText = symbols
+        ? 'สัญลักษณ์ที่ได้จากการอ่านครั้งนี้คือ ' + symbols + ' ใช้ MBTI ช่วยสะท้อนว่าคุณมีแนวโน้มตอบสนองต่อสาระของสัญลักษณ์เหล่านี้อย่างไร แล้วเลือกนำคำแนะนำที่สอดคล้องกับชีวิตจริงไปใช้'
+        : 'ใช้ MBTI เป็นมุมมองประกอบการตีความสัญลักษณ์จากไพ่และรูนให้เข้ากับวิธีคิดและการตอบสนองของคุณ';
+    } else return '';
+    var titles = engineKey === 'engine1'
+      ? ['จุดแข็งที่นำมาใช้กับผลนี้','ด้านที่ควรสังเกต','แนวทางดูแลและพัฒนาตัวเอง']
+      : engineKey === 'engine3'
+        ? ['จุดแข็งที่ช่วยรับมือเรื่องนี้','สิ่งที่ควรระวังเมื่อต้องตัดสินใจ','วิธีนำคำทำนายไปใช้กับตัวเอง']
+        : ['จุดแข็งที่ช่วยอ่านสถานการณ์','มุมที่อาจทำให้ตีความคลาดเคลื่อน','แนวทางนำคำแนะนำไปใช้'];
     var esc = typeof escapeHTML === 'function' ? escapeHTML : function(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
-    var p = types[type], out = '<div class="pred-block mbti-reading"><h4>🧠 MBTI · '+type+'</h4><p>'+esc(titles[0])+' โดยใช้ MBTI เป็นมุมมองเสริม ไม่ได้เปลี่ยนผลหลักจากโหรกระต่าย</p>';
-    for (var i=1;i<4;i++) out += '<div class="pred-section-item"><b>'+esc(titles[i])+'</b><br/>'+esc(p[i])+'</div>';
-    return out+'<p class="mbti-note">MBTI เป็นกรอบอธิบายความชอบและแนวโน้ม ไม่ใช่ข้อสรุปตายตัว ให้ยึดประสบการณ์จริงและความเข้าใจตัวเองเป็นหลัก</p></div>';
+    var out = '<div class="pred-block mbti-reading"><h4>🧠 คำทำนายร่วมกับ MBTI · '+esc(type)+'</h4><div class="pred-section-item"><b>แนวโน้มบุคลิกภาพ</b><br/>'+esc(p[0])+'</div><div class="pred-section-item"><b>'+esc(contextTitle)+'</b><br/>'+esc(contextText)+'</div>';
+    for (var i=1;i<4;i++) out += '<div class="pred-section-item"><b>'+esc(titles[i-1])+'</b><br/>'+esc(p[i])+'</div>';
+    return out+'<p class="mbti-note">MBTI เป็นส่วนประกอบในการตีความร่วมกับผล Engine นี้ ไม่ใช่ข้อสรุปตายตัว และไม่ใช้แทนสูตรหลักของโหรกระต่าย</p></div>';
   }
   function showResultFor(activeId, fromButton) {
     var data = readSharedInputs();
@@ -2166,7 +2186,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = renderTopicShortSection(res, calcTopicReading(res));
     }
 
-    body += renderMbtiLens(data, 'engine1');
+    body += renderMbtiLens(data, 'engine1', res, featureKey);
     resultsBox.style.display = "block";
     var rhdBody = '';
     var resultTitleHtml = featureKey === 'base'
@@ -2200,7 +2220,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var res;
     try {
       res = Engine.calcPerson({
-        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '', mbtiType: data.mbtiType, mbtiType: data.mbtiType,
+        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '', mbtiType: data.mbtiType,
         bDay: day, bMonth: month, bYear: year, bHour: hour, bMin: minute,
         noBirthTime: !!data.noBirthTime
       });
@@ -2225,7 +2245,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
-    body += renderMbtiLens(data, 'engine4');
+    body += renderMbtiLens(data, 'engine4', res);
     setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
@@ -2475,8 +2495,8 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     if (res.loveEntrant) {
       h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
+      h += renderMbtiLens(data, 'engine3', res);
       h += featureCtaHtml('oreguLove');
-      h += renderMbtiLens(data, 'engine3');
       resultsBox.style.display = 'block';
       setSafeHTML(resultsBox, h);
       improvePredictionReadability(resultsBox, res.R4, 'oreguram');
@@ -2491,8 +2511,8 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
+    h += renderMbtiLens(data, 'engine3', res);
     h += featureCtaHtml(ctaKey);
-    h += renderMbtiLens(data, 'engine3');
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
     improvePredictionReadability(resultsBox, res.R4, 'oreguram');
