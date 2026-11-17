@@ -611,3 +611,10 @@ button { border-radius:13px; }
   .engine-admin-shell .wrap { padding-top:10px; }
   .engine-admin-shell .engine-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
+
+
+/* Optional MBTI companion insight */
+.mbti-card .hint-box { margin-top:9px; }
+.mbti-reading { border-left:4px solid #b99a78; background:linear-gradient(135deg,#fffdf9,#f8f2e9); }
+.mbti-reading .pred-section-item { margin:8px 0; line-height:1.75; }
+.mbti-note { font-size:12px; color:var(--text-muted); margin:8px 0 0; }
