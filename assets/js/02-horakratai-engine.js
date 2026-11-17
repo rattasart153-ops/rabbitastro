@@ -3959,8 +3959,11 @@
   function calcOreguram(params) {
     var questionId = parseInt(params.questionId || 1, 10);
     var b = readBirthInput(params);
-    var nowDate = params.nowDate || new Date();
+    // ใช้วันและเวลาจริงที่ส่งมาจากจังหวะกดปุ่มคำนวณ
+    var nowDate = params.nowDate instanceof Date ? params.nowDate : new Date(params.nowDate || Date.now());
     var dayPowerInfo = getDayPower(nowDate);
+    // รวมชั่วโมงและนาทีที่กดคำนวณเป็นพลังเวลา ก่อนเข้าสูตรย่อเลขของโหรกระต่าย
+    var clickTimeSum = nowDate.getHours() + nowDate.getMinutes();
     var T = dayPowerInfo.power;
     var namePart = birthNameParts(b);
     var N = namePart.N;
@@ -3991,7 +3994,7 @@
     var R2 = reduce1(R2_sum);
     var R3_sum = D + T + N + questionId;
     var R3 = reduce1(R3_sum);
-    var finalSum = R1 + R2 + R3 + J + N + questionId;
+    var finalSum = R1 + R2 + R3 + J + N + questionId + clickTimeSum;
     var questionMultiplier = questionId <= 20 ? 2 : (questionId <= 40 ? 4 : 6);
     var multipliedSum = finalSum * questionMultiplier;
     var R4 = reduce1(multipliedSum);
