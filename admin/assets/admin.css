@@ -574,3 +574,40 @@ img, svg, video, canvas {
     padding: 11px 12px;
   }
 }
+
+
+/* ---------- Minimal Premium Astrology refresh: Admin ---------- */
+:root {
+  --bg-color:#f6f3ed; --card-bg:#fffdf9; --text-main:#302a24;
+  --text-muted:#81766b; --primary-orange:#9a7048; --primary-orange-light:#f3ece2;
+  --dark-btn:#332a23; --border-color:#e9e1d7;
+  --radius-lg:22px; --radius-md:14px; --shadow:0 10px 30px rgba(56,43,28,.055);
+}
+body { background:var(--bg-color); color:var(--text-main); }
+.brand { padding:18px 20px; border:1px solid #e9e0d4; border-radius:22px; background:linear-gradient(120deg,#fffdf9,#f3ece2); }
+.bunny { background:#f1e7d9; border-color:#e6d6c2; }
+.brand h1,.page-heading h2 { color:#332a23; letter-spacing:-.035em; }
+.panel,.admin-nav,.insight-card,.engine-admin-shell .card { background:#fffdf9; border-color:#e9e1d7; box-shadow:var(--shadow); }
+.login-panel { border-radius:22px; }
+input,select,textarea { border-color:#e5ddd2; border-radius:12px; background:#fffefa; }
+input:focus,select:focus,textarea:focus { border-color:#b99a78; box-shadow:0 0 0 3px rgba(154,112,72,.10); }
+button { border-radius:13px; }
+.login-panel .primary,.engine-admin-shell .btn-submit { background:linear-gradient(135deg,#3b3027,#6b5037); box-shadow:0 8px 18px rgba(56,43,28,.14); }
+.secondary,.nav-button:hover,.nav-button.active { color:#765333; background:#f3ece2; border-color:#e1d2c0; }
+.insight-summary { background:#f3ece2; border-color:#e1d2c0; }
+.engine-admin-shell .wrap { max-width:980px; width:100%; }
+.engine-admin-shell .hero { padding:30px 20px 24px; border:1px solid #e9e0d4; border-radius:24px; background:linear-gradient(145deg,#fffdf9,#f3ece2); }
+.engine-admin-shell .hero h1 { color:#332a23; }
+.engine-admin-shell .engine-tabs { background:#ebe5dc; border-color:#e3dbd0; border-radius:17px; }
+.engine-admin-shell .tab-btn.active { background:#fffdf9; color:#765333; }
+.engine-admin-shell .chip-btn.active { background:#8e6945; border-color:#8e6945; }
+.engine-admin-shell #results { background:#fffdf9; border-color:#e9e1d7; border-radius:20px; }
+@media (min-width:761px) {
+  .engine-admin-shell .wrap { padding-top:24px; }
+  .engine-admin-shell #sharedForm { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+}
+@media (max-width:760px) {
+  .brand { padding:14px; }
+  .engine-admin-shell .wrap { padding-top:10px; }
+  .engine-admin-shell .engine-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
