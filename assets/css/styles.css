@@ -1037,3 +1037,52 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
 
 /* MBTI sits below the name fields as a full-width single-select card */
 #sharedForm > .mbti-card { grid-column: 1 / -1; }
+
+
+/* Shared profile form: left column for name + MBTI, right column for birth date + time. */
+#sharedForm {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 16px;
+}
+#sharedForm .shared-form-column {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+}
+#sharedForm .shared-form-column > .card {
+  min-width: 0;
+  margin: 0;
+  height: auto;
+}
+#sharedForm > .shared-form-left { grid-column: 1; }
+#sharedForm > .shared-form-right { grid-column: 2; }
+#sharedForm > .shared-form-left .mbti-card { grid-column: auto; }
+#sharedForm .shared-form-column .hint-box {
+  font-size: clamp(10px, 1.1vw, 12px);
+  line-height: 1.55;
+}
+@media (max-width: 520px) {
+  #sharedForm { gap: 9px; }
+  #sharedForm .shared-form-column { gap: 9px; }
+  #sharedForm .shared-form-column > .card { padding: 11px 9px; border-radius: 13px; }
+  #sharedForm .card-title { font-size: 11px; line-height: 1.45; }
+  #sharedForm .personal-name-row,
+  #sharedForm .birth-date-row,
+  #sharedForm .birth-time-row { gap: 5px; }
+  #sharedForm .personal-name-row label,
+  #sharedForm .birth-date-row label,
+  #sharedForm .birth-time-row label { font-size: 10px; }
+  #sharedForm .personal-name-row input,
+  #sharedForm .birth-date-row input,
+  #sharedForm .birth-time-row input,
+  #sharedForm select { padding: 7px 5px; font-size: 12px; }
+  #sharedForm .shared-form-column .hint-box { padding: 8px; font-size: 10px; }
+}
+@media (max-width: 350px) {
+  #sharedForm { grid-template-columns: minmax(0, 1fr); }
+  #sharedForm > .shared-form-left,
+  #sharedForm > .shared-form-right { grid-column: 1; }
+}
