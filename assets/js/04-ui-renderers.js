@@ -2425,13 +2425,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return prompts[category] || prompts.other;
   }
 
-  function renderOreguramResult(data, fromButton) {
+  function renderOreguramResult(data, fromButton, calculationTime) {
     if (!data) data = {};
     var q = document.getElementById('oreguramQuestion');
     var qId = q ? parseInt(q.value, 10) : 1;
     var activeQuestionBank = window.RABBITASTRO_ADMIN_MODE && Array.isArray(Engine.OREGURAM_ADMIN_QUESTIONS) ? Engine.OREGURAM_ADMIN_QUESTIONS : Engine.OREGURAM_QUESTIONS;
     if (!qId || !activeQuestionBank.some(function (x) { return x.id === qId; })) qId = 1;
-    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '' });
+    var res = Engine.calcOreguram({ questionId: qId, adminMode: !!window.RABBITASTRO_ADMIN_MODE, bDay: data.bDay, bMonth: data.bMonth, bYear: data.bYear, bHour: data.bHour, bMin: data.bMin, noBirthTime: !!data.noBirthTime, fName: data.fName || '', fLast: data.fLast || '', nowDate: calculationTime instanceof Date ? calculationTime : new Date() });
     var bi = res.bucketInfo || { chip: '', cls: '', emoji: '', label: 'ผลการอ่าน' };
     var h = '<span class="card-title">🔮 คำทำนายโอเรกุรัม</span>';
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
@@ -2464,6 +2464,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var btnOregu = document.getElementById("btnCalcOreguram");
   if (btnOregu) btnOregu.addEventListener("click", function (e) {
     if (e) e.preventDefault();
+    // จับเวลาท้องถิ่นทันทีเมื่อผู้ใช้กดปุ่ม เพื่อใช้เป็นส่วนหนึ่งของสูตรคำนวณ
+    var calculationTime = new Date();
     try {
       var data = readSharedInputs();
       if (!isSharedComplete(data)) {
@@ -2479,7 +2481,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resultsBox.style.display = "none";
         resultsBox.innerHTML = "";
       }
-      renderOreguramResult(data, true);
+      renderOreguramResult(data, true, calculationTime);
     } catch (err) {
       console.error("Horakratai Oreguram calculation error:", err);
       if (resultsBox) {
