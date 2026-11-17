@@ -966,3 +966,64 @@ img, svg, video, canvas {
 .oreguram-slider-placeholder { display:block; padding:10px 4px; color:var(--text-muted); font-size:13px; }
 .oreguram-question-slider .oreguram-slide-option { max-width:min(84vw,340px); text-align:left; }
 .oreguram-slider:focus-within .oreguram-slide-option:focus-visible { outline:3px solid rgba(217,119,6,.35); outline-offset:2px; }
+
+
+/* ---------- Minimal Premium Astrology refresh ---------- */
+:root {
+  --bg-color:#f6f3ed;
+  --card-bg:#fffdf9;
+  --text-main:#302a24;
+  --text-muted:#81766b;
+  --primary-orange:#9a7048;
+  --primary-orange-light:#f3ece2;
+  --dark-btn:#332a23;
+  --border-color:#e9e1d7;
+  --radius-lg:22px;
+  --radius-md:14px;
+  --shadow:0 10px 30px rgba(56,43,28,.055);
+}
+body { background:var(--bg-color); color:var(--text-main); }
+.wrap { width:min(100% - 40px, 980px); max-width:980px; padding:30px 0 72px; }
+.hero { position:relative; padding:34px 20px 28px !important; margin-bottom:18px; border:1px solid #e9e0d4; border-radius:28px; background:radial-gradient(circle at 50% 0%,#fff 0%,#fbf7f0 65%,#f3ece2 100%); box-shadow:0 12px 34px rgba(56,43,28,.045); }
+.hero .bunny-badge { width:58px; height:58px; background:#f1e7d9; border:1px solid #e6d6c2; box-shadow:0 6px 18px rgba(80,55,28,.08); }
+.hero h1 { color:#332a23; font-size:clamp(25px,3.4vw,34px); letter-spacing:-.035em; }
+.hero p { color:#82766a; font-size:14px; }
+.engine-tabs { gap:7px; margin:18px 0 20px; padding:6px; background:#ebe5dc; border:1px solid #e3dbd0; border-radius:17px; }
+.tab-btn { flex:1 1 22%; min-height:46px; border-radius:12px; color:#75695e; font-size:14px; }
+.tab-btn.active { background:#fffdf9; color:#765333; box-shadow:0 3px 12px rgba(56,43,28,.08); }
+.card { padding:22px; margin-bottom:16px; border:1px solid #e9e1d7; border-radius:20px; background:#fffdf9; box-shadow:var(--shadow); }
+.card-title { color:#9a7958; letter-spacing:.035em; font-size:13px; }
+.daily-element-card { border:1px solid rgba(255,255,255,.35); border-radius:20px; box-shadow:0 9px 24px rgba(56,43,28,.09); }
+.f-row { gap:12px; }
+input,select,textarea { border-color:#e5ddd2; border-radius:12px; background:#fffefa; }
+input:focus,select:focus,textarea:focus { border-color:#b99a78; box-shadow:0 0 0 3px rgba(154,112,72,.10); }
+.chip-group { gap:9px; }
+.chip-btn { border-color:#e9e1d7; border-radius:13px; background:#faf7f2; color:#62574c; }
+.chip-btn.active { background:#8e6945; border-color:#8e6945; box-shadow:0 5px 13px rgba(112,79,47,.16); color:#fff; }
+.chip-btn-sub { border-color:#e9e1d7; background:#faf7f2; }
+.chip-btn-sub.active { background:#f1e8dc; border-color:#d9c4aa; color:#765333; }
+.btn-submit { min-height:52px; margin-top:14px; border-radius:15px; background:linear-gradient(135deg,#3b3027,#6b5037); box-shadow:0 8px 18px rgba(56,43,28,.16); font-size:16px; letter-spacing:.01em; }
+.btn-submit:hover { background:linear-gradient(135deg,#4a3a2d,#806044); transform:translateY(-1px); }
+.line-cta { border:1px solid rgba(255,255,255,.25); border-radius:20px; box-shadow:0 8px 22px rgba(21,128,61,.13); }
+#results { border-radius:20px; }
+.pred-block { border-color:#ebe3d8; border-radius:15px; }
+.answer-box { border-radius:14px; }
+footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
+@media (min-width:761px) {
+  .wrap { padding-top:38px; }
+  #sharedForm { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
+  #sharedForm > .card { height:100%; }
+  .daily-element-card { padding:20px 24px; }
+}
+@media (max-width:760px) {
+  .wrap { width:calc(100% - 28px); padding:16px 0 48px; }
+  .hero { padding:25px 14px 22px !important; border-radius:22px; }
+  .engine-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .tab-btn { min-height:44px; }
+  .card { padding:17px; border-radius:18px; }
+}
+@media (max-width:380px) {
+  .wrap { width:calc(100% - 20px); }
+  .hero h1 { font-size:23px; }
+  .card { padding:14px; }
+}
