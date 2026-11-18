@@ -3698,7 +3698,7 @@
     // ผลหลักและคริสตัลยึดรหัสโหรกระต่ายเท่านั้น
     var personalFusionCode=reduce1(j.R4||9);
     var dailyFusionCode=reduce1(dailyElement.finalNum||9);
-    var dailyCrystalDateNumber=reduce1(dailyElement.finalNum||9);
+    var dailyCrystalDateNumber=dailyElement.crystalNumber||reduce1(dateSum*6);
     var dailyCrystalRabbitElementNumber=reduce1(personalFusionCode+dailyFusionCode);
     var personalCrystalNumber=personalFusionCode;
 
@@ -3796,7 +3796,7 @@
       dailyRabbitFusionRabbit:RABBITS[dailyFusionCode]||RABBITS[9],
       element:getElement(personalFusionCode),dailyElement:dailyElement,
       dailyCrystalDateNumber:dailyCrystalDateNumber,
-      dailyCrystalDate:crystalFromNumber(dailyCrystalDateNumber),
+      dailyCrystalDate:dailyElement.crystal||crystalFromNumber(dailyCrystalDateNumber),
       dailyCrystalRabbitElementNumber:dailyCrystalRabbitElementNumber,
       dailyCrystalRabbitElement:crystalFromNumber(dailyCrystalRabbitElementNumber),
       personalCrystalNumber:personalCrystalNumber,personalCrystal:crystalFromNumber(personalCrystalNumber),
