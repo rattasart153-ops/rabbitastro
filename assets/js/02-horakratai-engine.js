@@ -265,6 +265,9 @@
     var dayProduct = power * dateSum;
     var finalNum = reduce1(dayProduct);
     var elem = getElement(finalNum);
+    // คริสตัลประจำวันใช้สูตรเดียวกับ Banner เดิม: ลดเลขจากผลรวมวัน+เดือน+ปี คูณ 6
+    var crystalNumber = reduce1(dateSum * 6);
+    var dailyCrystal = crystalFromNumber(crystalNumber);
 
     return {
       dateText: now.toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" }),
@@ -274,7 +277,9 @@
       product: dayProduct,
       finalNum: finalNum,
       element: elem,
-      rabbit: RABBITS[finalNum]
+      rabbit: RABBITS[finalNum],
+      crystalNumber: crystalNumber,
+      crystal: dailyCrystal
     };
   }
 
