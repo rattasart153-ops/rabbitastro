@@ -1162,3 +1162,252 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
 .matrix-rhd-footnote{font-size:10px;line-height:1.6;color:#877c8f;margin-top:11px}
 .matrix-rhd-error{padding:10px;border:1px solid #f2c7c7;background:#fff7f7;border-radius:10px;color:#8b3b3b;font-size:12px}
 @media(max-width:480px){.matrix-rhd-panel{padding:11px}.matrix-rhd-grid{gap:6px}.matrix-rhd-energy{padding:8px}.matrix-rhd-arcana{font-size:13px}.matrix-rhd-energy p{font-size:11px}}
+
+
+
+/* =========================================================
+   Rabbitastro Mobile App Experience
+   Mobile-first touch layout; desktop layout remains unchanged.
+   ========================================================= */
+@media (max-width: 760px) {
+  :root {
+    --app-gutter: 14px;
+    --app-card-radius: 18px;
+    --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    scroll-padding-top: 82px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: #f4f0e9;
+    overscroll-behavior-y: contain;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 560px;
+    min-height: 100dvh;
+    padding: max(10px, env(safe-area-inset-top)) var(--app-gutter) calc(28px + var(--app-safe-bottom));
+  }
+
+  /* Compact app header */
+  header.hero {
+    margin: 0 calc(var(--app-gutter) * -1) 12px;
+    padding: 15px var(--app-gutter) 13px !important;
+    border: 0;
+    border-bottom: 1px solid #e8dfd3;
+    border-radius: 0 0 19px 19px;
+    background: rgba(255,253,249,.96);
+    box-shadow: 0 5px 18px rgba(58,43,27,.045);
+  }
+  .hero .bunny-badge {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 5px;
+    font-size: 21px;
+  }
+  .hero h1 { font-size: 22px; letter-spacing: -.025em; }
+  .hero p { margin-top: 2px; font-size: 12px; }
+
+  /* App-style persistent engine switcher */
+  .engine-tabs {
+    position: sticky;
+    top: max(0px, env(safe-area-inset-top));
+    z-index: 40;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+    margin: 0 calc(var(--app-gutter) * -1) 13px;
+    padding: 8px var(--app-gutter);
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 0;
+    border-bottom: 1px solid #e8dfd3;
+    border-radius: 0;
+    background: rgba(248,245,239,.94);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .engine-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1 0 auto;
+    min-width: 78px;
+    min-height: 43px;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    border-color: #e5d7c6;
+    background: #fffdf9;
+    color: #765333;
+    box-shadow: 0 3px 10px rgba(56,43,28,.07);
+  }
+
+  /* Comfortable, consistent touch surfaces */
+  .card,
+  .daily-element-card,
+  .line-cta,
+  .matrix-rhd-panel {
+    border-radius: var(--app-card-radius);
+  }
+  .card {
+    padding: 16px;
+    margin-bottom: 11px;
+    box-shadow: 0 5px 18px rgba(56,43,28,.045);
+  }
+  .card-title {
+    margin-bottom: 9px;
+    font-size: 13px;
+    letter-spacing: .015em;
+  }
+  .daily-element-card {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .daily-element-value { font-size: 21px; }
+  .daily-element-desc,
+  .daily-element-warn { font-size: 13px; line-height: 1.7; }
+
+  /* Single-column profile form, with enough room for Thai labels */
+  #sharedForm {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  #sharedForm > .shared-form-left,
+  #sharedForm > .shared-form-right { grid-column: 1 !important; }
+  #sharedForm .shared-form-column { gap: 10px; }
+  #sharedForm .shared-form-column > .card {
+    padding: 15px;
+    border-radius: 17px;
+  }
+  #sharedForm .card-title { font-size: 13px; }
+  #sharedForm .personal-name-row,
+  #sharedForm .birth-date-row,
+  #sharedForm .birth-time-row { gap: 8px; }
+  #sharedForm label { font-size: 12px; }
+  #sharedForm input,
+  #sharedForm select {
+    min-height: 48px;
+    padding: 10px 11px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+  #sharedForm .chk { min-height: 42px; align-items: center; }
+  #sharedForm .hint-box { font-size: 12px; line-height: 1.65; }
+
+  /* Selection chips behave like app controls */
+  .chip-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .chip-group > .chip-btn,
+  .chip-group > .chip-btn-sub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    min-height: 50px;
+    padding: 10px 9px;
+    border-radius: 13px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .chip-btn small { margin-top: 3px; font-size: 11px !important; }
+  .chip-btn:active,
+  .tab-btn:active,
+  .oreguram-slide-option:active { transform: scale(.985); }
+
+  input, select, textarea, button, a {
+    touch-action: manipulation;
+  }
+  button, .chip-btn, .chip-btn-sub, .oreguram-slide-option,
+  .line-cta-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Keep the main action easy to reach without covering content */
+  .btn-submit {
+    position: sticky;
+    bottom: calc(10px + var(--app-safe-bottom));
+    z-index: 25;
+    min-height: 54px;
+    margin: 14px 0 18px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(42,32,23,.22);
+  }
+
+  /* Reading results like a native content screen */
+  #results {
+    margin-top: 12px !important;
+    padding: 14px;
+    border-radius: 19px;
+    scroll-margin-top: 86px;
+  }
+  .pred-block {
+    margin: 9px 0;
+    padding: 13px;
+    border-radius: 14px;
+  }
+  .pred-block h4 { font-size: 16px; line-height: 1.5; }
+  .pred-section-item,
+  .answer-box {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .rhd-grid,
+  .matrix-rhd-grid { grid-template-columns: minmax(0, 1fr); }
+  .rhd-tile,
+  .matrix-rhd-energy { padding: 12px; }
+  .rhd-tile .rhd-d,
+  .matrix-rhd-energy p { font-size: 13px; line-height: 1.7; }
+
+  .line-cta { padding: 16px 14px; }
+  .line-cta-btn {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .oreguram-slider {
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+  }
+  .oreguram-slide-option { min-height: 48px; }
+  footer { padding: 0 6px 10px; }
+}
+
+@media (max-width: 380px) {
+  .wrap { --app-gutter: 10px; }
+  .hero h1 { font-size: 20px; }
+  .tab-btn { min-width: 74px; padding-inline: 8px; font-size: 11px; }
+  .card { padding: 13px; }
+  #sharedForm .shared-form-column > .card { padding: 13px 11px; }
+  #sharedForm .birth-date-row { gap: 6px; }
+  #sharedForm .birth-date-row label { font-size: 11px; }
+  #sharedForm .birth-date-row input { padding-inline: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
