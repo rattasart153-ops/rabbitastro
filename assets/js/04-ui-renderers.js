@@ -1841,16 +1841,27 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
     var reflection = rhdReflection[habit] || rhdReflection[1];
+    // เติมมุม Matrix ให้แต่ละหัวข้ออย่างพอดี โดยไม่ใช้ประโยคเดียวซ้ำทุกกล่อง
+    var reflectionMatrix = {
+      goal: matrixInsights.self,
+      overlook: matrixInsights.center,
+      outside: matrixInsights.expression,
+      gift: matrixInsights.resource,
+      shadow: matrixInsights.center,
+      accept: matrixInsights.lesson,
+      deny: matrixInsights.relationships,
+      child: matrixInsights.self
+    };
     if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#f8f4ff;color:#5b4b7a;font-weight:700;">💜 มุมต่าง ๆ ที่อยากชวนให้คุณรู้จักตัวเอง</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:9px 0;padding:13px;border:1px solid #eee5f5;border-left:4px solid #b9a2d2;border-radius:12px;background:#fff;"><b>🧩 สิ่งที่ใจคุณกำลังบอก</b><br/>“'+reflection.goal+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:9px 0;padding:13px;border:1px solid #eee5f5;border-left:4px solid #b9a2d2;border-radius:12px;background:#fff;"><b>🧩 สิ่งที่ใจคุณกำลังบอก</b><br/>“'+reflection.goal+'”'+(reflectionMatrix.goal ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.goal)+'</p>' : '')+'</div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div class="rhd-admin-reflection-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:9px;">';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🍃 เรื่องที่ไม่จำเป็นต้องแบกไว้</b><br/>“'+reflection.overlook+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>👀 คนรอบข้างอาจมองเห็นคุณอย่างไร</b><br/>“'+reflection.outside+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>✨ จุดแข็งที่คุณมีอยู่</b><br/>“'+reflection.gift+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🌙 มุมที่อยากชวนให้เข้าใจตัวเอง</b><br/>“'+reflection.shadow+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🤍 สิ่งที่อนุญาตให้ตัวเองเป็นได้</b><br/>“'+reflection.accept+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🪞 ความรู้สึกที่ไม่ต้องเก็บไว้คนเดียว</b><br/>“'+reflection.deny+'”</div>';
-    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก อยากบอกอะไรเด็กคนนั้น</b><br/>“'+reflection.child+'”</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🍃 เรื่องที่ไม่จำเป็นต้องแบกไว้</b><br/>“'+reflection.overlook+'”'+(reflectionMatrix.overlook ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.overlook)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>👀 คนรอบข้างอาจมองเห็นคุณอย่างไร</b><br/>“'+reflection.outside+'”'+(reflectionMatrix.outside ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.outside)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>✨ จุดแข็งที่คุณมีอยู่</b><br/>“'+reflection.gift+'”'+(reflectionMatrix.gift ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.gift)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🌙 มุมที่อยากชวนให้เข้าใจตัวเอง</b><br/>“'+reflection.shadow+'”'+(reflectionMatrix.shadow ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.shadow)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🤍 สิ่งที่อนุญาตให้ตัวเองเป็นได้</b><br/>“'+reflection.accept+'”'+(reflectionMatrix.accept ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.accept)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🪞 ความรู้สึกที่ไม่ต้องเก็บไว้คนเดียว</b><br/>“'+reflection.deny+'”'+(reflectionMatrix.deny ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.deny)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-reflection" style="margin:0;padding:12px;border:1px solid #eee5f5;border-radius:12px;background:#fff;"><b>🧸 ถ้าได้เจอตัวเองในวัยเด็ก อยากบอกอะไรเด็กคนนั้น</b><br/>“'+reflection.child+'”'+(reflectionMatrix.child ? '<p class="rhd-matrix-bridge">'+escapeHTML(reflectionMatrix.child)+'</p>' : '')+'</div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) h += '</div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#fff5eb;color:#8a5b36;font-weight:700;">🤍 พื้นที่พักใจและคำปลอบโยน</div>';
     var rhdComfort = {
@@ -1864,7 +1875,7 @@ document.addEventListener("DOMContentLoaded", function () {
       8:'คุณไม่จำเป็นต้องรู้ทุกคำตอบก่อนจะเริ่ม และไม่ต้องคิดจนหมดแรงเพื่อให้แน่ใจทุกอย่าง ลองเชื่อใจตัวเองทีละนิด พร้อมเปิดรับความช่วยเหลือและข้อมูลใหม่ ๆ ได้',
       9:'คุณไม่จำเป็นต้องเป็นคนแก้ปัญหาหรือเข้าใจทุกฝ่ายเสมอไป เลือกดูแลสิ่งที่สำคัญกับคุณก่อนก็ได้ คุณมีสิทธิ์วางภาระบางอย่างลงและใช้ชีวิตที่เบาขึ้น'
     };
-    h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+' '+(data.overall || 'คุณค่อย ๆ ไปต่อในจังหวะของตัวเองได้')+'”</span><div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
+    h += '<div class="rhd-section rhd-comfort" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:10px;padding:11px;margin-top:10px;"><b>🤍 ประโยคปลอบใจที่อยากฝากไว้กับคุณ</b><br/><span style="font-style:italic;">“'+(rhdComfort[habit] || rhdComfort[1])+'”</span>'+(matrixInsights.lesson ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.lesson)+'</p>' : '')+'<div style="font-size:12px;color:#7c5b4b;margin-top:6px;">อ่านเท่าที่ตรงกับใจคุณก็พอ คุณไม่จำเป็นต้องเชื่อทุกคำหรือเร่งเปลี่ยนแปลงตัวเองในทันที</div></div>';
     if (window.RABBITASTRO_ADMIN_MODE === true) h += '<div style="margin:16px 0 9px;padding:9px 12px;border-radius:11px;background:#eff8f2;color:#41664d;font-weight:700;">🌱 ชวนตัวเองสำรวจและทำความเข้าใจต่อ</div>';
     var questionBank = (window.RHD_SELF_QUESTIONS && typeof window.RHD_SELF_QUESTIONS === 'object' && !Array.isArray(window.RHD_SELF_QUESTIONS)) ? window.RHD_SELF_QUESTIONS : {};
     var candidateQuestions = Object.prototype.hasOwnProperty.call(questionBank, habit) ? questionBank[habit] : questionBank[1];
