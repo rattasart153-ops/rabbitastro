@@ -1681,32 +1681,44 @@ document.addEventListener("DOMContentLoaded", function () {
     var hd = data.habit || (Engine.RHD.HABITS && Engine.RHD.HABITS[habit]) || {};
     var h = '<div class="pred-block rhd-combined" style="margin-top:14px;">';
     h += '<h4>🐇 บทสนทนากับจิตใต้สำนึกของคุณ (RHD)</h4>';
-    // Matrix of Destiny × RHD: อ่านพลังงานจากวันเกิดร่วมกับรูปแบบการรับมือของโหรกระต่าย
-    var matrixSection = '';
+    // Matrix of Destiny เป็นชั้นข้อมูลเบื้องหลังที่ช่วยขยายคำอ่าน RHD
+    // ไม่แสดงเลขอาร์คานา/การ์ด Matrix แยกชุด เพื่อให้ผู้ใช้ได้รับคำทำนายเพียงชุดเดียว
+    var matrixSynthesis = '';
+    var matrixSignals = {};
     try {
       var matrixEngine = window.RABBITASTRO_MATRIX_OF_DESTINY;
       if (matrixEngine && inputData && typeof matrixEngine.calculate === 'function') {
         var matrix = matrixEngine.calculate(inputData.bDay, inputData.bMonth, inputData.bYear);
-        var centerEnergy = matrix.energies.filter(function(item){ return item.key === 'center'; })[0];
-        var centerArcana = matrixEngine.getArcana(centerEnergy.value);
-        var matrixCards = matrix.energies.map(function(item) {
-          var arcana = matrixEngine.getArcana(item.value);
-          return '<article class="matrix-rhd-energy"><div class="matrix-rhd-position">'+escapeHTML(item.label)+'</div><div class="matrix-rhd-arcana">'+String(item.value)+' · '+escapeHTML(arcana.name)+'</div><div class="matrix-rhd-theme">'+escapeHTML(arcana.theme)+'</div><p><b>จุดแข็ง:</b> '+escapeHTML(arcana.gift)+'</p><p class="matrix-rhd-shadow"><b>ด้านที่ควรสังเกต:</b> '+escapeHTML(arcana.shadow)+'</p><p class="matrix-rhd-guidance"><b>แนวทาง:</b> '+escapeHTML(arcana.guidance)+'</p></article>';
-        }).join('');
-        var centerBlend = centerArcana.guidance + ' เมื่อนำมาอ่านร่วมกับวิธีรับมือของคุณที่มีแนวโน้ม '+(hd.response || 'ค่อย ๆ ปรับตัวตามสถานการณ์')+' และสถานการณ์ที่กำลังพบคือ '+(rabbit.short || rabbit.name || 'ช่วงเปลี่ยนผ่าน')+' จุดแข็งของคุณจะทำงานได้ดีขึ้นเมื่อไม่ฝืนใช้วิธีเดิมกับทุกเรื่อง ลองเลือกก้าวที่ทำได้จริงและสอดคล้องกับสิ่งที่คุณต้องการ';
-        matrixSection = '<section class="matrix-rhd-panel" aria-label="Matrix of Destiny ผสาน RHD"><div class="matrix-rhd-heading">🧭 Matrix of Destiny × RHD<small>ผสานพลังงาน 22 อาร์คานากับคำอ่านโหรกระต่าย</small></div><p class="matrix-rhd-intro">นี่คือคำอ่านแบบผสาน ไม่ใช่คำทำนายสองชุดแยกกัน โดยใช้ภาพแทนจากวันเกิดเพื่อขยายความเข้าใจตัวตน จุดแข็ง และบทเรียน แล้วเชื่อมกับวิธีรับมือของคุณใน RHD</p><div class="matrix-rhd-center"><div class="matrix-rhd-center-label">แก่นกลางที่นำมาอ่านร่วมกัน</div><strong>'+String(centerEnergy.value)+' · '+escapeHTML(centerArcana.name)+'</strong><span>'+escapeHTML(centerArcana.theme)+'</span><p>'+escapeHTML(centerBlend)+'</p></div><div class="matrix-rhd-grid">'+matrixCards+'</div><div class="matrix-rhd-footnote">Matrix of Destiny ใช้รูปแบบคำนวณเชิงสัญลักษณ์จากวันเกิดตามพลังงาน 22 อาร์คานา และนำมาตีความร่วมกับ RHD ไม่ใช่ข้อสรุปตายตัวเกี่ยวกับชีวิต</div></section>';
+        matrix.energies.forEach(function(item) {
+          matrixSignals[item.key] = matrixEngine.getArcana(item.value);
+        });
+        var selfSignal = matrixSignals.self || {};
+        var resourceSignal = matrixSignals.resource || {};
+        var expressionSignal = matrixSignals.expression || {};
+        var pathSignal = matrixSignals.lifePath || {};
+        var centerSignal = matrixSignals.center || {};
+        var relationSignal = matrixSignals.relationships || {};
+        var realizationSignal = matrixSignals.realization || {};
+        var lessonSignal = matrixSignals.lesson || {};
+        matrixSynthesis = [
+          'เมื่อมองลึกลงไปถึงตัวตน คุณมีแนวโน้มที่จะ '+(selfSignal.theme || 'ค่อย ๆ ทำความเข้าใจตัวเอง')+' โดยมีจุดแข็งคือ '+(selfSignal.gift || 'การเรียนรู้จากประสบการณ์')+' แต่ควรระวัง '+(selfSignal.shadow || 'การกดดันตัวเองมากเกินไป')+'.',
+          'สิ่งที่ช่วยสนับสนุนคุณคือ '+(resourceSignal.gift || 'ความสามารถที่ค่อย ๆ พัฒนาได้')+' และการแสดงออกที่เหมาะกับคุณคือการ '+(expressionSignal.guidance || 'เลือกวิธีสื่อสารที่เป็นตัวเอง')+'.',
+          'เส้นทางที่กำลังเรียนรู้คือ '+(pathSignal.theme || 'การเติบโตผ่านประสบการณ์')+' โดยแก่นสำคัญคือ '+(centerSignal.guidance || 'ค่อย ๆ เลือกสิ่งที่สอดคล้องกับตัวเอง')+'.',
+          'ในความสัมพันธ์และการลงมือทำ คุณอาจต้องใส่ใจเรื่อง '+(relationSignal.shadow || 'การรักษาสมดุลระหว่างตัวเองกับผู้อื่น')+' พร้อมเปิดโอกาสให้ '+(realizationSignal.gift || 'ความสามารถของตัวเอง')+' ได้ทำงานอย่างเต็มที่.',
+          'บทเรียนที่ควรเติบโตไปพร้อมกันคือ '+(lessonSignal.guidance || 'เรียนรู้จากสิ่งที่เกิดขึ้นโดยไม่ตำหนิตัวเอง')+'.'
+        ].join(' ');
       }
     } catch (matrixError) {
-      matrixSection = '<div class="matrix-rhd-error">ยังไม่สามารถประมวลผล Matrix of Destiny ได้ กรุณาตรวจสอบวันเกิดแล้วลองใหม่อีกครั้ง</div>';
+      console.warn('Matrix synthesis unavailable; continuing with RHD reading only:', matrixError);
+      matrixSynthesis = '';
     }
     // ไม่แสดงกล่องอ่านจากข้อมูลเฉพาะตัวใน UI
-    h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ</div>';
+    h += '<div class="rhd-section rhd-dialogue-intro" style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:11px;margin:8px 0 10px;">ลองอ่านคำทำนายนี้เหมือนกำลังนั่งคุยกับเสียงข้างในของตัวเองอย่างอ่อนโยน ไม่ต้องเชื่อทุกคำทันที ลองสังเกตว่าประโยคไหนตรงกับความรู้สึกของคุณ และประโยคไหนที่คุณอยากตอบกลับ'+(matrixSynthesis ? '<p style="margin:9px 0 0;">'+escapeHTML(matrixSynthesis)+'</p>' : '')+'</div>';
     // ซ่อนรายละเอียดสูตรและข้อมูลที่ใช้คำนวณจากหน้าคำทำนาย แต่คงการคำนวณเบื้องหลังไว้
     h += '<div class="rhd-grid">';
     h += '<div class="rhd-tile"><div class="rhd-k">วิธีรับมือ</div><div class="rhd-v">'+(hd.name||'')+'</div><div class="rhd-d">'+(hd.response||'ค่อย ๆ เลือกวิธีที่เหมาะกับตัวเอง')+'</div></div>';
     h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
     h += '</div>';
-    h += matrixSection;
     // คำสะท้อนใจเฉพาะบุคคลจะแสดงด้านล่างในหัวข้อที่อ่านตรงและไม่ซ้ำกัน
     h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span></div>';
     h += '<div class="rhd-section rhd-corrections" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #d6a77a;border-radius:12px;padding:13px;margin:10px 0;"><b>🌱 ก้าวเล็ก ๆ ที่อาจช่วยให้ใจเบาขึ้น</b><br/>ไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว ลองเริ่มจากสิ่งที่พอทำไหว:<ul style="margin:7px 0 0;padding-left:20px;"><li>ค่อย ๆ แยกสิ่งที่รู้แน่ชัดออกจากสิ่งที่กำลังกังวล</li><li>บอกความต้องการหรือขอบเขตของตัวเองด้วยคำพูดที่อ่อนโยน</li><li>เลือกปรับเพียงเรื่องเดียว แล้วให้เวลาตัวเองได้เรียนรู้</li></ul><div style="margin-top:8px;">ลองถามตัวเองว่า: <i>วันนี้ฉันจะดูแลตัวเองด้วยวิธีเล็ก ๆ อะไรได้บ้าง?</i></div></div>';
@@ -1854,6 +1866,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var rhdDecisionText = data.decision || hd.decision || 'ลองให้เวลาตัวเองทบทวนก่อนเลือกก้าวต่อไป';
     var rhdCautionText = data.caution || hd.caution || 'ค่อย ๆ สังเกตสิ่งที่เกิดขึ้นโดยไม่ตำหนิตัวเอง';
     var rhdOverallText = data.overall || data.description || 'คุณยังมีทางเลือกและค่อย ๆ ปรับวิธีรับมือได้';
+    // เชื่อมแก่นจาก Matrix เข้ากับการอ่านสถานการณ์และวิธีรับมือของ RHD โดยตรง
+    if (matrixSynthesis) {
+      rhdSituationText += ' ภาพพื้นฐานภายในที่ควรนำมาพิจารณาร่วมกันคือ ' + matrixSynthesis;
+      rhdCopingText += ' วิธีนี้จะสมดุลขึ้นเมื่อคำนึงถึงจุดแข็งและบทเรียนภายในของคุณด้วย';
+      rhdDecisionText += ' โดยเลือกก้าวที่สอดคล้องกับตัวตน ความสัมพันธ์ และสิ่งที่คุณต้องการเติบโตไปเป็น';
+      rhdCautionText += ' รวมถึงระวังไม่ให้จุดแข็งบางอย่างกลายเป็นการกดดันหรือจำกัดตัวเอง';
+      rhdOverallText += ' เมื่อเข้าใจทั้งรูปแบบการรับมือในปัจจุบันและพื้นฐานภายใน คุณจะเห็นทางเลือกที่เหมาะกับตัวเองได้ชัดขึ้น';
+    }
     var rhdGentleAnswers = [
       'อาจมีบางเรื่องที่คุณยังไม่พร้อมเข้าไปแตะ โดยเฉพาะเมื่อสถานการณ์ตอนนี้คือ “'+rhdSituationText+'” วิธีรับมือของคุณมีแนวโน้มเป็นแบบ “'+rhdCopingText+'” บางทีการเว้นระยะหรือคิดให้รอบคอบอาจเป็นวิธีปกป้องใจในช่วงหนึ่ง ไม่ได้แปลว่าคุณอ่อนแอ ลองถามตัวเองเบา ๆ ว่าเรื่องไหนที่อยากค่อย ๆ เข้าไปทำความเข้าใจ และก้าวเล็กที่สุดที่ปลอดภัยสำหรับใจคืออะไร',
       'ความกังวลที่แบกอยู่อาจเกี่ยวข้องกับความไม่แน่นอนหรือผลที่จะตามมาจาก “'+rhdSituationText+'” เมื่อคุณรับมือด้วยการ “'+rhdCopingText+'” ใจอาจพยายามเตรียมพร้อมเพื่อไม่ให้พลาด สิ่งที่ช่วยได้คือแยกสิ่งที่รู้แน่ชัดออกจากสิ่งที่ยังคาดเดา แล้วค่อยพิจารณาตามนี้: '+rhdCautionText+' คุณไม่จำเป็นต้องแก้ทุกความกังวลในคราวเดียว',
