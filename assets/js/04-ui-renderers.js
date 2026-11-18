@@ -375,12 +375,21 @@ document.addEventListener("DOMContentLoaded", function () {
       var dailyRes = Engine.calcDailyElement(new Date());
       var elem = dailyRes.element || Engine.getElement(5);
       var rabbit = dailyRes.rabbit || {name:"-"};
+      var dailyCrystal = dailyRes.crystal || (typeof Engine.crystalFromNumber === "function"
+        ? Engine.crystalFromNumber(dailyRes.crystalNumber || (dailyRes.dateSum * 6))
+        : {});
       document.getElementById("dailyDateText").innerText = dailyRes.dateText || "-";
       document.getElementById("dailyElementVal").innerText = "ธาตุ" + (elem.name || "ดิน") + " (" + (elem.symbol || "⛰️") + ")";
       document.getElementById("dailyElementIcon").innerText = elem.symbol || "⛰️";
       document.getElementById("dailyElementDesc").innerText = "🐇 " + rabbit.name + "   " + (elem.story || "") + " · จุดเด่น: " + (elem.good || "");
       document.getElementById("dailyElementWarn").innerText = "⚠️ ดูแลเรื่องนี้อย่างอ่อนโยน: " + (elem.bad || "");
       document.getElementById("dailyElementSuggest").innerText = elem.good || "";
+      var crystalName = document.getElementById("dailyCrystalName");
+      var crystalHealing = document.getElementById("dailyCrystalHealing");
+      var crystalSupport = document.getElementById("dailyCrystalSupport");
+      if (crystalName) crystalName.innerText = dailyCrystal.name || "-";
+      if (crystalHealing) crystalHealing.innerText = dailyCrystal.healing || "";
+      if (crystalSupport) crystalSupport.innerText = "ช่วยส่งเสริม: " + (dailyCrystal.support || "-");
       box.classList.remove("card-elem-น้ำ", "card-elem-ไฟ", "card-elem-ไม้", "card-elem-เหล็ก", "card-elem-ดิน", "card-elem-ทอง");
       box.classList.add("card-elem-" + (elem.name || "ดิน"));
       box.style.display = "";
@@ -1420,7 +1429,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var dailyCardMeaning=(Engine&&typeof Engine.tarotSelfMeaning==='function'?Engine.tarotSelfMeaning(dailyCard,'daily'):'')||dailyCard.meaning||'';
     var runeMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(rune):'')||(rune[2]||'');
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
-    var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
+    var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||res.dailyElement&&res.dailyElement.crystal||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
@@ -1444,7 +1453,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h+='<h4 style="color:#0e7490;">☀️ คำทำนายประจำวัน · ไพ่ + รูน + คริสตัล</h4>';
     h+='<div class="pred-section-item"><b>🃏 ไพ่ประจำวัน: '+esc(dailyCardName)+'</b><br/>'+esc(dailyCardMeaning)+'</div>';
     h+='<div class="pred-section-item"><b>ᚠ รูนประจำวัน: '+esc(dailyRune[0]||'-')+' '+esc(dailyRune[1]||'')+'</b><br/>'+esc(dailyMeaning)+'</div>';
-    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+esc(dailyCrystal.name||'-')+'</b><br/>'+esc(dailyCrystal.healing||'')+'</div>';
+    h+='<div class="pred-section-item"><b>💎 คริสตัลประจำวัน: '+esc(dailyCrystal.name||'-')+'</b><br/>'+esc(dailyCrystal.healing||'')+(dailyCrystal.support?'<br/><span>ช่วยส่งเสริม: '+esc(dailyCrystal.support)+'</span>':'')+'</div>';
     h+='<div class="pred-section-item"><b>🌤️ จังหวะของวันนี้</b><br/>'+esc(dailyPrediction)+'</div>';
     h+='<div class="pred-section-item"><b>💪 สิ่งที่ช่วยให้วันนี้เดินหน้า</b><br/>'+esc(todayStrength)+'</div>';
     h+='<div class="pred-section-item"><b>🍃 เรื่องที่ควรดูแลเป็นพิเศษ</b><br/>'+esc(todayCaution)+'</div>';
