@@ -1735,8 +1735,8 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="rhd-tile"><div class="rhd-k">สถานการณ์</div><div class="rhd-v">'+(rabbit.name||'-')+'</div><div class="rhd-d">'+(rabbit.short||'ลองมองสิ่งที่เกิดขึ้นตามความเป็นจริง')+'</div></div>';
     h += '</div>';
     // คำสะท้อนใจเฉพาะบุคคลจะแสดงด้านล่างในหัวข้อที่อ่านตรงและไม่ซ้ำกัน
-    h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span></div>';
-    h += '<div class="rhd-section rhd-corrections" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #d6a77a;border-radius:12px;padding:13px;margin:10px 0;"><b>🌱 ก้าวเล็ก ๆ ที่อาจช่วยให้ใจเบาขึ้น</b><br/>ไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว ลองเริ่มจากสิ่งที่พอทำไหว:<ul style="margin:7px 0 0;padding-left:20px;"><li>ค่อย ๆ แยกสิ่งที่รู้แน่ชัดออกจากสิ่งที่กำลังกังวล</li><li>บอกความต้องการหรือขอบเขตของตัวเองด้วยคำพูดที่อ่อนโยน</li><li>เลือกปรับเพียงเรื่องเดียว แล้วให้เวลาตัวเองได้เรียนรู้</li></ul><div style="margin-top:8px;">ลองถามตัวเองว่า: <i>วันนี้ฉันจะดูแลตัวเองด้วยวิธีเล็ก ๆ อะไรได้บ้าง?</i></div></div>';
+    h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+(data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง')+'”</span>'+(matrixInsights.self ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.self)+'</p>' : '')+'</div>';
+    h += '<div class="rhd-section rhd-corrections" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #d6a77a;border-radius:12px;padding:13px;margin:10px 0;"><b>🌱 ก้าวเล็ก ๆ ที่อาจช่วยให้ใจเบาขึ้น</b><br/>ไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว ลองเริ่มจากสิ่งที่พอทำไหว:<ul style="margin:7px 0 0;padding-left:20px;"><li>เขียนแยกสิ่งที่รู้แน่ชัดกับสิ่งที่ยังกังวล เพื่อไม่ให้ความคิดปนกัน</li><li>บอกความต้องการหรือขอบเขตของตัวเองให้ชัด โดยไม่ต้องขอโทษที่มีความต้องการ</li><li>เลือกทำเพียงหนึ่งอย่างที่อยู่ในอำนาจของคุณ แล้วค่อยประเมินผล</li></ul>'+(matrixInsights.lesson ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.lesson)+'</p>' : '')+'<div style="margin-top:8px;">ลองถามตัวเองว่า: <i>ก้าวไหนที่ทำได้จริงในวันนี้ โดยไม่ต้องฝืนตัวเอง?</i></div></div>';
     // คำทำนายเพิ่มเติมสำหรับ RHD สังเคราะห์จากเลขสถานการณ์โหรกระต่าย
     // ร่วมกับเลขพฤติกรรม เพื่อให้ทุกหัวข้อพูดกับจิตใต้สำนึกด้วยน้ำเสียงอ่อนโยน
     var rhdReflection = {
@@ -1884,6 +1884,7 @@ document.addEventListener("DOMContentLoaded", function () {
       : [];
     h += '<div class="rhd-section rhd-self-questions"><b>❓ คำถามสำรวจแนวทางของตัวเอง</b><ol style="margin:6px 0 0;padding-left:22px;">';
     for (var qi = 0; qi < selfQuestions.length; qi++) { h += '<li style="margin:4px 0;">' + escapeHTML(selfQuestions[qi]) + '</li>'; }
+    if (matrixInsights.lifePath) h += '<li style="margin:4px 0;">' + escapeHTML('สิ่งสำคัญที่ฉันอยากเลือกให้ตัวเองในช่วงนี้คืออะไร? ' + matrixInsights.lifePath) + '</li>';
     h += '</ol></div>';
     // สังเคราะห์ทุกคำตอบจากคู่ RHD จริงในรอบนี้: เลขสถานการณ์ + วิธีรับมือ
     // น้ำเสียงเป็นการชวนสำรวจ ไม่ฟันธง ไม่วินิจฉัย และไม่ตัดสินผู้ใช้
@@ -1930,7 +1931,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       h+='</div>';
       h+='</div>';
-      h+='<div class="rhd-section rhd-situation-guidance" style="background:#fffaf5;border:1px solid #f3d7bf;border-radius:10px;padding:11px;"><b>🌱 วิธีดูแลตัวเองให้สอดคล้องกับสถานการณ์นี้</b><p>'+escapeHTML(rhdOverallText)+'</p><p><b>แนวทางที่เข้ากับวิธีรับมือของคุณ:</b> '+escapeHTML(rhdCopingText)+'</p><p><b>จุดที่อยากชวนให้ระวังอย่างอ่อนโยน:</b> '+escapeHTML(rhdCautionText)+'</p><p><b>ก้าวถัดไปที่พอทำได้:</b> '+escapeHTML(rhdDecisionText)+'</p></div>';
+      h+='<div class="rhd-section rhd-situation-guidance" style="background:#fffaf5;border:1px solid #f3d7bf;border-radius:10px;padding:11px;"><b>🌱 วิธีดูแลตัวเองให้สอดคล้องกับสถานการณ์นี้</b><p>'+escapeHTML(rhdOverallText)+'</p>'+(matrixInsights.lifePath ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.lifePath)+'</p>' : '')+'<p><b>แนวทางที่เข้ากับวิธีรับมือของคุณ:</b> '+escapeHTML(rhdCopingText)+'</p>'+(matrixInsights.resource ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.resource)+'</p>' : '')+'<p><b>จุดที่อยากชวนให้ระวังอย่างอ่อนโยน:</b> '+escapeHTML(rhdCautionText)+'</p>'+(matrixInsights.center ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.center)+'</p>' : '')+'<p><b>ก้าวถัดไปที่พอทำได้:</b> '+escapeHTML(rhdDecisionText)+'</p>'+(matrixInsights.lesson ? '<p class="rhd-matrix-bridge">'+escapeHTML(matrixInsights.lesson)+'</p>' : '')+'</div>';
     }
     h += '<div class="rhd-note">ข้อความเหล่านี้เป็นเพียงกระจกสะท้อนให้คุณสำรวจใจ ไม่ใช่การอ่านใจหรือคำตัดสินตายตัว คุณเป็นคนที่รู้จักตัวเองได้ลึกที่สุด และเลือกตอบกลับเสียงข้างในในแบบของคุณได้เสมอ</div>';
     h += '</div>';
