@@ -1868,7 +1868,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var rhdOverallText = data.overall || data.description || 'คุณยังมีทางเลือกและค่อย ๆ ปรับวิธีรับมือได้';
     // เชื่อมแก่นจาก Matrix เข้ากับการอ่านสถานการณ์และวิธีรับมือของ RHD โดยตรง
     if (matrixSynthesis) {
-      rhdSituationText += ' ภาพพื้นฐานภายในที่ควรนำมาพิจารณาร่วมกันคือ ' + matrixSynthesis;
+      var matrixCore = matrixSignals.center || {};
+      rhdSituationText += ' แก่นภายในของคุณสะท้อนเรื่อง ' + (matrixCore.theme || 'การเติบโตและการเข้าใจตัวเอง') + ' จุดแข็งคือ ' + (matrixCore.gift || 'การเรียนรู้จากประสบการณ์') + ' และด้านที่ควรดูแลคือ ' + (matrixCore.shadow || 'การกดดันตัวเองมากเกินไป');
       rhdCopingText += ' วิธีนี้จะสมดุลขึ้นเมื่อคำนึงถึงจุดแข็งและบทเรียนภายในของคุณด้วย';
       rhdDecisionText += ' โดยเลือกก้าวที่สอดคล้องกับตัวตน ความสัมพันธ์ และสิ่งที่คุณต้องการเติบโตไปเป็น';
       rhdCautionText += ' รวมถึงระวังไม่ให้จุดแข็งบางอย่างกลายเป็นการกดดันหรือจำกัดตัวเอง';
