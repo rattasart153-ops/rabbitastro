@@ -223,6 +223,22 @@
 
     <section id="results" class="card" style="display:none; margin-top:16px;"></section>
 
+
+    <nav class="mobile-bottom-nav" aria-label="เมนูหลัก">
+      <button class="mobile-nav-item active" type="button" data-engine-target="tabPerson" aria-current="page">
+        <span class="mobile-nav-icon" aria-hidden="true">☯</span><span>ดวงบุคคล</span>
+      </button>
+      <button class="mobile-nav-item" type="button" data-engine-target="tabGod">
+        <span class="mobile-nav-icon" aria-hidden="true">⛩</span><span>เทพประจำตัว</span>
+      </button>
+      <button class="mobile-nav-item" type="button" data-engine-target="tabOreguram">
+        <span class="mobile-nav-icon" aria-hidden="true">🔮</span><span>โอเรกุรัม</span>
+      </button>
+      <button class="mobile-nav-item" type="button" data-engine-target="tabTarotRune">
+        <span class="mobile-nav-icon" aria-hidden="true">🃏</span><span>ไพ่ + รูน</span>
+      </button>
+    </nav>
+
     <footer>🐇 คำทำนายตามโหรกระต่าย พร้อมไพ่ทาโรต์และรูนเป็นข้อมูลประกอบการอ่าน เพื่อให้เห็นแนวโน้ม จุดที่ควรใส่ใจ และแนวทางรับมือ</footer>
   </div>
 
@@ -234,6 +250,36 @@
 
   <script src="assets/js/04-ui-renderers.js"></script>
   <script src="assets/js/05-form-storage.js"></script>
+  <script>
+    (function () {
+      var nav = document.querySelector('.mobile-bottom-nav');
+      if (!nav) return;
+      var items = Array.prototype.slice.call(nav.querySelectorAll('[data-engine-target]'));
+      function syncActiveTab() {
+        items.forEach(function (item) {
+          var target = document.getElementById(item.getAttribute('data-engine-target'));
+          var active = !!(target && target.classList.contains('active'));
+          item.classList.toggle('active', active);
+          if (active) item.setAttribute('aria-current', 'page');
+          else item.removeAttribute('aria-current');
+        });
+      }
+      items.forEach(function (item) {
+        item.addEventListener('click', function () {
+          var target = document.getElementById(item.getAttribute('data-engine-target'));
+          if (target) target.click();
+          window.setTimeout(syncActiveTab, 0);
+        });
+      });
+      var tabBar = document.querySelector('.engine-tabs');
+      if (tabBar && window.MutationObserver) {
+        new MutationObserver(syncActiveTab).observe(tabBar, {
+          subtree: true, attributes: true, attributeFilter: ['class']
+        });
+      }
+      syncActiveTab();
+    })();
+  </script>
 
 </body>
 </html>
