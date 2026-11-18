@@ -1139,3 +1139,26 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
   .engine-tabs { gap: 4px; }
   .tab-btn { font-size: 12px; }
 }
+
+
+/* Matrix of Destiny × RHD preview */
+.matrix-rhd-panel{margin:14px 0;padding:14px;border:1px solid #d8c7f2;border-radius:16px;background:linear-gradient(145deg,#fbf8ff,#fffdf8);color:#35264b}
+.matrix-rhd-heading{display:flex;flex-direction:column;gap:3px;font-weight:800;font-size:16px;color:#512b79}
+.matrix-rhd-heading small{font-size:12px;font-weight:500;color:#78668b}
+.matrix-rhd-intro{font-size:13px;line-height:1.8;margin:9px 0 12px;color:#5c5268}
+.matrix-rhd-center{padding:12px;border-radius:12px;background:#f1eaff;border:1px solid #dfcef7}
+.matrix-rhd-center-label{font-size:12px;color:#735b8b}
+.matrix-rhd-center strong{display:block;font-size:17px;color:#512b79;margin:3px 0}
+.matrix-rhd-center span{display:block;font-size:12px;color:#6d5683}
+.matrix-rhd-center p{font-size:13px;line-height:1.85;margin:8px 0 0}
+.matrix-rhd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.matrix-rhd-energy{min-width:0;padding:10px;border:1px solid #e8e0ef;border-radius:11px;background:#fff}
+.matrix-rhd-position{font-size:11px;color:#796b85;font-weight:700}
+.matrix-rhd-arcana{font-size:14px;font-weight:800;color:#563477;margin:3px 0}
+.matrix-rhd-theme{font-size:11px;color:#9a6b43;line-height:1.5}
+.matrix-rhd-energy p{font-size:12px;line-height:1.75;margin:7px 0 0}
+.matrix-rhd-energy .matrix-rhd-shadow{color:#795d65}
+.matrix-rhd-energy .matrix-rhd-guidance{color:#4d684d}
+.matrix-rhd-footnote{font-size:10px;line-height:1.6;color:#877c8f;margin-top:11px}
+.matrix-rhd-error{padding:10px;border:1px solid #f2c7c7;background:#fff7f7;border-radius:10px;color:#8b3b3b;font-size:12px}
+@media(max-width:480px){.matrix-rhd-panel{padding:11px}.matrix-rhd-grid{gap:6px}.matrix-rhd-energy{padding:8px}.matrix-rhd-arcana{font-size:13px}.matrix-rhd-energy p{font-size:11px}}
