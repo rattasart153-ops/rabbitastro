@@ -413,7 +413,6 @@ document.addEventListener("DOMContentLoaded", function () {
       fName: val("fName"), fLast: val("fLast"), bDay: val("bDay"), bMonth: val("bMonth"),
       bYear: val("bYear"), bHour: val("bHour"), bMin: val("bMin"),
       noBirthTime: !!(noTimeEl && noTimeEl.checked),
-      mbtiType: val("mbtiType").toUpperCase(),
       habitNumber: val("rhdHabitNumber") || "1"
     };
   }
@@ -431,61 +430,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function extractPredictionContext(html) {
-    if (!html) return '';
-    var holder = document.createElement('div');
-    holder.innerHTML = String(html);
-    var text = String(holder.textContent || holder.innerText || '').replace(/\\s+/g, ' ').trim();
-    // จำกัดเฉพาะใจความคำทำนายที่แสดงจริง เพื่อไม่ให้กล่อง MBTI ยาวหรือซ้ำทั้งหน้า
-    return text.length > 900 ? text.slice(0, 900).trim() + '…' : text;
-  }
-
-  // อ่าน MBTI ควบคู่กับผลจริงของแต่ละ Engine โดยไม่แก้สูตรคำนวณพื้นฐาน
-  function renderMbtiLens(inputData, engineKey, engineResult, featureKey, predictionHtml) {
-    var type = String(inputData && inputData.mbtiType || '').toUpperCase();
-    var types = {
-      ISTJ:['ให้ความสำคัญกับความรับผิดชอบและความชัดเจน','วางแผนรอบคอบและทำอย่างสม่ำเสมอ','ยึดวิธีเดิมหรือแบกหน้าที่มากเกินไป','เปิดรับวิธีใหม่และพักเมื่อไม่จำเป็นต้องควบคุมทุกอย่าง'],
-      ISFJ:['ใส่ใจรายละเอียดและความรู้สึกของคนรอบตัว','เอาใจใส่ อดทน และน่าไว้วางใจ','เก็บความต้องการของตัวเองไว้ทีหลัง','บอกความต้องการและตั้งขอบเขตอย่างอ่อนโยน'],
-      INFJ:['มองหาความหมายเบื้องหลังเหตุการณ์และความสัมพันธ์','เข้าใจคนและมองภาพรวมได้ดี','คิดแทนคนอื่นหรือคาดหวังกับตัวเองสูง','ตรวจสอบข้อเท็จจริงควบคู่กับสัญชาตญาณ'],
-      INTJ:['มองภาพระยะยาวและจัดระบบเพื่อไปถึงเป้าหมาย','วิเคราะห์และวางแผนได้ดี','เคร่งกับมาตรฐานหรือมองข้ามความรู้สึก','เผื่อพื้นที่ให้ความไม่แน่นอนและรับฟังมุมมองอื่น'],
-      ISTP:['เรียนรู้จากการลงมือทำและแก้ปัญหาเฉพาะหน้า','ใจเย็น คิดเป็นเหตุผล และปรับตัวเก่ง','เก็บความรู้สึกจนคนอื่นไม่เข้าใจ','สื่อสารความต้องการก่อนลงมือแก้ปัญหา'],
-      ISFP:['ให้คุณค่ากับความเป็นตัวเองและความรู้สึกที่แท้จริง','อ่อนโยน ยืดหยุ่น และเข้าใจสิ่งที่มีความหมาย','หลีกเลี่ยงการเผชิญหน้าหรือไม่กล้าปฏิเสธ','พูดความต้องการโดยไม่รู้สึกผิดที่เลือกตัวเอง'],
-      INFP:['ให้ความสำคัญกับคุณค่าในใจและความหมายของสิ่งที่ทำ','จินตนาการดี เห็นอกเห็นใจ และซื่อตรงต่อตัวเอง','คิดวนเมื่อสิ่งต่าง ๆ ไม่ตรงกับอุดมคติ','แบ่งเป้าหมายเป็นขั้นเล็ก ๆ และยอมรับความไม่สมบูรณ์แบบ'],
-      INTP:['ชอบตั้งคำถาม วิเคราะห์ และมองหาคำอธิบาย','คิดเป็นระบบและมองได้หลายมุม','คิดนานจนเริ่มช้าหรืออธิบายความรู้สึกยาก','กำหนดเวลาตัดสินใจและสื่อสารความรู้สึกให้ง่ายขึ้น'],
-      ESTP:['เรียนรู้เร็วจากประสบการณ์และกล้ารับมือสถานการณ์','คล่องตัว กล้า และตัดสินใจได้รวดเร็ว','รีบตอบสนองหรือมองข้ามผลระยะยาว','ทบทวนผลที่จะตามมาก่อนตัดสินใจเรื่องสำคัญ'],
-      ESFP:['เชื่อมโยงกับผู้คนผ่านประสบการณ์และบรรยากาศ','เป็นมิตร เข้าถึงง่าย และสร้างพลังบวก','รับอารมณ์รอบตัวมากหรือเลี่ยงเรื่องไม่สบายใจ','จัดเวลาสงบให้ตัวเองและจัดการเรื่องยากทีละข้อ'],
-      ENFP:['มองเห็นความเป็นไปได้หลายทางและมีพลังกับสิ่งที่มีความหมาย','สร้างสรรค์ เชื่อมโยงผู้คน และเริ่มสิ่งใหม่ได้ดี','สนใจหลายอย่างจนพลังและเวลาแตกกระจาย','เลือกเรื่องสำคัญไม่กี่เรื่องและทำให้ต่อเนื่อง'],
-      ENTP:['สนุกกับการตั้งคำถามและทดลองแนวคิดใหม่','คิดไว แก้ปัญหาเก่ง และเห็นทางเลือก','เปลี่ยนประเด็นเร็วหรือโต้แย้งจนมองข้ามความรู้สึก','ฟังให้จบและเลือกแนวคิดที่นำไปใช้ได้จริง'],
-      ESTJ:['ให้ความสำคัญกับความชัดเจน ความรับผิดชอบ และผลลัพธ์','จัดการ ตัดสินใจ และทำให้แผนเกิดขึ้นจริง','คาดหวังมาตรฐานเดียวกันหรือควบคุมมากเกินไป','ยืดหยุ่นกับวิธีการและถามความเห็นคนที่เกี่ยวข้อง'],
-      ESFJ:['ใส่ใจความร่วมมือและความรู้สึกของคนรอบตัว','ประสานงานและดูแลความสัมพันธ์ได้ดี','พยายามทำให้ทุกคนพอใจจนละเลยตัวเอง','ยอมรับความเห็นต่างและไม่ต้องแก้ทุกความรู้สึก'],
-      ENFJ:['มองเห็นศักยภาพของคนและอยากให้สิ่งรอบตัวดีขึ้น','เข้าใจผู้คน สื่อสาร และสนับสนุนคนอื่นได้ดี','รับภาระของคนอื่นมากเกินไป','ช่วยเท่าที่ไหวและเว้นพื้นที่ให้คนอื่นรับผิดชอบตัวเอง'],
-      ENTJ:['มองเป้าหมายชัดและจัดทรัพยากรเพื่อให้เกิดผล','วางทิศทาง ตัดสินใจ และขับเคลื่อนงานได้','เร่งผลลัพธ์จนมองข้ามจังหวะของตัวเองหรือผู้อื่น','ให้ความสำคัญกับความรู้สึกและความพร้อมพอ ๆ กับประสิทธิภาพ']
-    };
-    if (!types[type]) return '';
-    var p = types[type], result = engineResult || {}, contextTitle = '', contextText = '';
-    if (engineKey === 'engine1') {
-      var featureNames = {base:'พื้นดวงกำเนิด',rhd:'รูปแบบการรับมือแบบ RHD',asc:'ลัคนาราศี',topicShort:'เรื่องที่คุณเลือก',topicMonth:'แนวโน้มรายเดือน'};
-      contextTitle = 'ผลโหรกระต่ายด้าน' + (featureNames[featureKey] || 'ที่คุณเลือก');
-      contextText = extractPredictionContext(predictionHtml) || 'ผลโหรกระต่ายส่วนนี้เป็นจุดตั้งต้นในการอ่านร่วมกับ MBTI เพื่อทำความเข้าใจว่าคุณอาจรู้สึก คิด และตอบสนองต่อเรื่องนี้อย่างไร';
-    } else if (engineKey === 'engine3') {
-      contextTitle = 'อ่าน MBTI ประกอบคำตอบโอเรกุรัม';
-      var answer = result.directAnswer || (result.detail && result.detail.summary) || '';
-      contextText = answer
-        ? 'คำตอบโอเรกุรัมของเรื่องนี้คือ “' + answer + '” เมื่อนำมาอ่านร่วมกับบุคลิกภาพของคุณ จุดแข็งตาม MBTI จะช่วยให้เห็นวิธีรับมือที่เหมาะกับตัวเอง ขณะที่ข้อควรระวังจะช่วยให้ไม่รีบตัดสินใจจากความเคยชินเพียงด้านเดียว'
-        : 'ใช้บุคลิกภาพของคุณเป็นอีกมุมหนึ่งในการทำความเข้าใจคำตอบและเลือกวิธีรับมือกับสถานการณ์';
-    } else if (engineKey === 'engine4') {
-      contextTitle = 'ผลการอ่านไพ่และรูนที่นำมาตีความร่วมกับ MBTI';
-      contextText = extractPredictionContext(predictionHtml) || 'ผลไพ่และรูนจากการคำนวณครั้งนี้จะใช้เป็นจุดตั้งต้นในการอ่านรูปแบบความคิด ความรู้สึก และสิ่งที่คุณอาจต้องการอยู่ลึก ๆ';
-    } else return '';
-    var esc = typeof escapeHTML === 'function' ? escapeHTML : function(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
-    // อ่าน MBTI เป็นกลไกภายในที่อาจเกิดขึ้น แล้วเชื่อมกับคำทำนายจริงของ Engine
-    // ไม่วินิจฉัยสภาพจิตใจ และไม่เปลี่ยนสูตรคำนวณหลัก
-    var subconsciousText = 'เมื่อเจอสถานการณ์ที่สอดคล้องกับคำทำนาย คุณอาจใช้รูปแบบนี้เพื่อปกป้องความรู้สึกหรือรักษาสิ่งที่มีความหมายกับตัวเอง: ' + p[2] + ' นี่เป็นเพียงแนวโน้มที่ชวนสังเกต ไม่ได้หมายความว่าคุณเป็นเช่นนี้เสมอไป';
-    var innerNeedText = 'ลึก ๆ แล้วคุณอาจต้องการพื้นที่หรือความมั่นคงในแบบที่ทำให้ไม่ต้องฝืนตัวเองมากเกินไป แนวทางที่อาจช่วยได้คือ ' + p[3] + ' ลองสังเกตว่าความต้องการนี้ตรงกับชีวิตจริงของคุณแค่ไหน';
-    var strengthText = p[1] + ' คุณสามารถนำจุดแข็งนี้มาใช้รับมือกับประเด็นที่คำทำนายเดิมสะท้อนได้ โดยไม่จำเป็นต้องกดดันตัวเองให้ทำได้สมบูรณ์แบบ';
-    var out = '<div class="pred-block mbti-reading"><h4>🧠 อ่านจิตใต้สำนึกร่วมกับ MBTI · '+esc(type)+'</h4><div class="pred-section-item"><b>ผลคำทำนายเดิมที่นำมาอ่านร่วม</b><br/>'+esc(contextTitle)+': '+esc(contextText)+'</div><div class="pred-section-item"><b>รูปแบบที่จิตใต้สำนึกอาจใช้ปกป้องตัวเอง</b><br/>'+esc(subconsciousText)+'</div><div class="pred-section-item"><b>ความต้องการลึก ๆ ที่อาจซ่อนอยู่</b><br/>'+esc(innerNeedText)+'</div><div class="pred-section-item"><b>จุดแข็งที่คุณมีและนำมาใช้ได้</b><br/>'+esc(strengthText)+'</div><div class="pred-section-item"><b>สิ่งที่อยากชวนให้ลองสังเกต</b><br/>เมื่ออ่านผลเดิมร่วมกับ MBTI ลองถามตัวเองว่า ตอนนี้คุณกำลังเลือกจากความต้องการที่แท้จริง หรือกำลังตอบสนองเพื่อหลีกเลี่ยงความกลัว ความผิดหวัง หรือการไม่เป็นที่ยอมรับ? ไม่มีคำตอบถูกผิด จุดสำคัญคือการเข้าใจตัวเองมากขึ้น</div>';
-    return out+'<p class="mbti-note">ส่วนนี้เป็นการตีความเชิงสะท้อนตัวเองจาก MBTI และผลคำทำนายของ Engine ไม่ใช่การวัดหรือวินิจฉัยจิตใต้สำนึก และไม่ใช่ข้อสรุปตายตัว</p></div>';
-  }
   function showResultFor(activeId, fromButton) {
     var data = readSharedInputs();
     if (!isSharedComplete(data)) {
@@ -2187,8 +2131,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       body = renderTopicShortSection(res, calcTopicReading(res));
     }
-
-    body += renderMbtiLens(data, 'engine1', res, featureKey, body);
     resultsBox.style.display = "block";
     var rhdBody = '';
     var resultTitleHtml = featureKey === 'base'
@@ -2222,7 +2164,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var res;
     try {
       res = Engine.calcPerson({
-        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '', mbtiType: data.mbtiType,
+        feature: 'tarotRune', fName: data.fName || '', fLast: data.fLast || '',
         bDay: day, bMonth: month, bYear: year, bHour: hour, bMin: minute,
         noBirthTime: !!data.noBirthTime
       });
@@ -2247,7 +2189,6 @@ document.addEventListener("DOMContentLoaded", function () {
       body = '<div class="pred-block"><h4>🌙 ผลประจำตัว</h4><p><b>ไพ่ประจำตัว:</b> '+esc(bc.name || 'Not specified')+'</p><p><b>รูนประจำตัว:</b> '+esc(res.rune ? (res.rune[0]+' '+(res.rune[1]||'')) : 'ไม่ได้ระบุเวลาเกิด')+'</p><p><b>คริสตัลประจำตัว:</b> '+esc(pr.name || 'ยังไม่ระบุ')+'</p></div>'+
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
-    body += renderMbtiLens(data, 'engine4', res, null, body);
     setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
     try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
