@@ -1029,17 +1029,7 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
 }
 
 
-/* Optional MBTI companion insight */
-.mbti-card .hint-box { margin-top:9px; }
-.mbti-reading { border-left:4px solid #b99a78; background:linear-gradient(135deg,#fffdf9,#f8f2e9); }
-.mbti-reading .pred-section-item { margin:8px 0; line-height:1.75; }
-.mbti-note { font-size:12px; color:var(--text-muted); margin:8px 0 0; }
-
-/* MBTI sits below the name fields as a full-width single-select card */
-#sharedForm > .mbti-card { grid-column: 1 / -1; }
-
-
-/* Shared profile form: left column for name + MBTI, right column for birth date + time. */
+/* Shared profile form: left column for personal details, right column for birth date + time. */
 #sharedForm {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1059,7 +1049,6 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
 }
 #sharedForm > .shared-form-left { grid-column: 1; }
 #sharedForm > .shared-form-right { grid-column: 2; }
-#sharedForm > .shared-form-left .mbti-card { grid-column: auto; }
 #sharedForm .shared-form-column .hint-box {
   font-size: clamp(10px, 1.1vw, 12px);
   line-height: 1.55;
