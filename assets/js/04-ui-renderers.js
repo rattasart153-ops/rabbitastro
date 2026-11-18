@@ -1765,9 +1765,9 @@ document.addEventListener("DOMContentLoaded", function () {
         kind === 'expression' ? 'ซึ่งมักแสดงออกผ่านการ' + insight :
         kind === 'center' ? 'และบางครั้งอาจ' + insight :
         kind === 'relationships' ? 'โดยเฉพาะในความสัมพันธ์ที่อาจ' + insight :
-        kind === 'lifePath' ? 'โดยมีเรื่องสำคัญที่ให้ความสำคัญคือ' + insight :
+        kind === 'lifePath' ? 'โดยมีเรื่องสำคัญในชีวิตเป็นเรื่องของ' + insight :
         kind === 'realization' ? 'และนำความสามารถในการ' + insight + 'ไปใช้กับงานหรือเป้าหมาย' :
-        kind === 'lesson' ? 'พร้อมแนวทางที่เหมาะกับคุณคือ' + insight : insight;
+        kind === 'lesson' ? 'และแนวทางที่ช่วยได้คือ' + insight : insight;
       if (!base) return clause;
       return base.replace(/[.!?。！？…]+$/g, '').trim() + ' ' + clause;
     }
@@ -1820,7 +1820,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '</div>';
     // คำสะท้อนใจเฉพาะบุคคลจะแสดงด้านล่างในหัวข้อที่อ่านตรงและไม่ซ้ำกัน
     h += '<div class="rhd-section"><b>🌿 สิ่งที่ใจฉันอยากให้เข้าใจ</b><br/><span style="font-style:italic;">“'+escapeHTML(blendRhdSentence((data.mind||'ฉันอยากให้คุณค่อย ๆ สังเกตความรู้สึกของตัวเอง โดยไม่ต้องตัดสินตัวเอง'),matrixInsights.self,'self'))+'”</span>'+'</div>';
-    h += '<div class="rhd-section rhd-corrections" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #d6a77a;border-radius:12px;padding:13px;margin:10px 0;"><b>🌱 ก้าวเล็ก ๆ ที่อาจช่วยให้ใจเบาขึ้น</b><br/>ไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว ลองเริ่มจากสิ่งที่พอทำไหว:<ul style="margin:7px 0 0;padding-left:20px;"><li>เขียนแยกสิ่งที่รู้แน่ชัดกับสิ่งที่ยังกังวล เพื่อไม่ให้ความคิดปนกัน</li><li>บอกความต้องการหรือขอบเขตของตัวเองให้ชัด โดยไม่ต้องขอโทษที่มีความต้องการ</li><li>เลือกทำเพียงหนึ่งอย่างที่อยู่ในอำนาจของคุณ แล้วค่อยประเมินผล</li></ul>'+(matrixInsights.lesson ? ' '+escapeHTML(blendRhdSentence('',matrixInsights.lesson,'lesson')) : '')+'<div style="margin-top:8px;">ลองถามตัวเองว่า: <i>ก้าวไหนที่ทำได้จริงในวันนี้ โดยไม่ต้องฝืนตัวเอง?</i></div></div>';
+    h += '<div class="rhd-section rhd-corrections" style="background:#fffaf5;border:1px solid #f3d7bf;border-left:4px solid #d6a77a;border-radius:12px;padding:13px;margin:10px 0;"><b>🌱 ก้าวเล็ก ๆ ที่อาจช่วยให้ใจเบาขึ้น</b><br/>ไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว ลองเริ่มจากสิ่งที่พอทำไหว'+(matrixInsights.lesson ? ' และแนวทางที่ช่วยได้คือ'+matrixInsights.lesson : '')+':<ul style="margin:7px 0 0;padding-left:20px;"><li>เขียนแยกสิ่งที่รู้แน่ชัดกับสิ่งที่ยังกังวล เพื่อไม่ให้ความคิดปนกัน</li><li>บอกความต้องการหรือขอบเขตของตัวเองให้ชัด โดยไม่ต้องขอโทษที่มีความต้องการ</li><li>เลือกทำเพียงหนึ่งอย่างที่อยู่ในอำนาจของคุณ แล้วค่อยประเมินผล</li></ul><div style="margin-top:8px;">ลองถามตัวเองว่า: <i>ก้าวไหนที่ทำได้จริงในวันนี้ โดยไม่ต้องฝืนตัวเอง?</i></div></div>';
     // คำทำนายเพิ่มเติมสำหรับ RHD สังเคราะห์จากเลขสถานการณ์โหรกระต่าย
     // ร่วมกับเลขพฤติกรรม เพื่อให้ทุกหัวข้อพูดกับจิตใต้สำนึกด้วยน้ำเสียงอ่อนโยน
     var rhdReflection = {
