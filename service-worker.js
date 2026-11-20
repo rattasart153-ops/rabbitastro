@@ -1,5 +1,5 @@
-const CACHE_NAME = "rabbitastro-main-v1";
-const APP_SHELL = ["/", "/assets/css/styles.css", "/assets/js/02-horakratai-engine.js", "/assets/js/03-daily-element.js", "/assets/js/04-ui-renderers.js", "/assets/js/05-form-storage.js", "/assets/pwa/rabbitastro-icon.svg"];
+const CACHE_NAME = "rabbitastro-main-v2";
+const APP_SHELL = ["/", "/assets/css/styles.css", "/assets/js/02-horakratai-engine.js", "/assets/js/03-daily-element.js", "/assets/js/04-ui-renderers.js", "/assets/js/05-form-storage.js", "/assets/pwa/rabbitastro-icon.svg", "/assets/pwa/rabbitastro-logo.svg"];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
