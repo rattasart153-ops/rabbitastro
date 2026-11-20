@@ -1235,3 +1235,106 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
     overscroll-behavior-y: contain;
   }
 }
+
+
+/* Rabbitastro Main: soft fortune-reading calculation interstitial */
+.rabbitastro-calc-wait {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 28px 18px;
+  text-align: center;
+  border: 1px solid rgba(190, 158, 112, .35);
+  border-radius: 20px;
+  background: radial-gradient(circle at 50% 38%, #fff9ed 0, #fbf4e9 48%, #f7eee2 100%);
+  color: #6f4b3e;
+  overflow: hidden;
+}
+.rabbitastro-calc-orbit {
+  width: 94px;
+  height: 94px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(181, 145, 91, .42);
+  border-radius: 50%;
+  animation: rabbitastro-orbit-pulse 1.8s ease-in-out infinite;
+}
+.rabbitastro-calc-orbit::before,
+.rabbitastro-calc-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(181, 145, 91, .5);
+  border-radius: 50%;
+  animation: rabbitastro-orbit-spin 7s linear infinite;
+}
+.rabbitastro-calc-orbit::after {
+  inset: 17px;
+  border-style: solid;
+  border-color: rgba(181, 145, 91, .25);
+  animation-direction: reverse;
+  animation-duration: 5s;
+}
+.rabbitastro-calc-crystal {
+  font-size: 34px;
+  filter: drop-shadow(0 3px 7px rgba(128, 91, 111, .22));
+  animation: rabbitastro-crystal-float 1.6s ease-in-out infinite;
+}
+.rabbitastro-calc-star {
+  position: absolute;
+  color: #b28b55;
+  z-index: 1;
+}
+.rabbitastro-calc-star.star-one {
+  top: 4px;
+  right: 8px;
+  font-size: 20px;
+  animation: rabbitastro-star-twinkle 1.2s ease-in-out infinite;
+}
+.rabbitastro-calc-star.star-two {
+  bottom: 9px;
+  left: 4px;
+  font-size: 17px;
+  animation: rabbitastro-star-twinkle 1.5s ease-in-out infinite reverse;
+}
+.rabbitastro-calc-title {
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: .02em;
+}
+.rabbitastro-calc-message {
+  color: #8a7165;
+  font-size: 14px;
+}
+.rabbitastro-calc-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+.rabbitastro-calc-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b28b55;
+  animation: rabbitastro-dot-bounce .9s ease-in-out infinite;
+}
+.rabbitastro-calc-dots i:nth-child(2) { animation-delay: .15s; }
+.rabbitastro-calc-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes rabbitastro-orbit-pulse {
+  0%, 100% { transform: scale(.96); box-shadow: 0 0 0 0 rgba(178,139,85,0); }
+  50% { transform: scale(1.04); box-shadow: 0 0 24px 3px rgba(178,139,85,.13); }
+}
+@keyframes rabbitastro-orbit-spin { to { transform: rotate(360deg); } }
+@keyframes rabbitastro-crystal-float { 0%,100% { transform: translateY(2px) scale(.98); } 50% { transform: translateY(-4px) scale(1.05); } }
+@keyframes rabbitastro-star-twinkle { 0%,100% { opacity: .4; transform: scale(.8) rotate(0); } 50% { opacity: 1; transform: scale(1.2) rotate(18deg); } }
+@keyframes rabbitastro-dot-bounce { 0%,80%,100% { opacity: .35; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) {
+  .rabbitastro-calc-orbit, .rabbitastro-calc-orbit::before, .rabbitastro-calc-orbit::after,
+  .rabbitastro-calc-crystal, .rabbitastro-calc-star, .rabbitastro-calc-dots i {
+    animation: none !important;
+  }
+}
