@@ -10,7 +10,7 @@
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#f7f1e8",
-  "theme_color": "#6f4b3e",
+  "theme_color": "#39205f",
   "icons": [
     {
       "src": "/assets/pwa/rabbitastro-icon.svg",
