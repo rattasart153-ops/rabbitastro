@@ -2207,6 +2207,66 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
+  // ===== Main calculation interstitial: gentle 2.5s reading animation =====
+  var rabbitastroCalculationPending = false;
+  var rabbitastroReleaseCalculationClick = false;
+  document.addEventListener("click", function (e) {
+    var target = e.target && e.target.closest
+      ? e.target.closest("#btnCalc, #btnCalcTarotRune, #btnCalcGod, #btnCalcOreguram")
+      : null;
+    if (!target) return;
+    if (rabbitastroReleaseCalculationClick) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (rabbitastroCalculationPending) return;
+
+    // Validate required shared details first; let the original handlers show their existing messages.
+    var shared = readSharedInputs();
+    if (!isSharedComplete(shared)) {
+      rabbitastroReleaseCalculationClick = true;
+      target.click();
+      rabbitastroReleaseCalculationClick = false;
+      return;
+    }
+    if (target.id === "btnCalcOreguram") {
+      var selectedQuestion = document.getElementById("oreguramQuestion");
+      if (!selectedQuestion || !parseInt(selectedQuestion.value, 10)) {
+        rabbitastroReleaseCalculationClick = true;
+        target.click();
+        rabbitastroReleaseCalculationClick = false;
+        return;
+      }
+    }
+
+    rabbitastroCalculationPending = true;
+    var results = resultsBox || document.getElementById("resultBox") || document.getElementById("resultsBox");
+    if (results) {
+      results.style.display = "block";
+      setSafeHTML(results,
+        '<div class="rabbitastro-calc-wait" role="status" aria-live="polite">' +
+          '<div class="rabbitastro-calc-orbit" aria-hidden="true">' +
+            '<span class="rabbitastro-calc-star star-one">✦</span>' +
+            '<span class="rabbitastro-calc-star star-two">✧</span>' +
+            '<span class="rabbitastro-calc-crystal">🔮</span>' +
+          '</div>' +
+          '<div class="rabbitastro-calc-title">กำลังคำนวณ</div>' +
+          '<div class="rabbitastro-calc-message">รอสักครู่นะคะ…</div>' +
+          '<div class="rabbitastro-calc-dots" aria-hidden="true"><i></i><i></i><i></i></div>' +
+        '</div>');
+      if (results.scrollIntoView) results.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    window.setTimeout(function () {
+      rabbitastroReleaseCalculationClick = true;
+      try {
+        target.click();
+      } finally {
+        rabbitastroReleaseCalculationClick = false;
+        rabbitastroCalculationPending = false;
+      }
+    }, 2500);
+  }, true);
+
   // ===== ตัวควบคุมปุ่มคำนวณแบบปลอดภัย =====
   // ใช้ event delegation เพื่อให้ปุ่มคำนวณยังทำงานได้ แม้มีส่วน UI อื่นเกิด error ระหว่างเริ่มต้น
   document.addEventListener("click", function (e) {
