@@ -226,8 +226,43 @@
     <section id="results" class="card" style="display:none; margin-top:16px;"></section>
 
     <footer>🐇 คำทำนายตามโหรกระต่าย พร้อมไพ่ทาโรต์และรูนเป็นข้อมูลประกอบการอ่าน เพื่อให้เห็นแนวโน้ม จุดที่ควรใส่ใจ และแนวทางรับมือ</footer>
+
+    <nav class="app-bottom-nav" aria-label="เมนูหลัก">
+      <button type="button" class="app-nav-item active" data-engine-tab="tabPerson" aria-label="ดวงบุคคล"><span aria-hidden="true">👤</span><small>ดวงบุคคล</small></button>
+      <button type="button" class="app-nav-item" data-engine-tab="tabGod" aria-label="เทพประจำตัว"><span aria-hidden="true">⛩️</span><small>เทพประจำตัว</small></button>
+      <button type="button" class="app-nav-item" data-engine-tab="tabOreguram" aria-label="โอเรกุรัม"><span aria-hidden="true">🔮</span><small>โอเรกุรัม</small></button>
+      <button type="button" class="app-nav-item" data-engine-tab="tabTarotRune" aria-label="ไพ่ทาโรต์และรูน"><span aria-hidden="true">🃏</span><small>ไพ่ + รูน</small></button>
+    </nav>
   </div>
 
+    <script>
+    (function () {
+      var bottomItems = document.querySelectorAll(".app-nav-item");
+      var topTabs = document.querySelectorAll(".engine-tabs .tab-btn");
+      function syncBottomNav() {
+        var active = document.querySelector(".engine-tabs .tab-btn.active");
+        var activeId = active ? active.id : "tabPerson";
+        bottomItems.forEach(function (item) {
+          var selected = item.getAttribute("data-engine-tab") === activeId;
+          item.classList.toggle("active", selected);
+          if (selected) item.setAttribute("aria-current", "page");
+          else item.removeAttribute("aria-current");
+        });
+      }
+      bottomItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+          var target = document.getElementById(item.getAttribute("data-engine-tab"));
+          if (target) target.click();
+          syncBottomNav();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+      topTabs.forEach(function (tab) {
+        tab.addEventListener("click", function () { window.setTimeout(syncBottomNav, 0); });
+      });
+      syncBottomNav();
+    })();
+    </script>
   <script src="assets/js/02-horakratai-engine.js"></script>
 
   <script src="assets/js/03-daily-element.js"></script>
