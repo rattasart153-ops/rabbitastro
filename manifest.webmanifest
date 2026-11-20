@@ -1,0 +1,22 @@
+{
+  "id": "/",
+  "name": "โหรกระต่าย Rabbitastro",
+  "short_name": "Rabbitastro",
+  "description": "สำรวจพื้นดวง พลังชีวิต และคำทำนายตามศาสตร์โหรกระต่าย",
+  "lang": "th",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#f7f1e8",
+  "theme_color": "#6f4b3e",
+  "icons": [
+    {
+      "src": "/assets/pwa/rabbitastro-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
