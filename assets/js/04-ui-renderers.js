@@ -2214,7 +2214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var target = e.target && e.target.closest
       ? e.target.closest("#btnCalc, #btnCalcTarotRune, #btnCalcGod, #btnCalcOreguram")
       : null;
-    if (!target) return;
+    if (!target || window.RABBITASTRO_ADMIN_MODE === true) return;
     if (rabbitastroReleaseCalculationClick) return;
     e.preventDefault();
     e.stopPropagation();
