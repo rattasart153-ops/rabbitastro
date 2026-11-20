@@ -1338,3 +1338,8 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
     animation: none !important;
   }
 }
+
+/* Rabbitastro mascot identity */
+.hero .brand-logo{display:block;width:clamp(150px,34vw,218px);height:auto;max-height:245px;object-fit:contain;margin:0 auto 8px;filter:drop-shadow(0 8px 18px rgba(71,39,104,.13));}
+.hero .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+@media(max-width:600px){.hero .brand-logo{width:clamp(142px,44vw,184px);max-height:205px;margin-bottom:4px;}}
