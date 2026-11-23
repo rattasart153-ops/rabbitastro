@@ -25,19 +25,46 @@ var A=[
 ['โลก','ความสมบูรณ์และการเชื่อมโยง','มองภาพรวมและเชื่อมประสบการณ์หลายด้าน','ตั้งเป้าใหญ่จนมองข้ามความสำเร็จเล็ก ๆ','เห็นคุณค่าความก้าวหน้าและเลือกเป้าหมายถัดไป'],
 ['ผู้เดินทาง','อิสระและการเริ่มต้น','เปิดรับประสบการณ์ใหม่และกล้าลอง','เริ่มเร็วโดยไม่ประเมินความเสี่ยง','รักษาความกล้าไว้พร้อมเตรียมข้อมูลและแผนรองรับ']
 ];
-function reduce(n){n=Math.abs(Math.floor(Number(n)||0));while(n>22)n-=22;return n||22;}
+function reduce(n){n=Math.abs(Math.floor(Number(n)||0));while(n>22)n=String(n).split('').reduce(function(s,x){return s+Number(x);},0);return n||22;}
 function calc(d,m,y){
  d=Number(d);m=Number(m);y=Number(y);
  var date=new Date(y,m-1,d);
  if(!Number.isInteger(d)||!Number.isInteger(m)||!Number.isInteger(y)||y<1||date.getFullYear()!==y||date.getMonth()!==m-1||date.getDate()!==d)throw Error('INVALID_BIRTH_DATE');
- var yd=reduce(String(y).split('').reduce(function(s,x){return s+Number(x);},0));
- var D=reduce(d),M=reduce(m),Y=yd,P=reduce(D+M+Y),C=reduce(D+M+Y+P);
- return {energies:[
- {key:'self',label:'ตัวตนพื้นฐาน',value:D},{key:'resource',label:'พรสวรรค์และทรัพยากร',value:M},
- {key:'expression',label:'การแสดงออก',value:Y},{key:'lifePath',label:'เส้นทางชีวิต',value:P},
- {key:'center',label:'แก่นกลางชีวิต',value:C},{key:'relationships',label:'ความสัมพันธ์',value:reduce(D+M)},
- {key:'realization',label:'การงานและศักยภาพ',value:reduce(M+Y)},{key:'lesson',label:'บทเรียนสำคัญ',value:reduce(D+Y)}
- ]};
+ function sum(){var a=Array.prototype.slice.call(arguments);return reduce(a.reduce(function(s,v){return s+Number(v||0);},0));}
+ var A0=reduce(d),B=m,C=reduce(String(y).split('').reduce(function(s,x){return s+Number(x);},0));
+ var D=sum(A0,B,C),E=sum(A0,B,C,D);
+ var A2=sum(A0,E),B2=sum(B,E),C2=sum(C,E),D2=sum(D,E);
+ var A1=sum(A0,A2),B1=sum(B,B2),C1=sum(C,C2),D1=sum(D,D2);
+ var A3=sum(A2,E),B3=sum(B2,E);
+ var F=sum(A0,B),G=sum(B,C),H=sum(C,D),I=sum(D,A0),U=sum(F,G,H,I);
+ var F1=sum(F,U),G1=sum(G,U),H1=sum(H,U),I1=sum(I,U);
+ var F2=sum(F,F1),G2=sum(G,G1),H2=sum(H,H1),I2=sum(I,I1);
+ var X=sum(C2,D2),money=sum(C2,X),love=sum(D2,X);
+ var sky=sum(B,D),earth=sum(A0,C),personal=sum(sky,earth);
+ var male=sum(F,H),female=sum(G,I),social=sum(male,female);
+ var spiritual=sum(personal,social),planetary=sum(social,spiritual);
+ var points={A:A0,B:B,C:C,D:D,E:E,A1:A1,A2:A2,A3:A3,B1:B1,B2:B2,B3:B3,C1:C1,C2:C2,D1:D1,D2:D2,F:F,G:G,H:H,I:I,U:U,F1:F1,G1:G1,H1:H1,I1:I1,F2:F2,G2:G2,H2:H2,I2:I2,X:X,money:money,love:love,sky:sky,earth:earth,personalPurpose:personal,maleLine:male,femaleLine:female,socialPurpose:social,spiritualPurpose:spiritual,planetaryPurpose:planetary};
+ var energies=[
+ {key:'self',label:'ตัวตนพื้นฐาน',value:A0,position:'A'},
+ {key:'resource',label:'พรสวรรค์และทรัพยากร',value:B,position:'B'},
+ {key:'expression',label:'การแสดงออก',value:C,position:'C'},
+ {key:'lifePath',label:'เส้นทางชีวิต',value:personal,position:'personalPurpose'},
+ {key:'center',label:'แก่นกลางชีวิต',value:E,position:'E'},
+ {key:'relationships',label:'ความสัมพันธ์',value:love,position:'love'},
+ {key:'realization',label:'การงานและศักยภาพ',value:money,position:'money'},
+ {key:'lesson',label:'บทเรียนสำคัญ',value:D,position:'D'}
+ ];
+ var chakraRows=[
+ {name:'มงกุฎ',physical:A0,energy:B,emotions:sum(A0,B)},
+ {name:'ตาที่สาม',physical:A1,energy:B1,emotions:sum(A1,B1)},
+ {name:'คอ',physical:A2,energy:B2,emotions:sum(A2,B2)},
+ {name:'หัวใจ',physical:A3,energy:B3,emotions:sum(A3,B3)},
+ {name:'ลิ้นปี่',physical:C1,energy:C2,emotions:sum(C1,C2)},
+ {name:'ท้องน้อย',physical:D1,energy:D2,emotions:sum(D1,D2)},
+ {name:'ราก',physical:F,energy:G,emotions:sum(F,G)}
+ ];
+ var chakraTotal={physical:reduce(chakraRows.reduce(function(s,x){return s+x.physical;},0)),energy:reduce(chakraRows.reduce(function(s,x){return s+x.energy;},0)),emotions:reduce(chakraRows.reduce(function(s,x){return s+x.emotions;},0))};
+ return {version:'ladini-classic-22-v2',birthDate:{day:d,month:m,year:y},points:points,energies:energies,chakra:{rows:chakraRows,total:chakraTotal},lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
 }
 function get(n){var x=A[reduce(n)-1];return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};}
 w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'22-arcana-rhd-v1',calculate:calc,getArcana:get});
