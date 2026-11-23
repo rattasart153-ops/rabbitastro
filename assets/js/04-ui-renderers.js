@@ -1505,6 +1505,18 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
   }
 
+  function getMatrixDetailsMarkup(inputData) {
+    try {
+      var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
+      if(!engine||!inputData||typeof engine.calculate!=='function'||typeof engine.renderDetails!=='function')return '';
+      var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
+      return engine.renderDetails(chart);
+    } catch(e) {
+      console.warn('Matrix detail panel unavailable:',e);
+      return '';
+    }
+  }
+
   function renderTarotRuneSection(res, inputData) {
     var birth=res.birthCard||{}, dailyCard=res.dailyCard||res.eventCard||{};
     var rune=res.rune||[], dailyRune=res.dailyRune||[];
@@ -1604,6 +1616,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    h += getMatrixDetailsMarkup(inputData);
     return h;
   }
 
@@ -2297,6 +2310,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       body = renderTopicShortSection(res, calcTopicReading(res)) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
     }
+    body += getMatrixDetailsMarkup(data);
     resultsBox.style.display = "block";
     var rhdBody = '';
     var resultTitleHtml = featureKey === 'base'
@@ -2604,6 +2618,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     if (res.loveEntrant) {
       h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
+      h += getMatrixDetailsMarkup(data);
       h += featureCtaHtml('oreguLove');
       resultsBox.style.display = 'block';
       setSafeHTML(resultsBox, h);
@@ -2619,6 +2634,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
+    h += getMatrixDetailsMarkup(data);
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
