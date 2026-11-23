@@ -26,7 +26,7 @@ var A=[
 ['ผู้เดินทาง','อิสระและการเริ่มต้น','เปิดรับประสบการณ์ใหม่และกล้าลอง','เริ่มเร็วโดยไม่ประเมินความเสี่ยง','รักษาความกล้าไว้พร้อมเตรียมข้อมูลและแผนรองรับ']
 ];
 function reduce(n){n=Math.abs(Math.floor(Number(n)||0));while(n>22)n=String(n).split('').reduce(function(s,x){return s+Number(x);},0);return n||22;}
-function buildAgeCycle(birthDate, points, sum){
+function buildAgeCycle(points, sum){
  // Eight outer anchors clockwise: A, F, B, G, C, H, D, I, back to A.
  var anchors=[points.A,points.F,points.B,points.G,points.C,points.H,points.D,points.I,points.A];
  var names=['A','F','B','G','C','H','D','I','A'];
