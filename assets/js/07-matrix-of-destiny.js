@@ -26,10 +26,59 @@ var A=[
 ['ผู้เดินทาง','อิสระและการเริ่มต้น','เปิดรับประสบการณ์ใหม่และกล้าลอง','เริ่มเร็วโดยไม่ประเมินความเสี่ยง','รักษาความกล้าไว้พร้อมเตรียมข้อมูลและแผนรองรับ']
 ];
 function reduce(n){n=Math.abs(Math.floor(Number(n)||0));while(n>22)n=String(n).split('').reduce(function(s,x){return s+Number(x);},0);return n||22;}
+function addMonthsClamped(base, months){
+ var total=base.getFullYear()*12+(base.getMonth())+months;
+ var year=Math.floor(total/12), month=total%12;
+ if(month<0){month+=12;year--;}
+ var lastDay=new Date(year,month+1,0).getDate();
+ return new Date(year,month,Math.min(base.getDate(),lastDay),base.getHours(),base.getMinutes(),base.getSeconds(),base.getMilliseconds());
+}
+function buildAgeCycle(birthDate, points, sum){
+ // Eight outer anchors clockwise: A, F, B, G, C, H, D, I, back to A.
+ var anchors=[points.A,points.F,points.B,points.G,points.C,points.H,points.D,points.I,points.A];
+ var names=['A','F','B','G','C','H','D','I','A'];
+ var intervals=[], decadeNodes=[];
+ for(var decade=0;decade<8;decade++){
+   var left=anchors[decade], right=anchors[decade+1];
+   var mid=sum(left,right);
+   var q1=sum(left,mid), q2=sum(mid,right);
+   var e1=sum(left,q1), e2=sum(q1,mid), e3=sum(mid,q2), e4=sum(q2,right);
+   var nodes=[left,e1,q1,e2,mid,e3,q2,e4,right];
+   decadeNodes.push({decade:decade*10,from:names[decade],to:names[decade+1],anchors:[left,right],nodes:nodes});
+   for(var part=0;part<8;part++){
+     var startMonths=decade*120+part*15;
+     var endMonths=startMonths+15;
+     intervals.push({
+       index:decade*8+part+1,
+       decade:decade*10,
+       segment:part+1,
+       ageStart:decade*10+part*1.25,
+       ageEnd:decade*10+(part+1)*1.25,
+       startDate:addMonthsClamped(birthDate,startMonths),
+       endDate:addMonthsClamped(birthDate,endMonths),
+       value:nodes[part],
+       boundaryStart:nodes[part],
+       boundaryEnd:nodes[part+1]
+     });
+   }
+ }
+ return {anchors:anchors,anchorLabels:['0','10','20','30','40','50','60','70','80'],decades:decadeNodes,intervals:intervals};
+}
+function getAgePeriod(ageCycle, referenceDate){
+ if(!ageCycle||!Array.isArray(ageCycle.intervals)||!referenceDate)return null;
+ var date=referenceDate instanceof Date?referenceDate:new Date(referenceDate);
+ if(!Number.isFinite(date.getTime()))return null;
+ var rows=ageCycle.intervals;
+ for(var i=0;i<rows.length;i++){
+   if(date>=rows[i].startDate&&date<rows[i].endDate)return rows[i];
+ }
+ if(date.getTime()===rows[rows.length-1].endDate.getTime())return rows[rows.length-1];
+ return null;
+}
 function calc(d,m,y){
  d=Number(d);m=Number(m);y=Number(y);
- var date=new Date(y,m-1,d);
- if(!Number.isInteger(d)||!Number.isInteger(m)||!Number.isInteger(y)||y<1||date.getFullYear()!==y||date.getMonth()!==m-1||date.getDate()!==d)throw Error('INVALID_BIRTH_DATE');
+ var birthDate=new Date(y,m-1,d);
+ if(!Number.isInteger(d)||!Number.isInteger(m)||!Number.isInteger(y)||y<1||birthDate.getFullYear()!==y||birthDate.getMonth()!==m-1||birthDate.getDate()!==d)throw Error('INVALID_BIRTH_DATE');
  function sum(){var a=Array.prototype.slice.call(arguments);return reduce(a.reduce(function(s,v){return s+Number(v||0);},0));}
  var A0=reduce(d),B=m,C=reduce(String(y).split('').reduce(function(s,x){return s+Number(x);},0));
  var D=sum(A0,B,C),E=sum(A0,B,C,D);
@@ -44,18 +93,63 @@ function calc(d,m,y){
  var male=sum(F,H),female=sum(G,I),social=sum(male,female);
  var spiritual=sum(personal,social),planetary=sum(social,spiritual);
  var points={A:A0,B:B,C:C,D:D,E:E,A1:A1,A2:A2,A3:A3,B1:B1,B2:B2,B3:B3,C1:C1,C2:C2,D1:D1,D2:D2,F:F,G:G,H:H,I:I,U:U,F1:F1,G1:G1,H1:H1,I1:I1,F2:F2,G2:G2,H2:H2,I2:I2,X:X,money:money,love:love,sky:sky,earth:earth,personalPurpose:personal,maleLine:male,femaleLine:female,socialPurpose:social,spiritualPurpose:spiritual,planetaryPurpose:planetary};
- var energies=[
- {key:'self',label:'ตัวตนพื้นฐาน',value:A0,position:'A'},
- {key:'resource',label:'พรสวรรค์และทรัพยากร',value:B,position:'B'},
- {key:'expression',label:'การแสดงออก',value:C,position:'C'},
- {key:'lifePath',label:'เส้นทางชีวิต',value:personal,position:'personalPurpose'},
- {key:'center',label:'แก่นกลางชีวิต',value:E,position:'E'},
- {key:'relationships',label:'ความสัมพันธ์',value:love,position:'love'},
- {key:'realization',label:'การงานและศักยภาพ',value:money,position:'money'},
- {key:'lesson',label:'บทเรียนสำคัญ',value:D,position:'D'}
+ var chakraRows=[
+  {key:'sahasrara',name:'สหัสราระ (มงกุฎ)',physical:A0,energy:B},
+  {key:'ajna',name:'อาชญา (ตาที่สาม)',physical:A1,energy:B1},
+  {key:'vishuddha',name:'วิศุทธะ (คอ)',physical:A2,energy:B2},
+  {key:'anahata',name:'อนาหตะ (หัวใจ)',physical:A3,energy:B3},
+  {key:'manipura',name:'มณีปุระ (ลิ้นปี่)',physical:E,energy:E},
+  {key:'svadhisthana',name:'สวาธิษฐาน (ท้องน้อย)',physical:C2,energy:D2},
+  {key:'muladhara',name:'มูลาธาระ (ราก)',physical:C,energy:D}
  ];
- return {version:'ladini-classic-22-v2',birthDate:{day:d,month:m,year:y},points:points,energies:energies,lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
+ chakraRows.forEach(function(row){row.emotions=sum(row.physical,row.energy);});
+ var chakraTotal={
+  physical:reduce(chakraRows.reduce(function(v,row){return v+row.physical;},0)),
+  energy:reduce(chakraRows.reduce(function(v,row){return v+row.energy;},0)),
+  emotions:reduce(chakraRows.reduce(function(v,row){return v+row.emotions;},0))
+ };
+ var ageCycle=buildAgeCycle(birthDate,points,sum);
+ var energies=[
+  {key:'self',label:'ตัวตนพื้นฐาน',value:A0,position:'A'},
+  {key:'resource',label:'พรสวรรค์และทรัพยากร',value:B,position:'B'},
+  {key:'expression',label:'การแสดงออก',value:C,position:'C'},
+  {key:'lifePath',label:'เส้นทางชีวิต',value:personal,position:'personalPurpose'},
+  {key:'center',label:'แก่นกลางชีวิต',value:E,position:'E'},
+  {key:'relationships',label:'ความสัมพันธ์',value:love,position:'love'},
+  {key:'realization',label:'การงานและศักยภาพ',value:money,position:'money'},
+  {key:'lesson',label:'บทเรียนสำคัญ',value:D,position:'D'}
+ ];
+ return {version:'ladini-classic-22-v3',birthDate:{day:d,month:m,year:y},points:points,energies:energies,chakra:{rows:chakraRows,total:chakraTotal},ageCycle:ageCycle,lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
 }
 function get(n){var x=A[reduce(n)-1];return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};}
-w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get});
+function renderDetails(chart){
+ if(!chart)return '';
+ function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+ function arc(v){var a=get(v);return '<span class="matrix-arcana"><b>'+v+'</b> · '+esc(a.name)+'</span>';}
+ var p=chart.points||{},c=chart.chakra||{rows:[],total:{}},age=chart.ageCycle||{decades:[],intervals:[]};
+ var html='<details class="matrix-detail-panel" style="margin:14px 0;border:1px solid #ded3ec;border-radius:16px;background:#fff;overflow:hidden;">';
+ html+='<summary style="padding:14px 16px;cursor:pointer;font-weight:700;color:#563b75;background:#f7f2fb;">✧ เปิดแผนผัง Matrix Destiny 22 Arcana แบบเต็ม</summary>';
+ html+='<div style="padding:14px;">';
+ html+='<p style="margin:0 0 10px;color:#6b6075;font-size:13px;">คำนวณจากวันเกิดตามแนวทาง Natalia Ladini Classic 22 Arcana · ใช้เพื่อการทบทวนและทำความเข้าใจตัวเอง</p>';
+ html+='<h4>จุดหลักของแผนผัง</h4><div class="matrix-points-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;">';
+ [['A','วันเกิด'],['B','เดือนเกิด'],['C','ปีเกิด'],['D','จุดฐาน'],['E','แก่นกลาง'],['F','มุมบรรพบุรุษ'],['G','มุมบรรพบุรุษ'],['H','มุมบรรพบุรุษ'],['I','มุมบรรพบุรุษ'],['U','จุดกลางบรรพบุรุษ'],['A1','จุดภายใน A1'],['A2','จุดภายใน A2'],['A3','จุดหัวใจ A3'],['B1','จุดภายใน B1'],['B2','จุดภายใน B2'],['B3','จุดหัวใจ B3'],['C1','จุดภายใน C1'],['C2','จุดภายใน C2'],['D1','จุดภายใน D1'],['D2','จุดภายใน D2'],['X','จุดสมดุล'],['money','จุดการเงิน'],['love','จุดความรัก']].forEach(function(item){
+  html+='<div style="padding:9px;border:1px solid #eee7f4;border-radius:10px;background:#fdfbff;"><small style="color:#766b80;">'+esc(item[1])+' · '+esc(item[0])+'</small><div>'+arc(p[item[0]])+'</div></div>';
+ });
+ html+='</div>';
+ html+='<h4 style="margin-top:18px;">เส้นสำคัญและเป้าหมายชีวิต</h4><div style="display:grid;gap:7px;">';
+ html+='<div class="matrix-detail-line"><b>เส้นความรัก</b><br/>'+chart.lines.love.map(arc).join(' → ')+'</div>';
+ html+='<div class="matrix-detail-line"><b>เส้นการเงิน</b><br/>'+chart.lines.money.map(arc).join(' → ')+'</div>';
+ html+='<div class="matrix-detail-line"><b>Karmic Tail · อ่านจากจุดกลางออกไป</b><br/>'+chart.lines.karmicTail.map(arc).join(' → ')+'</div>';
+ [['ท้องฟ้า',chart.purposes.sky],['พื้นโลก',chart.purposes.earth],['เป้าหมายส่วนบุคคล',chart.purposes.personal],['สายพลังเพศชาย',chart.purposes.male],['สายพลังเพศหญิง',chart.purposes.female],['เป้าหมายทางสังคม',chart.purposes.social],['เป้าหมายทางจิตวิญญาณ',chart.purposes.spiritual],['เป้าหมายระดับโลก',chart.purposes.planetary]].forEach(function(x){html+='<div class="matrix-detail-line"><b>'+esc(x[0])+'</b><br/>'+arc(x[1])+'</div>';});
+ html+='</div>';
+ html+='<h4 style="margin-top:18px;">ตารางจักระ 7 ศูนย์พลังงาน</h4><div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr><th style="text-align:left;padding:7px;">จักระ</th><th>กาย</th><th>พลังงาน</th><th>อารมณ์</th></tr></thead><tbody>';
+ c.rows.forEach(function(row){html+='<tr><td style="padding:7px;border-top:1px solid #eee;">'+esc(row.name)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.physical)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.energy)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.emotions)+'</td></tr>';});
+ html+='<tr style="font-weight:700;background:#f8f4fb;"><td style="padding:7px;">ผลรวม</td><td style="text-align:center;">'+arc(c.total.physical)+'</td><td style="text-align:center;">'+arc(c.total.energy)+'</td><td style="text-align:center;">'+arc(c.total.emotions)+'</td></tr></tbody></table></div>';
+ html+='<h4 style="margin-top:18px;">วงจรอายุ 0–80 ปี · 64 ช่วง</h4><p style="font-size:12px;color:#6b6075;">แบ่งแต่ละทศวรรษเป็น 8 ช่วง ช่วงละ 15 เดือน โดยวันเริ่มต้นยึดวันเกิดเดิม และปรับเป็นวันสุดท้ายของเดือนเมื่อเดือนปลายทางไม่มีวันที่นั้น</p>';
+ age.decades.forEach(function(dec){html+='<div style="margin:10px 0;padding:10px;border:1px solid #eee7f4;border-radius:10px;"><b>อายุ '+dec.decade+'–'+(dec.decade+10)+' ปี</b><div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px;">';dec.nodes.slice(0,8).forEach(function(v,i){html+='<div style="text-align:center;padding:6px 2px;background:#f8f4fb;border-radius:8px;"><small style="display:block;color:#766b80;">ช่วง '+(i+1)+'</small>'+arc(v)+'</div>';});html+='</div></div>';});
+ html+='<p style="font-size:11px;color:#8a8190;margin:12px 0 0;">ตัวเลขและสัญลักษณ์เป็นระบบความเชื่อเพื่อการสะท้อนตนเอง ไม่ใช่การวินิจฉัยสุขภาพหรือข้อสรุปตายตัวเกี่ยวกับชีวิต</p>';
+ html+='</div></details>';
+ return html;
+}
+w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get,getAgePeriod:getAgePeriod,renderDetails:renderDetails});
 })(window);
