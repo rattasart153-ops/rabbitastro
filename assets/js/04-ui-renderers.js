@@ -1487,6 +1487,24 @@ document.addEventListener("DOMContentLoaded", function () {
     return html;
   }
 
+  function getMatrixNarrative(inputData, context) {
+    try {
+      var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
+      if(!engine||!inputData||typeof engine.calculate!=='function') return '';
+      var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
+      var p=chart.points||{}, get=engine.getArcana;
+      var arc={
+        self:get(p.A),gift:get(p.B),shadow:get(p.E),path:get(p.personalPurpose),
+        love:get(p.love),money:get(p.money),lesson:get(p.D),expression:get(p.C)
+      };
+      var pick=function(x,k){return x&&x[k]||'';};
+      if(context==='person') return 'พื้นฐานของคุณมีทั้ง '+pick(arc.self,'gift')+' และ '+pick(arc.gift,'gift')+' แต่บางครั้งอาจ '+pick(arc.shadow,'shadow')+' ลองค่อย ๆ ใช้จุดแข็งของตัวเองโดยไม่กดดันให้ทุกอย่างต้องสมบูรณ์แบบ';
+      if(context==='oreguram') return 'อีกมุมหนึ่งของเรื่องนี้คือคุณมีแนวโน้มใช้ '+pick(arc.path,'theme')+' เป็นแรงนำทาง ขณะเดียวกันอาจต้องดูแลเรื่อง '+pick(arc.lesson,'shadow')+' ลองเลือกก้าวที่สอดคล้องกับสิ่งที่คุณให้ความสำคัญจริง ๆ';
+      if(context==='tarotRune') return 'เมื่อมองพื้นฐานของคุณร่วมกับไพ่และรูน จุดแข็งที่นำมาใช้ได้คือ '+pick(arc.gift,'gift')+' ส่วนเรื่องที่อยากชวนให้สังเกตคือ '+pick(arc.shadow,'shadow')+' คุณไม่จำเป็นต้องรีบหาคำตอบทั้งหมดในครั้งเดียว';
+      return '';
+    } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
+  }
+
   function renderTarotRuneSection(res, inputData) {
     var birth=res.birthCard||{}, dailyCard=res.dailyCard||res.eventCard||{};
     var rune=res.rune||[], dailyRune=res.dailyRune||[];
@@ -1499,6 +1517,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
     var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
+    personalPrediction += ' ' + getMatrixNarrative(inputData,'tarotRune');
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
     var personalCaution=element.bad||'ระวังการกดดันตัวเองหรือรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ';
@@ -2263,20 +2282,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = renderBaseSection(res);
+      body = renderBaseSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
       body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
-      body = renderAscSection(res);
+      body = renderAscSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
     } else if (featureKey === 'loveEntrant') {
       body = window.RABBITASTRO_ADMIN_MODE === true
         ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
         : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
-      body = renderTopicMonthSection(res);
+      body = renderTopicMonthSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
     } else {
-      body = renderTopicShortSection(res, calcTopicReading(res));
+      body = renderTopicShortSection(res, calcTopicReading(res)) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
     }
     resultsBox.style.display = "block";
     var rhdBody = '';
@@ -2596,6 +2615,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
     // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
     var detail = res.detail || {};
+    detail.summary = (detail.summary || '') + ' ' + getMatrixNarrative(data,'oreguram');
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
