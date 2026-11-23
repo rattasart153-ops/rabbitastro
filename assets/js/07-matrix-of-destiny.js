@@ -53,6 +53,28 @@ function buildAgeCycle(points, sum){
  }
  return {anchors:anchors,anchorLabels:['0','10','20','30','40','50','60','70','80'],decades:decadeNodes,intervals:intervals};
 }
+// ค่าจัดระดับเชิงการตีความสำหรับคัดช่วงอายุเด่น/ท้าทาย
+// เป็นเกณฑ์อ่านความหมาย Arcana ไม่ใช่ส่วนหนึ่งของสูตรคำนวณ Matrix
+var AGE_CYCLE_PROFILE={
+ 1:{support:3,challenge:1},2:{support:2,challenge:2},3:{support:3,challenge:1},
+ 4:{support:3,challenge:2},5:{support:2,challenge:2},6:{support:2,challenge:2},
+ 7:{support:3,challenge:2},8:{support:2,challenge:2},9:{support:2,challenge:2},
+ 10:{support:3,challenge:3},11:{support:3,challenge:1},12:{support:1,challenge:3},
+ 13:{support:1,challenge:3},14:{support:3,challenge:1},15:{support:1,challenge:3},
+ 16:{support:1,challenge:3},17:{support:3,challenge:1},18:{support:1,challenge:3},
+ 19:{support:3,challenge:1},20:{support:2,challenge:2},21:{support:3,challenge:1},
+ 22:{support:2,challenge:2}
+};
+function getAgeHighlights(ageCycle){
+ if(!ageCycle||!Array.isArray(ageCycle.intervals)||!ageCycle.intervals.length)return null;
+ var best=null,worst=null;
+ ageCycle.intervals.forEach(function(period){
+  var profile=AGE_CYCLE_PROFILE[reduce(period.value)]||{support:2,challenge:2};
+  if(!best||profile.support>best.score)best={period:period,score:profile.support};
+  if(!worst||profile.challenge>worst.score)worst={period:period,score:profile.challenge};
+ });
+ return {best:best&&best.period,worst:worst&&worst.period};
+}
 function getAgePeriod(ageCycle, age){
  if(!ageCycle||!Array.isArray(ageCycle.intervals))return null;
  age=Number(age);
@@ -139,5 +161,5 @@ function renderDetails(chart){
  html+='</div></details>';
  return html;
 }
-w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get,getAgePeriod:getAgePeriod,renderDetails:renderDetails});
+w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get,getAgePeriod:getAgePeriod,getAgeHighlights:getAgeHighlights,renderDetails:renderDetails});
 })(window);
