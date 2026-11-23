@@ -2282,20 +2282,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = renderBaseSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
+      body = renderBaseSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
       body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
-      body = renderAscSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
+      body = renderAscSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
     } else if (featureKey === 'loveEntrant') {
       body = window.RABBITASTRO_ADMIN_MODE === true
         ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
         : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
-      body = renderTopicMonthSection(res) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
+      body = renderTopicMonthSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
     } else {
-      body = renderTopicShortSection(res, calcTopicReading(res)) + '<div class="pred-section-item">' + escapeHTML(getMatrixNarrative(data,'person')) + '</div>';
+      body = renderTopicShortSection(res, calcTopicReading(res)) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
     }
     resultsBox.style.display = "block";
     var rhdBody = '';
