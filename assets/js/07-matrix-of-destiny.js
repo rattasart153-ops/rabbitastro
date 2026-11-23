@@ -26,13 +26,6 @@ var A=[
 ['ผู้เดินทาง','อิสระและการเริ่มต้น','เปิดรับประสบการณ์ใหม่และกล้าลอง','เริ่มเร็วโดยไม่ประเมินความเสี่ยง','รักษาความกล้าไว้พร้อมเตรียมข้อมูลและแผนรองรับ']
 ];
 function reduce(n){n=Math.abs(Math.floor(Number(n)||0));while(n>22)n=String(n).split('').reduce(function(s,x){return s+Number(x);},0);return n||22;}
-function addMonthsClamped(base, months){
- var total=base.getFullYear()*12+(base.getMonth())+months;
- var year=Math.floor(total/12), month=total%12;
- if(month<0){month+=12;year--;}
- var lastDay=new Date(year,month+1,0).getDate();
- return new Date(year,month,Math.min(base.getDate(),lastDay),base.getHours(),base.getMinutes(),base.getSeconds(),base.getMilliseconds());
-}
 function buildAgeCycle(birthDate, points, sum){
  // Eight outer anchors clockwise: A, F, B, G, C, H, D, I, back to A.
  var anchors=[points.A,points.F,points.B,points.G,points.C,points.H,points.D,points.I,points.A];
@@ -46,16 +39,12 @@ function buildAgeCycle(birthDate, points, sum){
    var nodes=[left,e1,q1,e2,mid,e3,q2,e4,right];
    decadeNodes.push({decade:decade*10,from:names[decade],to:names[decade+1],anchors:[left,right],nodes:nodes});
    for(var part=0;part<8;part++){
-     var startMonths=decade*120+part*15;
-     var endMonths=startMonths+15;
      intervals.push({
        index:decade*8+part+1,
        decade:decade*10,
        segment:part+1,
        ageStart:decade*10+part*1.25,
        ageEnd:decade*10+(part+1)*1.25,
-       startDate:addMonthsClamped(birthDate,startMonths),
-       endDate:addMonthsClamped(birthDate,endMonths),
        value:nodes[part],
        boundaryStart:nodes[part],
        boundaryEnd:nodes[part+1]
@@ -64,16 +53,15 @@ function buildAgeCycle(birthDate, points, sum){
  }
  return {anchors:anchors,anchorLabels:['0','10','20','30','40','50','60','70','80'],decades:decadeNodes,intervals:intervals};
 }
-function getAgePeriod(ageCycle, referenceDate){
- if(!ageCycle||!Array.isArray(ageCycle.intervals)||!referenceDate)return null;
- var date=referenceDate instanceof Date?referenceDate:new Date(referenceDate);
- if(!Number.isFinite(date.getTime()))return null;
+function getAgePeriod(ageCycle, age){
+ if(!ageCycle||!Array.isArray(ageCycle.intervals))return null;
+ age=Number(age);
+ if(!Number.isFinite(age)||age<0||age>80)return null;
  var rows=ageCycle.intervals;
  for(var i=0;i<rows.length;i++){
-   if(date>=rows[i].startDate&&date<rows[i].endDate)return rows[i];
+   if(age>=rows[i].ageStart&&age<rows[i].ageEnd)return rows[i];
  }
- if(date.getTime()===rows[rows.length-1].endDate.getTime())return rows[rows.length-1];
- return null;
+ return age===80?rows[rows.length-1]:null;
 }
 function calc(d,m,y){
  d=Number(d);m=Number(m);y=Number(y);
@@ -108,7 +96,7 @@ function calc(d,m,y){
   energy:reduce(chakraRows.reduce(function(v,row){return v+row.energy;},0)),
   emotions:reduce(chakraRows.reduce(function(v,row){return v+row.emotions;},0))
  };
- var ageCycle=buildAgeCycle(birthDate,points,sum);
+ var ageCycle=buildAgeCycle(points,sum);
  var energies=[
   {key:'self',label:'ตัวตนพื้นฐาน',value:A0,position:'A'},
   {key:'resource',label:'พรสวรรค์และทรัพยากร',value:B,position:'B'},
@@ -145,7 +133,7 @@ function renderDetails(chart){
  html+='<h4 style="margin-top:18px;">ตารางจักระ 7 ศูนย์พลังงาน</h4><div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr><th style="text-align:left;padding:7px;">จักระ</th><th>กาย</th><th>พลังงาน</th><th>อารมณ์</th></tr></thead><tbody>';
  c.rows.forEach(function(row){html+='<tr><td style="padding:7px;border-top:1px solid #eee;">'+esc(row.name)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.physical)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.energy)+'</td><td style="text-align:center;border-top:1px solid #eee;">'+arc(row.emotions)+'</td></tr>';});
  html+='<tr style="font-weight:700;background:#f8f4fb;"><td style="padding:7px;">ผลรวม</td><td style="text-align:center;">'+arc(c.total.physical)+'</td><td style="text-align:center;">'+arc(c.total.energy)+'</td><td style="text-align:center;">'+arc(c.total.emotions)+'</td></tr></tbody></table></div>';
- html+='<h4 style="margin-top:18px;">วงจรอายุ 0–80 ปี · 64 ช่วง</h4><p style="font-size:12px;color:#6b6075;">แบ่งแต่ละทศวรรษเป็น 8 ช่วง ช่วงละ 15 เดือน โดยวันเริ่มต้นยึดวันเกิดเดิม และปรับเป็นวันสุดท้ายของเดือนเมื่อเดือนปลายทางไม่มีวันที่นั้น</p>';
+ html+='<h4 style="margin-top:18px;">วงจรอายุ 0–80 ปี · 64 ช่วง</h4><p style="font-size:12px;color:#6b6075;">แบ่งแต่ละทศวรรษเป็น 8 ช่วง แบ่งช่วงละ 1.25 ปี โดยแสดงเป็นช่วงอายุเชิงคณิตศาสตร์ ยังไม่ผูกวันเปลี่ยนช่วงกับวันที่ในปฏิทิน</p>';
  age.decades.forEach(function(dec){html+='<div style="margin:10px 0;padding:10px;border:1px solid #eee7f4;border-radius:10px;"><b>อายุ '+dec.decade+'–'+(dec.decade+10)+' ปี</b><div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px;">';dec.nodes.slice(0,8).forEach(function(v,i){html+='<div style="text-align:center;padding:6px 2px;background:#f8f4fb;border-radius:8px;"><small style="display:block;color:#766b80;">ช่วง '+(i+1)+'</small>'+arc(v)+'</div>';});html+='</div></div>';});
  html+='<p style="font-size:11px;color:#8a8190;margin:12px 0 0;">ตัวเลขและสัญลักษณ์เป็นระบบความเชื่อเพื่อการสะท้อนตนเอง ไม่ใช่การวินิจฉัยสุขภาพหรือข้อสรุปตายตัวเกี่ยวกับชีวิต</p>';
  html+='</div></details>';
