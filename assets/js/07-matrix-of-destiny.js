@@ -57,5 +57,5 @@ function calc(d,m,y){
  return {version:'ladini-classic-22-v2',birthDate:{day:d,month:m,year:y},points:points,energies:energies,lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
 }
 function get(n){var x=A[reduce(n)-1];return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};}
-w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'22-arcana-rhd-v1',calculate:calc,getArcana:get});
+w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get});
 })(window);
