@@ -54,17 +54,7 @@ function calc(d,m,y){
  {key:'realization',label:'การงานและศักยภาพ',value:money,position:'money'},
  {key:'lesson',label:'บทเรียนสำคัญ',value:D,position:'D'}
  ];
- var chakraRows=[
- {name:'มงกุฎ',physical:A0,energy:B,emotions:sum(A0,B)},
- {name:'ตาที่สาม',physical:A1,energy:B1,emotions:sum(A1,B1)},
- {name:'คอ',physical:A2,energy:B2,emotions:sum(A2,B2)},
- {name:'หัวใจ',physical:A3,energy:B3,emotions:sum(A3,B3)},
- {name:'ลิ้นปี่',physical:C1,energy:C2,emotions:sum(C1,C2)},
- {name:'ท้องน้อย',physical:D1,energy:D2,emotions:sum(D1,D2)},
- {name:'ราก',physical:F,energy:G,emotions:sum(F,G)}
- ];
- var chakraTotal={physical:reduce(chakraRows.reduce(function(s,x){return s+x.physical;},0)),energy:reduce(chakraRows.reduce(function(s,x){return s+x.energy;},0)),emotions:reduce(chakraRows.reduce(function(s,x){return s+x.emotions;},0))};
- return {version:'ladini-classic-22-v2',birthDate:{day:d,month:m,year:y},points:points,energies:energies,chakra:{rows:chakraRows,total:chakraTotal},lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
+ return {version:'ladini-classic-22-v2',birthDate:{day:d,month:m,year:y},points:points,energies:energies,lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
 }
 function get(n){var x=A[reduce(n)-1];return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};}
 w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'22-arcana-rhd-v1',calculate:calc,getArcana:get});
