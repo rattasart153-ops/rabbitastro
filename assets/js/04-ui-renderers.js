@@ -1499,10 +1499,30 @@ document.addEventListener("DOMContentLoaded", function () {
       };
       var pick=function(x,k,fallback){return x&&x[k]||fallback||'';};
       if(context==='person') {
-        return 'จุดเด่นอีกด้านของคุณคือ '+pick(arc.self,'gift','การเรียนรู้และเริ่มต้นสิ่งใหม่')+
+        var coreText='จุดเด่นอีกด้านของคุณคือ '+pick(arc.self,'gift','การเรียนรู้และเริ่มต้นสิ่งใหม่')+
           ' และคุณยังมีความสามารถในการ '+pick(arc.gift,'gift','ปรับตัวตามสถานการณ์')+
           ' แต่บางครั้งอาจ '+pick(arc.shadow,'shadow','กดดันตัวเองมากเกินไป')+
           ' ลอง '+pick(arc.lesson,'guidance','ให้เวลากับตัวเองและค่อย ๆ แก้ทีละเรื่อง');
+        // สรุป Age Cycle เป็นช่วงที่ส่งเสริมและช่วงที่ท้าทาย โดยไม่แสดงตาราง 64 ช่วง
+        if(typeof engine.getAgeHighlights==='function'&&chart.ageCycle){
+          var highlights=engine.getAgeHighlights(chart.ageCycle);
+          function ageLabel(period){
+            if(!period)return '';
+            function fmt(n){return Number(n.toFixed(2)).toString();}
+            return fmt(period.ageStart)+'–'+fmt(period.ageEnd)+' ปี';
+          }
+          if(highlights&&highlights.best&&highlights.worst){
+            var bestArc=get(highlights.best.value)||{};
+            var worstArc=get(highlights.worst.value)||{};
+            coreText+=' เมื่อมองตามจังหวะอายุ ช่วงที่โดดเด่นที่สุดคือประมาณ '+ageLabel(highlights.best)+
+              ' เป็นช่วงที่เหมาะกับการ '+pick(bestArc,'gift','พัฒนาความสามารถและต่อยอดโอกาส')+
+              ' ส่วนช่วงที่ท้าทายที่สุดคือประมาณ '+ageLabel(highlights.worst)+
+              ' อาจมีเรื่องให้ต้อง '+pick(worstArc,'shadow','ทบทวนและปรับตัว')+
+              ' หากเกิดแรงกดดัน ลอง '+pick(worstArc,'guidance','ค่อย ๆ ตั้งหลักและแก้ทีละเรื่อง')+
+              ' ทั้งสองช่วงเป็นแนวโน้มเชิงสัญลักษณ์สำหรับการทบทวนตัวเอง ไม่ใช่ข้อสรุปว่าเหตุการณ์จะต้องเกิดขึ้นแน่นอน';
+          }
+        }
+        return coreText;
       }
       if(context==='oreguram') {
         return 'เมื่อนำพื้นฐานของคุณมาประกอบกับเรื่องที่ถาม จุดที่ช่วยให้เดินต่อได้คือ '+pick(arc.path,'gift','การมองเห็นทางเลือกของตัวเอง')+
