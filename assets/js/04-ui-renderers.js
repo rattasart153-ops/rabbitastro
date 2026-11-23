@@ -1497,24 +1497,35 @@ document.addEventListener("DOMContentLoaded", function () {
         self:get(p.A),gift:get(p.B),shadow:get(p.E),path:get(p.personalPurpose),
         love:get(p.love),money:get(p.money),lesson:get(p.D),expression:get(p.C)
       };
-      var pick=function(x,k){return x&&x[k]||'';};
-      if(context==='person') return 'พื้นฐานของคุณมีทั้ง '+pick(arc.self,'gift')+' และ '+pick(arc.gift,'gift')+' แต่บางครั้งอาจ '+pick(arc.shadow,'shadow')+' ลองค่อย ๆ ใช้จุดแข็งของตัวเองโดยไม่กดดันให้ทุกอย่างต้องสมบูรณ์แบบ';
-      if(context==='oreguram') return 'อีกมุมหนึ่งของเรื่องนี้คือคุณมีแนวโน้มใช้ '+pick(arc.path,'theme')+' เป็นแรงนำทาง ขณะเดียวกันอาจต้องดูแลเรื่อง '+pick(arc.lesson,'shadow')+' ลองเลือกก้าวที่สอดคล้องกับสิ่งที่คุณให้ความสำคัญจริง ๆ';
-      if(context==='tarotRune') return 'เมื่อมองพื้นฐานของคุณร่วมกับไพ่และรูน จุดแข็งที่นำมาใช้ได้คือ '+pick(arc.gift,'gift')+' ส่วนเรื่องที่อยากชวนให้สังเกตคือ '+pick(arc.shadow,'shadow')+' คุณไม่จำเป็นต้องรีบหาคำตอบทั้งหมดในครั้งเดียว';
+      var pick=function(x,k,fallback){return x&&x[k]||fallback||'';};
+      if(context==='person') {
+        return 'จุดเด่นอีกด้านของคุณคือ '+pick(arc.self,'gift','การเรียนรู้และเริ่มต้นสิ่งใหม่')+
+          ' และคุณยังมีความสามารถในการ '+pick(arc.gift,'gift','ปรับตัวตามสถานการณ์')+
+          ' แต่บางครั้งอาจ '+pick(arc.shadow,'shadow','กดดันตัวเองมากเกินไป')+
+          ' ลอง '+pick(arc.lesson,'guidance','ให้เวลากับตัวเองและค่อย ๆ แก้ทีละเรื่อง');
+      }
+      if(context==='oreguram') {
+        return 'เมื่อนำพื้นฐานของคุณมาประกอบกับเรื่องที่ถาม จุดที่ช่วยให้เดินต่อได้คือ '+pick(arc.path,'gift','การมองเห็นทางเลือกของตัวเอง')+
+          ' สิ่งที่ควรระวังคือ '+pick(arc.lesson,'shadow','การรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ')+
+          ' ลอง '+pick(arc.lesson,'guidance','ค่อย ๆ ตรวจสอบสิ่งที่เกิดขึ้นและเลือกทางที่เหมาะกับตัวเอง');
+      }
+      if(context==='tarotRune') {
+        return 'พื้นฐานของคุณยังสะท้อนให้เห็นว่า '+pick(arc.gift,'gift','คุณมีความสามารถในการเรียนรู้จากประสบการณ์')+
+          ' ขณะเดียวกันอาจ '+pick(arc.shadow,'shadow','เก็บความกังวลไว้กับตัวเอง')+
+          ' การค่อย ๆ '+pick(arc.lesson,'guidance','รับฟังความต้องการของตัวเอง')+
+          ' จะช่วยให้คุณใช้คำแนะนำจากไพ่และรูนได้ตรงกับชีวิตจริงมากขึ้น';
+      }
       return '';
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
   }
 
-  function getMatrixDetailsMarkup(inputData) {
-    try {
-      var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
-      if(!engine||!inputData||typeof engine.calculate!=='function'||typeof engine.renderDetails!=='function')return '';
-      var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
-      return engine.renderDetails(chart);
-    } catch(e) {
-      console.warn('Matrix detail panel unavailable:',e);
-      return '';
-    }
+  // ผสานข้อความ Matrix เข้าไปในเนื้อหาคำทำนายเดิม โดยไม่สร้างกล่องหรือหัวข้อใหม่
+  function mergeMatrixIntoReading(markup, inputData, context) {
+    var insight=getMatrixNarrative(inputData,context);
+    if(!insight) return markup;
+    var closing=markup.lastIndexOf('</div>');
+    if(closing<0) return markup+' '+escapeHTML(insight);
+    return markup.slice(0,closing)+' <span class="matrix-inline-insight">'+escapeHTML(insight)+'</span>'+markup.slice(closing);
   }
 
   function renderTarotRuneSection(res, inputData) {
@@ -1616,7 +1627,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    h += getMatrixDetailsMarkup(inputData);
     return h;
   }
 
@@ -2295,22 +2305,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = renderBaseSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
+      body = mergeMatrixIntoReading(renderBaseSection(res), data, 'person');
       body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'asc') {
-      body = renderAscSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
+      body = mergeMatrixIntoReading(renderAscSection(res), data, 'person');
     } else if (featureKey === 'loveEntrant') {
       body = window.RABBITASTRO_ADMIN_MODE === true
         ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
         : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
-      body = renderTopicMonthSection(res) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
+      body = mergeMatrixIntoReading(renderTopicMonthSection(res), data, 'person');
     } else {
-      body = renderTopicShortSection(res, calcTopicReading(res)) + '<span class="matrix-inline-insight">' + escapeHTML(getMatrixNarrative(data,'person')) + '</span>';
+      body = mergeMatrixIntoReading(renderTopicShortSection(res, calcTopicReading(res)), data, 'person');
     }
-    body += getMatrixDetailsMarkup(data);
     resultsBox.style.display = "block";
     var rhdBody = '';
     var resultTitleHtml = featureKey === 'base'
@@ -2618,7 +2627,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="topic-line" style="margin-top:0;">❓ <b>คำถาม:</b> ' + warmOreguramText(res.questionText || '-') + '</div>';
     if (res.loveEntrant) {
       h += '<div class="pred-block" style="background:#fffaf5;border-color:#f3d7bf;border-left:5px solid #ea580c;">' + renderLoveEntrantSection(res.loveEntrant) + '</div>';
-      h += getMatrixDetailsMarkup(data);
       h += featureCtaHtml('oreguLove');
       resultsBox.style.display = 'block';
       setSafeHTML(resultsBox, h);
@@ -2634,7 +2642,6 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
-    h += getMatrixDetailsMarkup(data);
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
