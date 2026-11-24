@@ -2209,6 +2209,24 @@ document.addEventListener("DOMContentLoaded", function () {
         [/บทบาทต่อคนรอบข้าง/g, 'สิ่งที่คนรอบตัวได้รับจากคุณ']
       ]);
     }
+    // น้ำเสียงที่อ่อนโยนเป็นพิเศษสำหรับ Engine 1, 3 และ 4
+    // Engine 2 (god) คงข้อความและแนวทางเดิมทั้งหมด
+    if (featureKey !== 'god') {
+      replacements = replacements.concat([
+        [/คุณต้องเข้มแข็ง/g, 'คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา'],
+        [/ต้องอดทนอดกลั้น/g, 'ค่อย ๆ ให้เวลากับตัวเอง'],
+        [/คุณไม่มีทางเลือก/g, 'ตอนนี้คุณอาจยังมองไม่เห็นทางเลือก'],
+        [/คุณล้มเหลว/g, 'สิ่งที่เกิดขึ้นยังไม่เป็นอย่างที่หวัง'],
+        [/เป็นความผิดของคุณ/g, 'ไม่จำเป็นต้องรีบโทษตัวเองกับสิ่งที่เกิดขึ้น'],
+        [/คุณควบคุมอารมณ์ไม่ได้/g, 'ตอนนี้ความรู้สึกอาจหนักจนจัดการได้ยาก'],
+        [/คุณอ่อนแอ/g, 'คุณกำลังเผชิญเรื่องที่ใช้พลังใจมาก'],
+        [/จุดอ่อนของคุณ/g, 'ด้านที่ต้องการความเข้าใจและการดูแล'],
+        [/คุณมักทำผิดพลาด/g, 'บางครั้งคุณอาจยังหาวิธีที่เหมาะกับตัวเองไม่เจอ'],
+        [/ชีวิตจะต้อง/g, 'ชีวิตอาจ'],
+        [/แน่นอนว่า/g, 'มีโอกาสว่า']
+      ]);
+    }
+
     function walk(node) {
       if (node.nodeType === 3) {
         var value = node.nodeValue;
@@ -2280,6 +2298,26 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       if (value !== textNode.nodeValue) textNode.nodeValue = value;
     });
+
+    // ปิดท้ายด้วยข้อความที่ช่วยให้คนอ่านไม่ใช้คำทำนายมาตัดสินคุณค่าของตัวเอง
+    // หากกำลังเปราะบาง ให้ความปลอดภัยและการขอความช่วยเหลือมาก่อนการตีความคำทำนาย
+    if (featureKey !== 'god' && !root.querySelector('.rabbitastro-gentle-note')) {
+      var gentleNote = document.createElement('div');
+      gentleNote.className = 'pred-block rabbitastro-gentle-note';
+      gentleNote.style.marginTop = '12px';
+      gentleNote.style.background = '#f8fafc';
+      gentleNote.style.borderColor = '#cbd5e1';
+      gentleNote.style.borderLeft = '4px solid #94a3b8';
+      gentleNote.style.lineHeight = '1.8';
+      var gentleTitle = document.createElement('b');
+      gentleTitle.textContent = '🤍 อยากให้คุณจำไว้อย่างหนึ่ง';
+      var gentleText = document.createElement('div');
+      gentleText.className = 'pred-section-item';
+      gentleText.textContent = 'คำทำนายนี้เป็นเพียงมุมมองหนึ่งจากสัญลักษณ์ ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน และไม่ได้กำหนดว่าอนาคตต้องเป็นอย่างไร คุณเลือกเก็บเฉพาะส่วนที่ตรงกับชีวิตจริงได้ หากวันนี้ใจเหนื่อยมาก คุณไม่จำเป็นต้องฝืนอ่านต่อหรือรีบแก้ทุกอย่าง ลองพักและบอกคนที่คุณไว้ใจให้รับรู้ว่าคุณกำลังรู้สึกอย่างไร หากรู้สึกไม่ปลอดภัยหรือกลัวว่าจะทำร้ายตัวเอง ขอให้ติดต่อคนใกล้ชิด ผู้เชี่ยวชาญ หรือบริการฉุกเฉินในพื้นที่ทันที';
+      gentleNote.appendChild(gentleTitle);
+      gentleNote.appendChild(gentleText);
+      root.appendChild(gentleNote);
+    }
 
     hideCalculationDisclosure(root);
     // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
