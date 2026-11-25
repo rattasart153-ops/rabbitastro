@@ -2329,69 +2329,104 @@ document.addEventListener("DOMContentLoaded", function () {
       root.appendChild(gentleNote);
     }
 
-    // แยกหัวข้อคำทำนายย่อยให้เป็นการ์ดของตัวเอง เพื่อให้อ่านง่ายบนมือถือ
-    // จำกัดคำทำนายไม่เกิน 500 คำต่อการ์ด โดยแบ่งเนื้อหาที่ยาวออก ไม่ตัดทิ้ง
-    // Engine 2 (god) คงรูปแบบเดิมทั้งหมด
+    // แยกทุกส่วนคำทำนายออกเป็นการ์ดย่อย และจำกัดไม่เกิน 100 คำต่อการ์ด
+    // แบ่งด้วย Range เพื่อรักษาโครงสร้างตัวหนา/ตัวเอียง/ลิงก์/หัวข้อภายในเนื้อหา
+    // Engine 2 (god) ไม่ถูกแตะต้อง
     if (featureKey !== 'god') {
-      var predictionItems = Array.prototype.slice.call(root.querySelectorAll(
+      var predictionSelector =
         '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .pred-section-item, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block) .rhd-section, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block) .rhd-tile'
-      ));
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .rhd-section, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .rhd-tile, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .mth, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .answer-box, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) p, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) li';
+      var predictionItems = Array.prototype.slice.call(root.querySelectorAll(predictionSelector));
       var wordSegmenter = null;
       try {
         if (typeof Intl !== 'undefined' && Intl.Segmenter) {
           wordSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
         }
       } catch (segmenterError) {}
-      predictionItems.forEach(function(item) {
-        if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return;
-        item.classList.add('prediction-subcard');
-        var cardContainer = item.parentNode;
-        if (cardContainer && cardContainer.classList && cardContainer.classList.contains('pred-block')) {
-          cardContainer.classList.add('prediction-card-container');
-          cardContainer.style.background = 'transparent';
-          cardContainer.style.border = '0';
-          cardContainer.style.boxShadow = 'none';
-          cardContainer.style.padding = '0';
-        }
-        item.style.display = 'block';
-        item.style.margin = '9px 0';
-        item.style.padding = '11px 12px';
-        item.style.border = '1px solid var(--border-color, #e5e7eb)';
-        item.style.borderRadius = '11px';
-        item.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
-        item.style.lineHeight = '1.8';
 
-        var plainText = (item.textContent || '').trim();
-        var words = wordSegmenter
-          ? Array.from(wordSegmenter.segment(plainText)).filter(function(part) { return part.isWordLike; }).map(function(part) { return part.segment; })
-          : plainText.split(/\s+/).filter(Boolean);
-        if (words.length <= 500) return;
-
-        // แบ่งการ์ดที่ยาวเกิน 500 คำเป็นหลายใบ โดยเก็บข้อความทั้งหมดไว้
-        var chunks = [];
-        for (var wordIndex = 0; wordIndex < words.length; wordIndex += 500) {
-          chunks.push(words.slice(wordIndex, wordIndex + 500).join(' '));
-        }
-        var fragment = document.createDocumentFragment();
-        chunks.forEach(function(chunk, chunkIndex) {
-          var card = document.createElement('div');
-          card.className = 'pred-block prediction-subcard prediction-split-card';
-          card.style.margin = '9px 0';
-          card.style.padding = '11px 12px';
-          card.style.border = '1px solid var(--border-color, #e5e7eb)';
-          card.style.borderRadius = '11px';
-          card.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
-          card.style.lineHeight = '1.8';
-          card.textContent = chunk;
-          if (chunkIndex === 0 && item.querySelector('b,strong')) {
-            var heading = document.createElement('b');
-            heading.textContent = item.querySelector('b,strong').textContent;
-            card.insertBefore(heading, card.firstChild);
+      function getWordPositions(element) {
+        var positions = [];
+        var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+        var textNode;
+        while ((textNode = walker.nextNode())) {
+          var value = textNode.nodeValue || '';
+          if (wordSegmenter) {
+            Array.from(wordSegmenter.segment(value)).forEach(function(part) {
+              if (part.isWordLike) {
+                positions.push({ node: textNode, start: part.index, end: part.index + part.segment.length });
+              }
+            });
+          } else {
+            // Fallback สำหรับ browser รุ่นเก่า: แยกตามช่องว่าง
+            var match;
+            var fallbackPattern = /\\S+/g;
+            while ((match = fallbackPattern.exec(value))) {
+              positions.push({ node: textNode, start: match.index, end: match.index + match[0].length });
+            }
           }
+        }
+        return positions;
+      }
+
+      function stylePredictionCard(card) {
+        card.classList.add('prediction-subcard');
+        card.style.display = 'block';
+        card.style.boxSizing = 'border-box';
+        card.style.width = '100%';
+        card.style.margin = '9px 0';
+        card.style.padding = '11px 12px';
+        card.style.border = '1px solid var(--border-color, #e5e7eb)';
+        card.style.borderRadius = '11px';
+        card.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
+        card.style.lineHeight = '1.8';
+        card.style.overflowWrap = 'anywhere';
+      }
+
+      predictionItems = predictionItems.filter(function(item) {
+        if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return false;
+        // ไม่จัดกล่องลูกซ้ำ หากมีการ์ดคำทำนายอีกใบครอบอยู่แล้ว
+        var ancestor = item.parentElement && item.parentElement.closest
+          ? item.parentElement.closest('.pred-section-item,.rhd-section,.rhd-tile,.mth,.answer-box,p,li')
+          : null;
+        return !ancestor;
+      });
+
+      predictionItems.forEach(function(item) {
+        if (!item || !item.parentNode) return;
+        var parentBlock = item.closest ? item.closest('.pred-block') : null;
+        if (parentBlock) {
+          parentBlock.classList.add('prediction-card-container');
+          parentBlock.style.background = 'transparent';
+          parentBlock.style.border = '0';
+          parentBlock.style.boxShadow = 'none';
+          parentBlock.style.padding = '0';
+        }
+
+        var positions = getWordPositions(item);
+        if (positions.length <= 100) {
+          stylePredictionCard(item);
+          return;
+        }
+
+        var fragment = document.createDocumentFragment();
+        for (var wordIndex = 0; wordIndex < positions.length; wordIndex += 100) {
+          var firstWord = positions[wordIndex];
+          var lastWord = positions[Math.min(wordIndex + 99, positions.length - 1)];
+          var range = document.createRange();
+          range.setStart(firstWord.node, firstWord.start);
+          range.setEnd(lastWord.node, lastWord.end);
+
+          var card = document.createElement('div');
+          stylePredictionCard(card);
+          card.classList.add('prediction-split-card');
+          card.appendChild(range.cloneContents());
           fragment.appendChild(card);
-        });
+        }
         item.parentNode.replaceChild(fragment, item);
       });
     }
