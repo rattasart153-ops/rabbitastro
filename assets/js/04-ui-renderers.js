@@ -2839,7 +2839,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += featureCtaHtml(ctaKey);
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
-    improvePredictionReadability(resultsBox, res.R4, 'oreguram');
+    improvePredictionReadability(resultsBox, res.R4, 'oreguram', data);
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
   }
