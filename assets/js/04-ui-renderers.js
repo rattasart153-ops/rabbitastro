@@ -1521,18 +1521,6 @@ document.addEventListener("DOMContentLoaded", function () {
         coreText+=' บทเรียนที่อาจช่วยให้คุณเข้าใจตัวเองมากขึ้นคือ '+pick(arc.lesson,'guidance','ให้พื้นที่กับความต้องการของตัวเอง')+
           ' และทิศทางชีวิตอาจชวนให้คุณ '+pick(arc.path,'gift','เลือกสิ่งที่สอดคล้องกับคุณค่าภายใน')+
           ' คุณไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว เริ่มจากสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้นได้';
-        if(typeof engine.getAgeHighlights==='function'&&chart.ageCycle){
-          var highlights=engine.getAgeHighlights(chart.ageCycle);
-          function ageLabel(period){if(!period)return '';function fmt(n){return Number(n.toFixed(2)).toString();}return fmt(period.ageStart)+'–'+fmt(period.ageEnd)+' ปี';}
-          if(highlights&&highlights.best&&highlights.worst){
-            var bestArc=get(highlights.best.value)||{}, worstArc=get(highlights.worst.value)||{};
-            coreText+=' เมื่อมองตามจังหวะอายุ ช่วงที่โดดเด่นที่สุดคือประมาณ '+ageLabel(highlights.best)+
-              ' ซึ่งอาจเป็นเวลาที่คุณได้ใช้ '+pick(bestArc,'gift','ความสามารถที่มีอยู่')+
-              ' มากขึ้น ส่วนช่วงที่ท้าทายที่สุดคือประมาณ '+ageLabel(highlights.worst)+
-              ' อาจชวนให้กลับมาดูแลเรื่อง '+pick(worstArc,'shadow','ความกดดันและความคาดหวัง')+
-              ' โดยไม่จำเป็นต้องมองว่าเป็นช่วงร้ายหรือเหตุการณ์ที่หลีกเลี่ยงไม่ได้';
-          }
-        }
         return coreText;
       }
       if(context==='oreguram') {
@@ -1545,18 +1533,63 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
   }
 
+  // คำนวณอายุเต็มจากวันเกิดเทียบกับวันที่ใช้งานจริง แล้วอ่านวงจร Matrix ทีละช่วง 10 ปี
+  function renderMatrixAgeDecades(inputData) {
+    try {
+      var engine = window.RABBITASTRO_MATRIX_OF_DESTINY;
+      if (!engine || typeof engine.calculate !== 'function' || typeof engine.getAgeDecadeHighlights !== 'function') return '';
+      var day = Number(inputData && inputData.bDay), month = Number(inputData && inputData.bMonth), year = Number(inputData && inputData.bYear);
+      var birth = new Date(year, month - 1, day);
+      if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year) ||
+          birth.getFullYear() !== year || birth.getMonth() !== month - 1 || birth.getDate() !== day) return '';
+      var today = new Date();
+      var age = today.getFullYear() - year;
+      if (today.getMonth() + 1 < month || (today.getMonth() + 1 === month && today.getDate() < day)) age--;
+      if (age < 0) return '';
+      var chart = engine.calculate(day, month, year);
+      var startDecade = age >= 80 ? 70 : Math.floor(age / 10) * 10;
+      var rows = [];
+      function fmt(n) { return Number(n.toFixed(2)).toString(); }
+      function periodLabel(period) { return fmt(period.ageStart) + '–' + fmt(period.ageEnd) + ' ปี'; }
+      for (var decade = startDecade; decade < 80; decade += 10) {
+        var result = engine.getAgeDecadeHighlights(chart.ageCycle, decade);
+        if (!result || !result.best || !result.worst) continue;
+        var bestArc = engine.getArcana(result.best.value) || {};
+        var cautionArc = engine.getArcana(result.worst.value) || {};
+        rows.push(
+          '<div class="matrix-age-decade" style="margin-top:10px;padding:10px;border:1px solid var(--border-color,#e5e7eb);border-radius:10px;">' +
+            '<b>ช่วงอายุ ' + decade + '–' + (decade + 10) + ' ปี</b>' +
+            '<div style="margin-top:6px;"><b>☀️ ช่วงที่เกื้อหนุน:</b> ' + periodLabel(result.best) + ' — ' +
+              escapeHTML(bestArc.gift || bestArc.theme || 'เป็นจังหวะที่เหมาะกับการต่อยอดศักยภาพของตัวเอง') + '</div>' +
+            '<div style="margin-top:5px;"><b>🌿 ช่วงที่ควรใส่ใจ:</b> ' + periodLabel(result.worst) + ' — ' +
+              escapeHTML(cautionArc.shadow || cautionArc.guidance || 'เป็นจังหวะที่ควรดูแลความกดดันและทบทวนทางเลือก') + '</div>' +
+          '</div>'
+        );
+      }
+      if (!rows.length) return '';
+      return '<div class="matrix-age-cycle" style="margin-top:12px;"><b>จังหวะชีวิตในแต่ละ 10 ปี</b>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:3px;">คำนวณจากวันเกิดและอายุปัจจุบัน โดยเลือกช่วงย่อยที่เด่นและช่วงที่ควรใส่ใจจากวงจร Matrix Destiny</div>' +
+        rows.join('') +
+        '<div style="font-size:11px;color:var(--text-muted);margin-top:8px;">เป็นการตีความเชิงสัญลักษณ์เพื่อทบทวนตัวเอง ไม่ใช่การรับประกันเหตุการณ์หรือคำทำนายว่าช่วงใดจะดีหรือร้ายแน่นอน</div></div>';
+    } catch (e) {
+      console.warn('Matrix age decades skipped:', e);
+      return '';
+    }
+  }
+
   // แยก Matrix ตามหัวข้อความหมาย แล้วแทรกเป็นส่วนย่อยในคำทำนายเดิม
   // ไม่ตัดข้อความตามจำนวนคำ และไม่สร้างแผง Matrix แยกจากศาสตร์หลัก
   function matrixNarrativeCards(inputData, context) {
     var insight = getMatrixNarrative(inputData, context);
     if (!insight) return '';
-    var labels = ['ตัวตนที่คนอื่นมองเห็น','ตัวตนที่คุณรับรู้','โลกภายในและจิตใต้สำนึก','สิ่งที่ชวนให้ทบทวน'];
+    var labels = ['ตัวตนที่คนอื่นมองเห็น','ตัวตนที่คุณรับรู้','โลกภายในและจิตใต้สำนึก','สิ่งที่ชวนให้กลับมาดูอีกครั้ง'];
     var parts = insight.split(/\s\|\s/).map(function(part) { return part.trim(); }).filter(Boolean);
     return parts.map(function(part, index) {
       var label = labels[index] || 'มุมที่อยากชวนให้สังเกต';
       var colon = part.indexOf(':');
       var body = colon >= 0 ? part.slice(colon + 1).trim() : part;
-      return '<div class="pred-section-item matrix-inline-insight"><b>' + label + '</b><div>' + escapeHTML(body) + '</div></div>';
+      var ageMarkup = index === 3 && context === 'person' ? renderMatrixAgeDecades(inputData) : '';
+      return '<div class="pred-section-item matrix-inline-insight"><b>' + label + '</b><div>' + escapeHTML(body) + '</div>' + ageMarkup + '</div>';
     }).join('');
   }
 
