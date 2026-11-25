@@ -75,6 +75,20 @@ function getAgeHighlights(ageCycle){
  });
  return {best:best&&best.period,worst:worst&&worst.period};
 }
+function getAgeDecadeHighlights(ageCycle, decadeStart){
+ if(!ageCycle||!Array.isArray(ageCycle.intervals))return null;
+ decadeStart=Number(decadeStart);
+ if(!Number.isFinite(decadeStart)||decadeStart<0||decadeStart>=80||decadeStart%10!==0)return null;
+ var rows=ageCycle.intervals.filter(function(period){return period.decade===decadeStart;});
+ if(!rows.length)return null;
+ var best=null,worst=null;
+ rows.forEach(function(period){
+  var profile=AGE_CYCLE_PROFILE[reduce(period.value)]||{support:2,challenge:2};
+  if(!best||profile.support>best.score)best={period:period,score:profile.support};
+  if(!worst||profile.challenge>worst.score)worst={period:period,score:profile.challenge};
+ });
+ return {decadeStart:decadeStart,decadeEnd:decadeStart+10,best:best&&best.period,worst:worst&&worst.period};
+}
 function getAgePeriod(ageCycle, age){
  if(!ageCycle||!Array.isArray(ageCycle.intervals))return null;
  age=Number(age);
@@ -161,5 +175,5 @@ function renderDetails(chart){
  html+='</div></details>';
  return html;
 }
-w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get,getAgePeriod:getAgePeriod,getAgeHighlights:getAgeHighlights,renderDetails:renderDetails});
+w.RABBITASTRO_MATRIX_OF_DESTINY=Object.freeze({version:'ladini-classic-22-v2',calculate:calc,getArcana:get,getAgePeriod:getAgePeriod,getAgeHighlights:getAgeHighlights,getAgeDecadeHighlights:getAgeDecadeHighlights,renderDetails:renderDetails});
 })(window);
