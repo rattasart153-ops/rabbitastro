@@ -2329,6 +2329,65 @@ document.addEventListener("DOMContentLoaded", function () {
       root.appendChild(gentleNote);
     }
 
+    // แยกหัวข้อคำทำนายย่อยให้เป็นการ์ดของตัวเอง เพื่อให้อ่านง่ายบนมือถือ
+    // จำกัดคำทำนายไม่เกิน 500 คำต่อการ์ด โดยแบ่งเนื้อหาที่ยาวออก ไม่ตัดทิ้ง
+    // Engine 2 (god) คงรูปแบบเดิมทั้งหมด
+    if (featureKey !== 'god') {
+      var predictionItems = Array.prototype.slice.call(root.querySelectorAll(
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .pred-section-item, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block) .rhd-section, ' +
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block) .rhd-tile'
+      ));
+      var wordSegmenter = null;
+      try {
+        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+          wordSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
+        }
+      } catch (segmenterError) {}
+      predictionItems.forEach(function(item) {
+        if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return;
+        item.classList.add('prediction-subcard');
+        item.style.display = 'block';
+        item.style.margin = '9px 0';
+        item.style.padding = '11px 12px';
+        item.style.border = '1px solid var(--border-color, #e5e7eb)';
+        item.style.borderRadius = '11px';
+        item.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
+        item.style.lineHeight = '1.8';
+
+        var plainText = (item.textContent || '').trim();
+        var words = wordSegmenter
+          ? Array.from(wordSegmenter.segment(plainText)).filter(function(part) { return part.isWordLike; }).map(function(part) { return part.segment; })
+          : plainText.split(/\\s+/).filter(Boolean);
+        if (words.length <= 500) return;
+
+        // แบ่งการ์ดที่ยาวเกิน 500 คำเป็นหลายใบ โดยเก็บข้อความทั้งหมดไว้
+        var chunks = [];
+        for (var wordIndex = 0; wordIndex < words.length; wordIndex += 500) {
+          chunks.push(words.slice(wordIndex, wordIndex + 500).join(' '));
+        }
+        var fragment = document.createDocumentFragment();
+        chunks.forEach(function(chunk, chunkIndex) {
+          var card = document.createElement('div');
+          card.className = 'pred-block prediction-subcard prediction-split-card';
+          card.style.margin = '9px 0';
+          card.style.padding = '11px 12px';
+          card.style.border = '1px solid var(--border-color, #e5e7eb)';
+          card.style.borderRadius = '11px';
+          card.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
+          card.style.lineHeight = '1.8';
+          card.textContent = chunk;
+          if (chunkIndex === 0 && item.querySelector('b,strong')) {
+            var heading = document.createElement('b');
+            heading.textContent = item.querySelector('b,strong').textContent;
+            card.insertBefore(heading, card.firstChild);
+          }
+          fragment.appendChild(card);
+        });
+        item.parentNode.replaceChild(fragment, item);
+      });
+    }
+
     hideCalculationDisclosure(root);
     // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
   }
