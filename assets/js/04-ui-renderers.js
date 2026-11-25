@@ -2424,50 +2424,7 @@ document.addEventListener("DOMContentLoaded", function () {
         heading.style.lineHeight = '1.45';
       });
 
-      // ลดคำทำนายรายหัวข้อที่ยาวเกิน 80 คำ เฉพาะ Engine 1, 3 และ 4
-      function countThaiWords(value) {
-        value = String(value || '').trim();
-        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-          return Array.from(new Intl.Segmenter('th', {granularity:'word'}).segment(value)).filter(function(x){return x.isWordLike;}).length;
-        }
-        return value ? value.split(/\\s+/).length : 0;
-      }
-      function shortenPrediction(value) {
-        value = String(value || '').replace(/\\s+/g, ' ').trim();
-        var parts = typeof Intl !== 'undefined' && Intl.Segmenter
-          ? Array.from(new Intl.Segmenter('th', {granularity:'sentence'}).segment(value)).map(function(x){return x.segment.trim();})
-          : (value.match(/[^.!?。！？]+[.!?。！？]?/g) || [value]);
-        var out = [], count = 0;
-        for (var i = 0; i < parts.length; i++) {
-          var size = countThaiWords(parts[i]);
-          if (count + size > 80) break;
-          out.push(parts[i]); count += size;
-        }
-        if (out.length) return out.join(' ').trim();
-        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-          var words = Array.from(new Intl.Segmenter('th', {granularity:'word'}).segment(value)).filter(function(x){return x.isWordLike;});
-          return words.slice(0,80).map(function(x){return x.segment;}).join('') + '…';
-        }
-        return value.split(/\\s+/).slice(0,80).join(' ') + '…';
-      }
-      Array.prototype.slice.call(root.querySelectorAll('.pred-section-item, .rhd-section, .rhd-tile, .mth, .dd-box, .month-card, .answer-box, .role-box')).forEach(function(item) {
-        if (item.closest('.rabbitastro-gentle-note, .matrix-detail-panel') || item.querySelector('table, details, ul, ol, .rhd-grid')) return;
-        var label = item.firstElementChild;
-        var hasInlineLabel = !!(label && /^(B|STRONG)$/.test(label.tagName));
-        var followsHeading = !!(item.previousElementSibling && /^H[1-6]$/.test(item.previousElementSibling.tagName));
-        if (!hasInlineLabel && !followsHeading) return;
-        var clone = item.cloneNode(true), cloneLabel = clone.querySelector('b, strong');
-        if (cloneLabel) cloneLabel.remove();
-        var body = (clone.textContent || '').replace(/\\s+/g, ' ').trim();
-        if (countThaiWords(body) <= 80) return;
-        item.innerHTML = '';
-        if (hasInlineLabel) {
-          item.appendChild(label.cloneNode(true));
-          item.appendChild(document.createElement('br'));
-        }
-        item.appendChild(document.createTextNode(shortenPrediction(body)));
-        item.setAttribute('data-prediction-word-limit', '80');
-      });
+
     }
 
     // ตรวจคำทำนายซ้ำเฉพาะภายใน Engine/ฟีเจอร์ที่กำลังแสดง
