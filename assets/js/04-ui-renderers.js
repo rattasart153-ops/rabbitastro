@@ -2442,6 +2442,56 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    // ลบคำทำนายที่ซ้ำกันในผลลัพธ์เดียวกัน โดยเก็บข้อความที่พบครั้งแรกไว้
+    // เทียบข้อความหลังตัดช่องว่าง/เครื่องหมายตกแต่ง ไม่แตะสูตรหรือข้อมูลคำนวณ
+    (function removeRepeatedPredictionOutput() {
+      var seenBlocks = Object.create(null);
+      var blockSelector = [
+        '.pred-section-item', '.rhd-section', '.rhd-tile', '.mth',
+        '.dd-box', '.month-card', '.answer-box', '.role-box',
+        '.prediction-subcard'
+      ].join(',');
+      var blocks = Array.prototype.slice.call(root.querySelectorAll(blockSelector));
+      blocks.forEach(function(node) {
+        if (!node || !node.parentNode || node.closest('.rabbitastro-gentle-note')) return;
+        // ให้ parent ที่ซ้ำถูกจัดการก่อน ส่วน child ของ parent ที่จะถูกลบไม่ต้องตรวจซ้ำ
+        var repeatedParent = node.parentElement && node.parentElement.closest
+          ? node.parentElement.closest('[data-rabbitastro-duplicate-removed="1"]')
+          : null;
+        if (repeatedParent) return;
+        var normalized = (node.textContent || '')
+          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
+          .trim()
+          .toLowerCase();
+        if (normalized.length < 55) return;
+        if (seenBlocks[normalized]) {
+          node.setAttribute('data-rabbitastro-duplicate-removed', '1');
+          node.parentNode.removeChild(node);
+        } else {
+          seenBlocks[normalized] = true;
+        }
+      });
+
+      // เก็บกวาดย่อหน้าคำทำนายที่ถูกแสดงซ้ำภายในคนละการ์ด
+      var seenParagraphs = Object.create(null);
+      var paragraphs = Array.prototype.slice.call(root.querySelectorAll('p, .pred-section-item > div, .rhd-section p, .rhd-tile p'));
+      paragraphs.forEach(function(node) {
+        if (!node || !node.parentNode || node.closest('.rabbitastro-gentle-note')) return;
+        var normalized = (node.textContent || '')
+          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
+          .trim()
+          .toLowerCase();
+        if (normalized.length < 75) return;
+        if (seenParagraphs[normalized]) {
+          node.parentNode.removeChild(node);
+        } else {
+          seenParagraphs[normalized] = true;
+        }
+      });
+    })();
+
     hideCalculationDisclosure(root);
     // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
   }
