@@ -2460,7 +2460,7 @@ document.addEventListener("DOMContentLoaded", function () {
           : null;
         if (repeatedParent) return;
         var normalized = (node.textContent || '')
-          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[\s\u200b\u200c\u200d]+/g, ' ')
           .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
           .trim()
           .toLowerCase();
@@ -2479,7 +2479,7 @@ document.addEventListener("DOMContentLoaded", function () {
       paragraphs.forEach(function(node) {
         if (!node || !node.parentNode || node.closest('.rabbitastro-gentle-note')) return;
         var normalized = (node.textContent || '')
-          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[\s\u200b\u200c\u200d]+/g, ' ')
           .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
           .trim()
           .toLowerCase();
