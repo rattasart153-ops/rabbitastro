@@ -1545,17 +1545,30 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
   }
 
-  // ผสานข้อความ Matrix เข้าไปในเนื้อหาคำทำนายเดิม โดยไม่สร้างกล่องหรือหัวข้อใหม่
+  // แยก Matrix ตามหัวข้อความหมาย แล้วแทรกเป็นส่วนย่อยในคำทำนายเดิม
+  // ไม่ตัดข้อความตามจำนวนคำ และไม่สร้างแผง Matrix แยกจากศาสตร์หลัก
+  function matrixNarrativeCards(inputData, context) {
+    var insight = getMatrixNarrative(inputData, context);
+    if (!insight) return '';
+    var labels = ['ตัวตนที่คนอื่นมองเห็น','ตัวตนที่คุณรับรู้','โลกภายในและจิตใต้สำนึก','สิ่งที่ชวนให้ทบทวน'];
+    var parts = insight.split(/\s\|\s/).map(function(part) { return part.trim(); }).filter(Boolean);
+    return parts.map(function(part, index) {
+      var label = labels[index] || 'มุมที่อยากชวนให้สังเกต';
+      var colon = part.indexOf(':');
+      var body = colon >= 0 ? part.slice(colon + 1).trim() : part;
+      return '<div class="pred-section-item matrix-inline-insight"><b>' + label + '</b><div>' + escapeHTML(body) + '</div></div>';
+    }).join('');
+  }
+
+  // ผสานคำอ่าน Matrix เป็นหัวข้อย่อยภายในโครงสร้างคำทำนายเดิม
   function mergeMatrixIntoReading(markup, inputData, context) {
-    var insight=getMatrixNarrative(inputData,context);
-    if(!insight) return markup;
-    var safeInsight=escapeHTML(insight);
-    // วางการอ่านสามชั้นไว้ช่วงเปิดคำทำนายเดิม ไม่สร้างกล่อง Matrix แยก
-    var headingEnd=markup.indexOf('</h4>');
-    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+safeInsight+'</div>'+markup.slice(headingEnd+5);
-    var firstBlockEnd=markup.indexOf('</div>');
-    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+safeInsight+'</span>'+markup.slice(firstBlockEnd);
-    return '<p class="matrix-inline-insight">'+safeInsight+'</p>'+markup;
+    var cards = matrixNarrativeCards(inputData, context);
+    if (!cards) return markup;
+    var headingEnd = markup.indexOf('</h4>');
+    if (headingEnd >= 0) return markup.slice(0, headingEnd + 5) + cards + markup.slice(headingEnd + 5);
+    var firstBlockEnd = markup.indexOf('</div>');
+    if (firstBlockEnd >= 0) return markup.slice(0, firstBlockEnd) + cards + markup.slice(firstBlockEnd);
+    return cards + markup;
   }
 
   function renderTarotRuneSection(res, inputData) {
@@ -1570,7 +1583,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
     var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
-    personalPrediction = getMatrixNarrative(inputData,'tarotRune') + ' ' + personalPrediction;
+    var personalMatrixCards = matrixNarrativeCards(inputData, 'tarotRune');
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
     var personalCaution=element.bad||'ระวังการกดดันตัวเองหรือรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ';
@@ -1585,6 +1598,9 @@ document.addEventListener("DOMContentLoaded", function () {
     else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและคริสตัลประจำตัวที่คำนวณได้</div>';
     h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
     h+='<div class="pred-section-item"><b>🐇 พื้นฐานของคุณ</b><br/>'+esc(personalPrediction)+'</div>';
+    if (personalMatrixCards) {
+      h+='<div class="matrix-subsection-label">🪞 มุมมองที่ช่วยขยายความเข้าใจตัวเอง</div>'+personalMatrixCards;
+    }
     h+='<div class="pred-section-item"><b>✨ จุดแข็งที่ส่งเสริมคุณ</b><br/>'+esc(personalStrength)+'</div>';
     h+='<div class="pred-section-item"><b>🌱 สิ่งที่ควรใส่ใจ</b><br/>'+esc(personalCaution)+'</div>';
     h+='</div>';
@@ -2329,105 +2345,56 @@ document.addEventListener("DOMContentLoaded", function () {
       root.appendChild(gentleNote);
     }
 
-    // แยกทุกส่วนคำทำนายออกเป็นการ์ดย่อย และจำกัดไม่เกิน 100 คำต่อการ์ด
-    // แบ่งด้วย Range เพื่อรักษาโครงสร้างตัวหนา/ตัวเอียง/ลิงก์/หัวข้อภายในเนื้อหา
-    // Engine 2 (god) ไม่ถูกแตะต้อง
+    // Render UI แยกตามหัวข้อคำทำนายที่ renderer สร้างไว้แล้ว
+    // ไม่ตัดข้อความกลางประโยค/กลางหัวข้อ และไม่สร้างการ์ดจากการแบ่งจำนวนคำ
+    // Engine 2 (god) คงรูปแบบเดิมทั้งหมด
     if (featureKey !== 'god') {
-      var predictionSelector =
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .pred-section-item, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .rhd-section, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .rhd-tile, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .mth, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) .answer-box, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) p, ' +
-        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note) li';
-      var predictionItems = Array.prototype.slice.call(root.querySelectorAll(predictionSelector));
-      var wordSegmenter = null;
-      try {
-        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-          wordSegmenter = new Intl.Segmenter('th', { granularity: 'word' });
-        }
-      } catch (segmenterError) {}
-
-      function getWordPositions(element) {
-        var positions = [];
-        var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-        var textNode;
-        while ((textNode = walker.nextNode())) {
-          var value = textNode.nodeValue || '';
-          if (wordSegmenter) {
-            Array.from(wordSegmenter.segment(value)).forEach(function(part) {
-              if (part.isWordLike) {
-                positions.push({ node: textNode, start: part.index, end: part.index + part.segment.length });
-              }
-            });
-          } else {
-            // Fallback สำหรับ browser รุ่นเก่า: แยกตามช่องว่าง
-            var match;
-            var fallbackPattern = /\\S+/g;
-            while ((match = fallbackPattern.exec(value))) {
-              positions.push({ node: textNode, start: match.index, end: match.index + match[0].length });
-            }
-          }
-        }
-        return positions;
-      }
-
-      function stylePredictionCard(card) {
-        card.classList.add('prediction-subcard');
-        card.style.display = 'block';
-        card.style.boxSizing = 'border-box';
-        card.style.width = '100%';
-        card.style.margin = '9px 0';
-        card.style.padding = '11px 12px';
-        card.style.border = '1px solid var(--border-color, #e5e7eb)';
-        card.style.borderRadius = '11px';
-        card.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
-        card.style.lineHeight = '1.8';
-        card.style.overflowWrap = 'anywhere';
-      }
-
-      predictionItems = predictionItems.filter(function(item) {
-        if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return false;
-        // ไม่จัดกล่องลูกซ้ำ หากมีการ์ดคำทำนายอีกใบครอบอยู่แล้ว
-        var ancestor = item.parentElement && item.parentElement.closest
-          ? item.parentElement.closest('.pred-section-item,.rhd-section,.rhd-tile,.mth,.answer-box,p,li')
-          : null;
-        return !ancestor;
+      var predictionGroups = Array.prototype.slice.call(root.querySelectorAll(
+        '.pred-block:not(.god-conversation-block):not(.god-comfort-block):not(.rabbitastro-gentle-note)'
+      ));
+      predictionGroups.forEach(function(group) {
+        group.classList.add('prediction-card-container');
+        group.style.background = 'transparent';
+        group.style.border = '0';
+        group.style.boxShadow = 'none';
+        group.style.padding = '0';
+        group.style.marginTop = '12px';
       });
 
-      predictionItems.forEach(function(item) {
-        if (!item || !item.parentNode) return;
-        var parentBlock = item.closest ? item.closest('.pred-block') : null;
-        if (parentBlock) {
-          parentBlock.classList.add('prediction-card-container');
-          parentBlock.style.background = 'transparent';
-          parentBlock.style.border = '0';
-          parentBlock.style.boxShadow = 'none';
-          parentBlock.style.padding = '0';
-        }
+      var sectionSelector = [
+        '.pred-section-item', '.rhd-section', '.rhd-tile', '.mth',
+        '.dd-box', '.month-card', '.answer-box', '.role-box',
+        '.matrix-subsection-label'
+      ].join(',');
+      var sectionItems = Array.prototype.slice.call(root.querySelectorAll(sectionSelector));
+      sectionItems.forEach(function(item) {
+        if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return;
+        var nestedCard = item.parentElement && item.parentElement.closest
+          ? item.parentElement.closest('.prediction-subcard')
+          : null;
+        if (nestedCard) return;
 
-        var positions = getWordPositions(item);
-        if (positions.length <= 100) {
-          stylePredictionCard(item);
-          return;
-        }
+        item.classList.add('prediction-subcard');
+        item.style.display = 'block';
+        item.style.boxSizing = 'border-box';
+        item.style.width = '100%';
+        item.style.maxWidth = '100%';
+        item.style.margin = '8px 0';
+        item.style.padding = '11px 12px';
+        item.style.border = '1px solid var(--border-color, #e5e7eb)';
+        item.style.borderRadius = '12px';
+        item.style.background = 'var(--card-bg, rgba(148,163,184,.06))';
+        item.style.boxShadow = '0 1px 3px rgba(15,23,42,.04)';
+        item.style.lineHeight = '1.75';
+        item.style.overflowWrap = 'anywhere';
+      });
 
-        var fragment = document.createDocumentFragment();
-        for (var wordIndex = 0; wordIndex < positions.length; wordIndex += 100) {
-          var firstWord = positions[wordIndex];
-          var lastWord = positions[Math.min(wordIndex + 99, positions.length - 1)];
-          var range = document.createRange();
-          range.setStart(firstWord.node, firstWord.start);
-          range.setEnd(lastWord.node, lastWord.end);
-
-          var card = document.createElement('div');
-          stylePredictionCard(card);
-          card.classList.add('prediction-split-card');
-          card.appendChild(range.cloneContents());
-          fragment.appendChild(card);
-        }
-        item.parentNode.replaceChild(fragment, item);
+      root.querySelectorAll('.prediction-card-container > h4').forEach(function(heading) {
+        heading.style.display = 'block';
+        heading.style.margin = '12px 0 7px';
+        heading.style.padding = '0 2px';
+        heading.style.fontSize = '15px';
+        heading.style.lineHeight = '1.45';
       });
     }
 
@@ -2808,8 +2775,10 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
     // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
     var detail = res.detail || {};
-    detail.summary = getMatrixNarrative(data,'oreguram') + ' ' + (detail.summary || '');
+    detail.summary = detail.summary || '';
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
+    var oreguramMatrixCards = matrixNarrativeCards(data, 'oreguram');
+    if (oreguramMatrixCards) h += '<div class="matrix-subsection-label">🪞 มุมมองที่ช่วยขยายความเข้าใจตัวเอง</div>' + oreguramMatrixCards;
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
