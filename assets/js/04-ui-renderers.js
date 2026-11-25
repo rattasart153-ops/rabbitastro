@@ -1487,6 +1487,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return html;
   }
 
+  // อ่านชั้นจิตใจจาก Matrix Destiny เพื่อเปิดคำทำนายด้วยความเข้าใจตัวตนภายใน
+  // เป็นการตีความเชิงสัญลักษณ์ ไม่ใช่การวินิจฉัยหรือการยืนยันสภาพจิตใจ
   function getMatrixNarrative(inputData, context) {
     try {
       var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
@@ -1494,46 +1496,44 @@ document.addEventListener("DOMContentLoaded", function () {
       var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
       var p=chart.points||{}, get=engine.getArcana;
       var arc={
-        self:get(p.A),gift:get(p.B),shadow:get(p.E),path:get(p.personalPurpose),
-        love:get(p.love),money:get(p.money),lesson:get(p.D),expression:get(p.C)
+        self:get(p.A),gift:get(p.B),expression:get(p.C),lesson:get(p.D),
+        center:get(p.E),shadow:get(p.E),path:get(p.personalPurpose),
+        love:get(p.love),money:get(p.money)
       };
       var pick=function(x,k,fallback){return x&&x[k]||fallback||'';};
+      var opening='ลึกลงไปกว่าสิ่งที่คนอื่นมองเห็น คุณอาจมีความต้องการบางอย่างที่ยังไม่ค่อยได้พูดออกมา '+
+        'แก่นภายในของคุณสะท้อนเรื่อง '+pick(arc.center,'theme','การทำความเข้าใจตัวเองและสิ่งที่มีความหมาย')+
+        ' ขณะที่ตัวตนพื้นฐานมีพลังของ '+pick(arc.self,'gift','การเรียนรู้จากประสบการณ์')+
+        ' บางครั้งสิ่งที่คุณแสดงออกอาจไม่ตรงกับสิ่งที่กำลังรู้สึกอยู่ทั้งหมด '+
+        'โดยเฉพาะเมื่อ '+pick(arc.shadow,'shadow','คุณพยายามรับมือกับทุกอย่างด้วยตัวเอง')+
+        ' นี่ไม่ใช่ข้อบกพร่องหรือคำตัดสิน แต่อาจเป็นวิธีที่คุณเคยใช้เพื่อปกป้องใจตัวเอง';
+      var need=' สิ่งที่ใจคุณอาจต้องการมากขึ้นคือ '+pick(arc.path,'gift','พื้นที่ให้เป็นตัวเองและเลือกเส้นทางที่มีความหมาย')+
+        ' คุณค่อย ๆ สำรวจได้ว่าอะไรคือความต้องการของตัวเอง และอะไรคือสิ่งที่ทำเพราะกลัวทำให้คนอื่นผิดหวัง';
+      var guidance=' หากบางความรู้สึกยังอธิบายไม่ได้ ก็ไม่จำเป็นต้องรีบหาคำตอบ ลองเริ่มจากสังเกตว่าเหตุการณ์แบบไหนทำให้คุณรู้สึกปลอดภัยหรือไม่ปลอดภัย และอะไรที่คุณอยากได้รับแต่ไม่ค่อยกล้าขอ';
+      var coreText=opening+need+guidance;
       if(context==='person') {
-        var coreText='จุดเด่นอีกด้านของคุณคือ '+pick(arc.self,'gift','การเรียนรู้และเริ่มต้นสิ่งใหม่')+
-          ' และคุณยังมีความสามารถในการ '+pick(arc.gift,'gift','ปรับตัวตามสถานการณ์')+
-          ' แต่บางครั้งอาจ '+pick(arc.shadow,'shadow','กดดันตัวเองมากเกินไป')+
-          ' ลอง '+pick(arc.lesson,'guidance','ให้เวลากับตัวเองและค่อย ๆ แก้ทีละเรื่อง');
-        // สรุป Age Cycle เป็นช่วงที่ส่งเสริมและช่วงที่ท้าทาย โดยไม่แสดงตาราง 64 ช่วง
+        coreText+=' จุดแข็งที่ช่วยพยุงคุณคือ '+pick(arc.gift,'gift','ความสามารถในการเรียนรู้และปรับตัว')+
+          ' ส่วนบทเรียนสำคัญอาจเกี่ยวกับ '+pick(arc.lesson,'guidance','การให้พื้นที่กับความต้องการของตัวเอง')+
+          ' คุณไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว เริ่มจากสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้นได้';
         if(typeof engine.getAgeHighlights==='function'&&chart.ageCycle){
           var highlights=engine.getAgeHighlights(chart.ageCycle);
-          function ageLabel(period){
-            if(!period)return '';
-            function fmt(n){return Number(n.toFixed(2)).toString();}
-            return fmt(period.ageStart)+'–'+fmt(period.ageEnd)+' ปี';
-          }
+          function ageLabel(period){if(!period)return '';function fmt(n){return Number(n.toFixed(2)).toString();}return fmt(period.ageStart)+'–'+fmt(period.ageEnd)+' ปี';}
           if(highlights&&highlights.best&&highlights.worst){
-            var bestArc=get(highlights.best.value)||{};
-            var worstArc=get(highlights.worst.value)||{};
+            var bestArc=get(highlights.best.value)||{}, worstArc=get(highlights.worst.value)||{};
             coreText+=' เมื่อมองตามจังหวะอายุ ช่วงที่โดดเด่นที่สุดคือประมาณ '+ageLabel(highlights.best)+
-              ' เป็นช่วงที่เหมาะกับการ '+pick(bestArc,'gift','พัฒนาความสามารถและต่อยอดโอกาส')+
-              ' ส่วนช่วงที่ท้าทายที่สุดคือประมาณ '+ageLabel(highlights.worst)+
-              ' อาจมีเรื่องให้ต้อง '+pick(worstArc,'shadow','ทบทวนและปรับตัว')+
-              ' หากเกิดแรงกดดัน ลอง '+pick(worstArc,'guidance','ค่อย ๆ ตั้งหลักและแก้ทีละเรื่อง')+
-              ' ทั้งสองช่วงเป็นแนวโน้มเชิงสัญลักษณ์สำหรับการทบทวนตัวเอง ไม่ใช่ข้อสรุปว่าเหตุการณ์จะต้องเกิดขึ้นแน่นอน';
+              ' ซึ่งอาจเป็นเวลาที่คุณได้ใช้ '+pick(bestArc,'gift','ความสามารถที่มีอยู่')+
+              ' มากขึ้น ส่วนช่วงที่ท้าทายที่สุดคือประมาณ '+ageLabel(highlights.worst)+
+              ' อาจชวนให้กลับมาดูแลเรื่อง '+pick(worstArc,'shadow','ความกดดันและความคาดหวัง')+
+              ' โดยไม่จำเป็นต้องมองว่าเป็นช่วงร้ายหรือเหตุการณ์ที่หลีกเลี่ยงไม่ได้';
           }
         }
         return coreText;
       }
       if(context==='oreguram') {
-        return 'เมื่อนำพื้นฐานของคุณมาประกอบกับเรื่องที่ถาม จุดที่ช่วยให้เดินต่อได้คือ '+pick(arc.path,'gift','การมองเห็นทางเลือกของตัวเอง')+
-          ' สิ่งที่ควรระวังคือ '+pick(arc.lesson,'shadow','การรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ')+
-          ' ลอง '+pick(arc.lesson,'guidance','ค่อย ๆ ตรวจสอบสิ่งที่เกิดขึ้นและเลือกทางที่เหมาะกับตัวเอง');
+        return coreText+' เมื่อนำมาเชื่อมกับคำถามครั้งนี้ ลองสังเกตว่าความต้องการลึก ๆ ของคุณกำลังบอกอะไร และแยกมันออกจากความกลัวหรือแรงกดดันรอบตัวก่อนเลือกทางเดิน';
       }
       if(context==='tarotRune') {
-        return 'พื้นฐานของคุณยังสะท้อนให้เห็นว่า '+pick(arc.gift,'gift','คุณมีความสามารถในการเรียนรู้จากประสบการณ์')+
-          ' ขณะเดียวกันอาจ '+pick(arc.shadow,'shadow','เก็บความกังวลไว้กับตัวเอง')+
-          ' การค่อย ๆ '+pick(arc.lesson,'guidance','รับฟังความต้องการของตัวเอง')+
-          ' จะช่วยให้คุณใช้คำแนะนำจากไพ่และรูนได้ตรงกับชีวิตจริงมากขึ้น';
+        return coreText+' ไพ่และรูนจึงเป็นเหมือนอีกมุมหนึ่งที่ช่วยสะท้อนสถานการณ์ปัจจุบัน ไม่ได้มีไว้ตัดสินคุณ แต่ช่วยให้คุณมองเห็นความรู้สึกและทางเลือกของตัวเองชัดขึ้น';
       }
       return '';
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
@@ -1543,9 +1543,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function mergeMatrixIntoReading(markup, inputData, context) {
     var insight=getMatrixNarrative(inputData,context);
     if(!insight) return markup;
-    var closing=markup.lastIndexOf('</div>');
-    if(closing<0) return markup+' '+escapeHTML(insight);
-    return markup.slice(0,closing)+' <span class="matrix-inline-insight">'+escapeHTML(insight)+'</span>'+markup.slice(closing);
+    var safeInsight=escapeHTML(insight);
+    // วางการอ่านชั้นจิตใจไว้ช่วงเปิดคำทำนายเดิม ไม่สร้างกล่อง Matrix แยก
+    var headingEnd=markup.indexOf('</h4>');
+    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+safeInsight+'</div>'+markup.slice(headingEnd+5);
+    var firstBlockEnd=markup.indexOf('</div>');
+    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+safeInsight+'</span>'+markup.slice(firstBlockEnd);
+    return '<p class="matrix-inline-insight">'+safeInsight+'</p>'+markup;
   }
 
   function renderTarotRuneSection(res, inputData) {
@@ -1560,7 +1564,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
     var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
-    personalPrediction += ' ' + getMatrixNarrative(inputData,'tarotRune');
+    personalPrediction = getMatrixNarrative(inputData,'tarotRune') + ' ' + personalPrediction;
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
     var personalCaution=element.bad||'ระวังการกดดันตัวเองหรือรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ';
@@ -2696,7 +2700,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += '<div class="pred-block" style="background:#fffaf0;border-color:#fed7aa;border-left:5px solid #ea580c;"><h4 style="color:#9a3412;">🔮 รายละเอียดเพิ่มเติมของผลนี้</h4>';
     // ใช้ข้อความสั้นแบบภาษาพูดเหมือน Engine อื่น โดยยังอิงเลขพฤติกรรมกระต่าย
     var detail = res.detail || {};
-    detail.summary = (detail.summary || '') + ' ' + getMatrixNarrative(data,'oreguram');
+    detail.summary = getMatrixNarrative(data,'oreguram') + ' ' + (detail.summary || '');
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
