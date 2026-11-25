@@ -1514,9 +1514,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ' ส่วนด้านที่ต้องการการดูแลอาจเกี่ยวข้องกับ '+pick(arc.shadow,'shadow','ความกลัวหรือความคาดหวังที่แบกไว้')+
         ' บางครั้งสิ่งเหล่านี้อาจมีอิทธิพลต่อการเลือกหรือความสัมพันธ์โดยที่คุณไม่ทันสังเกต';
       var reflection='ลองสังเกตอย่างอ่อนโยนว่า สิ่งที่คุณแสดงให้คนอื่นเห็น สิ่งที่คุณเชื่อเกี่ยวกับตัวเอง และสิ่งที่ใจต้องการจริง ๆ ตรงกันแค่ไหน หากไม่ตรงกันก็ไม่ได้แปลว่าคุณมีอะไรผิดปกติ อาจเป็นเพียงสัญญาณว่ามีบางความต้องการที่ยังไม่ได้รับพื้นที่';
-      var coreText='<b>ตัวตนที่คนอื่นมองเห็น</b> — '+outer+'<br><br>'+
-        '<b>ตัวตนที่คุณรับรู้</b> — '+aware+'<br><br>'+
-        '<b>โลกภายในและจิตใต้สำนึก</b> — '+inner+'<br><br>'+reflection;
+      var coreText='ตัวตนที่คนอื่นมองเห็น — '+outer+' | '+
+        'ตัวตนที่คุณรับรู้ — '+aware+' | '+
+        'โลกภายในและจิตใต้สำนึก — '+inner+' | '+reflection;
       if(context==='person') {
         coreText+=' บทเรียนที่อาจช่วยให้คุณเข้าใจตัวเองมากขึ้นคือ '+pick(arc.lesson,'guidance','ให้พื้นที่กับความต้องการของตัวเอง')+
           ' และทิศทางชีวิตอาจชวนให้คุณ '+pick(arc.path,'gift','เลือกสิ่งที่สอดคล้องกับคุณค่าภายใน')+
@@ -1549,12 +1549,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function mergeMatrixIntoReading(markup, inputData, context) {
     var insight=getMatrixNarrative(inputData,context);
     if(!insight) return markup;
-    // ข้อความมี markup เฉพาะหัวข้อย่อยที่กำหนดไว้ภายในฟังก์ชันนี้
+    var safeInsight=escapeHTML(insight);
+    // วางการอ่านสามชั้นไว้ช่วงเปิดคำทำนายเดิม ไม่สร้างกล่อง Matrix แยก
     var headingEnd=markup.indexOf('</h4>');
-    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+insight+'</div>'+markup.slice(headingEnd+5);
+    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+safeInsight+'</div>'+markup.slice(headingEnd+5);
     var firstBlockEnd=markup.indexOf('</div>');
-    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+insight+'</span>'+markup.slice(firstBlockEnd);
-    return '<p class="matrix-inline-insight">'+insight+'</p>'+markup;
+    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+safeInsight+'</span>'+markup.slice(firstBlockEnd);
+    return '<p class="matrix-inline-insight">'+safeInsight+'</p>'+markup;
   }
 
   function renderTarotRuneSection(res, inputData) {
