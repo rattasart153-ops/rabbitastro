@@ -1492,28 +1492,34 @@ document.addEventListener("DOMContentLoaded", function () {
   function getMatrixNarrative(inputData, context) {
     try {
       var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
-      if(!engine||!inputData||typeof engine.calculate!=='function') return '';
+      if(!engine||!inputData||typeof engine.calculate!=='function'||typeof engine.getArcana!=='function') return '';
       var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
       var p=chart.points||{}, get=engine.getArcana;
+      // แยกสามชั้นตามตำแหน่งใน Matrix: การแสดงออก (C), ตัวตนพื้นฐาน (A), แก่นกลาง (E)
       var arc={
         self:get(p.A),gift:get(p.B),expression:get(p.C),lesson:get(p.D),
         center:get(p.E),shadow:get(p.E),path:get(p.personalPurpose),
         love:get(p.love),money:get(p.money)
       };
       var pick=function(x,k,fallback){return x&&x[k]||fallback||'';};
-      var opening='ลึกลงไปกว่าสิ่งที่คนอื่นมองเห็น คุณอาจมีความต้องการบางอย่างที่ยังไม่ค่อยได้พูดออกมา '+
-        'แก่นภายในของคุณสะท้อนเรื่อง '+pick(arc.center,'theme','การทำความเข้าใจตัวเองและสิ่งที่มีความหมาย')+
-        ' ขณะที่ตัวตนพื้นฐานมีพลังของ '+pick(arc.self,'gift','การเรียนรู้จากประสบการณ์')+
-        ' บางครั้งสิ่งที่คุณแสดงออกอาจไม่ตรงกับสิ่งที่กำลังรู้สึกอยู่ทั้งหมด '+
-        'โดยเฉพาะเมื่อ '+pick(arc.shadow,'shadow','คุณพยายามรับมือกับทุกอย่างด้วยตัวเอง')+
-        ' นี่ไม่ใช่ข้อบกพร่องหรือคำตัดสิน แต่อาจเป็นวิธีที่คุณเคยใช้เพื่อปกป้องใจตัวเอง';
-      var need=' สิ่งที่ใจคุณอาจต้องการมากขึ้นคือ '+pick(arc.path,'gift','พื้นที่ให้เป็นตัวเองและเลือกเส้นทางที่มีความหมาย')+
-        ' คุณค่อย ๆ สำรวจได้ว่าอะไรคือความต้องการของตัวเอง และอะไรคือสิ่งที่ทำเพราะกลัวทำให้คนอื่นผิดหวัง';
-      var guidance=' หากบางความรู้สึกยังอธิบายไม่ได้ ก็ไม่จำเป็นต้องรีบหาคำตอบ ลองเริ่มจากสังเกตว่าเหตุการณ์แบบไหนทำให้คุณรู้สึกปลอดภัยหรือไม่ปลอดภัย และอะไรที่คุณอยากได้รับแต่ไม่ค่อยกล้าขอ';
-      var coreText=opening+need+guidance;
+      var outer='ภาพที่คนอื่นอาจสัมผัสได้: คุณมีแนวโน้มแสดงออกผ่านพลังของ '+
+        pick(arc.expression,'gift','การปรับตัวและตอบสนองต่อสิ่งรอบตัว')+
+        ' คนรอบข้างจึงอาจเห็นคุณในมุมนี้ แม้จะไม่ใช่ทั้งหมดที่เกิดขึ้นภายในใจ';
+      var aware='ภาพที่คุณอาจรับรู้เกี่ยวกับตัวเอง: ลึกลงมา ตัวตนพื้นฐานของคุณมีด้านของ '+
+        pick(arc.self,'theme','การเรียนรู้และค้นหาความหมายของตัวเอง')+
+        ' และมีทรัพยากรภายในอย่าง '+pick(arc.gift,'gift','ความสามารถในการเติบโตจากประสบการณ์')+
+        ' ซึ่งอาจเป็นสิ่งที่คุณมองข้ามไปในวันที่กำลังเหนื่อย';
+      var inner='แรงขับเคลื่อนที่ซ่อนอยู่: แก่นกลางของ Matrix สะท้อนประเด็น '+
+        pick(arc.center,'theme','ความต้องการความมั่นคงและความหมายในชีวิต')+
+        ' ส่วนด้านที่ต้องการการดูแลอาจเกี่ยวข้องกับ '+pick(arc.shadow,'shadow','ความกลัวหรือความคาดหวังที่แบกไว้')+
+        ' บางครั้งสิ่งเหล่านี้อาจมีอิทธิพลต่อการเลือกหรือความสัมพันธ์โดยที่คุณไม่ทันสังเกต';
+      var reflection='ลองสังเกตอย่างอ่อนโยนว่า สิ่งที่คุณแสดงให้คนอื่นเห็น สิ่งที่คุณเชื่อเกี่ยวกับตัวเอง และสิ่งที่ใจต้องการจริง ๆ ตรงกันแค่ไหน หากไม่ตรงกันก็ไม่ได้แปลว่าคุณมีอะไรผิดปกติ อาจเป็นเพียงสัญญาณว่ามีบางความต้องการที่ยังไม่ได้รับพื้นที่';
+      var coreText='<b>ตัวตนที่คนอื่นมองเห็น</b> — '+outer+'<br><br>'+
+        '<b>ตัวตนที่คุณรับรู้</b> — '+aware+'<br><br>'+
+        '<b>โลกภายในและจิตใต้สำนึก</b> — '+inner+'<br><br>'+reflection;
       if(context==='person') {
-        coreText+=' จุดแข็งที่ช่วยพยุงคุณคือ '+pick(arc.gift,'gift','ความสามารถในการเรียนรู้และปรับตัว')+
-          ' ส่วนบทเรียนสำคัญอาจเกี่ยวกับ '+pick(arc.lesson,'guidance','การให้พื้นที่กับความต้องการของตัวเอง')+
+        coreText+=' บทเรียนที่อาจช่วยให้คุณเข้าใจตัวเองมากขึ้นคือ '+pick(arc.lesson,'guidance','ให้พื้นที่กับความต้องการของตัวเอง')+
+          ' และทิศทางชีวิตอาจชวนให้คุณ '+pick(arc.path,'gift','เลือกสิ่งที่สอดคล้องกับคุณค่าภายใน')+
           ' คุณไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว เริ่มจากสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้นได้';
         if(typeof engine.getAgeHighlights==='function'&&chart.ageCycle){
           var highlights=engine.getAgeHighlights(chart.ageCycle);
@@ -1533,7 +1539,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return coreText+' เมื่อนำมาเชื่อมกับคำถามครั้งนี้ ลองสังเกตว่าความต้องการลึก ๆ ของคุณกำลังบอกอะไร และแยกมันออกจากความกลัวหรือแรงกดดันรอบตัวก่อนเลือกทางเดิน';
       }
       if(context==='tarotRune') {
-        return coreText+' ไพ่และรูนจึงเป็นเหมือนอีกมุมหนึ่งที่ช่วยสะท้อนสถานการณ์ปัจจุบัน ไม่ได้มีไว้ตัดสินคุณ แต่ช่วยให้คุณมองเห็นความรู้สึกและทางเลือกของตัวเองชัดขึ้น';
+        return coreText+' ไพ่และรูนจึงเป็นอีกมุมหนึ่งที่ช่วยสะท้อนสถานการณ์ปัจจุบัน ไม่ได้มีไว้ตัดสินคุณ แต่ช่วยให้คุณมองเห็นความรู้สึกและทางเลือกของตัวเองชัดขึ้น';
       }
       return '';
     } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
@@ -1543,13 +1549,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function mergeMatrixIntoReading(markup, inputData, context) {
     var insight=getMatrixNarrative(inputData,context);
     if(!insight) return markup;
-    var safeInsight=escapeHTML(insight);
-    // วางการอ่านชั้นจิตใจไว้ช่วงเปิดคำทำนายเดิม ไม่สร้างกล่อง Matrix แยก
+    // ข้อความมี markup เฉพาะหัวข้อย่อยที่กำหนดไว้ภายในฟังก์ชันนี้
     var headingEnd=markup.indexOf('</h4>');
-    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+safeInsight+'</div>'+markup.slice(headingEnd+5);
+    if(headingEnd>=0) return markup.slice(0,headingEnd+5)+'<div class="pred-section-item matrix-inline-insight" style="line-height:1.85;">'+insight+'</div>'+markup.slice(headingEnd+5);
     var firstBlockEnd=markup.indexOf('</div>');
-    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+safeInsight+'</span>'+markup.slice(firstBlockEnd);
-    return '<p class="matrix-inline-insight">'+safeInsight+'</p>'+markup;
+    if(firstBlockEnd>=0) return markup.slice(0,firstBlockEnd)+'<span class="matrix-inline-insight">'+insight+'</span>'+markup.slice(firstBlockEnd);
+    return '<p class="matrix-inline-insight">'+insight+'</p>'+markup;
   }
 
   function renderTarotRuneSection(res, inputData) {
