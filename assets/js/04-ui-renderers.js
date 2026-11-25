@@ -2358,7 +2358,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var plainText = (item.textContent || '').trim();
         var words = wordSegmenter
           ? Array.from(wordSegmenter.segment(plainText)).filter(function(part) { return part.isWordLike; }).map(function(part) { return part.segment; })
-          : plainText.split(/\\s+/).filter(Boolean);
+          : plainText.split(/\s+/).filter(Boolean);
         if (words.length <= 500) return;
 
         // แบ่งการ์ดที่ยาวเกิน 500 คำเป็นหลายใบ โดยเก็บข้อความทั้งหมดไว้
