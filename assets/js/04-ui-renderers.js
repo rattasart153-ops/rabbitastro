@@ -1783,6 +1783,7 @@ document.addEventListener("DOMContentLoaded", function () {
       base: { title: '🐇 อยากรู้จักตัวเองให้ลึกกว่าคำทำนายนี้ไหม?', text: 'ถ้าอยากสำรวจพื้นดวง จุดแข็ง การงาน การเงิน ความรัก และจังหวะชีวิตแบบละเอียดขึ้น แวะมาคุยกันใน LINE ได้เลย เราช่วยอ่านต่อจากประเด็นที่คุณสนใจได้' },
       asc: { title: '🌅 อยากเห็นอีกมุมของตัวตนตัวเองไหม?', text: 'มาคุยต่อเพื่อสำรวจบุคลิก วิธีแสดงออก จุดเด่น และความสัมพันธ์กับคนรอบตัวได้ เผื่อจะช่วยให้เข้าใจตัวเองและคนอื่นชัดขึ้นอีกนิด' },
       rhd: { title: '🪞 อยากเข้าใจรูปแบบความคิดและวิธีรับมือของตัวเองไหม?', text: 'หากอยากเจาะลึกพฤติกรรมที่เกิดซ้ำ ความรู้สึกเบื้องหลัง และแนวทางรับมือที่เหมาะกับตัวเอง สามารถทักมาคุยต่อได้ตามจังหวะที่คุณพร้อม' },
+      matrix: { title: '🔮 อยากสำรวจตัวตนและจังหวะชีวิตให้ลึกขึ้นไหม?', text: 'มาคุยต่อเพื่อเชื่อมมุมมอง Matrix Destiny กับรูปแบบการใช้ชีวิตตามโหรกระต่าย ทั้งตัวตนภายใน บทเรียน และช่วงวัยสำคัญได้' },
       loveEntrant: { title: '❤️ อยากดูเรื่องความรักครั้งต่อไปให้ชัดขึ้นไหม?', text: 'มาคุยต่อเรื่องคนที่มีโอกาสเข้ามา จังหวะความสัมพันธ์ และสิ่งที่ควรสังเกตได้ โดยยังให้ความสำคัญกับความรู้สึกและขอบเขตของคุณ' },
       topicShort: { title: '🎯 มีเรื่องไหนที่อยากถามต่อเป็นพิเศษไหม?', text: 'ไม่ว่าจะเป็นงาน เงิน ความรัก หรือเรื่องที่กำลังตัดสินใจ ทักมาบอกประเด็นที่ค้างใจได้ เราจะช่วยอ่านและมองรายละเอียดเพิ่มเติมไปด้วยกัน' },
       topicMonth: { title: '📅 อยากวางแผนรับมือช่วง 3 เดือนข้างหน้าไหม?', text: 'มาคุยต่อเกี่ยวกับจังหวะที่เหมาะ โอกาสที่ควรคว้า และเรื่องที่ควรเตรียมตัวในแต่ละเดือนได้ เพื่อให้คุณวางแผนได้อย่างมั่นใจขึ้น' },
@@ -2444,6 +2445,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var featureKey = 'topicShort';
     if (view === 'natal') featureKey = 'base';
     else if (view === 'rhd') featureKey = 'rhd';
+    else if (view === 'matrix') featureKey = 'matrix';
     else if (view === 'asc') featureKey = 'asc';
     else if (view === 'month') featureKey = 'topicMonth';
 
@@ -2464,6 +2466,8 @@ document.addEventListener("DOMContentLoaded", function () {
       titleText = 'ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย · พื้นดวงกำเนิด';
     } else if (featureKey === 'rhd') {
       titleText = 'ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย · Rabbit’s Habit Design (RHD)';
+    } else if (featureKey === 'matrix') {
+      titleText = 'ผลการวิเคราะห์ตัวตนและจังหวะชีวิต · Matrix Destiny ร่วมกับโหรกระต่าย';
     } else if (featureKey === 'asc') {
       titleText = 'ผลการวิเคราะห์พื้นดวงตามโหรกระต่าย · ลัคนาราศี';
     } else if (featureKey === 'loveEntrant') {
@@ -2475,20 +2479,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var body;
     if (featureKey === 'base') {
-      body = mergeMatrixIntoReading(renderBaseSection(res), data, 'person');
+      body = renderBaseSection(res);
       body += renderAdminInnerReflection(data, 'person');
     } else if (featureKey === 'rhd') {
       body = renderRHDSection(res, featureKey, data);
+    } else if (featureKey === 'matrix') {
+      var matrixCards = matrixNarrativeCards(data, 'person');
+      body = renderRHDSection(res, 'rhd', data) +
+        '<div class="pred-block matrix-feature-block" style="margin-top:16px;">' +
+          '<h4>🔮 Matrix Destiny · อ่านตัวตนและจังหวะชีวิต</h4>' +
+          '<div class="pred-section-item">ส่วนนี้นำผล Matrix Destiny มาอ่านประกอบกับพื้นฐานและรูปแบบการตอบสนองตามโหรกระต่าย โดยคงสูตรคำนวณ RHD เดิมไว้</div>' +
+          (matrixCards || '<div class="pred-section-item">ยังไม่สามารถอ่าน Matrix Destiny ได้ กรุณาตรวจสอบวันเดือนปีเกิด</div>') +
+        '</div>';
     } else if (featureKey === 'asc') {
-      body = mergeMatrixIntoReading(renderAscSection(res), data, 'person');
+      body = renderAscSection(res);
     } else if (featureKey === 'loveEntrant') {
       body = window.RABBITASTRO_ADMIN_MODE === true
         ? '<div class="pred-block"><h4>👤 คำทำนายเรื่องคนที่จะเข้ามา</h4><div class="pred-section-item">ย้ายคำทำนายส่วนนี้ไปแสดงรวมอยู่ใน Engine 1 · RHD แล้ว</div></div>'
         : renderLoveEntrantSection(res);
     } else if (featureKey === 'topicMonth') {
-      body = mergeMatrixIntoReading(renderTopicMonthSection(res), data, 'person');
+      body = renderTopicMonthSection(res);
     } else {
-      body = mergeMatrixIntoReading(renderTopicShortSection(res, calcTopicReading(res)), data, 'person');
+      body = renderTopicShortSection(res, calcTopicReading(res));
     }
     resultsBox.style.display = "block";
     var rhdBody = '';
