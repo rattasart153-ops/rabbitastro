@@ -1593,17 +1593,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }).join('');
   }
 
-  // ผสานคำอ่าน Matrix เป็นหัวข้อย่อยภายในโครงสร้างคำทำนายเดิม
-  function mergeMatrixIntoReading(markup, inputData, context) {
-    var cards = matrixNarrativeCards(inputData, context);
-    if (!cards) return markup;
-    var headingEnd = markup.indexOf('</h4>');
-    if (headingEnd >= 0) return markup.slice(0, headingEnd + 5) + cards + markup.slice(headingEnd + 5);
-    var firstBlockEnd = markup.indexOf('</div>');
-    if (firstBlockEnd >= 0) return markup.slice(0, firstBlockEnd) + cards + markup.slice(firstBlockEnd);
-    return cards + markup;
-  }
-
   function renderTarotRuneSection(res, inputData) {
     var birth=res.birthCard||{}, dailyCard=res.dailyCard||res.eventCard||{};
     var rune=res.rune||[], dailyRune=res.dailyRune||[];
@@ -2186,6 +2175,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function improvePredictionReadability(root, rabbitNum, featureKey, inputData) {
     if (!root) return;
+    // ทุกผลลัพธ์ถูกระบุ Engine และฟีเจอร์อย่างชัดเจนก่อนจัดรูปแบบ
+    // การตรวจข้อความซ้ำจะทำภายในผลลัพธ์ของฟีเจอร์นี้เท่านั้น
+    var engineScope = featureKey === 'god' ? 'engine2' :
+      (featureKey === 'oreguram' ? 'engine3' :
+      (featureKey === 'tarotRune' ? 'engine4' : 'engine1'));
+    root.setAttribute('data-rabbitastro-engine', engineScope);
+    root.setAttribute('data-rabbitastro-feature', String(featureKey || 'unknown'));
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
     var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
     // ใช้แนวทางการสื่อสารที่อ่อนโยนกับทุก Engine โดยคงเนื้อหาหลักและผลคำนวณเดิม
@@ -2442,55 +2438,52 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // ลบคำทำนายที่ซ้ำกันในผลลัพธ์เดียวกัน โดยเก็บข้อความที่พบครั้งแรกไว้
-    // เทียบข้อความหลังตัดช่องว่าง/เครื่องหมายตกแต่ง ไม่แตะสูตรหรือข้อมูลคำนวณ
-    (function removeRepeatedPredictionOutput() {
-      var seenBlocks = Object.create(null);
-      var blockSelector = [
+    // ตรวจคำทำนายซ้ำเฉพาะภายใน Engine/ฟีเจอร์ที่กำลังแสดง
+    // เปรียบเทียบเฉพาะบล็อกชนิดเดียวกันที่อยู่ในกลุ่มเนื้อหาเดียวกัน
+    // ไม่ลบข้อความต่างบริบท เช่น คนละช่วงอายุ คนละศาสตร์ หรือหัวข้อคนละประเภท
+    (function removeRepeatedPredictionOutput(engineKey, currentFeature) {
+      var selector = [
         '.pred-section-item', '.rhd-section', '.rhd-tile', '.mth',
         '.dd-box', '.month-card', '.answer-box', '.role-box',
-        '.prediction-subcard'
+        '.matrix-inline-insight'
       ].join(',');
-      var blocks = Array.prototype.slice.call(root.querySelectorAll(blockSelector));
+      function normalize(node) {
+        return (node.textContent || '')
+          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
+          .replace(/[.!?。！？…,:：;；]+/g, '')
+          .trim().toLowerCase();
+      }
+      function nodeKind(node) {
+        return node.tagName + ':' + Array.prototype.slice.call(node.classList || []).sort().join('.');
+      }
+      var seen = Object.create(null);
+      var blocks = Array.prototype.slice.call(root.querySelectorAll(selector));
       blocks.forEach(function(node) {
         if (!node || !node.parentNode || node.closest('.rabbitastro-gentle-note')) return;
-        // ให้ parent ที่ซ้ำถูกจัดการก่อน ส่วน child ของ parent ที่จะถูกลบไม่ต้องตรวจซ้ำ
-        var repeatedParent = node.parentElement && node.parentElement.closest
-          ? node.parentElement.closest('[data-rabbitastro-duplicate-removed="1"]')
-          : null;
-        if (repeatedParent) return;
-        var normalized = (node.textContent || '')
-          .replace(/[\s\u200b\u200c\u200d]+/g, ' ')
-          .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
-          .trim()
-          .toLowerCase();
-        if (normalized.length < 55) return;
-        if (seenBlocks[normalized]) {
-          node.setAttribute('data-rabbitastro-duplicate-removed', '1');
-          node.parentNode.removeChild(node);
-        } else {
-          seenBlocks[normalized] = true;
-        }
+        // ไม่ตรวจ parent ที่มีบล็อกคำทำนายอยู่ภายใน เพราะจะทำให้คนละหัวข้อถูกรวมเป็นก้อนเดียว
+        if (node.querySelector && node.querySelector(selector)) return;
+        var text = normalize(node);
+        if (text.length < 65) return;
+        var parent = node.parentElement;
+        var groupKey = engineKey + '|' + currentFeature + '|' +
+          (parent && parent.tagName ? parent.tagName : 'root') + '|' + nodeKind(node);
+        var key = groupKey + '|' + text;
+        if (seen[key]) node.parentNode.removeChild(node);
+        else seen[key] = true;
       });
-
-      // เก็บกวาดย่อหน้าคำทำนายที่ถูกแสดงซ้ำภายในคนละการ์ด
-      var seenParagraphs = Object.create(null);
-      var paragraphs = Array.prototype.slice.call(root.querySelectorAll('p, .pred-section-item > div, .rhd-section p, .rhd-tile p'));
-      paragraphs.forEach(function(node) {
+      // ย่อหน้าซ้ำจะถูกตรวจภายใน parent เดียวกันเท่านั้น เพื่อรักษาบริบทของแต่ละการ์ด
+      var paragraphSeen = Object.create(null);
+      Array.prototype.slice.call(root.querySelectorAll('p')).forEach(function(node) {
         if (!node || !node.parentNode || node.closest('.rabbitastro-gentle-note')) return;
-        var normalized = (node.textContent || '')
-          .replace(/[\s\u200b\u200c\u200d]+/g, ' ')
-          .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
-          .trim()
-          .toLowerCase();
-        if (normalized.length < 75) return;
-        if (seenParagraphs[normalized]) {
-          node.parentNode.removeChild(node);
-        } else {
-          seenParagraphs[normalized] = true;
-        }
+        var text = normalize(node);
+        if (text.length < 85) return;
+        var key = engineKey + '|' + currentFeature + '|p|' +
+          (node.parentElement ? node.parentElement.tagName + ':' + node.parentElement.className : '') + '|' + text;
+        if (paragraphSeen[key]) node.parentNode.removeChild(node);
+        else paragraphSeen[key] = true;
       });
-    })();
+    })(engineScope, featureKey);
 
     hideCalculationDisclosure(root);
     // แต่ละ Engine มีคำอ่านสังเคราะห์จากผลคำนวณของศาสตร์ประจำตัวเองแล้ว จึงไม่เติมข้อความกลางซ้ำทุกหน้า
@@ -2547,7 +2540,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var matrixCards = matrixNarrativeCards(data, 'person');
       body = '<div class="pred-block matrix-feature-block" style="margin-top:16px;">' +
           '<h4>🔮 Matrix Destiny · อ่านตัวตนและจังหวะชีวิต</h4>' +
-          '<div class="pred-section-item">ส่วนนี้นำผล Matrix Destiny มาอ่านประกอบกับพื้นฐานและรูปแบบการตอบสนองตามโหรกระต่าย โดยคงสูตรคำนวณ RHD เดิมไว้</div>' +
+          '<div class="pred-section-item">ส่วนนี้แสดงคำอ่าน Matrix Destiny แยกจากคำทำนาย RHD โดยใช้ข้อมูลวันเกิดชุดเดียวกับโหรกระต่าย</div>' +
           (matrixCards || '<div class="pred-section-item">ยังไม่สามารถอ่าน Matrix Destiny ได้ กรุณาตรวจสอบวันเดือนปีเกิด</div>') +
         '</div>';
     } else if (featureKey === 'asc') {
