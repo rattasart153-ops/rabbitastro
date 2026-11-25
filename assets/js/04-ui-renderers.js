@@ -1513,7 +1513,7 @@ document.addEventListener("DOMContentLoaded", function () {
         pick(arc.center,'theme','ความต้องการความมั่นคงและความหมายในชีวิต')+
         ' ส่วนด้านที่ต้องการการดูแลอาจเกี่ยวข้องกับ '+pick(arc.shadow,'shadow','ความกลัวหรือความคาดหวังที่แบกไว้')+
         ' บางครั้งสิ่งเหล่านี้อาจมีอิทธิพลต่อการเลือกหรือความสัมพันธ์โดยที่คุณไม่ทันสังเกต';
-      var reflection='ลองสังเกตอย่างอ่อนโยนว่า สิ่งที่คุณแสดงให้คนอื่นเห็น สิ่งที่คุณเชื่อเกี่ยวกับตัวเอง และสิ่งที่ใจต้องการจริง ๆ ตรงกันแค่ไหน หากไม่ตรงกันก็ไม่ได้แปลว่าคุณมีอะไรผิดปกติ อาจเป็นเพียงสัญญาณว่ามีบางความต้องการที่ยังไม่ได้รับพื้นที่';
+      var reflection='ลองสำรวจอย่างอ่อนโยนว่า ระหว่างสิ่งที่คุณแสดงให้คนอื่นเห็น สิ่งที่คุณเชื่อเกี่ยวกับตัวเอง และสิ่งที่ใจต้องการจริง ๆ มีส่วนไหนที่ไม่ตรงกันบ้าง คุณอาจมีความต้องการบางอย่างที่ยังไม่กล้าพูด มีความกลัวบางอย่างที่ไม่อยากให้ใครเห็น หรือมีวิธีปกป้องตัวเองที่เคยช่วยให้ผ่านเรื่องยากมาได้ แต่วันนี้อาจทำให้เหนื่อยโดยไม่รู้ตัว ลองถามตัวเองว่า เมื่อกลัวว่าจะถูกปฏิเสธหรือทำให้ใครผิดหวัง คุณมักเก็บความรู้สึก ยอมตาม ควบคุมทุกอย่าง หรือถอยห่างจากคนอื่นแบบไหน สิ่งเหล่านี้เป็นเพียงคำถามให้สำรวจ ไม่ใช่ข้อสรุปว่าคุณเป็นคนแบบนั้นแน่นอน';
       var coreText='ตัวตนที่คนอื่นมองเห็น — '+outer+' | '+
         'ตัวตนที่คุณรับรู้ — '+aware+' | '+
         'โลกภายในและจิตใต้สำนึก — '+inner+' | '+reflection;
@@ -2184,7 +2184,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function improvePredictionReadability(root, rabbitNum, featureKey) {
+  function improvePredictionReadability(root, rabbitNum, featureKey, inputData) {
     if (!root) return;
     var resultTitle = root.querySelector ? root.querySelector('.card-title') : null;
     var resultTitleText = resultTitle ? (resultTitle.textContent || '') : '';
@@ -2269,23 +2269,20 @@ document.addEventListener("DOMContentLoaded", function () {
         [/บทบาทต่อคนรอบข้าง/g, 'สิ่งที่คนรอบตัวได้รับจากคุณ']
       ]);
     }
-    // น้ำเสียงที่อ่อนโยนเป็นพิเศษสำหรับ Engine 1, 3 และ 4
-    // Engine 2 (god) คงข้อความและแนวทางเดิมทั้งหมด
-    if (featureKey !== 'god') {
-      replacements = replacements.concat([
-        [/คุณต้องเข้มแข็ง/g, 'คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา'],
-        [/ต้องอดทนอดกลั้น/g, 'ค่อย ๆ ให้เวลากับตัวเอง'],
-        [/คุณไม่มีทางเลือก/g, 'ตอนนี้คุณอาจยังมองไม่เห็นทางเลือก'],
-        [/คุณล้มเหลว/g, 'สิ่งที่เกิดขึ้นยังไม่เป็นอย่างที่หวัง'],
-        [/เป็นความผิดของคุณ/g, 'ไม่จำเป็นต้องรีบโทษตัวเองกับสิ่งที่เกิดขึ้น'],
-        [/คุณควบคุมอารมณ์ไม่ได้/g, 'ตอนนี้ความรู้สึกอาจหนักจนจัดการได้ยาก'],
-        [/คุณอ่อนแอ/g, 'คุณกำลังเผชิญเรื่องที่ใช้พลังใจมาก'],
-        [/จุดอ่อนของคุณ/g, 'ด้านที่ต้องการความเข้าใจและการดูแล'],
-        [/คุณมักทำผิดพลาด/g, 'บางครั้งคุณอาจยังหาวิธีที่เหมาะกับตัวเองไม่เจอ'],
-        [/ชีวิตจะต้อง/g, 'ชีวิตอาจ'],
-        [/แน่นอนว่า/g, 'มีโอกาสว่า']
-      ]);
-    }
+    // ใช้ภาษาที่ไม่ตัดสินและไม่กดดันกับทุก Engine รวมถึง Engine 2 ตามมาตรฐานใหม่
+    replacements = replacements.concat([
+      [/คุณต้องเข้มแข็ง/g, 'คุณไม่จำเป็นต้องเข้มแข็งตลอดเวลา'],
+      [/ต้องอดทนอดกลั้น/g, 'ค่อย ๆ ให้เวลากับตัวเอง'],
+      [/คุณไม่มีทางเลือก/g, 'ตอนนี้คุณอาจยังมองไม่เห็นทางเลือก'],
+      [/คุณล้มเหลว/g, 'สิ่งที่เกิดขึ้นยังไม่เป็นอย่างที่หวัง'],
+      [/เป็นความผิดของคุณ/g, 'ไม่จำเป็นต้องรีบโทษตัวเองกับสิ่งที่เกิดขึ้น'],
+      [/คุณควบคุมอารมณ์ไม่ได้/g, 'ตอนนี้ความรู้สึกอาจหนักจนจัดการได้ยาก'],
+      [/คุณอ่อนแอ/g, 'คุณกำลังเผชิญเรื่องที่ใช้พลังใจมาก'],
+      [/จุดอ่อนของคุณ/g, 'ด้านที่ต้องการความเข้าใจและการดูแล'],
+      [/คุณมักทำผิดพลาด/g, 'บางครั้งคุณอาจยังหาวิธีที่เหมาะกับตัวเองไม่เจอ'],
+      [/ชีวิตจะต้อง/g, 'ชีวิตอาจ'],
+      [/แน่นอนว่า/g, 'มีโอกาสว่า']
+    ]);
 
     function walk(node) {
       if (node.nodeType === 3) {
@@ -2299,6 +2296,19 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var child = node.firstChild; child; child = child.nextSibling) walk(child);
     }
     walk(root);
+    // Engine 2 เพิ่มมุมสะท้อนตัวตนจาก Matrix เป็นชั้นอ่านเสริม โดยไม่เปลี่ยนสูตรหรือเนื้อหาการคำนวณองค์เทพ
+    if (featureKey === 'god' && inputData && !root.querySelector('.matrix-inline-insight')) {
+      var godMatrixCards = matrixNarrativeCards(inputData, 'person');
+      if (godMatrixCards) {
+        var godMatrixBlock = document.createElement('div');
+        godMatrixBlock.className = 'pred-block matrix-feature-block';
+        var godMatrixTitle = document.createElement('h4');
+        godMatrixTitle.textContent = '🪞 มุมมองลึกเพื่อเข้าใจตัวเอง';
+        godMatrixBlock.appendChild(godMatrixTitle);
+        godMatrixBlock.insertAdjacentHTML('beforeend', godMatrixCards + '<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">Matrix Destiny เป็นเครื่องมือสะท้อนเชิงสัญลักษณ์ ไม่ใช่ข้อสรุปตายตัวเกี่ยวกับตัวคุณ เลือกเก็บเฉพาะสิ่งที่ตรงกับประสบการณ์จริง</div>');
+        root.appendChild(godMatrixBlock);
+      }
+    }
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
 
@@ -2361,7 +2371,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ปิดท้ายด้วยข้อความที่ช่วยให้คนอ่านไม่ใช้คำทำนายมาตัดสินคุณค่าของตัวเอง
     // หากกำลังเปราะบาง ให้ความปลอดภัยและการขอความช่วยเหลือมาก่อนการตีความคำทำนาย
-    if (featureKey !== 'god' && !root.querySelector('.rabbitastro-gentle-note')) {
+    if (!root.querySelector('.rabbitastro-gentle-note')) {
       var gentleNote = document.createElement('div');
       gentleNote.className = 'pred-block rabbitastro-gentle-note';
       gentleNote.style.marginTop = '12px';
@@ -2373,7 +2383,7 @@ document.addEventListener("DOMContentLoaded", function () {
       gentleTitle.textContent = '🤍 อยากให้คุณจำไว้อย่างหนึ่ง';
       var gentleText = document.createElement('div');
       gentleText.className = 'pred-section-item';
-      gentleText.textContent = 'คำทำนายนี้เป็นเพียงมุมมองหนึ่งจากสัญลักษณ์ ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน และไม่ได้กำหนดว่าอนาคตต้องเป็นอย่างไร คุณเลือกเก็บเฉพาะส่วนที่ตรงกับชีวิตจริงได้ หากวันนี้ใจเหนื่อยมาก คุณไม่จำเป็นต้องฝืนอ่านต่อหรือรีบแก้ทุกอย่าง ลองพักและบอกคนที่คุณไว้ใจให้รับรู้ว่าคุณกำลังรู้สึกอย่างไร หากรู้สึกไม่ปลอดภัยหรือกลัวว่าจะทำร้ายตัวเอง ขอให้ติดต่อคนใกล้ชิด ผู้เชี่ยวชาญ หรือบริการฉุกเฉินในพื้นที่ทันที';
+      gentleText.textContent = 'คำทำนายนี้เป็นเพียงมุมมองหนึ่งจากสัญลักษณ์ ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน และไม่ได้กำหนดว่าอนาคตต้องเป็นอย่างไร คุณมีคุณค่าโดยไม่จำเป็นต้องพิสูจน์ตัวเองด้วยความสำเร็จ การเป็นที่ยอมรับ หรือการดูแลทุกคนให้พอใจ หากวันนี้คุณเหนื่อย หมดแรง หรือยังมองไม่เห็นทางออก คุณไม่จำเป็นต้องฝืนเข้มแข็งหรือแก้ทุกอย่างในครั้งเดียว ลองเริ่มจากดูแลความปลอดภัยและความต้องการพื้นฐานของตัวเอง แล้วบอกคนที่ไว้ใจได้ว่าตอนนี้คุณกำลังเผชิญอะไร หากมีความคิดไม่อยากมีชีวิตอยู่หรือกลัวว่าจะทำร้ายตัวเอง ขออย่าอยู่ลำพัง ให้ติดต่อคนใกล้ชิด ผู้เชี่ยวชาญ หรือบริการฉุกเฉินในพื้นที่ทันที';
       gentleNote.appendChild(gentleTitle);
       gentleNote.appendChild(gentleText);
       root.appendChild(gentleNote);
@@ -2507,7 +2517,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ? '<span class="card-title result-heading">ผลการวิเคราะห์พื้นฐานชีวิตจากวันเกิดตามโหรกระต่าย<br>ภาพรวมพื้นฐานชีวิตจากวันเกิด</span>'
       : '<span class="card-title result-heading">' + titleText + '</span>';
     setSafeHTML(resultsBox, resultTitleHtml + body + rhdBody + featureCtaHtml(featureKey));
-    improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey);
+    improvePredictionReadability(resultsBox, (featureKey === 'topicShort' || featureKey === 'topicMonth') ? res.R4 : (res.baseCode || res.R4), featureKey, data);
     if (fromButton) resultsBox.scrollIntoView({ behavior: 'smooth' });
     return true;
   }
@@ -2560,7 +2570,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '<div class="pred-block"><h4>☀️ ผลประจำวัน</h4><p><b>ไพ่ประจำวัน:</b> '+esc(ec.name || 'Not specified')+'</p><p><b>รูนประจำวัน:</b> '+esc(res.dailyRune ? (res.dailyRune[0]+' '+(res.dailyRune[1]||'')) : 'ยังไม่ระบุ')+'</p><p><b>คริสตัลประจำวัน</b><br/><b>'+esc(dc.name || 'ยังไม่ระบุ')+'</b></p><p>แสดงข้อมูลที่มีอยู่ก่อน</p></div>';
     }
     setSafeHTML(resultsBox, '<span class="card-title result-heading">ผลการวิเคราะห์ไพ่ทาโรต์ + อักษรรูน · ร่วมกับโหรกระต่าย</span>' + body + featureCtaHtml('tarotRune'));
-    try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune'); }
+    try { improvePredictionReadability(resultsBox, res.R4 || res.baseCode, 'tarotRune', data); }
     catch (readabilityError) { console.warn('Tarot/Rune readability enhancement skipped:', readabilityError); }
     // การเลื่อนหน้าจอเป็นเพียงส่วนเสริม ต้องไม่ทำให้ผลคำนวณที่แสดงแล้วถูกแทนด้วย Error
     if (fromButton && resultsBox.scrollIntoView) { try { resultsBox.scrollIntoView({behavior:'smooth'}); } catch (scrollError) { console.warn('Tarot/Rune auto-scroll skipped:', scrollError); } }
@@ -2717,7 +2727,7 @@ document.addEventListener("DOMContentLoaded", function () {
     h += featureCtaHtml('engine2');
     resultsBox.style.display = 'block';
     setSafeHTML(resultsBox, h);
-    improvePredictionReadability(resultsBox, rabbitNum, 'god');
+    improvePredictionReadability(resultsBox, rabbitNum, 'god', data);
     if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({behavior:'smooth'});
     return true;
   }
@@ -2811,7 +2821,7 @@ document.addEventListener("DOMContentLoaded", function () {
       h += featureCtaHtml('oreguLove');
       resultsBox.style.display = 'block';
       setSafeHTML(resultsBox, h);
-      improvePredictionReadability(resultsBox, res.R4, 'oreguram');
+      improvePredictionReadability(resultsBox, res.R4, 'oreguram', data);
       if (fromButton && typeof resultsBox.scrollIntoView === 'function') resultsBox.scrollIntoView({ behavior: 'smooth' });
       return true;
     }
