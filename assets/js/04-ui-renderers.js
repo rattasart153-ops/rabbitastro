@@ -2449,7 +2449,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ].join(',');
       function normalize(node) {
         return (node.textContent || '')
-          .replace(/[\\s\\u200b\\u200c\\u200d]+/g, ' ')
+          .replace(/[\s\u200b\u200c\u200d]+/g, ' ')
           .replace(/[🔮🪞🤍🐇☀️🌿📌✨]/g, '')
           .replace(/[.!?。！？…,:：;；]+/g, '')
           .trim().toLowerCase();
