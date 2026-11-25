@@ -2450,7 +2450,7 @@ document.addEventListener("DOMContentLoaded", function () {
     else if (view === 'month') featureKey = 'topicMonth';
 
     if (!Engine || typeof Engine.calcPerson !== 'function') throw new Error('PERSON_ENGINE_MISSING');
-    var calcFeature = (featureKey === 'rhd') ? 'base' : featureKey;
+    var calcFeature = (featureKey === 'rhd' || featureKey === 'matrix') ? 'base' : featureKey;
     var res = Engine.calcPerson({
       feature: calcFeature,
       fName: data.fName, fLast: data.fLast,
@@ -2485,8 +2485,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body = renderRHDSection(res, featureKey, data);
     } else if (featureKey === 'matrix') {
       var matrixCards = matrixNarrativeCards(data, 'person');
-      body = renderRHDSection(res, 'rhd', data) +
-        '<div class="pred-block matrix-feature-block" style="margin-top:16px;">' +
+      body = '<div class="pred-block matrix-feature-block" style="margin-top:16px;">' +
           '<h4>🔮 Matrix Destiny · อ่านตัวตนและจังหวะชีวิต</h4>' +
           '<div class="pred-section-item">ส่วนนี้นำผล Matrix Destiny มาอ่านประกอบกับพื้นฐานและรูปแบบการตอบสนองตามโหรกระต่าย โดยคงสูตรคำนวณ RHD เดิมไว้</div>' +
           (matrixCards || '<div class="pred-section-item">ยังไม่สามารถอ่าน Matrix Destiny ได้ กรุณาตรวจสอบวันเดือนปีเกิด</div>') +
