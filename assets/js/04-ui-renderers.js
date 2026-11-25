@@ -2292,19 +2292,6 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var child = node.firstChild; child; child = child.nextSibling) walk(child);
     }
     walk(root);
-    // Engine 2 เพิ่มมุมสะท้อนตัวตนจาก Matrix เป็นชั้นอ่านเสริม โดยไม่เปลี่ยนสูตรหรือเนื้อหาการคำนวณองค์เทพ
-    if (featureKey === 'god' && inputData && !root.querySelector('.matrix-inline-insight')) {
-      var godMatrixCards = matrixNarrativeCards(inputData, 'person');
-      if (godMatrixCards) {
-        var godMatrixBlock = document.createElement('div');
-        godMatrixBlock.className = 'pred-block matrix-feature-block';
-        var godMatrixTitle = document.createElement('h4');
-        godMatrixTitle.textContent = '🪞 มุมมองลึกเพื่อเข้าใจตัวเอง';
-        godMatrixBlock.appendChild(godMatrixTitle);
-        godMatrixBlock.insertAdjacentHTML('beforeend', godMatrixCards + '<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">Matrix Destiny เป็นเครื่องมือสะท้อนเชิงสัญลักษณ์ ไม่ใช่ข้อสรุปตายตัวเกี่ยวกับตัวคุณ เลือกเก็บเฉพาะสิ่งที่ตรงกับประสบการณ์จริง</div>');
-        root.appendChild(godMatrixBlock);
-      }
-    }
     // แปลงถ้อยคำที่เหลือในรอบเดียวกับการสร้างผล ไม่ใช้ MutationObserver แยกอีกตัว
     if (typeof simplifyPredictionOutput === 'function') simplifyPredictionOutput(root);
 
