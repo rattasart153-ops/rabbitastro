@@ -2453,14 +2453,18 @@ document.addEventListener("DOMContentLoaded", function () {
       Array.prototype.slice.call(root.querySelectorAll('.pred-section-item, .rhd-section, .rhd-tile, .mth, .dd-box, .month-card, .answer-box, .role-box')).forEach(function(item) {
         if (item.closest('.rabbitastro-gentle-note, .matrix-detail-panel') || item.querySelector('table, details, ul, ol, .rhd-grid')) return;
         var label = item.firstElementChild;
-        if (!label || !/^(B|STRONG)$/.test(label.tagName)) return;
+        var hasInlineLabel = !!(label && /^(B|STRONG)$/.test(label.tagName));
+        var followsHeading = !!(item.previousElementSibling && /^H[1-6]$/.test(item.previousElementSibling.tagName));
+        if (!hasInlineLabel && !followsHeading) return;
         var clone = item.cloneNode(true), cloneLabel = clone.querySelector('b, strong');
         if (cloneLabel) cloneLabel.remove();
         var body = (clone.textContent || '').replace(/\\s+/g, ' ').trim();
         if (countThaiWords(body) <= 80) return;
         item.innerHTML = '';
-        item.appendChild(label.cloneNode(true));
-        item.appendChild(document.createElement('br'));
+        if (hasInlineLabel) {
+          item.appendChild(label.cloneNode(true));
+          item.appendChild(document.createElement('br'));
+        }
         item.appendChild(document.createTextNode(shortenPrediction(body)));
         item.setAttribute('data-prediction-word-limit', '80');
       });
