@@ -2347,6 +2347,14 @@ document.addEventListener("DOMContentLoaded", function () {
       predictionItems.forEach(function(item) {
         if (!item || !item.parentNode || item.classList.contains('prediction-subcard')) return;
         item.classList.add('prediction-subcard');
+        var cardContainer = item.parentNode;
+        if (cardContainer && cardContainer.classList && cardContainer.classList.contains('pred-block')) {
+          cardContainer.classList.add('prediction-card-container');
+          cardContainer.style.background = 'transparent';
+          cardContainer.style.border = '0';
+          cardContainer.style.boxShadow = 'none';
+          cardContainer.style.padding = '0';
+        }
         item.style.display = 'block';
         item.style.margin = '9px 0';
         item.style.padding = '11px 12px';
