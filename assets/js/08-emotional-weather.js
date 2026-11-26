@@ -171,6 +171,7 @@
   function renderIntro() {
     if (!resultsBox || !selectedWeather || resultsBox.style.display === 'none') return;
     var existing = resultsBox.querySelector('[data-emotional-weather-intro]');
+    if (existing && existing.getAttribute('data-emotional-weather-intro') === selectedWeather.id) return;
     if (existing) existing.remove();
 
     var intro = document.createElement('div');
@@ -212,6 +213,10 @@
     }
 
     if (!formIsComplete()) return;
+    if (button.id === 'btnCalcOreguram') {
+      var question = document.getElementById('oreguramQuestion');
+      if (!question || !parseInt(question.value, 10)) return;
+    }
 
     // Keep the existing validation and calculation handlers intact. This layer
     // only pauses the click, asks for an optional mood selection, then replays it.
