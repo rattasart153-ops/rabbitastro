@@ -1,0 +1,141 @@
+
+/* Emotional Weather Check-in — isolated UI layer */
+body.emotional-weather-open { overflow: hidden; }
+.emotional-weather-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: rgba(48, 42, 36, .42);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  animation: emotional-weather-fade-in .24s ease both;
+}
+.emotional-weather-overlay[hidden] { display: none; }
+.emotional-weather-panel {
+  width: min(100%, 540px);
+  max-height: min(90dvh, 760px);
+  overflow-y: auto;
+  padding: clamp(20px, 5vw, 30px);
+  border: 1px solid #e9e1d7;
+  border-radius: 24px;
+  background: #fffdf9;
+  box-shadow: 0 24px 70px rgba(45, 34, 24, .2);
+  animation: emotional-weather-rise .32s cubic-bezier(.2,.75,.25,1) both;
+}
+.emotional-weather-eyebrow {
+  color: #a18465;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-align: center;
+}
+.emotional-weather-panel h2 {
+  margin: 7px 0 10px;
+  color: #332a23;
+  font-size: clamp(21px, 5vw, 25px);
+  line-height: 1.35;
+  text-align: center;
+}
+.emotional-weather-prompt {
+  max-width: 440px;
+  margin: 0 auto 20px;
+  color: #74685c;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
+.emotional-weather-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.emotional-weather-option {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 12px;
+  border: 1px solid #e9e1d7;
+  border-radius: 16px;
+  background: #fcfaf6;
+  color: #40372f;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.emotional-weather-option:hover,
+.emotional-weather-option:focus-visible {
+  border-color: #c8ad8e;
+  background: #f7f0e7;
+  box-shadow: 0 5px 15px rgba(96, 71, 45, .08);
+  outline: none;
+}
+.emotional-weather-option:active { transform: scale(.985); }
+.emotional-weather-icon {
+  flex: 0 0 auto;
+  font-size: 25px;
+  line-height: 1.2;
+}
+.emotional-weather-copy { display: grid; gap: 5px; min-width: 0; }
+.emotional-weather-copy strong {
+  color: #4a3a2d;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.emotional-weather-copy small {
+  color: #81766b;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.emotional-weather-skip {
+  display: block;
+  min-height: 42px;
+  margin: 14px auto 0;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #8b7b6b;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.emotional-weather-skip:hover,
+.emotional-weather-skip:focus-visible { color: #604b37; outline: 2px solid #d9c4aa; outline-offset: 3px; }
+.emotional-weather-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin: 0 0 15px;
+  padding: 14px 15px;
+  border: 1px solid #eadfce;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fbf7f0, #fffdf9);
+  color: #5c4a38;
+}
+.emotional-weather-intro-icon { flex: 0 0 auto; font-size: 23px; line-height: 1.4; }
+.emotional-weather-intro p { margin: 0; font-size: 13px; line-height: 1.8; }
+@keyframes emotional-weather-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes emotional-weather-rise { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 420px) {
+  .emotional-weather-panel { padding: 19px 15px; border-radius: 20px; }
+  .emotional-weather-options { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .emotional-weather-option { min-height: 76px; align-items: center; padding: 11px 13px; }
+  .emotional-weather-copy { gap: 2px; }
+  .emotional-weather-copy strong { font-size: 13px; }
+  .emotional-weather-copy small { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .emotional-weather-overlay, .emotional-weather-panel { animation: none; }
+  .emotional-weather-option { transition: none; }
+}
