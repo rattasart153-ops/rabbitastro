@@ -1605,7 +1605,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var dailyMeaning=(Engine&&typeof Engine.runeSelfMeaning==='function'?Engine.runeSelfMeaning(dailyRune):'')||(dailyRune[2]||'');
     var personalCrystal=res.personalCrystal||{}, dailyCrystal=res.dailyCrystalDate||{};
     var personalPrediction=personalRabbit.desc||personalRabbit.short||'พื้นฐานของคุณมีทั้งจุดแข็งและจังหวะที่ควรค่อย ๆ เรียนรู้ ใช้ประสบการณ์ที่ผ่านมาเป็นแนวทางและเลือกสิ่งที่เหมาะกับตัวเอง';
-    var personalMatrixCards = matrixNarrativeCards(inputData, 'tarotRune');
     var dailyPrediction=dailyRabbit.desc||dailyRabbit.short||'สถานการณ์ในช่วงนี้ยังเปลี่ยนแปลงได้ ลองดูข้อเท็จจริงและค่อย ๆ เลือกก้าวที่เหมาะสม';
     var personalStrength=element.good||'คุณมีความสามารถในการเรียนรู้และปรับตัวจากประสบการณ์';
     var personalCaution=element.bad||'ระวังการกดดันตัวเองหรือรีบตัดสินใจในช่วงที่ข้อมูลยังไม่ครบ';
@@ -1620,9 +1619,6 @@ document.addEventListener("DOMContentLoaded", function () {
     else h+='<div class="pred-section-item"><b>ᚠ รูนประจำตัว</b><br/>ไม่มีข้อมูลเวลาเกิดสำหรับส่วนนี้ จึงอ่านจากไพ่ประจำตัวและคริสตัลประจำตัวที่คำนวณได้</div>';
     h+='<div class="pred-section-item"><b>💎 คริสตัลประจำตัว: '+esc(personalCrystal.name||'-')+'</b><br/>'+esc(personalCrystal.healing||'')+'</div>';
     h+='<div class="pred-section-item"><b>🐇 พื้นฐานของคุณ</b><br/>'+esc(personalPrediction)+'</div>';
-    if (personalMatrixCards) {
-      h+='<div class="matrix-subsection-label">🪞 มุมมองที่ช่วยขยายความเข้าใจตัวเอง</div>'+personalMatrixCards;
-    }
     h+='<div class="pred-section-item"><b>✨ จุดแข็งที่ส่งเสริมคุณ</b><br/>'+esc(personalStrength)+'</div>';
     h+='<div class="pred-section-item"><b>🌱 สิ่งที่ควรใส่ใจ</b><br/>'+esc(personalCaution)+'</div>';
     h+='</div>';
@@ -1648,18 +1644,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (window.RABBITASTRO_ADMIN_MODE === true) {
       h+='<div class="pred-block" style="background:#fdf4ff;border-color:#e9d5ff;border-left:5px solid #a855f7;">';
-      h+='<h4 style="color:#7e22ce;">🪞 อ่านสภาพใจเชิงลึกจากไพ่และรูน</h4>';
-      h+='<div class="pred-section-item"><b>1. ภาพที่ใจแสดงออกในช่วงนี้</b><br/>ไพ่ประจำตัว '+esc(birthName)+' และรูนประจำตัว '+esc(rune[0]||'')+' ชวนให้สังเกตว่าคุณมักแสดงความรู้สึกออกมาตรง ๆ เก็บไว้ก่อน หรือเลือกจัดการทุกอย่างด้วยตัวเอง</div>';
-      h+='<div class="pred-section-item"><b>2. ความรู้สึกที่อาจอยู่ใต้ปฏิกิริยา</b><br/>ลองแยกความรู้สึกที่เห็นชัด เช่น กังวล เหนื่อย หรือหงุดหงิด ออกจากความต้องการที่อาจอยู่ข้างใต้ เช่น ความเข้าใจ ความมั่นคง หรือพื้นที่ตัดสินใจด้วยตัวเอง</div>';
-      h+='<div class="pred-section-item"><b>3. สิ่งที่สถานการณ์ปัจจุบันกำลังกระตุ้น</b><br/>ไพ่ประจำวัน '+esc(dailyCardName)+' และรูนประจำวัน '+esc(dailyRune[0]||'')+' ชวนให้พิจารณาว่าเรื่องนี้แตะความคาดหวัง ความสัมพันธ์ ความรับผิดชอบ หรือการเปลี่ยนแปลงด้านใด</div>';
-      h+='<div class="pred-section-item"><b>4. ความขัดแย้งภายในที่ควรสังเกต</b><br/>ลองดูว่ามีส่วนใดในตัวคุณที่อยากเดินหน้า แต่อีกส่วนยังต้องการเวลา หรือกำลังรักษาความสบายใจของคนอื่นจนละเลยความต้องการของตัวเองหรือไม่</div>';
-      h+='<div class="pred-section-item"><b>5. รูปแบบการตอบสนองเมื่อรู้สึกกดดัน</b><br/>สังเกตว่าคุณมักควบคุมทุกอย่าง คิดทบทวนซ้ำ ๆ ถอยออกมาเงียบ ๆ รีบแก้ปัญหา หรือพยายามทำให้ทุกคนพอใจ รูปแบบเหล่านี้เป็นเพียงประเด็นให้สำรวจ ไม่ใช่ข้อสรุปแทนตัวคุณ</div>';
-      h+='<div class="pred-section-item"><b>6. ความต้องการและขอบเขตที่อาจถูกมองข้าม</b><br/>ลองถามตัวเองว่าตอนนี้ต้องการเวลาพัก ความชัดเจน การยอมรับ การสนับสนุน หรือสิทธิในการปฏิเสธมากขึ้นหรือไม่</div>';
-      h+='<div class="pred-section-item"><b>7. จุดแข็งที่สามารถนำกลับมาใช้</b><br/>'+esc(personalStrength)+' '+esc(todayStrength)+'</div>';
-      h+='<div class="pred-section-item"><b>8. สิ่งที่ควรคลี่คลายทีละขั้น</b><br/>แยกสิ่งที่ควบคุมได้ออกจากสิ่งที่อยู่นอกเหนือการควบคุม เลือกหนึ่งเรื่องที่จัดการได้ในวันนี้ และขอความช่วยเหลือเมื่อจำเป็น</div>';
-      h+='<div class="pred-section-item"><b>9. คำถามสะท้อนใจสำหรับการทบทวน</b><br/>ตอนนี้ฉันรู้สึกอะไรจริง ๆ? ฉันกำลังแบกรับอะไรที่ไม่จำเป็นต้องรับไว้คนเดียว? ฉันต้องการอะไรแต่ยังไม่ได้พูดออกไป?</div>';
-      h+='<div class="pred-section-item"><b>10. แนวทางดูแลใจในระยะใกล้</b><br/>ให้ความสำคัญกับการพักผ่อน กิจวัตรพื้นฐาน และการพูดคุยกับคนที่ปลอดภัยสำหรับคุณ ไม่จำเป็นต้องแก้ทุกประเด็นพร้อมกัน</div>';
-      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">การอ่านเชิงลึกนี้เป็นการสะท้อนใจผ่านสัญลักษณ์ ไม่ใช่แบบประเมินหรือการวินิจฉัยทางจิตวิทยา เลือกใช้เฉพาะส่วนที่ตรงกับประสบการณ์จริงของคุณ</div>';
+      h+='<h4 style="color:#7e22ce;">🔮 คำทำนายเชื่อมโยงไพ่ รูน และคริสตัล · รายละเอียดสำหรับ Admin</h4>';
+      h+='<div class="pred-section-item"><b>1. พื้นฐานและแนวโน้มส่วนตัว</b><br/>ไพ่ประจำตัว '+esc(birthName)+' สะท้อนประเด็นหลักของพื้นฐานชีวิตผ่านความหมายว่า '+esc(birthMeaning||'ยังไม่มีคำอธิบายไพ่ประจำตัว')+' ส่วนรูนประจำตัว '+esc(rune[0]||'')+' '+esc(rune[1]||'')+' เพิ่มมุมมองเรื่อง '+esc(runeMeaning||'ไม่มีข้อมูลรูนประจำตัว')+'. เมื่อนำมาอ่านร่วมกัน ให้ใช้เป็นแนวทางพิจารณาว่าจุดแข็งและประสบการณ์เดิมจะช่วยรับมือเรื่องที่กำลังเกิดขึ้นอย่างไร</div>';
+      h+='<div class="pred-section-item"><b>2. แนวโน้มของสถานการณ์ปัจจุบัน</b><br/>ไพ่ประจำวัน '+esc(dailyCardName)+' ให้ภาพของสถานการณ์ผ่านความหมายว่า '+esc(dailyCardMeaning||'ยังไม่มีคำอธิบายไพ่ประจำวัน')+' ขณะที่รูนประจำวัน '+esc(dailyRune[0]||'')+' สะท้อนประเด็นว่า '+esc(dailyMeaning||'ยังไม่มีคำอธิบายรูนประจำวัน')+'. จึงควรพิจารณาทั้งโอกาสและเงื่อนไขที่ต้องจัดการก่อนสรุปผล</div>';
+      h+='<div class="pred-section-item"><b>3. สิ่งสนับสนุนและจุดที่ควรระวัง</b><br/>จุดแข็งจากธาตุประจำตัวคือ '+esc(personalStrength)+'. ส่วนข้อควรระวังคือ '+esc(personalCaution)+'. สำหรับจังหวะวันนี้ สิ่งที่ช่วยสนับสนุนคือ '+esc(todayStrength)+' และเรื่องที่ควรระวังคือ '+esc(todayCaution)+'. ใช้ข้อมูลเหล่านี้ประกอบการตัดสินใจ ไม่จำเป็นต้องเร่งทุกเรื่องพร้อมกัน</div>';
+      h+='<div class="pred-section-item"><b>4. คริสตัลกับแนวทางรับมือ</b><br/>คริสตัลประจำตัว '+esc(personalCrystal.name||'-')+' มีคำแนะนำว่า '+esc(personalCrystal.healing||'')+'. คริสตัลประจำวัน '+esc(dailyCrystal.name||'-')+' มีคำแนะนำว่า '+esc(dailyCrystal.healing||'')+'. เลือกนำคำแนะนำที่เหมาะกับสถานการณ์จริงมาใช้เป็นเครื่องเตือนใจ และตรวจสอบข้อเท็จจริงควบคู่กัน</div>';
+      h+='<div class="pred-section-item"><b>5. บทสรุปคำทำนาย</b><br/>'+esc(personalPrediction)+' ในระยะใกล้ '+esc(dailyPrediction)+' แนวทางที่เหมาะสมคือใช้จุดแข็งที่มี วางแผนจากข้อมูลตรงหน้า และเผื่อพื้นที่ให้สถานการณ์เปลี่ยนแปลงได้</div>';
+      h+='<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">คำอ่านนี้เป็นการเชื่อมความหมายเชิงสัญลักษณ์จากไพ่ รูน ธาตุ และคริสตัล ไม่ใช่การยืนยันเหตุการณ์ล่วงหน้า</div>';
       h+='</div>';
     }
     // Admin-only Deep Talk: แยกแต่ละคำถามเป็น Render ของตัวเอง
@@ -2863,8 +2854,20 @@ document.addEventListener("DOMContentLoaded", function () {
     var detail = res.detail || {};
     detail.summary = detail.summary || '';
     h += '<div class="pred-section-item" style="line-height:1.8;">' + warmOreguramText(detail.summary || '') + '</div>';
-    var oreguramMatrixCards = matrixNarrativeCards(data, 'oreguram');
-    if (oreguramMatrixCards) h += '<div class="matrix-subsection-label">🪞 มุมมองที่ช่วยขยายความเข้าใจตัวเอง</div>' + oreguramMatrixCards;
+    if (window.RABBITASTRO_ADMIN_MODE === true) {
+      var categoryDetail = res.catPrediction || {};
+      var deepDetail = res.deep || {};
+      h += '<div class="pred-block" style="background:#f0f9ff;border-color:#bae6fd;border-left:5px solid #0284c7;">';
+      h += '<h4 style="color:#075985;">📚 วิเคราะห์แนวโน้มและแนวทางปฏิบัติ · รายละเอียดสำหรับ Admin</h4>';
+      h += '<div class="pred-section-item"><b>1. ภาพรวมแนวโน้มของเรื่องนี้</b><br/>' + warmOreguramText(categoryDetail.overview || res.directAnswer || '-') + '</div>';
+      h += '<div class="pred-section-item"><b>2. รายละเอียดสถานการณ์</b><br/>' + warmOreguramText(categoryDetail.detail || detail.summary || res.directAnswer || '-') + '</div>';
+      h += '<div class="pred-section-item"><b>3. ประเด็นหลักที่ควรให้น้ำหนัก</b><br/>' + warmOreguramText(deepDetail.focus || res.advice || 'พิจารณาข้อมูลและเงื่อนไขที่เกี่ยวข้องให้ครบก่อนตัดสินใจ') + '</div>';
+      h += '<div class="pred-section-item"><b>4. จังหวะเวลาและสัญญาณที่ควรติดตาม</b><br/>' + warmOreguramText(deepDetail.timing || 'ติดตามความคืบหน้าจากเหตุการณ์จริง และประเมินสถานการณ์เป็นระยะ') + (deepDetail.sign ? '<br/><b>สัญญาณประกอบ:</b> ' + warmOreguramText(deepDetail.sign) : '') + '</div>';
+      h += '<div class="pred-section-item"><b>5. สิ่งที่ควรลงมือทำ</b><br/>' + warmOreguramText(categoryDetail.advice || deepDetail.action || res.advice || 'แบ่งเรื่องที่ต้องจัดการเป็นขั้นตอน และเริ่มจากสิ่งที่ควบคุมได้') + '</div>';
+      h += '<div class="pred-section-item"><b>6. ข้อควรระวัง</b><br/>' + warmOreguramText(deepDetail.caution || 'อย่าด่วนสรุปจากข้อมูลเพียงด้านเดียว ควรตรวจสอบรายละเอียดก่อนลงมือ') + '</div>';
+      h += '<div class="pred-section-item" style="font-size:12px;color:var(--text-muted);">รายละเอียดนี้อ้างอิงจากหมวดคำถาม รหัสคำทำนาย และข้อมูลประกอบที่ระบบคำนวณได้ ควรใช้เป็นแนวทางพิจารณาร่วมกับข้อเท็จจริง โดยเฉพาะเรื่องสุขภาพ กฎหมาย และการเงิน</div>';
+      h += '</div>';
+    }
     h += '</div>';
     h += '<div class="pred-block" style="background:#fff7fb;border-color:#fbcfe8;border-left:5px solid #ec4899;"><h4 style="color:#9d174d;">💗 ลองฟังใจตัวเองสักนิด</h4><div class="pred-section-item" style="line-height:1.85;">' + oreguramSelfReflection(res.category) + '</div><div class="pred-section-item" style="font-size:13px;color:#6b5360;">คำทำนายนี้เป็นเพียงมุมมองหนึ่ง ไม่ใช่คำตัดสินว่าชีวิตต้องเป็นแบบใด คุณยังมีสิทธิ์เลือก ตั้งขอบเขต และเปลี่ยนแปลงสิ่งต่าง ๆ ตามข้อมูลจริงและความต้องการของตัวเองนะ</div></div>';
     var ctaKey = res.category === 'work' ? 'oreguWork' : (res.category === 'money' ? 'oreguMoney' : (res.category === 'love' ? 'oreguLove' : 'oregu')); 
