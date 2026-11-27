@@ -128,7 +128,7 @@
 
 
   function renderTemplate(value, context) {
-    return String(value == null ? "" : value).replace(/\\{\\{\\s*([a-zA-Z0-9_.-]+)\\s*\\}\\}/g, function (match, key) {
+    return String(value == null ? "" : value).replace(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g, function (match, key) {
       var resolved = resolveVariable(key, context);
       return resolved == null ? "" : String(resolved);
     });
