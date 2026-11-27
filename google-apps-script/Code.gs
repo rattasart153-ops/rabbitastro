@@ -16,11 +16,16 @@ function doPost(e) {
       case "adminLogout":
         result = adminLogout_(input);
         break;
+      case "predictionRuntime":
+        result = predictionRuntime_();
+        break;
       case "predictionInitialize":
       case "predictionList":
       case "predictionSave":
       case "predictionDelete":
       case "predictionPublish":
+      case "predictionHistory":
+      case "predictionRollback":
         result = predictionAction_(input);
         break;
       default:
@@ -193,6 +198,8 @@ function predictionAction_(input) {
     if (input.action === "predictionSave") return predictionSave_(input, actor);
     if (input.action === "predictionDelete") return predictionDelete_(input, actor);
     if (input.action === "predictionPublish") return predictionPublish_(input, actor);
+    if (input.action === "predictionHistory") return predictionHistory_(input);
+    if (input.action === "predictionRollback") return predictionRollback_(input, actor);
     return { ok: false, message: "คำสั่งจัดการคำทำนายไม่ถูกต้อง" };
   } catch (err) {
     console.error("Prediction repository error: " + err.message);
@@ -330,7 +337,7 @@ function predictionDelete_(input, actor) {
     sheet.getRange(rowNumber, 11).setValue(old.version);
     sheet.getRange(rowNumber, 14).setValue(old.updatedAt);
     sheet.getRange(rowNumber, 15).setValue(actor);
-    predictionVersion_(ss, collection, id, old.version + 1, old, actor);
+    predictionVersion_(ss, collection, id, old.version, old, actor);
     predictionAudit_(ss, "archive", collection, id, beforeArchive, old, actor);
     return { ok: true, archived: true, id: id };
   } finally {
@@ -445,4 +452,47 @@ function predictionAudit_(ss, action, collection, id, beforeValue, afterValue, a
       after: predictionAuditSummary_(afterValue)
     }), 0, "logged", 1, 0, now, now, actor
   ]);
+}
+
+
+/* Published runtime feed: public by design, but never returns drafts or audit data. */
+function predictionRuntime_() {
+  try {
+    var ss = predictionSpreadsheet_(), output = {};
+    ["Engines", "Categories", "Topics", "Variables", "Predictions", "Rules", "Mappings"].forEach(function (collection) {
+      var sheet = ss.getSheetByName(collection);
+      if (!sheet || sheet.getLastRow() < 2) { output[collection] = []; return; }
+      var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, PREDICTION_HEADERS_.length).getValues();
+      output[collection] = rows.map(function (row) {
+        var data = {}; try { data = JSON.parse(row[7] || "{}"); } catch (ignore) {}
+        return { id:String(row[0]), engineId:String(row[1]), parentId:String(row[2]), name:String(row[3]), title:String(row[4]), description:String(row[5]), content:String(row[6]), data:data, priority:Number(row[8] || 0), status:String(row[9]), version:Number(row[10] || 1), sortOrder:Number(row[11] || 0) };
+      }).filter(function (record) { return record.status === "published" || (collection === "Variables" && record.status === "active"); });
+    });
+    return { ok:true, runtime:output, publishedAt:new Date().toISOString() };
+  } catch (err) { return { ok:false, code:"PREDICTION_STORE_UNAVAILABLE", message:"คลังคำทำนายยังไม่ได้เริ่มต้น" }; }
+}
+
+function predictionHistory_(input) {
+  var collection=String(input.collection || ""); predictionAssertCollection_(collection);
+  var id=String(input.id || ""); if (!id || id.length>100) throw new Error("INVALID_ID");
+  var ss=predictionSpreadsheet_(), sheet=ss.getSheetByName("Versions");
+  if (!sheet || sheet.getLastRow()<2) return {ok:true,versions:[]};
+  var rows=sheet.getRange(2,1,sheet.getLastRow()-1,PREDICTION_HEADERS_.length).getValues(), versions=[];
+  rows.forEach(function(row){ if(String(row[2])!==collection || String(row[3])!==id)return; var data={}; try{data=JSON.parse(row[7]||"{}");}catch(ignore){} versions.push({id:String(row[0]),version:Number(data.version||row[10]||1),createdAt:String(row[12]),updatedBy:String(row[14]),record:data.record||null}); });
+  versions.sort(function(a,b){return b.version-a.version;}); return {ok:true,versions:versions.slice(0,100)};
+}
+
+function predictionRollback_(input, actor) {
+  var collection=String(input.collection||""); predictionAssertCollection_(collection);
+  var id=String(input.id||""), version=Number(input.version);
+  if(!id || !isFinite(version) || version<1) throw new Error("INVALID_ROLLBACK_TARGET");
+  var history=predictionHistory_({collection:collection,id:id}).versions;
+  var snapshot=history.filter(function(item){return item.version===version;})[0];
+  if(!snapshot || !snapshot.record) throw new Error("VERSION_NOT_FOUND");
+  var restored=JSON.parse(JSON.stringify(snapshot.record)); restored.id=id;
+  var wasPublished=restored.status==="published"; restored.status=wasPublished?"draft":restored.status;
+  var saved=predictionSave_({collection:collection,record:restored},actor);
+  if(!saved.ok)return saved;
+  if(wasPublished)return predictionPublish_({collection:collection,id:id},actor);
+  return {ok:true,record:saved.record,rolledBackFrom:version};
 }
