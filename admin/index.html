@@ -289,14 +289,44 @@
           </div>
           <div class="prediction-editor">
             <div class="prediction-records-heading"><strong id="predictionEditorTitle">ตัวแก้ไขข้อมูล</strong><span class="muted">JSON Editor</span></div>
-            <p class="muted">แก้ไขข้อมูลในรูปแบบ JSON โดยใช้ตัวแปรและรหัส Engine ที่ระบบกำหนด การบันทึกจะสร้างประวัติเวอร์ชันให้อัตโนมัติ</p>
-            <textarea id="predictionJsonEditor" rows="22" spellcheck="false" placeholder='{"engineId":"engine1","name":"ตัวอย่าง","title":"หัวข้อคำทำนาย","content":"เนื้อหาคำทำนาย","status":"draft","data":{}}'></textarea>
+            <p class="muted">แก้ไขเนื้อหาและสถานะได้โดยตรง ส่วนข้อมูลเงื่อนไขขั้นสูงจัดเก็บในช่องข้อมูลเพิ่มเติม</p>
+            <input id="predictionRecordId" type="hidden">
+            <div class="prediction-fields">
+              <label>Engine
+                <select id="predictionEngineField">
+                  <option value="engine1">Engine 1 · ดวงบุคคล</option>
+                  <option value="engine2">Engine 2 · เทพประจำตัว</option>
+                  <option value="engine3">Engine 3 · โอเรกุรัม</option>
+                  <option value="engine4">Engine 4 · ไพ่ทาโรต์ + รูน</option>
+                </select>
+              </label>
+              <label>ชื่ออ้างอิง <input id="predictionNameField" maxlength="160" placeholder="เช่น love-overview"></label>
+              <label>ชื่อหัวข้อ <input id="predictionTitleField" maxlength="200" placeholder="ชื่อที่แสดงในระบบ"></label>
+              <label>คำอธิบาย <input id="predictionDescriptionField" maxlength="1000" placeholder="รายละเอียดสั้น ๆ"></label>
+              <label>เนื้อหาคำทำนาย <textarea id="predictionContentField" rows="7" maxlength="40000" placeholder="เขียนเนื้อหาคำทำนายที่นี่"></textarea></label>
+              <div class="prediction-field-row">
+                <label>สถานะ
+                  <select id="predictionStatusField">
+                    <option value="draft">Draft · ฉบับร่าง</option>
+                    <option value="inactive">Inactive · ปิดใช้งาน</option>
+                    <option value="active">Active · ใช้งานภายใน</option>
+                    <option value="archived">Archived · เก็บเข้าคลัง</option>
+                  </select>
+                </label>
+                <label>ลำดับความสำคัญ <input id="predictionPriorityField" type="number" value="100"></label>
+                <label>ลำดับแสดงผล <input id="predictionSortOrderField" type="number" value="100"></label>
+              </div>
+              <label>รหัสข้อมูลแม่ (ถ้ามี) <input id="predictionParentField" maxlength="100" placeholder="Parent ID"></label>
+              <label>ข้อมูลเพิ่มเติม (JSON)
+                <textarea id="predictionDataField" rows="9" spellcheck="false">{}</textarea>
+              </label>
+            </div>
             <div class="prediction-editor-actions">
               <button type="button" id="predictionSave" class="primary">บันทึกฉบับร่าง</button>
               <button type="button" id="predictionPublish" class="secondary">เผยแพร่</button>
               <button type="button" id="predictionArchive" class="danger">เก็บเข้าคลัง</button>
             </div>
-            <p class="muted prediction-help">กฎการทำนาย: data ต้องมี predictionId และ conditions เช่น {"logic":"AND","predictionId":"รหัสคำทำนาย","conditions":[{"variable":"ตัวแปร","operator":"eq","value":"ค่า"}]}</p>
+            <p class="muted prediction-help">กฎการทำนาย: ในช่องข้อมูลเพิ่มเติมของ Rules ให้ระบุ logic เป็น AND หรือ OR, predictionId เป็น ID ของคำทำนาย และ conditions เป็นรายการเงื่อนไขที่ใช้ตัวแปรจาก Engine</p>
           </div>
         </div>
       </section>
