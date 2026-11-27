@@ -21,7 +21,7 @@ module.exports = async function handler(req, res) {
     const data = await upstream.json();
     res.setHeader("Cache-Control", "no-store, max-age=0");
     if (!upstream.ok || !data.ok) {
-      return res.status(503).json({
+      return res.status(data.code === "UNAUTHORIZED" ? 401 : 503).json({
         ok: false,
         code: data.code || "PREDICTION_RUNTIME_UNAVAILABLE",
         message: data.message || "คลังคำทำนายยังไม่พร้อมใช้งาน"
