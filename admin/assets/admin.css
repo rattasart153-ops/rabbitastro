@@ -734,3 +734,10 @@ button { border-radius:13px; }
 .system-toggle input:checked + .system-toggle-track::after { transform:translateX(20px); }
 .system-toggle input:focus-visible + .system-toggle-track { outline:3px solid rgba(86,139,104,.25); outline-offset:2px; }
 @media(max-width:760px) { .system-control-grid { grid-template-columns:1fr; } }
+
+.system-credentials { margin-top:16px; padding:18px; }
+.system-credentials h3 { margin:0 0 4px; }
+.system-credentials-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
+.system-credentials-form label { display:grid; gap:5px; font-weight:700; }
+.system-credentials-form button { grid-column:1/-1; justify-self:start; }
+@media(max-width:600px) { .system-credentials-form { grid-template-columns:1fr; } }
