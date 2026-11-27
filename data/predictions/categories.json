@@ -1,5 +1,385 @@
 {
   "schemaVersion": 1,
   "collection": "Categories",
-  "records": []
+  "updatedAt": "2026-11-27T00:00:00.000Z",
+  "importBatch": "engine-1-4-central-draft-2026-11-27",
+  "sourceFiles": [
+    "assets/js/02-horakratai-engine.js",
+    "assets/js/04-ui-renderers.js"
+  ],
+  "sourceObjectCount": 44,
+  "records": [
+    {
+      "id": "import-engine1-category_info-work",
+      "engineId": "engine1",
+      "parentId": "CATEGORY_INFO",
+      "name": "CATEGORY_INFO.work",
+      "title": "CATEGORY_INFO.work",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "💼\nงาน ตำแหน่ง การเรียน การสอบ หัวหน้า เพื่อนร่วมงาน และความก้าวหน้า\nโอกาสได้งานใหม่ (เรื่องยอดฮิตของหมวดนี้)\nการได้เริ่มงานใหม่ใหม่\nการเลื่อนตำแหน่งและการยอมรับผลงาน\nการเจรจา ต่อรอง และทำข้อตกลง\nการย้ายงาน โยกย้าย หรือเปลี่ยนสายงาน\nความสัมพันธ์กับหัวหน้า เพื่อนร่วมงาน และคู่แข่ง\nการเรียนต่อ การสอบเลื่อนระดับ และใบรับรองวิชาชีพ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "CATEGORY_INFO",
+        "legacySourcePath": "CATEGORY_INFO.work",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "icon": "💼",
+          "subtitle": "งาน ตำแหน่ง การเรียน การสอบ หัวหน้า เพื่อนร่วมงาน และความก้าวหน้า",
+          "covers": [
+            "โอกาสได้งานใหม่ (เรื่องยอดฮิตของหมวดนี้)",
+            "การได้เริ่มงานใหม่ใหม่",
+            "การเลื่อนตำแหน่งและการยอมรับผลงาน",
+            "การเจรจา ต่อรอง และทำข้อตกลง",
+            "การย้ายงาน โยกย้าย หรือเปลี่ยนสายงาน",
+            "ความสัมพันธ์กับหัวหน้า เพื่อนร่วมงาน และคู่แข่ง",
+            "การเรียนต่อ การสอบเลื่อนระดับ และใบรับรองวิชาชีพ"
+          ]
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 1
+    },
+    {
+      "id": "import-engine1-category_info-money",
+      "engineId": "engine1",
+      "parentId": "CATEGORY_INFO",
+      "name": "CATEGORY_INFO.money",
+      "title": "CATEGORY_INFO.money",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "💰\nรายรับ รายจ่าย หนี้สิน การลงทุน และโชคลาภ\nรายรับและรายจ่ายที่ต้องบริหารให้สมดุล\nการค้าขาย การลงทุน และผลตอบแทน\nหนี้สิน การกู้ยืม และการปลดหนี้\nค่าใช้จ่ายก้อนใหญ่ที่ต้องเตรียมรับมือ\nโชคลาภและเงินที่คาดไม่ถึง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "CATEGORY_INFO",
+        "legacySourcePath": "CATEGORY_INFO.money",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "icon": "💰",
+          "subtitle": "รายรับ รายจ่าย หนี้สิน การลงทุน และโชคลาภ",
+          "covers": [
+            "รายรับและรายจ่ายที่ต้องบริหารให้สมดุล",
+            "การค้าขาย การลงทุน และผลตอบแทน",
+            "หนี้สิน การกู้ยืม และการปลดหนี้",
+            "ค่าใช้จ่ายก้อนใหญ่ที่ต้องเตรียมรับมือ",
+            "โชคลาภและเงินที่คาดไม่ถึง"
+          ]
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 2
+    },
+    {
+      "id": "import-engine1-category_info-health",
+      "engineId": "engine1",
+      "parentId": "CATEGORY_INFO",
+      "name": "CATEGORY_INFO.health",
+      "title": "CATEGORY_INFO.health",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "🩺\nสุขภาพกาย สุขภาพใจ การพักผ่อน และการฟื้นตัว\nอาการเจ็บป่วยและแนวโน้มการหาย\nพลังงานร่างกายและความเหนื่อยล้า\nการนอน การกิน และการออกกำลังกาย\nความเครียด ความกังวล และสุขภาพใจ\nการตรวจสุขภาพและการรักษาที่ควรทำ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "CATEGORY_INFO",
+        "legacySourcePath": "CATEGORY_INFO.health",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "icon": "🩺",
+          "subtitle": "สุขภาพกาย สุขภาพใจ การพักผ่อน และการฟื้นตัว",
+          "covers": [
+            "อาการเจ็บป่วยและแนวโน้มการหาย",
+            "พลังงานร่างกายและความเหนื่อยล้า",
+            "การนอน การกิน และการออกกำลังกาย",
+            "ความเครียด ความกังวล และสุขภาพใจ",
+            "การตรวจสุขภาพและการรักษาที่ควรทำ"
+          ]
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 3
+    },
+    {
+      "id": "import-engine1-category_info-love",
+      "engineId": "engine1",
+      "parentId": "CATEGORY_INFO",
+      "name": "CATEGORY_INFO.love",
+      "title": "CATEGORY_INFO.love",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "❤️\nความรัก คนโสด คนมีคู่ ครอบครัว และคนรอบตัว\nลักษณะคนที่เข้ามาในชีวิต (วิเคราะห์ตามหลักโหรกระต่าย)\nโอกาสพบรักใหม่สำหรับคนโสด\nความเข้าใจและความสัมพันธ์กับคนรัก\nจุดขัดแย้งหรือปัญหาที่ต้องเคลียร์ใจ\nคนรักเก่าหรือเรื่องในอดีตที่กลับมา\nความอบอุ่นในครอบครัวและคนรอบข้าง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "CATEGORY_INFO",
+        "legacySourcePath": "CATEGORY_INFO.love",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "icon": "❤️",
+          "subtitle": "ความรัก คนโสด คนมีคู่ ครอบครัว และคนรอบตัว",
+          "covers": [
+            "ลักษณะคนที่เข้ามาในชีวิต (วิเคราะห์ตามหลักโหรกระต่าย)",
+            "โอกาสพบรักใหม่สำหรับคนโสด",
+            "ความเข้าใจและความสัมพันธ์กับคนรัก",
+            "จุดขัดแย้งหรือปัญหาที่ต้องเคลียร์ใจ",
+            "คนรักเก่าหรือเรื่องในอดีตที่กลับมา",
+            "ความอบอุ่นในครอบครัวและคนรอบข้าง"
+          ]
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 4
+    },
+    {
+      "id": "import-engine1-category_info-interest",
+      "engineId": "engine1",
+      "parentId": "CATEGORY_INFO",
+      "name": "CATEGORY_INFO.interest",
+      "title": "CATEGORY_INFO.interest",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "✨\nเรื่องที่คุณสนใจ การเรียนรู้ ทักษะ และความฝัน\nงานใหม่หรืองานอดิเรกที่อยากเริ่ม\nการเรียน ทักษะใหม่ และการสอบ\nการตัดสินใจว่าเรื่องนี้ควรไปต่อหรือหยุด\nความฝันและสัญญาณที่คุณสังเกตได้\nไอเดียที่อยากต่อยอดเป็นรายได้",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "CATEGORY_INFO",
+        "legacySourcePath": "CATEGORY_INFO.interest",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "icon": "✨",
+          "subtitle": "เรื่องที่คุณสนใจ การเรียนรู้ ทักษะ และความฝัน",
+          "covers": [
+            "งานใหม่หรืองานอดิเรกที่อยากเริ่ม",
+            "การเรียน ทักษะใหม่ และการสอบ",
+            "การตัดสินใจว่าเรื่องนี้ควรไปต่อหรือหยุด",
+            "ความฝันและสัญญาณที่คุณสังเกตได้",
+            "ไอเดียที่อยากต่อยอดเป็นรายได้"
+          ]
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 5
+    },
+    {
+      "id": "import-engine1-short_categories-work",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.work",
+      "title": "การงาน",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "การงาน\nเลื่อนขั้น\nโอกาสปรับเปลี่ยนตำแหน่ง\nการโยกย้าย\nโอกาสได้งานใหม่",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.work",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "การงาน",
+          "plus": 6,
+          "subs": {
+            "1": {
+              "n": "เลื่อนขั้น"
+            },
+            "2": {
+              "n": "โอกาสปรับเปลี่ยนตำแหน่ง"
+            },
+            "3": {
+              "n": "การโยกย้าย"
+            },
+            "7": {
+              "n": "โอกาสได้งานใหม่",
+              "hot": true
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 6
+    },
+    {
+      "id": "import-engine1-short_categories-money",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.money",
+      "title": "การเงิน",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "การเงิน\nปรับแผนลงทุน\nปลดหนี้สิน\nรายรับ/รายจ่าย",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.money",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "การเงิน",
+          "plus": 3,
+          "subs": {
+            "2": {
+              "n": "ปรับแผนลงทุน"
+            },
+            "3": {
+              "n": "ปลดหนี้สิน"
+            },
+            "4": {
+              "n": "รายรับ/รายจ่าย",
+              "hot": true
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 7
+    },
+    {
+      "id": "import-engine1-short_categories-health",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.health",
+      "title": "สุขภาพ",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "สุขภาพ\nตรวจสุขภาพ\nฟื้นฟูร่างกาย\nปรับพฤติกรรม\nสุขภาพโดยรวมและจุดที่ต้องระวัง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.health",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "สุขภาพ",
+          "plus": 5,
+          "subs": {
+            "1": {
+              "n": "ตรวจสุขภาพ"
+            },
+            "2": {
+              "n": "ฟื้นฟูร่างกาย"
+            },
+            "3": {
+              "n": "ปรับพฤติกรรม"
+            },
+            "5": {
+              "n": "สุขภาพโดยรวมและจุดที่ต้องระวัง",
+              "hot": true
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 8
+    },
+    {
+      "id": "import-engine1-short_categories-love",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.love",
+      "title": "ความรัก",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "ความรัก\nภาพรวมความสัมพันธ์\nปรับความเข้าใจ\nตกลงความสัมพันธ์",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.love",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "ความรัก",
+          "plus": 8,
+          "subs": {
+            "1": {
+              "n": "ภาพรวมความสัมพันธ์",
+              "hot": true
+            },
+            "2": {
+              "n": "ปรับความเข้าใจ"
+            },
+            "3": {
+              "n": "ตกลงความสัมพันธ์"
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 9
+    },
+    {
+      "id": "import-engine1-short_categories-interest",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.interest",
+      "title": "เรื่องที่สนใจ",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "เรื่องที่สนใจ\nเริ่มงานใหม่\nพัฒนาทักษะ\nตกผลึกไอเดีย\nไอเดียและทักษะที่ควรลงมือ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.interest",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "เรื่องที่สนใจ",
+          "plus": 4,
+          "subs": {
+            "1": {
+              "n": "เริ่มงานใหม่"
+            },
+            "2": {
+              "n": "พัฒนาทักษะ"
+            },
+            "3": {
+              "n": "ตกผลึกไอเดีย"
+            },
+            "4": {
+              "n": "ไอเดียและทักษะที่ควรลงมือ",
+              "hot": true
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "import-engine1-short_categories-other",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES.other",
+      "title": "เรื่องอื่นๆ",
+      "description": "นำเข้าจากข้อมูลต้นฉบับโดยคงโครงสร้างเดิม · assets/js/02-horakratai-engine.js",
+      "content": "เรื่องอื่นๆ\nเรื่องที่รอคำตอบ\nการตัดสินใจทั่วไป\nเรื่องส่วนตัว",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES.other",
+        "importBatch": "engine-1-4-central-draft-2026-11-27",
+        "payload": {
+          "name": "เรื่องอื่นๆ",
+          "plus": 4,
+          "subs": {
+            "1": {
+              "n": "เรื่องที่รอคำตอบ",
+              "hot": true
+            },
+            "2": {
+              "n": "การตัดสินใจทั่วไป"
+            },
+            "3": {
+              "n": "เรื่องส่วนตัว"
+            }
+          }
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 11
+    }
+  ]
 }
