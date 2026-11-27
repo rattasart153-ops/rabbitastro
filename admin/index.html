@@ -7,6 +7,7 @@
   <title>Rabbitastro · Admin</title>
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/admin/assets/admin.css">
+  <link rel="stylesheet" href="/admin/assets/prediction-manager.css">
 </head>
 <body>
   <main class="admin-wrap">
@@ -32,6 +33,7 @@
       <nav class="admin-nav" aria-label="เมนูผู้ดูแล">
         <div class="nav-heading">เมนูผู้ดูแล</div>
         <button type="button" id="showEngines" class="nav-button active">🔮 ระบบทำนาย · Engines 1–4</button>
+        <button type="button" id="showPredictions" class="nav-button">🗂️ คลังคำทำนายส่วนกลาง</button>
         <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
       </nav>
       <div class="admin-content">
@@ -245,6 +247,59 @@
       </div>
     </section>
 
+      <section id="predictionManagerPanel" class="prediction-manager" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow">RABBITASTRO · CENTRAL REPOSITORY</p><h2>คลังคำทำนายส่วนกลาง</h2>
+          <p class="muted">จัดการหมวดหมู่ หัวข้อ ตัวแปร คำทำนาย กฎ และการเชื่อมโยงทุก Engine</p></div>
+        </div>
+        <div class="prediction-toolbar">
+          <label>Engine
+            <select id="predictionEngineFilter">
+              <option value="">ทุก Engine</option>
+              <option value="engine1">Engine 1 · ดวงบุคคล</option>
+              <option value="engine2">Engine 2 · เทพประจำตัว</option>
+              <option value="engine3">Engine 3 · โอเรกุรัม</option>
+              <option value="engine4">Engine 4 · ไพ่ทาโรต์ + รูน</option>
+            </select>
+          </label>
+          <label>ประเภทข้อมูล
+            <select id="predictionCollection">
+              <option value="Predictions">คำทำนาย</option>
+              <option value="Categories">หมวดหมู่</option>
+              <option value="Topics">หัวข้อ</option>
+              <option value="Variables">ตัวแปร</option>
+              <option value="Rules">กฎการทำนาย</option>
+              <option value="Mappings">การเชื่อมโยง</option>
+              <option value="Engines">Engines</option>
+            </select>
+          </label>
+          <button type="button" id="predictionLoad" class="secondary">โหลดข้อมูล</button>
+          <button type="button" id="predictionNew" class="primary">+ เพิ่มรายการ</button>
+        </div>
+        <div id="predictionSetup" class="prediction-notice">
+          <strong>เริ่มต้นคลังคำทำนาย</strong>
+          <p>ระบบจะสร้าง Google Spreadsheet สำหรับจัดเก็บข้อมูลกลางเมื่อคุณกดปุ่มนี้ โดยใช้ Google Apps Script Deployment และ Admin Session เดิม</p>
+          <button type="button" id="predictionInitialize" class="primary">สร้างคลังคำทำนาย</button>
+        </div>
+        <p id="predictionMessage" class="message" role="status" aria-live="polite"></p>
+        <div class="prediction-workspace">
+          <div class="prediction-records">
+            <div class="prediction-records-heading"><strong>รายการข้อมูล</strong><span id="predictionCount" class="muted">0 รายการ</span></div>
+            <div id="predictionRecordList" class="prediction-record-list"></div>
+          </div>
+          <div class="prediction-editor">
+            <div class="prediction-records-heading"><strong id="predictionEditorTitle">ตัวแก้ไขข้อมูล</strong><span class="muted">JSON Editor</span></div>
+            <p class="muted">แก้ไขข้อมูลในรูปแบบ JSON โดยใช้ตัวแปรและรหัส Engine ที่ระบบกำหนด การบันทึกจะสร้างประวัติเวอร์ชันให้อัตโนมัติ</p>
+            <textarea id="predictionJsonEditor" rows="22" spellcheck="false" placeholder='{"engineId":"engine1","name":"ตัวอย่าง","title":"หัวข้อคำทำนาย","content":"เนื้อหาคำทำนาย","status":"draft","data":{}}'></textarea>
+            <div class="prediction-editor-actions">
+              <button type="button" id="predictionSave" class="primary">บันทึกฉบับร่าง</button>
+              <button type="button" id="predictionPublish" class="secondary">เผยแพร่</button>
+              <button type="button" id="predictionArchive" class="danger">เก็บเข้าคลัง</button>
+            </div>
+            <p class="muted prediction-help">กฎการทำนาย: data ต้องมี predictionId และ conditions เช่น {"logic":"AND","predictionId":"รหัสคำทำนาย","conditions":[{"variable":"ตัวแปร","operator":"eq","value":"ค่า"}]}</p>
+          </div>
+        </div>
+      </section>
     <footer>Rabbitastro · Admin</footer>
   </main>
 
@@ -256,5 +311,6 @@
   <script src="/assets/js/05-form-storage.js"></script>
   <script src="/assets/js/06-subconscious-presentation.js"></script>
   <script src="/admin/assets/admin.js"></script>
+  <script src="/admin/assets/prediction-manager.js"></script>
 </body>
 </html>
