@@ -136,6 +136,7 @@
       var result = await request("predictionInitialize");
       $("predictionSetup").hidden = true;
       setMessage("สร้างคลังคำทำนายสำเร็จ: " + result.spreadsheetName + " · ID " + result.spreadsheetId);
+      if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
       await loadRecords();
     } catch (error) {
       setMessage(error.message, true);
@@ -155,7 +156,10 @@
     try {
       var result = await request("predictionSave", { collection: currentCollection(), record: record });
       var savedId = result.record.id;
-      if (publish) await request("predictionPublish", { collection: currentCollection(), id: savedId });
+      if (publish) {
+        await request("predictionPublish", { collection: currentCollection(), id: savedId });
+        if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
+      }
       await loadRecords();
       var saved = records.find(function (item) { return item.id === savedId; });
       if (saved) selectRecord(saved);
@@ -172,6 +176,7 @@
     try {
       await request("predictionDelete", { collection: currentCollection(), id: selectedId });
       selectedId = "";
+      if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
       await loadRecords();
       setMessage("เก็บรายการเข้าคลังแล้ว");
     } catch (error) { setMessage(error.message, true); }
