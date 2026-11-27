@@ -127,6 +127,13 @@
   }
 
 
+  function renderTemplate(value, context) {
+    return String(value == null ? "" : value).replace(/\\{\\{\\s*([a-zA-Z0-9_.-]+)\\s*\\}\\}/g, function (match, key) {
+      var resolved = resolveVariable(key, context);
+      return resolved == null ? "" : String(resolved);
+    });
+  }
+
   function renderCentralBlock(context) {
     if (!runtime || !results || !results.isConnected) return;
     var predictions = runtime.Predictions || [];
@@ -172,7 +179,7 @@
       title.style.display = "block";
       article.appendChild(title);
       var body = document.createElement("div");
-      body.textContent = item.content || item.description || "";
+      body.textContent = renderTemplate(item.content || item.description || "", context);
       article.appendChild(body);
       section.appendChild(article);
     });
