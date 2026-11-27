@@ -301,9 +301,9 @@
           <button type="button" id="predictionNew" class="primary">+ เพิ่มรายการ</button>
         </div>
         <div id="predictionSetup" class="prediction-notice">
-          <strong>เริ่มต้นคลังคำทำนาย</strong>
-          <p>ระบบจะสร้าง Google Spreadsheet สำหรับจัดเก็บข้อมูลกลางเมื่อคุณกดปุ่มนี้ โดยใช้ Google Apps Script Deployment และ Admin Session เดิม</p>
-          <button type="button" id="predictionInitialize" class="primary">สร้างคลังคำทำนาย</button>
+          <strong>คลังคำทำนาย JSON บน GitHub</strong>
+          <p>ระบบจัดเก็บข้อมูลใน Repository ของ Rabbitastro บน Branch สำหรับทดสอบ การบันทึกแต่ละครั้งจะสร้าง Git Commit และสามารถย้อนกลับเวอร์ชันได้ โดยไม่ใช้ Google Sheets</p>
+          <button type="button" id="predictionInitialize" class="primary">โหลดคลังคำทำนาย</button>
         </div>
         <p id="predictionMessage" class="message" role="status" aria-live="polite"></p>
         <div class="prediction-workspace">
