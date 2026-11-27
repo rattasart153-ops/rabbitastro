@@ -139,3 +139,79 @@ body.emotional-weather-open { overflow: hidden; }
   .emotional-weather-overlay, .emotional-weather-panel { animation: none; }
   .emotional-weather-option { transition: none; }
 }
+
+
+/* Mood-aware prediction reading guide — presentation only */
+.emotional-weather-reading {
+  position: relative;
+  margin: 0 0 18px;
+  padding: 16px 17px;
+  overflow: hidden;
+  border: 1px solid #e8dfd2;
+  border-left: 4px solid #b89a77;
+  border-radius: 16px;
+  background: #fbf8f2;
+  color: #514538;
+  animation: emotional-weather-guide-in .28s ease both;
+}
+.emotional-weather-reading h3 {
+  margin: 0 0 7px;
+  color: #493a2d;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.emotional-weather-reading-lead {
+  margin: 0 0 12px;
+  color: #706355;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.emotional-weather-reading-row {
+  display: grid;
+  grid-template-columns: minmax(86px, .34fr) minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(126, 105, 82, .13);
+  font-size: 12px;
+  line-height: 1.75;
+}
+.emotional-weather-reading-row strong { color: #70583e; }
+.emotional-weather-reading-row span { color: #62584e; }
+.emotional-weather-reading-note {
+  margin: 10px 0 0;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.68);
+  color: #766858;
+  font-size: 12px;
+  line-height: 1.75;
+}
+.emotional-weather-intro + .emotional-weather-reading { margin-top: 0; }
+#results[data-emotional-weather-mode="clear_sky"] .emotional-weather-reading {
+  border-left-color: #d2a64c;
+  background: linear-gradient(135deg, #fffaf0, #fbf8f2);
+}
+#results[data-emotional-weather-mode="light_rain"] .emotional-weather-reading {
+  border-left-color: #83a9b8;
+  background: linear-gradient(135deg, #f3f8fa, #fbf8f2);
+}
+#results[data-emotional-weather-mode="stormy"] .emotional-weather-reading {
+  border-left-color: #8b91a5;
+  background: linear-gradient(135deg, #f4f5f8, #fbf8f2);
+}
+#results[data-emotional-weather-mode="foggy"] .emotional-weather-reading {
+  border-left-color: #a4a69b;
+  background: linear-gradient(135deg, #f6f7f2, #fbf8f2);
+}
+@keyframes emotional-weather-guide-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 420px) {
+  .emotional-weather-reading { padding: 13px 12px; border-radius: 13px; }
+  .emotional-weather-reading h3 { font-size: 14px; }
+  .emotional-weather-reading-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .emotional-weather-reading { animation: none; }
+}
