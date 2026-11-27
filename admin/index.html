@@ -256,6 +256,17 @@
           <section class="panel system-control-card"><h3>Engines</h3><p class="muted">เปิดหรือซ่อนระบบทำนายแต่ละ Engine</p><div id="systemEngineList"></div></section>
           <section class="panel system-control-card"><h3>Features</h3><p class="muted">เปิดหรือซ่อนส่วนย่อยของแต่ละ Engine</p><div id="systemFeatureList"></div></section>
         </div>
+        <section class="panel system-control-card system-credentials">
+          <h3>จัดการบัญชี Admin ทั้ง 2 ชุด</h3>
+          <p class="muted">การเปลี่ยนบัญชีจะยกเลิกเซสชันเดิมทั้งหมด และต้องเข้าสู่ระบบใหม่ รหัสผ่านต้องมีอย่างน้อย 12 ตัวอักษร</p>
+          <form id="adminCredentialsForm" class="system-credentials-form">
+            <label>ชื่อผู้ใช้ Full Admin <input id="newFullUsername" required maxlength="80" autocomplete="off"></label>
+            <label>รหัสผ่านใหม่ Full Admin <input id="newFullPassword" type="password" required minlength="12" maxlength="256" autocomplete="new-password"></label>
+            <label>ชื่อผู้ใช้ Read-Only Admin <input id="newReadonlyUsername" required maxlength="80" autocomplete="off"></label>
+            <label>รหัสผ่านใหม่ Read-Only Admin <input id="newReadonlyPassword" type="password" required minlength="12" maxlength="256" autocomplete="new-password"></label>
+            <button type="submit" class="primary">บันทึกบัญชี Admin ทั้งสองชุด</button>
+          </form>
+        </section>
         <p class="muted">การซ่อนเป็นการปิดใช้งานชั่วคราว ไม่ใช่การลบข้อมูล สามารถเปิดกลับมาได้ทุกเมื่อ</p>
       </section>
 
