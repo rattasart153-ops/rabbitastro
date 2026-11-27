@@ -96,7 +96,7 @@ function adminSetCredentials_(input) {
   var fullPass = String(input.fullPassword || "");
   var readUser = clean_(input.readonlyUsername, 80);
   var readPass = String(input.readonlyPassword || "");
-  if (!fullUser || !readUser || fullUser === readUser || fullPass.length < 12 || readPass.length < 12 || fullPass === readPass) {
+  if (!fullUser || !readUser || fullUser === readUser || fullPass.length < 12 || readPass.length < 12 || fullPass.length > 256 || readPass.length > 256 || fullPass === readPass) {
     return { ok:false, message:"กรุณากำหนดชื่อผู้ใช้ต่างกัน และรหัสผ่านทั้งสองชุดอย่างน้อย 12 ตัวอักษร โดยรหัสผ่านต้องไม่เหมือนกัน" };
   }
   var fullSalt = Utilities.getUuid() + Utilities.getUuid();
