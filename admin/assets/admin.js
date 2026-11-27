@@ -29,6 +29,7 @@
     $("showEngines").classList.remove("active");
     $("showEngines").classList.add("active");
     if (typeof window.RABBITASTRO_APPLY_SYSTEM_VISIBILITY === "function") window.RABBITASTRO_APPLY_SYSTEM_VISIBILITY();
+    if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") window.RABBITASTRO_RELOAD_PREDICTIONS();
   }
 
   function clearSession() {
