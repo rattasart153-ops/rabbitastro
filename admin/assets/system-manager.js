@@ -77,6 +77,28 @@
       message("โหลดสถานะระบบแล้ว");
     } catch (error) { message(error.message, true); }
   }
+  $("adminCredentialsForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (!isFull()) return;
+    var form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    var submit = form.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try {
+      await request("adminSetCredentials", {
+        fullUsername: $("newFullUsername").value.trim(),
+        fullPassword: $("newFullPassword").value,
+        readonlyUsername: $("newReadonlyUsername").value.trim(),
+        readonlyPassword: $("newReadonlyPassword").value
+      });
+      alert("เปลี่ยนบัญชี Admin สำเร็จ กรุณาเข้าสู่ระบบด้วยบัญชีใหม่");
+      sessionStorage.removeItem("rabbitastro_admin_token");
+      sessionStorage.removeItem("rabbitastro_admin_role");
+      window.location.reload();
+    } catch (error) {
+      message(error.message, true);
+    } finally { submit.disabled = false; }
+  });
   $("showSystem").addEventListener("click", function () {
     if (!isFull()) return;
     $("enginesPanel").hidden = true;
