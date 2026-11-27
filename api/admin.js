@@ -9,7 +9,8 @@ module.exports = async function handler(req, res) {
   }
 
   const body = req.body && typeof req.body === "object" ? req.body : {};
-  const allowed = new Set(["adminLogin", "adminValidateSession", "adminLogout"]);
+  const predictionActions = new Set(["predictionInitialize", "predictionList", "predictionSave", "predictionDelete", "predictionPublish"]);
+  const allowed = new Set(["adminLogin", "adminValidateSession", "adminLogout", ...predictionActions]);
   if (!allowed.has(body.action)) {
     return res.status(400).json({ ok: false, message: "คำสั่งไม่ถูกต้อง" });
   }
@@ -21,6 +22,15 @@ module.exports = async function handler(req, res) {
     }
   } else if (typeof body.token !== "string" || body.token.length > 200) {
     return res.status(401).json({ ok: false, code: "UNAUTHORIZED", message: "กรุณาเข้าสู่ระบบใหม่" });
+  }
+
+  if (predictionActions.has(body.action)) {
+    if (body.action === "predictionList" && (typeof body.collection !== "string" || body.collection.length > 40)) {
+      return res.status(400).json({ ok: false, message: "ข้อมูลคลังคำทำนายไม่ถูกต้อง" });
+    }
+    if (body.action === "predictionSave" && (!body.record || typeof body.record !== "object" || JSON.stringify(body.record).length > 45000)) {
+      return res.status(400).json({ ok: false, message: "ข้อมูลคำทำนายไม่ถูกต้องหรือมีขนาดใหญ่เกินไป" });
+    }
   }
 
   try {
