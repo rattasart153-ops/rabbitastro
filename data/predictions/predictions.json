@@ -23586,6 +23586,1661 @@
       "status": "draft",
       "version": 1,
       "sortOrder": 711
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-1",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.1",
+      "title": "อาทิตย์ · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "อาทิตย์\nพระอาทิตย์\nมั่นใจ กล้าตัดสินใจ และชอบเป็นผู้นำ\nกล้าเริ่มต้น รับผิดชอบ และสร้างแรงผลักดัน\nใจร้อนหรือยึดความคิดตัวเองมากไป\nฟังความเห็นคนอื่นก่อนตัดสินใจ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "อาทิตย์",
+          "planet": "พระอาทิตย์",
+          "core": "มั่นใจ กล้าตัดสินใจ และชอบเป็นผู้นำ",
+          "strength": "กล้าเริ่มต้น รับผิดชอบ และสร้างแรงผลักดัน",
+          "shadow": "ใจร้อนหรือยึดความคิดตัวเองมากไป",
+          "advice": "ฟังความเห็นคนอื่นก่อนตัดสินใจ"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 713
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-2",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.2",
+      "title": "จันทร์ · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "จันทร์\nพระจันทร์\nอ่อนไหว เข้าใจความรู้สึก และรักความมั่นคง\nเข้าใจคน ใส่ใจรายละเอียด และดูแลผู้อื่น\nคิดมากและเก็บคำพูดคนอื่นมาคิดซ้ำ\nฟังใจตัวเอง พร้อมตรวจสอบข้อเท็จจริง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "จันทร์",
+          "planet": "พระจันทร์",
+          "core": "อ่อนไหว เข้าใจความรู้สึก และรักความมั่นคง",
+          "strength": "เข้าใจคน ใส่ใจรายละเอียด และดูแลผู้อื่น",
+          "shadow": "คิดมากและเก็บคำพูดคนอื่นมาคิดซ้ำ",
+          "advice": "ฟังใจตัวเอง พร้อมตรวจสอบข้อเท็จจริง"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 714
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-3",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.3",
+      "title": "อังคาร · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "อังคาร\nพระอังคาร\nกล้าลุย ชอบความชัดเจน และพร้อมลงมือ\nเด็ดขาด กล้าแก้ปัญหา และไม่ยอมแพ้ง่าย\nใจร้อนหรือพูดตรงเกินไป\nหยุดคิดสักนิดก่อนตอบโต้",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "อังคาร",
+          "planet": "พระอังคาร",
+          "core": "กล้าลุย ชอบความชัดเจน และพร้อมลงมือ",
+          "strength": "เด็ดขาด กล้าแก้ปัญหา และไม่ยอมแพ้ง่าย",
+          "shadow": "ใจร้อนหรือพูดตรงเกินไป",
+          "advice": "หยุดคิดสักนิดก่อนตอบโต้"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 715
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-4",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.4",
+      "title": "พุธ · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "พุธ\nพระพุธ\nเรียนรู้ไว สื่อสารเก่ง และปรับตัวง่าย\nไหวพริบดี เจรจาเก่ง และเห็นทางเลือก\nวอกแวกหรือเปลี่ยนใจบ่อย\nเลือกเป้าหมายให้ชัด แล้วทำต่อเนื่อง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "พุธ",
+          "planet": "พระพุธ",
+          "core": "เรียนรู้ไว สื่อสารเก่ง และปรับตัวง่าย",
+          "strength": "ไหวพริบดี เจรจาเก่ง และเห็นทางเลือก",
+          "shadow": "วอกแวกหรือเปลี่ยนใจบ่อย",
+          "advice": "เลือกเป้าหมายให้ชัด แล้วทำต่อเนื่อง"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 716
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-5",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.5",
+      "title": "พฤหัสบดี · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "พฤหัสบดี\nพระพฤหัสบดี\nรักความรู้ มีเหตุผล และชอบพัฒนาตัวเอง\nมองภาพใหญ่ คิดเป็นระบบ และให้คำปรึกษาได้ดี\nคาดหวังสูงหรือยึดหลักการมากไป\nเปิดใจรับมุมมองใหม่ และเรียนรู้จากการลงมือทำ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "พฤหัสบดี",
+          "planet": "พระพฤหัสบดี",
+          "core": "รักความรู้ มีเหตุผล และชอบพัฒนาตัวเอง",
+          "strength": "มองภาพใหญ่ คิดเป็นระบบ และให้คำปรึกษาได้ดี",
+          "shadow": "คาดหวังสูงหรือยึดหลักการมากไป",
+          "advice": "เปิดใจรับมุมมองใหม่ และเรียนรู้จากการลงมือทำ"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 717
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-6",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.6",
+      "title": "ศุกร์ · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "ศุกร์\nพระศุกร์\nรักความสัมพันธ์ ชอบความกลมกลืน และมีรสนิยม\nมีเสน่ห์ ประสานงานดี และสร้างความร่วมมือ\nเกรงใจจนไม่กล้าพูดความต้องการ\nอ่อนโยนได้ แต่ควรบอกขอบเขตให้ชัด",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "ศุกร์",
+          "planet": "พระศุกร์",
+          "core": "รักความสัมพันธ์ ชอบความกลมกลืน และมีรสนิยม",
+          "strength": "มีเสน่ห์ ประสานงานดี และสร้างความร่วมมือ",
+          "shadow": "เกรงใจจนไม่กล้าพูดความต้องการ",
+          "advice": "อ่อนโยนได้ แต่ควรบอกขอบเขตให้ชัด"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 718
+    },
+    {
+      "id": "fn-engine1-birth-weekday-profile-7",
+      "engineId": "engine1",
+      "parentId": "BIRTH_WEEKDAY_PROFILE",
+      "name": "BIRTH_WEEKDAY_PROFILE.7",
+      "title": "เสาร์ · โปรไฟล์วันเกิด",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "เสาร์\nพระเสาร์\nจริงจัง อดทน และต้องการความมั่นคง\nมีวินัย รับผิดชอบ และสู้กับเรื่องยากได้\nแบกภาระมากไปหรือกดดันตัวเอง\nแบ่งงานให้พอดี และเห็นค่าความก้าวหน้าเล็ก ๆ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "BIRTH_WEEKDAY_PROFILE",
+        "legacySourcePath": "BIRTH_WEEKDAY_PROFILE.7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "name": "เสาร์",
+          "planet": "พระเสาร์",
+          "core": "จริงจัง อดทน และต้องการความมั่นคง",
+          "strength": "มีวินัย รับผิดชอบ และสู้กับเรื่องยากได้",
+          "shadow": "แบกภาระมากไปหรือกดดันตัวเอง",
+          "advice": "แบ่งงานให้พอดี และเห็นค่าความก้าวหน้าเล็ก ๆ"
+        },
+        "generatedFrom": "birthWeekdayProfile"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 719
+    },
+    {
+      "id": "fn-engine1-rhd-synthesis-template-shared",
+      "engineId": "engine1",
+      "parentId": "RHD_SYNTHESIS_TEMPLATE",
+      "name": "RHD_SYNTHESIS_TEMPLATE.shared",
+      "title": "แม่แบบข้อความ RHD Synthesis",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "คุณมีวิธีรับมือที่คุ้นเคย และวิธีนั้นอาจเคยช่วยให้ผ่านเรื่องยากมาได้ ลองสังเกตว่าตอนนี้ยังช่วยคุณอยู่หรือเริ่มทำให้เหนื่อยเกินไป\nก่อนเลือกทางต่อไป ลองถามตัวเองว่า “ตอนนี้ฉันรู้อะไรแน่ชัด และอะไรที่ยังต้องดูเพิ่ม?” \nให้เวลาตัวเองพอที่จะดูข้อมูลและความรู้สึกให้ชัด แล้วค่อยลงมือทีละขั้น ไม่ต้องเร่งทุกอย่างให้เสร็จในครั้งเดียว\nเรื่องที่กำลังเกิดขึ้นอาจทำให้คุณต้องปรับวิธีรับมือ ลองเริ่มจากแยกให้ออกว่าอะไรจัดการได้ในตอนนี้ อะไรต้องขอความช่วยเหลือ และอะไรยังไม่จำเป็นต้องรีบตัดสินใจ\nช่วงนี้อาจมีเรื่องให้คุณ {{situation}}\nเมื่อเจอสถานการณ์แบบนี้ คุณมักรับมือด้วยการ{{action}}\n{{opening}} {{responseText}} undefined\nก่อนเลือกทางต่อไป ลองถามตัวเองว่า “ตอนนี้ฉันรู้อะไรแน่ชัด และอะไรที่ยังต้องดูเพิ่ม?” {{decision}} คุณไม่จำเป็นต้องรีบตอบทุกเรื่องในทันที",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "RHD_SYNTHESIS_TEMPLATE",
+        "legacySourcePath": "RHD_SYNTHESIS_TEMPLATE.shared",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "mind": "คุณมีวิธีรับมือที่คุ้นเคย และวิธีนั้นอาจเคยช่วยให้ผ่านเรื่องยากมาได้ ลองสังเกตว่าตอนนี้ยังช่วยคุณอยู่หรือเริ่มทำให้เหนื่อยเกินไป",
+          "decision": "ก่อนเลือกทางต่อไป ลองถามตัวเองว่า “ตอนนี้ฉันรู้อะไรแน่ชัด และอะไรที่ยังต้องดูเพิ่ม?” ",
+          "timing": "ให้เวลาตัวเองพอที่จะดูข้อมูลและความรู้สึกให้ชัด แล้วค่อยลงมือทีละขั้น ไม่ต้องเร่งทุกอย่างให้เสร็จในครั้งเดียว",
+          "overall": "เรื่องที่กำลังเกิดขึ้นอาจทำให้คุณต้องปรับวิธีรับมือ ลองเริ่มจากแยกให้ออกว่าอะไรจัดการได้ในตอนนี้ อะไรต้องขอความช่วยเหลือ และอะไรยังไม่จำเป็นต้องรีบตัดสินใจ",
+          "openingTemplate": "ช่วงนี้อาจมีเรื่องให้คุณ {{situation}}",
+          "responseTemplate": "เมื่อเจอสถานการณ์แบบนี้ คุณมักรับมือด้วยการ{{action}}",
+          "descriptionTemplate": "{{opening}} {{responseText}} undefined",
+          "decisionTemplate": "ก่อนเลือกทางต่อไป ลองถามตัวเองว่า “ตอนนี้ฉันรู้อะไรแน่ชัด และอะไรที่ยังต้องดูเพิ่ม?” {{decision}} คุณไม่จำเป็นต้องรีบตอบทุกเรื่องในทันที"
+        },
+        "generatedFrom": "rhdSynthesis(rabbitNumber, habitNumber)"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 720
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-1",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.1",
+      "title": "สมดุลกลมกลืน (ธาตุเดียวกัน)",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "สมดุลกลมกลืน (ธาตุเดียวกัน)\nพลังงานไหลลื่นเข้าหากันอย่างไร้แรงต้าน\nสถานการณ์รอบตัวค่อนข้างเอื้ออำนวย คุณสามารถควบคุมและจัดการทุกอย่างได้ตามใจปรารถนา บรรยากาศราบรื่นไร้อุปสรรคใหญ่กวนใจ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "สมดุลกลมกลืน (ธาตุเดียวกัน)",
+          "effect": "พลังงานไหลลื่นเข้าหากันอย่างไร้แรงต้าน",
+          "desc": "สถานการณ์รอบตัวค่อนข้างเอื้ออำนวย คุณสามารถควบคุมและจัดการทุกอย่างได้ตามใจปรารถนา บรรยากาศราบรื่นไร้อุปสรรคใหญ่กวนใจ"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 1
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 721
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-2",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.2",
+      "title": "เจ้าชะตาเป็นฝ่ายเกื้อหนุนสถานการณ์",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "เจ้าชะตาเป็นฝ่ายเกื้อหนุนสถานการณ์\nต้องทุ่มเทแรงกายแรงใจและออกแรงเยอะเป็นพิเศษ\nเรื่องนี้คุณจะต้องเป็นฝ่ายลงมือทำ ขับเคลื่อน และเหน็ดเหนื่อยด้วยตัวเองสูง แม้ผลลัพธ์จะออกมาดี แต่คุณต้องเหนื่อยหน่อยเพราะต้องใช้พลังงานชีวิตเยอะ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "เจ้าชะตาเป็นฝ่ายเกื้อหนุนสถานการณ์",
+          "effect": "ต้องทุ่มเทแรงกายแรงใจและออกแรงเยอะเป็นพิเศษ",
+          "desc": "เรื่องนี้คุณจะต้องเป็นฝ่ายลงมือทำ ขับเคลื่อน และเหน็ดเหนื่อยด้วยตัวเองสูง แม้ผลลัพธ์จะออกมาดี แต่คุณต้องเหนื่อยหน่อยเพราะต้องใช้พลังงานชีวิตเยอะ"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 2
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 722
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-3",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.3",
+      "title": "สถานการณ์หนุนนำและเป็นใจให้เจ้าชะตา",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "สถานการณ์หนุนนำและเป็นใจให้เจ้าชะตา\nมีตัวช่วยและจังหวะเวลาที่เอื้ออำนวยอย่างดีเยี่ยม\nดวงเปิดและมีลมใต้ปีกคอยพยุง ทำให้ทำอะไรก็ราบรื่น มีคนรอบข้างยื่นมือเข้ามาช่วยเหลือ หรือสถานการณ์คลี่คลายไปในทางที่ดีเองโดยไม่ต้องออกแรงมาก",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "สถานการณ์หนุนนำและเป็นใจให้เจ้าชะตา",
+          "effect": "มีตัวช่วยและจังหวะเวลาที่เอื้ออำนวยอย่างดีเยี่ยม",
+          "desc": "ดวงเปิดและมีลมใต้ปีกคอยพยุง ทำให้ทำอะไรก็ราบรื่น มีคนรอบข้างยื่นมือเข้ามาช่วยเหลือ หรือสถานการณ์คลี่คลายไปในทางที่ดีเองโดยไม่ต้องออกแรงมาก"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 3
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 723
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-4",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.4",
+      "title": "เจ้าชะตาเป็นฝ่ายควบคุมสถานการณ์",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "เจ้าชะตาเป็นฝ่ายควบคุมสถานการณ์\nมีความท้าทายแต่คุณกุมความได้เปรียบไว้ทั้งหมด\nแม้จะมีเรื่องให้ต้องจัดการหรือเผชิญหน้ากับความกดดัน แต่ด้วยความสามารถและกลยุทธ์ของคุณจะทำให้คุณเอาอยู่และแก้ปัญหาลุล่วงแน่นอน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "เจ้าชะตาเป็นฝ่ายควบคุมสถานการณ์",
+          "effect": "มีความท้าทายแต่คุณกุมความได้เปรียบไว้ทั้งหมด",
+          "desc": "แม้จะมีเรื่องให้ต้องจัดการหรือเผชิญหน้ากับความกดดัน แต่ด้วยความสามารถและกลยุทธ์ของคุณจะทำให้คุณเอาอยู่และแก้ปัญหาลุล่วงแน่นอน"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 4
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 724
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-5",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.5",
+      "title": "สถานการณ์กดดันหรือท้าทายเจ้าชะตา",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "สถานการณ์กดดันหรือท้าทายเจ้าชะตา\nมีแรงต้านสูง ต้องอาศัยความอดทนเป็นเลิศ\nช่วงนี้เรื่องที่ทำค่อนข้างสร้างความเครียดหรือกดดันคุณพอสมควร แนะนำให้ตั้งสติ อย่าเพิ่งใช้อารมณ์ เน้นความรอบคอบและค่อยๆ แก้ทีละเปลาะ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "สถานการณ์กดดันหรือท้าทายเจ้าชะตา",
+          "effect": "มีแรงต้านสูง ต้องอาศัยความอดทนเป็นเลิศ",
+          "desc": "ช่วงนี้เรื่องที่ทำค่อนข้างสร้างความเครียดหรือกดดันคุณพอสมควร แนะนำให้ตั้งสติ อย่าเพิ่งใช้อารมณ์ เน้นความรอบคอบและค่อยๆ แก้ทีละเปลาะ"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 5
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 725
+    },
+    {
+      "id": "fn-engine1-element-relation-interpretation-6",
+      "engineId": "engine1",
+      "parentId": "ELEMENT_RELATION_INTERPRETATION",
+      "name": "ELEMENT_RELATION_INTERPRETATION.6",
+      "title": "ผสมผสานยืดหยุ่นตามสถานการณ์",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "ผสมผสานยืดหยุ่นตามสถานการณ์\nต้องรู้จักพลิกแพลงและปรับตัวตามหน้างาน\nไม่มีรูปแบบตายตัว ความสำเร็จจะเกิดขึ้นได้จากการที่คุณรู้จักยืดหยุ่น ผ่อนหนักผ่อนเบา และกะสถานการณ์แบบวันต่อวัน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "ELEMENT_RELATION_INTERPRETATION",
+        "legacySourcePath": "ELEMENT_RELATION_INTERPRETATION.6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "type": "ผสมผสานยืดหยุ่นตามสถานการณ์",
+          "effect": "ต้องรู้จักพลิกแพลงและปรับตัวตามหน้างาน",
+          "desc": "ไม่มีรูปแบบตายตัว ความสำเร็จจะเกิดขึ้นได้จากการที่คุณรู้จักยืดหยุ่น ผ่อนหนักผ่อนเบา และกะสถานการณ์แบบวันต่อวัน"
+        },
+        "generatedFrom": "calcElementRelation",
+        "branchIndex": 6
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 726
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-1",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-1",
+      "title": "shadow · รหัส 1",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nคุณอาจซ่อนความกลัวการเริ่มต้นผิดพลาดไว้หลังความมั่นใจ จึงพยายามตัดสินใจให้เร็วและควบคุมทิศทางเอง เมื่อกลัวเสียโอกาส คุณอาจกดดันตัวเองจนไม่ได้ฟังความต้องการที่แท้จริง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 1,
+          "prediction": "คุณอาจซ่อนความกลัวการเริ่มต้นผิดพลาดไว้หลังความมั่นใจ จึงพยายามตัดสินใจให้เร็วและควบคุมทิศทางเอง เมื่อกลัวเสียโอกาส คุณอาจกดดันตัวเองจนไม่ได้ฟังความต้องการที่แท้จริง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 727
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-2",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-2",
+      "title": "shadow · รหัส 2",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nด้านที่คุณไม่ค่อยอยากให้ใครเห็นอาจเป็นความกลัวว่าจะไม่เป็นที่ยอมรับ คุณจึงเก็บความรู้สึก อ่านบรรยากาศ และรอให้แน่ใจว่าปลอดภัยก่อนพูดความจริง บางครั้งความเงียบทำให้คนอื่นไม่รู้ว่าคุณต้องการอะไร",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 2,
+          "prediction": "ด้านที่คุณไม่ค่อยอยากให้ใครเห็นอาจเป็นความกลัวว่าจะไม่เป็นที่ยอมรับ คุณจึงเก็บความรู้สึก อ่านบรรยากาศ และรอให้แน่ใจว่าปลอดภัยก่อนพูดความจริง บางครั้งความเงียบทำให้คนอื่นไม่รู้ว่าคุณต้องการอะไร"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 728
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-3",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-3",
+      "title": "shadow · รหัส 3",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nความกลัวที่จะไม่มีใครสนใจหรือไม่ถูกเข้าใจอาจทำให้คุณพยายามอธิบายตัวเองมากเกินไป หรือใช้ความร่าเริงกลบความเปราะบาง จนบางครั้งเสียงของคนอื่นดังกลบเสียงของตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 3,
+          "prediction": "ความกลัวที่จะไม่มีใครสนใจหรือไม่ถูกเข้าใจอาจทำให้คุณพยายามอธิบายตัวเองมากเกินไป หรือใช้ความร่าเริงกลบความเปราะบาง จนบางครั้งเสียงของคนอื่นดังกลบเสียงของตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 729
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-4",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-4",
+      "title": "shadow · รหัส 4",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nคุณอาจซ่อนความกลัวความผิดพลาดและความไม่แน่นอนไว้หลังการวางกฎหรือควบคุมรายละเอียด เมื่อสิ่งต่าง ๆ ไม่เป็นไปตามแผน คุณอาจรู้สึกว่าต้องรับผิดชอบทุกอย่างไว้คนเดียว",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 4,
+          "prediction": "คุณอาจซ่อนความกลัวความผิดพลาดและความไม่แน่นอนไว้หลังการวางกฎหรือควบคุมรายละเอียด เมื่อสิ่งต่าง ๆ ไม่เป็นไปตามแผน คุณอาจรู้สึกว่าต้องรับผิดชอบทุกอย่างไว้คนเดียว"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 730
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-5",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-5",
+      "title": "shadow · รหัส 5",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nความกลัวการถูกจำกัดหรือการติดอยู่กับทางเลือกเดิมอาจทำให้คุณเปลี่ยนทิศทางก่อนจะได้ลองอยู่กับสิ่งใดอย่างเต็มที่ การรักษาอิสระเป็นเรื่องสำคัญ แต่บางครั้งก็อาจกลายเป็นเกราะที่กันความผูกพัน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 5,
+          "prediction": "ความกลัวการถูกจำกัดหรือการติดอยู่กับทางเลือกเดิมอาจทำให้คุณเปลี่ยนทิศทางก่อนจะได้ลองอยู่กับสิ่งใดอย่างเต็มที่ การรักษาอิสระเป็นเรื่องสำคัญ แต่บางครั้งก็อาจกลายเป็นเกราะที่กันความผูกพัน"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 731
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-6",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-6",
+      "title": "shadow · รหัส 6",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nคุณอาจซ่อนความกลัวว่าจะทำให้คนสำคัญผิดหวัง จึงรับหน้าที่ดูแลความรู้สึกของทุกคนไว้ก่อน ความต้องการของตัวเองถูกเลื่อนไปทีหลังจนเริ่มเหนื่อยหรือรู้สึกว่าไม่มีใครมองเห็น",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 6,
+          "prediction": "คุณอาจซ่อนความกลัวว่าจะทำให้คนสำคัญผิดหวัง จึงรับหน้าที่ดูแลความรู้สึกของทุกคนไว้ก่อน ความต้องการของตัวเองถูกเลื่อนไปทีหลังจนเริ่มเหนื่อยหรือรู้สึกว่าไม่มีใครมองเห็น"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 732
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-7",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-7",
+      "title": "shadow · รหัส 7",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nด้านที่คุณปฏิเสธอาจเป็นความไม่มั่นใจที่อยู่ใต้การคิดวิเคราะห์ คุณอาจตรวจสอบทุกอย่างซ้ำเพื่อไม่ให้พลาด แต่การรอความแน่นอนมากเกินไปอาจทำให้ความกลัวเป็นคนตัดสินใจแทนคุณ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 7,
+          "prediction": "ด้านที่คุณปฏิเสธอาจเป็นความไม่มั่นใจที่อยู่ใต้การคิดวิเคราะห์ คุณอาจตรวจสอบทุกอย่างซ้ำเพื่อไม่ให้พลาด แต่การรอความแน่นอนมากเกินไปอาจทำให้ความกลัวเป็นคนตัดสินใจแทนคุณ"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 733
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-8",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-8",
+      "title": "shadow · รหัส 8",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nคุณอาจกลัวการสูญเสียความสามารถในการควบคุมหรือการถูกมองว่าไม่ประสบความสำเร็จ จึงผูกความมั่นคงทางใจไว้กับผลงานและผลลัพธ์ เมื่อพักหรือพลาด คุณอาจรู้สึกผิดเกินกว่าสถานการณ์จริง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-8",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 8,
+          "prediction": "คุณอาจกลัวการสูญเสียความสามารถในการควบคุมหรือการถูกมองว่าไม่ประสบความสำเร็จ จึงผูกความมั่นคงทางใจไว้กับผลงานและผลลัพธ์ เมื่อพักหรือพลาด คุณอาจรู้สึกผิดเกินกว่าสถานการณ์จริง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 734
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-shadow-9",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.shadow-9",
+      "title": "shadow · รหัส 9",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nความกลัวการสูญเสียหรือการต้องเริ่มต้นใหม่อาจทำให้คุณเก็บเรื่องที่หมดเวลาไว้ ทั้งความสัมพันธ์ ความคาดหวัง หรือบทบาทเดิม ๆ การยื้อไว้อาจดูปลอดภัย แต่ก็ใช้พลังใจไปมาก",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.shadow-9",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "shadow",
+          "code": 9,
+          "prediction": "ความกลัวการสูญเสียหรือการต้องเริ่มต้นใหม่อาจทำให้คุณเก็บเรื่องที่หมดเวลาไว้ ทั้งความสัมพันธ์ ความคาดหวัง หรือบทบาทเดิม ๆ การยื้อไว้อาจดูปลอดภัย แต่ก็ใช้พลังใจไปมาก"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 735
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-1",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-1",
+      "title": "mirror · รหัส 1",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคนอื่นอาจสะท้อนความเป็นผู้นำ ความใจร้อน หรือความต้องการให้ทุกอย่างเดินหน้าในตัวคุณกลับมา สิ่งที่คุณไม่ชอบอาจไม่ใช่ความเด็ดขาด แต่เป็นความกลัวว่าหากช้าลง คุณจะเสียการควบคุม",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 1,
+          "prediction": "คนอื่นอาจสะท้อนความเป็นผู้นำ ความใจร้อน หรือความต้องการให้ทุกอย่างเดินหน้าในตัวคุณกลับมา สิ่งที่คุณไม่ชอบอาจไม่ใช่ความเด็ดขาด แต่เป็นความกลัวว่าหากช้าลง คุณจะเสียการควบคุม"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 736
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-2",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-2",
+      "title": "mirror · รหัส 2",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคุณอาจเห็นความลังเลหรือการเก็บตัวของตัวเองผ่านคนอื่น และรู้สึกหงุดหงิดกับสิ่งนั้น เพราะมันสะท้อนส่วนที่คุณพยายามซ่อน ความอ่อนไหวไม่ใช่ข้อเสีย แต่ต้องมีพื้นที่ให้พูดอย่างปลอดภัย",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 2,
+          "prediction": "คุณอาจเห็นความลังเลหรือการเก็บตัวของตัวเองผ่านคนอื่น และรู้สึกหงุดหงิดกับสิ่งนั้น เพราะมันสะท้อนส่วนที่คุณพยายามซ่อน ความอ่อนไหวไม่ใช่ข้อเสีย แต่ต้องมีพื้นที่ให้พูดอย่างปลอดภัย"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 737
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-3",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-3",
+      "title": "mirror · รหัส 3",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคนรอบตัวอาจสะท้อนความต้องการการยอมรับ การพูดให้คนเข้าใจ หรือการใช้เสน่ห์เพื่อรักษาความสัมพันธ์ สิ่งที่คุณต่อต้านอาจเป็นด้านที่คุณเองก็อยากได้รับอนุญาตให้แสดงออก",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 3,
+          "prediction": "คนรอบตัวอาจสะท้อนความต้องการการยอมรับ การพูดให้คนเข้าใจ หรือการใช้เสน่ห์เพื่อรักษาความสัมพันธ์ สิ่งที่คุณต่อต้านอาจเป็นด้านที่คุณเองก็อยากได้รับอนุญาตให้แสดงออก"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 738
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-4",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-4",
+      "title": "mirror · รหัส 4",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคุณอาจไม่ชอบคนที่ยึดกฎหรือควบคุมมากเกินไป ทั้งที่บางครั้งคุณก็ใช้วิธีเดียวกันเพื่อให้รู้สึกมั่นคง การเห็นรูปแบบนี้ไม่ใช่การกล่าวโทษ แต่เป็นโอกาสเลือกว่าจะใช้ความรับผิดชอบอย่างยืดหยุ่นขึ้นได้อย่างไร",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 4,
+          "prediction": "คุณอาจไม่ชอบคนที่ยึดกฎหรือควบคุมมากเกินไป ทั้งที่บางครั้งคุณก็ใช้วิธีเดียวกันเพื่อให้รู้สึกมั่นคง การเห็นรูปแบบนี้ไม่ใช่การกล่าวโทษ แต่เป็นโอกาสเลือกว่าจะใช้ความรับผิดชอบอย่างยืดหยุ่นขึ้นได้อย่างไร"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 739
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-5",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-5",
+      "title": "mirror · รหัส 5",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคนอื่นอาจสะท้อนความไม่แน่นอนหรือความรักอิสระที่คุณมีอยู่ด้วย คุณอาจตัดสินสิ่งนี้ว่าไม่จริงจัง ทั้งที่ลึกลงไปอาจเป็นความต้องการพื้นที่และสิทธิในการเปลี่ยนแปลงของตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 5,
+          "prediction": "คนอื่นอาจสะท้อนความไม่แน่นอนหรือความรักอิสระที่คุณมีอยู่ด้วย คุณอาจตัดสินสิ่งนี้ว่าไม่จริงจัง ทั้งที่ลึกลงไปอาจเป็นความต้องการพื้นที่และสิทธิในการเปลี่ยนแปลงของตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 740
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-6",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-6",
+      "title": "mirror · รหัส 6",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคุณอาจรู้สึกขัดใจกับคนที่เอาใจคนอื่นหรือแบกรับทุกอย่าง เพราะพฤติกรรมนั้นสะท้อนสิ่งที่คุณทำจนเคยชิน ลองแยกความเมตตาออกจากการละเลยตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 6,
+          "prediction": "คุณอาจรู้สึกขัดใจกับคนที่เอาใจคนอื่นหรือแบกรับทุกอย่าง เพราะพฤติกรรมนั้นสะท้อนสิ่งที่คุณทำจนเคยชิน ลองแยกความเมตตาออกจากการละเลยตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 741
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-7",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-7",
+      "title": "mirror · รหัส 7",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคนที่ช่างสงสัยหรือจับผิดอาจทำให้คุณไม่สบายใจ เพราะสะท้อนเสียงวิจารณ์ภายในที่คุณใช้กับตัวเองอยู่แล้ว คุณไม่จำเป็นต้องลดมาตรฐานทั้งหมด แค่ไม่ใช้มาตรฐานนั้นทำร้ายตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 7,
+          "prediction": "คนที่ช่างสงสัยหรือจับผิดอาจทำให้คุณไม่สบายใจ เพราะสะท้อนเสียงวิจารณ์ภายในที่คุณใช้กับตัวเองอยู่แล้ว คุณไม่จำเป็นต้องลดมาตรฐานทั้งหมด แค่ไม่ใช้มาตรฐานนั้นทำร้ายตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 742
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-8",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-8",
+      "title": "mirror · รหัส 8",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคุณอาจต่อต้านคนที่ให้ความสำคัญกับสถานะ เงิน หรืออำนาจ เพราะสิ่งเหล่านี้แตะความต้องการความสำเร็จและการได้รับการยอมรับของคุณเอง ลองถามว่าคุณต้องการสิ่งนั้นจริง ๆ หรือกำลังพยายามพิสูจน์อะไร",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-8",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 8,
+          "prediction": "คุณอาจต่อต้านคนที่ให้ความสำคัญกับสถานะ เงิน หรืออำนาจ เพราะสิ่งเหล่านี้แตะความต้องการความสำเร็จและการได้รับการยอมรับของคุณเอง ลองถามว่าคุณต้องการสิ่งนั้นจริง ๆ หรือกำลังพยายามพิสูจน์อะไร"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 743
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-mirror-9",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.mirror-9",
+      "title": "mirror · รหัส 9",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nคนที่ปล่อยวางหรือเดินออกจากสิ่งเดิมอาจกระตุ้นความรู้สึกบางอย่างในตัวคุณ เพราะคุณอาจยังมีเรื่องที่ไม่พร้อมจบ ความผูกพันมีความหมาย แต่ไม่จำเป็นต้องกลายเป็นพันธะตลอดไป",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.mirror-9",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "mirror",
+          "code": 9,
+          "prediction": "คนที่ปล่อยวางหรือเดินออกจากสิ่งเดิมอาจกระตุ้นความรู้สึกบางอย่างในตัวคุณ เพราะคุณอาจยังมีเรื่องที่ไม่พร้อมจบ ความผูกพันมีความหมาย แต่ไม่จำเป็นต้องกลายเป็นพันธะตลอดไป"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 744
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-1",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-1",
+      "title": "values · รหัส 1",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nคุณค่าที่ทำให้ชีวิตมีความหมายอาจเป็นอิสระในการเลือกและโอกาสได้เริ่มต้นด้วยตัวเอง หากสูญเสียสิทธิในการกำหนดทิศทาง คุณอาจรู้สึกเหมือนชีวิตไม่ใช่ของตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 1,
+          "prediction": "คุณค่าที่ทำให้ชีวิตมีความหมายอาจเป็นอิสระในการเลือกและโอกาสได้เริ่มต้นด้วยตัวเอง หากสูญเสียสิทธิในการกำหนดทิศทาง คุณอาจรู้สึกเหมือนชีวิตไม่ใช่ของตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 745
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-2",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-2",
+      "title": "values · รหัส 2",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nสิ่งที่ขาดไม่ได้อาจเป็นความไว้วางใจและความสัมพันธ์ที่รับฟังกันจริง ๆ หากไม่มีพื้นที่ปลอดภัยให้เป็นตัวเอง คุณอาจรู้สึกโดดเดี่ยวแม้อยู่ท่ามกลางผู้คน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 2,
+          "prediction": "สิ่งที่ขาดไม่ได้อาจเป็นความไว้วางใจและความสัมพันธ์ที่รับฟังกันจริง ๆ หากไม่มีพื้นที่ปลอดภัยให้เป็นตัวเอง คุณอาจรู้สึกโดดเดี่ยวแม้อยู่ท่ามกลางผู้คน"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 746
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-3",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-3",
+      "title": "values · รหัส 3",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nคุณค่าแกนกลางอาจเป็นการสื่อสาร การสร้างสรรค์ และการได้แบ่งปันสิ่งที่อยู่ในใจ หากไม่มีใครรับฟังหรือไม่มีพื้นที่แสดงตัวตน ชีวิตอาจค่อย ๆ สูญเสียสีสัน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 3,
+          "prediction": "คุณค่าแกนกลางอาจเป็นการสื่อสาร การสร้างสรรค์ และการได้แบ่งปันสิ่งที่อยู่ในใจ หากไม่มีใครรับฟังหรือไม่มีพื้นที่แสดงตัวตน ชีวิตอาจค่อย ๆ สูญเสียสีสัน"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 747
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-4",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-4",
+      "title": "values · รหัส 4",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nความซื่อตรง ความมั่นคง และการมีหลักยึดอาจเป็นสิ่งที่คุณให้ความหมายมาก หากสิ่งเหล่านี้สั่นคลอน คุณอาจรู้สึกเหมือนพื้นฐานชีวิตหายไป จึงควรแยกหลักการสำคัญออกจากกฎที่เปลี่ยนได้",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 4,
+          "prediction": "ความซื่อตรง ความมั่นคง และการมีหลักยึดอาจเป็นสิ่งที่คุณให้ความหมายมาก หากสิ่งเหล่านี้สั่นคลอน คุณอาจรู้สึกเหมือนพื้นฐานชีวิตหายไป จึงควรแยกหลักการสำคัญออกจากกฎที่เปลี่ยนได้"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 748
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-5",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-5",
+      "title": "values · รหัส 5",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nเสรีภาพ การเติบโต และการได้เรียนรู้สิ่งใหม่อาจเป็นคุณค่าที่หล่อเลี้ยงคุณ หากชีวิตไม่มีพื้นที่ให้เปลี่ยนแปลง คุณอาจรู้สึกติดอยู่ แม้ภายนอกทุกอย่างดูมั่นคง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 5,
+          "prediction": "เสรีภาพ การเติบโต และการได้เรียนรู้สิ่งใหม่อาจเป็นคุณค่าที่หล่อเลี้ยงคุณ หากชีวิตไม่มีพื้นที่ให้เปลี่ยนแปลง คุณอาจรู้สึกติดอยู่ แม้ภายนอกทุกอย่างดูมั่นคง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 749
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-6",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-6",
+      "title": "values · รหัส 6",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nความรัก ความผูกพัน และการได้ดูแลกันอย่างสมดุลอาจเป็นหัวใจสำคัญ หากสูญเสียความรู้สึกว่าเป็นส่วนหนึ่งของใครบางคน คุณอาจรู้สึกว่างเปล่า อย่าลืมว่าคุณเองก็เป็นคนที่ควรได้รับการดูแล",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 6,
+          "prediction": "ความรัก ความผูกพัน และการได้ดูแลกันอย่างสมดุลอาจเป็นหัวใจสำคัญ หากสูญเสียความรู้สึกว่าเป็นส่วนหนึ่งของใครบางคน คุณอาจรู้สึกว่างเปล่า อย่าลืมว่าคุณเองก็เป็นคนที่ควรได้รับการดูแล"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 750
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-7",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-7",
+      "title": "values · รหัส 7",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nความจริง ความเข้าใจ และการได้ใช้ความคิดอย่างอิสระอาจเป็นคุณค่าหลัก หากต้องใช้ชีวิตโดยปิดบังข้อสงสัยหรือฝืนเชื่อในสิ่งที่ไม่ตรงใจ คุณอาจรู้สึกห่างจากตัวเอง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 7,
+          "prediction": "ความจริง ความเข้าใจ และการได้ใช้ความคิดอย่างอิสระอาจเป็นคุณค่าหลัก หากต้องใช้ชีวิตโดยปิดบังข้อสงสัยหรือฝืนเชื่อในสิ่งที่ไม่ตรงใจ คุณอาจรู้สึกห่างจากตัวเอง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 751
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-8",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-8",
+      "title": "values · รหัส 8",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nการสร้างผลลัพธ์ ความสามารถในการพึ่งพาตัวเอง และการเห็นความก้าวหน้าอาจเป็นสิ่งที่ทำให้ชีวิตมีความหมาย ระวังอย่าให้คุณค่าของตัวเองเหลือเพียงสิ่งที่ทำสำเร็จ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-8",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 8,
+          "prediction": "การสร้างผลลัพธ์ ความสามารถในการพึ่งพาตัวเอง และการเห็นความก้าวหน้าอาจเป็นสิ่งที่ทำให้ชีวิตมีความหมาย ระวังอย่าให้คุณค่าของตัวเองเหลือเพียงสิ่งที่ทำสำเร็จ"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 752
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-values-9",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.values-9",
+      "title": "values · รหัส 9",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nความหมายของชีวิตอาจผูกกับการเติบโต การปิดบทเก่า และการได้ใช้ประสบการณ์สร้างสิ่งที่มีคุณค่า หากไม่มีโอกาสเปลี่ยนผ่าน คุณอาจรู้สึกเหมือนกำลังอยู่กับเรื่องที่จบไปแล้ว",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.values-9",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "values",
+          "code": 9,
+          "prediction": "ความหมายของชีวิตอาจผูกกับการเติบโต การปิดบทเก่า และการได้ใช้ประสบการณ์สร้างสิ่งที่มีคุณค่า หากไม่มีโอกาสเปลี่ยนผ่าน คุณอาจรู้สึกเหมือนกำลังอยู่กับเรื่องที่จบไปแล้ว"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 753
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-1",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-1",
+      "title": "potential · รหัส 1",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพที่ถูกกดไว้อาจเป็นความกล้าริเริ่มและการตัดสินใจด้วยตัวเอง คุณอาจกลัวความผิดพลาดหรือการถูกวิจารณ์จนรอให้พร้อมเกินไป เริ่มปลดล็อกด้วยการเลือกหนึ่งเรื่องเล็ก ๆ แล้วลงมือโดยยอมรับว่าปรับแก้ได้",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 1,
+          "prediction": "ศักยภาพที่ถูกกดไว้อาจเป็นความกล้าริเริ่มและการตัดสินใจด้วยตัวเอง คุณอาจกลัวความผิดพลาดหรือการถูกวิจารณ์จนรอให้พร้อมเกินไป เริ่มปลดล็อกด้วยการเลือกหนึ่งเรื่องเล็ก ๆ แล้วลงมือโดยยอมรับว่าปรับแก้ได้"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 754
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-2",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-2",
+      "title": "potential · รหัส 2",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพที่ซ่อนอยู่อาจเป็นความสามารถในการเข้าใจคนและสร้างความร่วมมือ คุณอาจกลัวการถูกปฏิเสธจึงไม่กล้าขอหรือแสดงความต้องการ ลองเริ่มจากพูดความจริงหนึ่งเรื่องกับคนที่ไว้ใจ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 2,
+          "prediction": "ศักยภาพที่ซ่อนอยู่อาจเป็นความสามารถในการเข้าใจคนและสร้างความร่วมมือ คุณอาจกลัวการถูกปฏิเสธจึงไม่กล้าขอหรือแสดงความต้องการ ลองเริ่มจากพูดความจริงหนึ่งเรื่องกับคนที่ไว้ใจ"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 755
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-3",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-3",
+      "title": "potential · รหัส 3",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nความสามารถในการสื่อสาร สร้างสรรค์ และทำให้คนเชื่อมโยงกันอาจยังไม่ได้ใช้เต็มที่ เพราะกลัวว่าจะดูมากเกินไปหรือไม่ได้รับการยอมรับ ทดลองแบ่งปันผลงานหรือความคิดโดยไม่ตัดสินคุณค่าตัวเองจากปฏิกิริยาแรก",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 3,
+          "prediction": "ความสามารถในการสื่อสาร สร้างสรรค์ และทำให้คนเชื่อมโยงกันอาจยังไม่ได้ใช้เต็มที่ เพราะกลัวว่าจะดูมากเกินไปหรือไม่ได้รับการยอมรับ ทดลองแบ่งปันผลงานหรือความคิดโดยไม่ตัดสินคุณค่าตัวเองจากปฏิกิริยาแรก"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 756
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-4",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-4",
+      "title": "potential · รหัส 4",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพด้านการสร้างระบบและทำสิ่งยากให้มั่นคงอาจถูกความกลัวความผิดพลาดกดไว้ คุณอาจรอให้แผนสมบูรณ์ก่อนเริ่ม ลองกำหนดมาตรฐานที่เพียงพอ แล้วอนุญาตให้ตัวเองเรียนรู้ระหว่างทาง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 4,
+          "prediction": "ศักยภาพด้านการสร้างระบบและทำสิ่งยากให้มั่นคงอาจถูกความกลัวความผิดพลาดกดไว้ คุณอาจรอให้แผนสมบูรณ์ก่อนเริ่ม ลองกำหนดมาตรฐานที่เพียงพอ แล้วอนุญาตให้ตัวเองเรียนรู้ระหว่างทาง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 757
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-5",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-5",
+      "title": "potential · รหัส 5",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพด้านการปรับตัวและมองเห็นทางเลือกใหม่อาจถูกกดไว้ด้วยความกลัวเสียความมั่นคง ลองทดลองสิ่งใหม่ในขนาดเล็กโดยไม่ต้องทิ้งทุกอย่างเดิม เพื่อให้เห็นว่าความปลอดภัยกับอิสระอยู่ร่วมกันได้",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 5,
+          "prediction": "ศักยภาพด้านการปรับตัวและมองเห็นทางเลือกใหม่อาจถูกกดไว้ด้วยความกลัวเสียความมั่นคง ลองทดลองสิ่งใหม่ในขนาดเล็กโดยไม่ต้องทิ้งทุกอย่างเดิม เพื่อให้เห็นว่าความปลอดภัยกับอิสระอยู่ร่วมกันได้"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 758
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-6",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-6",
+      "title": "potential · รหัส 6",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพด้านการดูแล เชื่อมโยง และสร้างความสัมพันธ์ที่ดีอาจถูกกดไว้เพราะกลัวเป็นภาระหรือกลัวทำให้ใครผิดหวัง เริ่มจากตั้งขอบเขตหนึ่งข้อและยอมรับความช่วยเหลือโดยไม่ต้องรีบตอบแทน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 6,
+          "prediction": "ศักยภาพด้านการดูแล เชื่อมโยง และสร้างความสัมพันธ์ที่ดีอาจถูกกดไว้เพราะกลัวเป็นภาระหรือกลัวทำให้ใครผิดหวัง เริ่มจากตั้งขอบเขตหนึ่งข้อและยอมรับความช่วยเหลือโดยไม่ต้องรีบตอบแทน"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 759
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-7",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-7",
+      "title": "potential · รหัส 7",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพด้านการวิเคราะห์ มองลึก และค้นหาความจริงอาจถูกความกลัวว่าจะผิดกดไว้ ลองแยกการตรวจสอบที่จำเป็นออกจากการคิดวน แล้วเลือกตัดสินใจเมื่อข้อมูลเพียงพอ ไม่จำเป็นต้องครบทุกอย่าง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 7,
+          "prediction": "ศักยภาพด้านการวิเคราะห์ มองลึก และค้นหาความจริงอาจถูกความกลัวว่าจะผิดกดไว้ ลองแยกการตรวจสอบที่จำเป็นออกจากการคิดวน แล้วเลือกตัดสินใจเมื่อข้อมูลเพียงพอ ไม่จำเป็นต้องครบทุกอย่าง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 760
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-8",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-8",
+      "title": "potential · รหัส 8",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพด้านการบริหารและสร้างผลลัพธ์อาจถูกความกลัวล้มเหลวหรือเสียหน้าเหนี่ยวรั้ง ลองตั้งเป้าหมายที่วัดได้จากการลงมือ ไม่ใช่จากการสมบูรณ์แบบ และให้ความสำคัญกับความก้าวหน้าทีละขั้น",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-8",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 8,
+          "prediction": "ศักยภาพด้านการบริหารและสร้างผลลัพธ์อาจถูกความกลัวล้มเหลวหรือเสียหน้าเหนี่ยวรั้ง ลองตั้งเป้าหมายที่วัดได้จากการลงมือ ไม่ใช่จากการสมบูรณ์แบบ และให้ความสำคัญกับความก้าวหน้าทีละขั้น"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 761
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-potential-9",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.potential-9",
+      "title": "potential · รหัส 9",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพในการเปลี่ยนผ่านและสร้างความหมายจากประสบการณ์อาจถูกความกลัวการสูญเสียกดไว้ ลองปิดเรื่องเล็ก ๆ ที่หมดหน้าที่แล้วหนึ่งเรื่อง เพื่อคืนพื้นที่ให้สิ่งใหม่โดยไม่ต้องปฏิเสธคุณค่าของอดีต",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.potential-9",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "potential",
+          "code": 9,
+          "prediction": "ศักยภาพในการเปลี่ยนผ่านและสร้างความหมายจากประสบการณ์อาจถูกความกลัวการสูญเสียกดไว้ ลองปิดเรื่องเล็ก ๆ ที่หมดหน้าที่แล้วหนึ่งเรื่อง เพื่อคืนพื้นที่ให้สิ่งใหม่โดยไม่ต้องปฏิเสธคุณค่าของอดีต"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 762
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-1",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-1",
+      "title": "comfortZone · รหัส 1",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nเรื่องที่คุณอาจบอกตัวเองคือ “ฉันต้องจัดการทุกอย่างเองและต้องเริ่มให้เร็ว” ความเชื่อนี้ช่วยให้เดินหน้า แต่ก็อาจทำให้คุณไม่ขอความช่วยเหลือและไม่ยอมรับว่าตัวเองเหนื่อย",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-1",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 1,
+          "prediction": "เรื่องที่คุณอาจบอกตัวเองคือ “ฉันต้องจัดการทุกอย่างเองและต้องเริ่มให้เร็ว” ความเชื่อนี้ช่วยให้เดินหน้า แต่ก็อาจทำให้คุณไม่ขอความช่วยเหลือและไม่ยอมรับว่าตัวเองเหนื่อย"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 763
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-2",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-2",
+      "title": "comfortZone · รหัส 2",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคำปลอบที่อาจกลายเป็นข้ออ้างคือ “เงียบไว้ก่อนดีกว่า เดี๋ยวทุกอย่างก็ดีเอง” มันช่วยเลี่ยงความขัดแย้งชั่วคราว แต่ทำให้ความต้องการของคุณไม่เคยถูกพูดออกมา",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-2",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 2,
+          "prediction": "คำปลอบที่อาจกลายเป็นข้ออ้างคือ “เงียบไว้ก่อนดีกว่า เดี๋ยวทุกอย่างก็ดีเอง” มันช่วยเลี่ยงความขัดแย้งชั่วคราว แต่ทำให้ความต้องการของคุณไม่เคยถูกพูดออกมา"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 764
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-3",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-3",
+      "title": "comfortZone · รหัส 3",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคุณอาจบอกตัวเองว่า “ถ้าทำให้ทุกคนเข้าใจหรือชอบฉัน ทุกอย่างจะราบรื่น” จึงใช้พลังกับการอธิบายและรักษาภาพลักษณ์ จนลืมถามว่าคุณเห็นด้วยกับสิ่งนั้นจริงไหม",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-3",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 3,
+          "prediction": "คุณอาจบอกตัวเองว่า “ถ้าทำให้ทุกคนเข้าใจหรือชอบฉัน ทุกอย่างจะราบรื่น” จึงใช้พลังกับการอธิบายและรักษาภาพลักษณ์ จนลืมถามว่าคุณเห็นด้วยกับสิ่งนั้นจริงไหม"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 765
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-4",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-4",
+      "title": "comfortZone · รหัส 4",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nความเชื่อที่คอยพยุงคอมฟอร์ตโซนอาจเป็น “ถ้าทุกอย่างไม่สมบูรณ์แบบ ก็ยังไม่ควรเริ่ม” มันดูเหมือนความรอบคอบ แต่บางครั้งเป็นความกลัวที่แต่งตัวเป็นมาตรฐานสูง",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-4",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 4,
+          "prediction": "ความเชื่อที่คอยพยุงคอมฟอร์ตโซนอาจเป็น “ถ้าทุกอย่างไม่สมบูรณ์แบบ ก็ยังไม่ควรเริ่ม” มันดูเหมือนความรอบคอบ แต่บางครั้งเป็นความกลัวที่แต่งตัวเป็นมาตรฐานสูง"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 766
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-5",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-5",
+      "title": "comfortZone · รหัส 5",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคุณอาจบอกตัวเองว่า “ฉันยังไม่พร้อมผูกพันหรือเลือกทางใดทางหนึ่ง” เพื่อเก็บทางหนีไว้เสมอ ความยืดหยุ่นเป็นจุดแข็ง แต่ถ้าใช้หลบการตัดสินใจ คุณอาจไม่ได้สัมผัสสิ่งที่ต้องการจริง ๆ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-5",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 5,
+          "prediction": "คุณอาจบอกตัวเองว่า “ฉันยังไม่พร้อมผูกพันหรือเลือกทางใดทางหนึ่ง” เพื่อเก็บทางหนีไว้เสมอ ความยืดหยุ่นเป็นจุดแข็ง แต่ถ้าใช้หลบการตัดสินใจ คุณอาจไม่ได้สัมผัสสิ่งที่ต้องการจริง ๆ"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 767
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-6",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-6",
+      "title": "comfortZone · รหัส 6",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคำโกหกที่เป็นไปได้คือ “ไม่เป็นไร ฉันไหว ขอให้คนอื่นสบายใจก่อน” คุณอาจใช้ประโยคนี้จนชิน ทั้งที่ตัวเองก็ต้องการการพัก การปฏิเสธ และการได้รับการดูแล",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-6",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 6,
+          "prediction": "คำโกหกที่เป็นไปได้คือ “ไม่เป็นไร ฉันไหว ขอให้คนอื่นสบายใจก่อน” คุณอาจใช้ประโยคนี้จนชิน ทั้งที่ตัวเองก็ต้องการการพัก การปฏิเสธ และการได้รับการดูแล"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 768
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-7",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-7",
+      "title": "comfortZone · รหัส 7",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคุณอาจบอกตัวเองว่า “ขอคิดให้แน่ใจก่อน แล้วค่อยลงมือ” แต่ความแน่ใจอาจไม่มีวันมาครบทั้งหมด ลองสังเกตว่าตอนนี้คุณกำลังหาข้อมูลเพิ่ม หรือกำลังเลื่อนการเผชิญหน้ากับความกลัว",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-7",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 7,
+          "prediction": "คุณอาจบอกตัวเองว่า “ขอคิดให้แน่ใจก่อน แล้วค่อยลงมือ” แต่ความแน่ใจอาจไม่มีวันมาครบทั้งหมด ลองสังเกตว่าตอนนี้คุณกำลังหาข้อมูลเพิ่ม หรือกำลังเลื่อนการเผชิญหน้ากับความกลัว"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 769
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-8",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-8",
+      "title": "comfortZone · รหัส 8",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nความเชื่อที่ซ่อนอยู่คือ “ถ้ายังทำได้ไม่ดีพอ ฉันยังไม่มีสิทธิ์พัก” มันอาจทำให้คุณมีผลงาน แต่ก็ทำให้คุณผูกคุณค่าของตัวเองไว้กับความสำเร็จมากเกินไป",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-8",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 8,
+          "prediction": "ความเชื่อที่ซ่อนอยู่คือ “ถ้ายังทำได้ไม่ดีพอ ฉันยังไม่มีสิทธิ์พัก” มันอาจทำให้คุณมีผลงาน แต่ก็ทำให้คุณผูกคุณค่าของตัวเองไว้กับความสำเร็จมากเกินไป"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 770
+    },
+    {
+      "id": "fn-engine4-deep-talk-profiles-comfortzone-9",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_PROFILES",
+      "name": "DEEP_TALK_PROFILES.comfortZone-9",
+      "title": "comfortZone · รหัส 9",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคุณอาจบอกตัวเองว่า “ปล่อยไปตอนนี้ไม่ได้ เพราะลงทุนกับมันมามากแล้ว” ความผูกพันกับอดีตเป็นเรื่องเข้าใจได้ แต่สิ่งที่เคยมีความหมายไม่จำเป็นต้องเป็นสิ่งที่ต้องแบกต่อไป",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_PROFILES",
+        "legacySourcePath": "DEEP_TALK_PROFILES.comfortZone-9",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "section": "comfortZone",
+          "code": 9,
+          "prediction": "คุณอาจบอกตัวเองว่า “ปล่อยไปตอนนี้ไม่ได้ เพราะลงทุนกับมันมามากแล้ว” ความผูกพันกับอดีตเป็นเรื่องเข้าใจได้ แต่สิ่งที่เคยมีความหมายไม่จำเป็นต้องเป็นสิ่งที่ต้องแบกต่อไป"
+        },
+        "generatedFrom": "deepTalkProfiles"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 771
+    },
+    {
+      "id": "fn-engine4-deep-talk-questions-shadow",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_QUESTIONS",
+      "name": "DEEP_TALK_QUESTIONS.shadow",
+      "title": "shadow · คำถามสำรวจตัวเอง",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "shadow\nด้านมืดหรือความกลัวลึก ๆ ที่ฉันพยายามปฏิเสธและซ่อนไว้ไม่ให้ใครเห็นคืออะไร และมันกำลังควบคุมชีวิตฉันอยู่ทางไหน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_QUESTIONS",
+        "legacySourcePath": "DEEP_TALK_QUESTIONS.shadow",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "key": "shadow",
+          "question": "ด้านมืดหรือความกลัวลึก ๆ ที่ฉันพยายามปฏิเสธและซ่อนไว้ไม่ให้ใครเห็นคืออะไร และมันกำลังควบคุมชีวิตฉันอยู่ทางไหน"
+        },
+        "generatedFrom": "deepTalkQuestions"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 772
+    },
+    {
+      "id": "fn-engine4-deep-talk-questions-mirror",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_QUESTIONS",
+      "name": "DEEP_TALK_QUESTIONS.mirror",
+      "title": "mirror · คำถามสำรวจตัวเอง",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "mirror\nพลังงานหรือนิสัยแบบไหนในตัวฉันที่คนอื่นมักจะสะท้อนออกมา แล้วทำไมฉันถึงยังเกลียดหรือปฏิเสธมันไม่ได้สักที",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_QUESTIONS",
+        "legacySourcePath": "DEEP_TALK_QUESTIONS.mirror",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "key": "mirror",
+          "question": "พลังงานหรือนิสัยแบบไหนในตัวฉันที่คนอื่นมักจะสะท้อนออกมา แล้วทำไมฉันถึงยังเกลียดหรือปฏิเสธมันไม่ได้สักที"
+        },
+        "generatedFrom": "deepTalkQuestions"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 773
+    },
+    {
+      "id": "fn-engine4-deep-talk-questions-values",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_QUESTIONS",
+      "name": "DEEP_TALK_QUESTIONS.values",
+      "title": "values · คำถามสำรวจตัวเอง",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "values\nคุณค่าอะไรในชีวิตที่ถ้าฉันสูญเสียมันไป ชีวิตฉันจะรู้สึกว่างเปล่าและไร้ความหมายที่สุด",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_QUESTIONS",
+        "legacySourcePath": "DEEP_TALK_QUESTIONS.values",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "key": "values",
+          "question": "คุณค่าอะไรในชีวิตที่ถ้าฉันสูญเสียมันไป ชีวิตฉันจะรู้สึกว่างเปล่าและไร้ความหมายที่สุด"
+        },
+        "generatedFrom": "deepTalkQuestions"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 774
+    },
+    {
+      "id": "fn-engine4-deep-talk-questions-potential",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_QUESTIONS",
+      "name": "DEEP_TALK_QUESTIONS.potential",
+      "title": "potential · คำถามสำรวจตัวเอง",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "potential\nศักยภาพสูงสุดในตัวฉันส่วนไหนที่ถูกกดทับไว้มากที่สุดด้วยความกลัว และฉันจะปลดปล่อยมันออกมาได้อย่างไร",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_QUESTIONS",
+        "legacySourcePath": "DEEP_TALK_QUESTIONS.potential",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "key": "potential",
+          "question": "ศักยภาพสูงสุดในตัวฉันส่วนไหนที่ถูกกดทับไว้มากที่สุดด้วยความกลัว และฉันจะปลดปล่อยมันออกมาได้อย่างไร"
+        },
+        "generatedFrom": "deepTalkQuestions"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 775
+    },
+    {
+      "id": "fn-engine4-deep-talk-questions-comfortzone",
+      "engineId": "engine4",
+      "parentId": "DEEP_TALK_QUESTIONS",
+      "name": "DEEP_TALK_QUESTIONS.comfortZone",
+      "title": "comfortZone · คำถามสำรวจตัวเอง",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "comfortZone\nคำโกหกอะไรที่ฉันบอกตัวเองมาตลอดเพื่อให้อยู่ในคอมฟอร์ตโซน",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "DEEP_TALK_QUESTIONS",
+        "legacySourcePath": "DEEP_TALK_QUESTIONS.comfortZone",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "key": "comfortZone",
+          "question": "คำโกหกอะไรที่ฉันบอกตัวเองมาตลอดเพื่อให้อยู่ในคอมฟอร์ตโซน"
+        },
+        "generatedFrom": "deepTalkQuestions"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 776
+    },
+    {
+      "id": "fn-engine3-oreguram-behavior-detail-template-shared",
+      "engineId": "engine3",
+      "parentId": "OREGURAM_BEHAVIOR_DETAIL_TEMPLATE",
+      "name": "OREGURAM_BEHAVIOR_DETAIL_TEMPLATE.shared",
+      "title": "แม่แบบคำตอบโอเรกุรัมที่ประกอบตามระดับผล",
+      "description": "แยกข้อความที่ฝังอยู่ในฟังก์ชันจากต้นฉบับ โดยเก็บค่าข้อความเดิมและตำแหน่งอ้างอิง",
+      "content": "สำหรับเรื่อง{{topic}} คำทำนายชี้ว่า{{answer}} {{encouragement}}\nคุณมีโอกาสต่อยอดเรื่องนี้ได้อีก เชื่อมั่นในสิ่งที่ตัวเองทำได้ แล้วค่อย ๆ ลงมือในจังหวะที่พร้อมนะ\nหากตอนนี้รู้สึกหนักใจ อย่าเพิ่งตำหนิตัวเองนะ ค่อย ๆ ดูแลใจ ตรวจสอบสิ่งที่จำเป็น และเลือกทางที่ปลอดภัยกับตัวเองก่อน\nเรื่องนี้ยังมีพื้นที่ให้ค่อย ๆ เรียนรู้และปรับเปลี่ยน ไม่จำเป็นต้องรีบหาคำตอบทั้งหมดในวันนี้นะ",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "OREGURAM_BEHAVIOR_DETAIL_TEMPLATE",
+        "legacySourcePath": "OREGURAM_BEHAVIOR_DETAIL_TEMPLATE.shared",
+        "importBatch": "engine-1-4-function-text-draft-2026-11-28",
+        "payload": {
+          "summaryTemplate": "สำหรับเรื่อง{{topic}} คำทำนายชี้ว่า{{answer}} {{encouragement}}",
+          "encouragements": {
+            "good": "คุณมีโอกาสต่อยอดเรื่องนี้ได้อีก เชื่อมั่นในสิ่งที่ตัวเองทำได้ แล้วค่อย ๆ ลงมือในจังหวะที่พร้อมนะ",
+            "warn": "หากตอนนี้รู้สึกหนักใจ อย่าเพิ่งตำหนิตัวเองนะ ค่อย ๆ ดูแลใจ ตรวจสอบสิ่งที่จำเป็น และเลือกทางที่ปลอดภัยกับตัวเองก่อน"
+          },
+          "neutral": "เรื่องนี้ยังมีพื้นที่ให้ค่อย ๆ เรียนรู้และปรับเปลี่ยน ไม่จำเป็นต้องรีบหาคำตอบทั้งหมดในวันนี้นะ"
+        },
+        "generatedFrom": "buildOreguramBehaviorDetail(qObj,bucket,behaviorNumber,situationNumber)"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 777
     }
   ]
 }
