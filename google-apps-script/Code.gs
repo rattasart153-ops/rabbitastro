@@ -20,7 +20,7 @@ function doPost(e) {
         result = adminSetCredentials_(input);
         break;
       case "predictionRuntime":
-        result = predictionRuntime_();
+        result = predictionRuntime_(input);
         break;
       case "predictionInitialize":
       case "predictionList":
@@ -506,7 +506,9 @@ function predictionAudit_(ss, action, collection, id, beforeValue, afterValue, a
 
 
 /* Published runtime feed: public by design, but never returns drafts or audit data. */
-function predictionRuntime_() {
+function predictionRuntime_(input) {
+  var session = requireAdminSession_(input && input.token);
+  if (!session) return { ok:false, code:"UNAUTHORIZED", message:"กรุณาเข้าสู่ระบบเพื่อดูคำทำนาย" };
   try {
     var ss = predictionSpreadsheet_(), output = {};
     ["Engines", "Features", "Categories", "Topics", "Variables", "Predictions", "Rules", "Mappings"].forEach(function (collection) {
