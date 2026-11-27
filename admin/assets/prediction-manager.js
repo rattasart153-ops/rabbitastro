@@ -134,11 +134,11 @@
   async function initialize() {
     var button = $("predictionInitialize");
     button.disabled = true;
-    setMessage("กำลังสร้างคลังคำทำนายใน Google Sheets…");
+    setMessage("กำลังตรวจสอบคลังคำทำนาย JSON บน GitHub…");
     try {
       var result = await request("predictionInitialize");
       $("predictionSetup").hidden = true;
-      setMessage("สร้างคลังคำทำนายสำเร็จ: " + result.spreadsheetName + " · ID " + result.spreadsheetId);
+      setMessage("เชื่อมต่อคลังคำทำนาย JSON แล้ว");
       if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
       await loadRecords();
     } catch (error) {
@@ -198,7 +198,7 @@
     $("showPredictions").classList.remove("active");
   });
   $("predictionLoad").addEventListener("click", loadRecords);
-  $("predictionInitialize").addEventListener("click", initialize);
+  $("predictionInitialize").addEventListener("click", loadRecords);
   $("predictionNew").addEventListener("click", function () {
     selectedId = "";
     fillEditor(blankRecord(), "สร้างรายการใหม่");
