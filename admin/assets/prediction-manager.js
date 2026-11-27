@@ -142,13 +142,14 @@
     saveButton.disabled = true;
     try {
       var result = await request("predictionSave", { collection: currentCollection(), record: record });
-      selectedId = result.record.id;
+      var savedId = result.record.id;
+      selectedId = savedId;
       if (publish) {
-        await request("predictionPublish", { collection: currentCollection(), id: selectedId });
+        await request("predictionPublish", { collection: currentCollection(), id: savedId });
       }
       setMessage(publish ? "บันทึกและเผยแพร่เรียบร้อย" : "บันทึกฉบับร่างและสร้างประวัติเวอร์ชันแล้ว");
       await loadRecords();
-      var saved = records.find(function (item) { return item.id === selectedId; });
+      var saved = records.find(function (item) { return item.id === savedId; });
       if (saved) selectRecord(saved);
     } catch (error) {
       setMessage(error.message, true);
