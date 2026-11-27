@@ -34,6 +34,7 @@
         <div class="nav-heading">เมนูผู้ดูแล</div>
         <button type="button" id="showEngines" class="nav-button active">🔮 ระบบทำนาย · Engines 1–4</button>
         <button type="button" id="showPredictions" class="nav-button">🗂️ คลังคำทำนายส่วนกลาง</button>
+        <button type="button" id="showSystem" class="nav-button" hidden>⚙️ จัดการ Engine / Features</button>
         <button type="button" id="logoutButton" class="nav-button logout">ออกจากระบบ</button>
       </nav>
       <div class="admin-content">
@@ -247,6 +248,17 @@
       </div>
     </section>
 
+      <section id="systemControlsPanel" class="prediction-manager" hidden>
+        <div class="page-heading"><div><p class="eyebrow">RABBITASTRO · SYSTEM CONTROL</p><h2>จัดการ Engine และ Features</h2>
+        <p class="muted">การเปิดหรือซ่อนจะมีผลกับทุกบัญชี โดยไม่ลบข้อมูลหรือสูตรคำนวณเดิม</p></div></div>
+        <p id="systemControlMessage" class="message" role="status" aria-live="polite"></p>
+        <div class="system-control-grid">
+          <section class="panel system-control-card"><h3>Engines</h3><p class="muted">เปิดหรือซ่อนระบบทำนายแต่ละ Engine</p><div id="systemEngineList"></div></section>
+          <section class="panel system-control-card"><h3>Features</h3><p class="muted">เปิดหรือซ่อนส่วนย่อยของแต่ละ Engine</p><div id="systemFeatureList"></div></section>
+        </div>
+        <p class="muted">การซ่อนเป็นการปิดใช้งานชั่วคราว ไม่ใช่การลบข้อมูล สามารถเปิดกลับมาได้ทุกเมื่อ</p>
+      </section>
+
       <section id="predictionManagerPanel" class="prediction-manager" hidden>
         <div class="page-heading">
           <div><p class="eyebrow">RABBITASTRO · CENTRAL REPOSITORY</p><h2>คลังคำทำนายส่วนกลาง</h2>
@@ -360,5 +372,6 @@
   <script src="/assets/js/06-subconscious-presentation.js"></script>
   <script src="/admin/assets/admin.js"></script>
   <script src="/admin/assets/prediction-manager.js"></script>
+  <script src="/admin/assets/system-manager.js"></script>
 </body>
 </html>
