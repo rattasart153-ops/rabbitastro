@@ -7,7 +7,7 @@
     "assets/js/02-horakratai-engine.js",
     "assets/js/04-ui-renderers.js"
   ],
-  "sourceObjectCount": 44,
+  "sourceObjectCount": 46,
   "records": [
     {
       "id": "import-engine1-category_info-work",
@@ -380,6 +380,50 @@
       "status": "draft",
       "version": 1,
       "sortOrder": 11
+    },
+    {
+      "id": "import-engine1-short-categories-short-categories",
+      "engineId": "engine1",
+      "parentId": "SHORT_CATEGORIES",
+      "name": "SHORT_CATEGORIES",
+      "title": "หมวดและรหัสหัวข้อ Engine 1",
+      "description": "สำเนาตารางหมวด รหัสหลัก และหัวข้อย่อยจากต้นฉบับ",
+      "content": "{\n    work: { name: 'การงาน', plus: 6, subs: { 7:{n:'โอกาสได้งานใหม่', hot:true}, 1:{n:'เลื่อนขั้น'}, 2:{n:'โอกาสปรับเปลี่ยนตำแหน่ง'}, 3:{n:'การโยกย้าย'} } },\n    money: { name: 'การเงิน', plus: 3, subs: { 4:{n:'รายรับ/รายจ่าย', hot:true}, 2:{n:'ปรับแผนลงทุน'}, 3:{n:'ปลดหนี้สิน'} } },\n    health: { name: 'สุขภาพ', plus: 5, subs: { 5:{n:'สุขภาพโดยรวมและจุดที่ต้องระวัง', hot:true}, 1:{n:'ตรวจสุขภาพ'}, 2:{n:'ฟื้นฟูร่างกาย'}, 3:{n:'ปรับพฤติกรรม'} } },\n    love: { name: 'ความรัก', plus: 8, subs: { 1:{n:'ภาพรวมความสัมพันธ์', hot:true}, 2:{n:'ปรับความเข้าใจ'}, 3:{n:'ตกลงความสัมพันธ์'} } },\n    interest: { name: 'เรื่องที่สนใจ', plus: 4, subs: { 4:{n:'ไอเดียและทักษะที่ควรลงมือ', hot:true}, 1:{n:'เริ่มงานใหม่'}, 2:{n:'พัฒนาทักษะ'}, 3:{n:'ตกผลึกไอเดีย'} } },\n    other: { name: 'เรื่องอื่นๆ', plus: 4, subs: { 1:{n:'เรื่องที่รอคำตอบ', hot:true}, 2:{n:'การตัดสินใจทั่วไป'}, 3:{n:'เรื่องส่วนตัว'} } }\n  }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "SHORT_CATEGORIES",
+        "legacySourcePath": "SHORT_CATEGORIES",
+        "importBatch": "engine-1-4-central-draft-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{\n    work: { name: 'การงาน', plus: 6, subs: { 7:{n:'โอกาสได้งานใหม่', hot:true}, 1:{n:'เลื่อนขั้น'}, 2:{n:'โอกาสปรับเปลี่ยนตำแหน่ง'}, 3:{n:'การโยกย้าย'} } },\n    money: { name: 'การเงิน', plus: 3, subs: { 4:{n:'รายรับ/รายจ่าย', hot:true}, 2:{n:'ปรับแผนลงทุน'}, 3:{n:'ปลดหนี้สิน'} } },\n    health: { name: 'สุขภาพ', plus: 5, subs: { 5:{n:'สุขภาพโดยรวมและจุดที่ต้องระวัง', hot:true}, 1:{n:'ตรวจสุขภาพ'}, 2:{n:'ฟื้นฟูร่างกาย'}, 3:{n:'ปรับพฤติกรรม'} } },\n    love: { name: 'ความรัก', plus: 8, subs: { 1:{n:'ภาพรวมความสัมพันธ์', hot:true}, 2:{n:'ปรับความเข้าใจ'}, 3:{n:'ตกลงความสัมพันธ์'} } },\n    interest: { name: 'เรื่องที่สนใจ', plus: 4, subs: { 4:{n:'ไอเดียและทักษะที่ควรลงมือ', hot:true}, 1:{n:'เริ่มงานใหม่'}, 2:{n:'พัฒนาทักษะ'}, 3:{n:'ตกผลึกไอเดีย'} } },\n    other: { name: 'เรื่องอื่นๆ', plus: 4, subs: { 1:{n:'เรื่องที่รอคำตอบ', hot:true}, 2:{n:'การตัดสินใจทั่วไป'}, 3:{n:'เรื่องส่วนตัว'} } }\n  }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 10000
+    },
+    {
+      "id": "import-engine3-oreguram-ui-groups-oreguram-ui-groups",
+      "engineId": "engine3",
+      "parentId": "OREGURAM_UI_GROUPS",
+      "name": "OREGURAM_UI_GROUPS",
+      "title": "กลุ่มหมวดคำถาม Oraculum",
+      "description": "สำเนาการจัดกลุ่มหมวดคำถามที่ Renderer ใช้แสดงผล",
+      "content": "{ key: \"work\", label: \"💼 การงาน\" }",
+      "data": {
+        "legacySourceFile": "assets/js/04-ui-renderers.js",
+        "legacySourceObject": "OREGURAM_UI_GROUPS",
+        "legacySourcePath": "OREGURAM_UI_GROUPS",
+        "importBatch": "engine-1-4-central-draft-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ key: \"work\", label: \"💼 การงาน\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 10000
     }
   ]
 }
