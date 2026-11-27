@@ -152,7 +152,7 @@ Full Admin can later rotate both accounts together from Admin > จัดกา�
 
 ### Engine and Feature switches
 
-The repository adds a `Features` worksheet. Initialization seeds the four Engine records and the current Engine 1–4 Feature records. Full Admin can switch each record between `active` and `inactive`. Inactive records are excluded from the public runtime feed; inactive Engines and Engine 1 Features are hidden in the Admin calculation interface for both roles. Hiding is reversible and does not delete calculation code or prediction content.
+The repository adds a `Features` worksheet. Initialization seeds the four Engine records and the current Engine 1–4 Feature records. Full Admin can switch each record between `active` and `inactive`. Inactive records are excluded from the public runtime feed; inactive Engines and Engine 1 Features are hidden in the Admin calculation interface for both roles. Hiding is reversible and does not delete calculation code or prediction content. The current switch UI manages the four existing Engines and the currently seeded Features only; creating a genuinely new Engine or a Feature that requires new calculation logic still requires a code change and regression testing.
 
 ### Important formula limitation
 
