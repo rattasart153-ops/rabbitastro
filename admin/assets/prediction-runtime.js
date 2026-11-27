@@ -27,7 +27,7 @@
 
   function applySystemVisibility() {
     if (!runtime) return;
-    var enabledEngines = {};
+    var enabledEngines = { engine1:false, engine2:false, engine3:false, engine4:false };
     (runtime.Engines || []).forEach(function (item) { enabledEngines[item.id] = item.status === "active"; });
     var tabs = [
       ["engine1", "tabPerson"], ["engine2", "tabGod"],
@@ -35,7 +35,7 @@
     ];
     tabs.forEach(function (entry) {
       var tab = document.getElementById(entry[1]);
-      if (tab) tab.hidden = enabledEngines[entry[0]] === false;
+      if (tab) tab.hidden = enabledEngines[entry[0]] !== true;
     });
     var active = document.querySelector(".tab-btn.active");
     if (active && active.hidden) {
@@ -45,7 +45,7 @@
     }
     var features = runtime.Features || [];
     if (features.length) {
-      var enabled = {};
+      var enabled = { natal:false, asc:false, rhd:false, short:false, month:false, default:false };
       features.forEach(function (item) {
         if (item.engineId === "engine1" && item.data) enabled[item.data.key] = item.status === "active";
       });
@@ -58,7 +58,7 @@
       ];
       controls.forEach(function (entry) {
         var node = document.querySelector(entry[1]);
-        if (node) node.hidden = enabled[entry[0]] === false;
+        if (node) node.hidden = enabled[entry[0]] !== true;
       });
       var hasBase = ["natal","asc","rhd"].some(function (key) { return enabled[key] !== false; });
       var hasTopic = ["short","month"].some(function (key) { return enabled[key] !== false; });
@@ -69,7 +69,7 @@
       var rhd = document.getElementById("rhdControl");
       var baseBar = document.getElementById("baseBar");
       var topicBar = document.getElementById("topicBar");
-      if (rhd) rhd.hidden = enabled.rhd === false;
+      if (rhd) rhd.hidden = enabled.rhd !== true;
       if (baseBar) baseBar.hidden = !hasBase;
       if (topicBar) topicBar.hidden = !hasTopic;
       ["baseViewGroup","topicViewGroup"].forEach(function (id) {
