@@ -1,4 +1,5 @@
 "use strict";
+const crypto = require("crypto");
 
 const OWNER_REPO = process.env.GITHUB_REPOSITORY || "rattasart153-ops/rabbitastro";
 const BRANCH = process.env.PREDICTION_BRANCH || "test-matrix-of-destiny-rhd";
@@ -83,7 +84,7 @@ async function writeCollection(collection, current, records, message) {
 
 function cleanRecord(record, old, actor) {
   const now = new Date().toISOString();
-  const id = String(record.id || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "rec-" + Date.now() + "-" + Math.random().toString(16).slice(2)));
+  const id = String(record.id || (crypto.randomUUID ? crypto.randomUUID() : "rec-" + Date.now() + "-" + Math.random().toString(16).slice(2)));
   const priorHistory = old && Array.isArray(old.history) ? old.history.slice(-49) : [];
   if (old) {
     const snapshot = Object.assign({}, old);
