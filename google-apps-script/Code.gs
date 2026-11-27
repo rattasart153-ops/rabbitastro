@@ -322,9 +322,11 @@ function predictionDelete_(input, actor) {
     if (!rowNumber) return { ok: false, message: "ไม่พบรายการที่ต้องการลบ" };
     var old = predictionReadRecord_(sheet, rowNumber);
     old.status = "archived";
+    old.version += 1;
     old.updatedAt = new Date().toISOString();
     old.updatedBy = actor;
     sheet.getRange(rowNumber, 10).setValue("archived");
+    sheet.getRange(rowNumber, 11).setValue(old.version);
     sheet.getRange(rowNumber, 14).setValue(old.updatedAt);
     sheet.getRange(rowNumber, 15).setValue(actor);
     predictionVersion_(ss, collection, id, old.version + 1, old, actor);
