@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
   }
 
   const body = req.body && typeof req.body === "object" ? req.body : {};
-  const predictionActions = new Set(["predictionInitialize", "predictionList", "predictionSave", "predictionDelete", "predictionPublish"]);
+  const predictionActions = new Set(["predictionInitialize", "predictionList", "predictionSave", "predictionDelete", "predictionPublish", "predictionHistory", "predictionRollback"]);
   const allowed = new Set(["adminLogin", "adminValidateSession", "adminLogout", ...predictionActions]);
   if (!allowed.has(body.action)) {
     return res.status(400).json({ ok: false, message: "คำสั่งไม่ถูกต้อง" });
@@ -27,6 +27,12 @@ module.exports = async function handler(req, res) {
   if (predictionActions.has(body.action)) {
     if (body.action === "predictionList" && (typeof body.collection !== "string" || body.collection.length > 40)) {
       return res.status(400).json({ ok: false, message: "ข้อมูลคลังคำทำนายไม่ถูกต้อง" });
+    }
+    if ((body.action === "predictionHistory" || body.action === "predictionRollback") && (typeof body.collection !== "string" || body.collection.length > 40 || typeof body.id !== "string" || body.id.length > 100)) {
+      return res.status(400).json({ ok: false, message: "ข้อมูลประวัติคำทำนายไม่ถูกต้อง" });
+    }
+    if (body.action === "predictionRollback" && (!Number.isInteger(Number(body.version)) || Number(body.version) < 1)) {
+      return res.status(400).json({ ok: false, message: "เวอร์ชันที่ต้องการกู้คืนไม่ถูกต้อง" });
     }
     if (body.action === "predictionSave" && (!body.record || typeof body.record !== "object" || JSON.stringify(body.record).length > 45000)) {
       return res.status(400).json({ ok: false, message: "ข้อมูลคำทำนายไม่ถูกต้องหรือมีขนาดใหญ่เกินไป" });
