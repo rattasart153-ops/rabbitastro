@@ -200,6 +200,17 @@
   $("predictionSave").addEventListener("click", function () { save(false); });
   $("predictionPublish").addEventListener("click", function () { save(true); });
   $("predictionArchive").addEventListener("click", archive);
-  $("predictionCollection").addEventListener("change", loadRecords);
+  $("predictionHistoryButton").addEventListener("click", function () {
+    $("predictionHistoryPanel").hidden = !$("predictionHistoryPanel").hidden;
+    if (!$("predictionHistoryPanel").hidden) loadHistory();
+  });
+  $("predictionHistoryLoad").addEventListener("click", loadHistory);
+  $("predictionRollback").addEventListener("click", rollbackVersion);
+  $("predictionPreviewButton").addEventListener("click", previewRule);
+  $("predictionCollection").addEventListener("change", function () {
+    selectedId = "";
+    $("predictionHistoryPanel").hidden = true;
+    loadRecords();
+  });
   $("predictionEngineFilter").addEventListener("change", loadRecords);
 })();
