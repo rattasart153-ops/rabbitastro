@@ -103,3 +103,34 @@ The initial Admin editor exposes structured records through JSON to support the 
 3. Add guided schema validation and Rule preview.
 4. Create baseline fixtures for every existing Engine calculation and prediction output.
 5. Integrate repository reads into Engine rendering incrementally, preserving calculation outputs and keeping a safe fallback to existing datasets.
+
+
+## Runtime integration (Admin preview branch)
+
+The Admin preview now reads the published repository through `GET /api/predictions`. The endpoint proxies the existing Apps Script Web App using the `predictionRuntime` action and returns published records only; it does not expose drafts, version history, or audit logs.
+
+### Runtime targeting
+
+Create a Prediction, save it as a draft, and set its `data` object to include a target. Supported target fields are:
+
+- `slot`: `engine1.base`, `engine1.asc`, `engine1.rhd`, `engine1.short`, `engine1.month`, `engine2.default`, `engine3.default`, or `engine4.default`.
+- `category`: optional Engine 1 category key such as `work`, `money`, `health`, `love`, or `interest`.
+- `topic`: optional active Engine 1 subtopic label.
+
+Alternatively, publish a Rule with `data.slot` (and optional `feature`, `category`, `topic`) plus `predictionId` pointing to a published Prediction. The Admin runtime evaluates the Rule's `conditions` using the `AND` / `OR` logic and the operators `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `between`, `contains`, and `exists`.
+
+Available context paths include `engine`, `feature`, `category`, `topic`, `person.firstName`, `person.lastName`, `birth.day`, `birth.month`, `birth.year`, `birth.hour`, `birth.minute`, `birth.noBirthTime`, and `oreguram.questionId`. Engine calculations are not changed; central readings are rendered as an additional section after the existing Engine result.
+
+### History and preview
+
+The Admin editor includes version history and rollback. A rollback creates a new version rather than deleting intervening history. Rule preview accepts a JSON sample context and tests the selected Rule without publishing it. Publish still validates that a Rule points to an already-published Prediction in the same Engine.
+
+### Deployment sequence
+
+1. Copy the updated `google-apps-script/Code.gs` from this branch into the existing Apps Script project.
+2. Update the existing Web App deployment to a new version, keeping the deployment URL unchanged.
+3. Deploy this branch as a Vercel preview (do not promote to production).
+4. Initialize the repository from the Admin page if it has not already been initialized.
+5. Create and publish a test Prediction for one slot, then calculate the corresponding Engine to verify the central section appears.
+
+This integration is currently scoped to the Admin preview branch. Existing built-in prediction text remains in place; central content is additive, so no original calculation formula or built-in interpretation table is replaced automatically.
