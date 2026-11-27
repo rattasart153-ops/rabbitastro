@@ -527,11 +527,18 @@ function predictionRuntime_() {
       output[collection] = (output[collection] || []).filter(function (record) {
         if (!activeEngines[record.engineId]) return false;
         var data = record.data || {};
-        if (data.feature) {
-          var match = (output.Features || []).some(function (feature) {
-            return feature.engineId === record.engineId && feature.data && feature.data.key === data.feature && feature.status === "active";
-          });
-          if (!match) return false;
+        var enabledKeys = {};
+        (output.Features || []).forEach(function (feature) {
+          if (feature.engineId === record.engineId && feature.status === "active" && feature.data) enabledKeys[feature.data.key] = true;
+        });
+        if (data.feature && !enabledKeys[data.feature]) return false;
+        if (data.slot) {
+          var slotParts = String(data.slot).split(".");
+          if (slotParts[0] !== record.engineId) return false;
+          var slotFeature = slotParts[1] || "default";
+          if (slotFeature === "base") {
+            if (!enabledKeys.natal && !enabledKeys.asc && !enabledKeys.rhd) return false;
+          } else if (!enabledKeys[slotFeature]) return false;
         }
         return true;
       });
