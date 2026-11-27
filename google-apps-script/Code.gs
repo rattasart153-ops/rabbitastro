@@ -46,68 +46,66 @@ function adminLogin_(input) {
   var props = PropertiesService.getScriptProperties();
   var username = clean_(input.username, 80);
   var password = String(input.password || "");
-  var salt = props.getProperty("ADMIN_SALT");
-  var expected = props.getProperty("ADMIN_HASH");
-  var configuredUsername = props.getProperty("ADMIN_USERNAME");
-
+  var accounts = [
+    { role: "full", username: props.getProperty("FULL_ADMIN_USERNAME"), salt: props.getProperty("FULL_ADMIN_SALT"), hash: props.getProperty("FULL_ADMIN_HASH") },
+    { role: "readonly", username: props.getProperty("READONLY_ADMIN_USERNAME"), salt: props.getProperty("READONLY_ADMIN_SALT"), hash: props.getProperty("READONLY_ADMIN_HASH") }
+  ];
+  // Backward-compatible migration window: the existing account remains Full Admin
+  // until initializeAdminAccounts() is run with both new accounts.
+  if (!accounts[0].username && props.getProperty("ADMIN_USERNAME")) {
+    accounts[0] = { role: "full", username: props.getProperty("ADMIN_USERNAME"), salt: props.getProperty("ADMIN_SALT"), hash: props.getProperty("ADMIN_HASH") };
+  }
   var cache = CacheService.getScriptCache();
   var failKey = "login_fail:" + hash_(username);
   var failures = Number(cache.get(failKey) || 0);
-
-  if (failures >= 5) {
-    return {
-      ok: false,
-      code: "UNAUTHORIZED",
-      message: "พยายามเข้าสู่ระบบหลายครั้งเกินไป กรุณารอ 15 นาที"
-    };
-  }
-
-  if (!salt || !expected || !configuredUsername ||
-      username !== configuredUsername ||
-      passwordHash_(salt + password) !== expected) {
+  if (failures >= 5) return { ok:false, code:"UNAUTHORIZED", message:"พยายามเข้าสู่ระบบหลายครั้งเกินไป กรุณารอ 15 นาที" };
+  var matched = accounts.filter(function (account) {
+    return account.username && account.salt && account.hash &&
+      username === account.username && passwordHash_(account.salt + password) === account.hash;
+  })[0];
+  if (!matched) {
     cache.put(failKey, String(failures + 1), 900);
     Utilities.sleep(500);
-    return {
-      ok: false,
-      code: "UNAUTHORIZED",
-      message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
-    };
+    return { ok:false, code:"UNAUTHORIZED", message:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง" };
   }
-
   cache.remove(failKey);
   var token = Utilities.getUuid() + Utilities.getUuid();
-  cache.put("admin:" + token, username, 21600);
-
-  return {
-    ok: true,
-    token: token,
-    username: username,
-    expiresIn: 21600
-  };
+  cache.put("admin:" + token, JSON.stringify({ username: matched.username, role: matched.role }), 21600);
+  return { ok:true, token:token, username:matched.username, role:matched.role, expiresIn:21600 };
 }
 
 function adminValidateSession_(input) {
-  var username = requireAdmin_(input.token);
-  if (!username) {
-    return {
-      ok: false,
-      code: "UNAUTHORIZED",
-      message: "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่"
-    };
-  }
-  return { ok: true, username: username, expiresIn: 21600 };
+  var session = requireAdminSession_(input.token);
+  if (!session) return { ok:false, code:"UNAUTHORIZED", message:"เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่" };
+  return { ok:true, username:session.username, role:session.role, expiresIn:21600 };
 }
 
 function adminLogout_(input) {
-  if (typeof input.token === "string" && input.token.length <= 200) {
-    CacheService.getScriptCache().remove("admin:" + input.token);
+  if (typeof input.token === "string" && input.token.length <= 200) CacheService.getScriptCache().remove("admin:" + input.token);
+  return { ok:true };
+}
+
+function requireAdminSession_(token) {
+  if (typeof token !== "string" || token.length > 200) return null;
+  var stored = CacheService.getScriptCache().get("admin:" + token);
+  if (!stored) return null;
+  try {
+    var parsed = JSON.parse(stored);
+    if (parsed && parsed.username && (parsed.role === "full" || parsed.role === "readonly")) return parsed;
+  } catch (ignore) {
+    // Existing sessions created before role support are treated as Full Admin.
   }
-  return { ok: true };
+  return { username: stored, role: "full" };
 }
 
 function requireAdmin_(token) {
-  if (typeof token !== "string" || token.length > 200) return "";
-  return CacheService.getScriptCache().get("admin:" + token) || "";
+  var session = requireAdminSession_(token);
+  return session ? session.username : "";
+}
+
+function requireFullAdmin_(token) {
+  var session = requireAdminSession_(token);
+  return session && session.role === "full" ? session : null;
 }
 
 function clean_(value, maxLength) {
@@ -135,29 +133,34 @@ function hash_(value) {
 }
 
 /**
- * Run only for first-time credential setup or an intentional password reset.
- * Existing ADMIN_USERNAME / ADMIN_SALT / ADMIN_HASH values remain valid.
- * Script Properties required: INITIAL_ADMIN_USERNAME and INITIAL_ADMIN_PASSWORD
- * Password must be at least 12 characters.
+ * Initialize the two Admin accounts from Script Properties.
+ * Required: INITIAL_FULL_ADMIN_USERNAME, INITIAL_FULL_ADMIN_PASSWORD,
+ * INITIAL_READONLY_ADMIN_USERNAME, INITIAL_READONLY_ADMIN_PASSWORD.
+ * Both passwords must be at least 12 characters.
  */
-function initializeAdminCredentials() {
+function initializeAdminAccounts() {
   var props = PropertiesService.getScriptProperties();
-  var username = props.getProperty("INITIAL_ADMIN_USERNAME");
-  var password = props.getProperty("INITIAL_ADMIN_PASSWORD");
-
-  if (!username || !password || password.length < 12) {
-    throw new Error("กำหนด INITIAL_ADMIN_USERNAME และรหัสผ่านอย่างน้อย 12 ตัวอักษรก่อน");
+  var fullUser = clean_(props.getProperty("INITIAL_FULL_ADMIN_USERNAME"), 80);
+  var fullPass = String(props.getProperty("INITIAL_FULL_ADMIN_PASSWORD") || "");
+  var readUser = clean_(props.getProperty("INITIAL_READONLY_ADMIN_USERNAME"), 80);
+  var readPass = String(props.getProperty("INITIAL_READONLY_ADMIN_PASSWORD") || "");
+  if (!fullUser || !readUser || fullUser === readUser || fullPass.length < 12 || readPass.length < 12 || fullPass === readPass) {
+    throw new Error("กำหนดบัญชี Full Admin และ Read-Only Admin ให้ครบ ใช้ชื่อผู้ใช้ต่างกัน และรหัสผ่านอย่างน้อย 12 ตัวอักษร");
   }
-
-  var salt = Utilities.getUuid() + Utilities.getUuid();
+  var fullSalt = Utilities.getUuid() + Utilities.getUuid();
+  var readSalt = Utilities.getUuid() + Utilities.getUuid();
   props.setProperties({
-    ADMIN_USERNAME: username,
-    ADMIN_SALT: salt,
-    ADMIN_HASH: passwordHash_(salt + password)
+    FULL_ADMIN_USERNAME: fullUser, FULL_ADMIN_SALT: fullSalt, FULL_ADMIN_HASH: passwordHash_(fullSalt + fullPass),
+    READONLY_ADMIN_USERNAME: readUser, READONLY_ADMIN_SALT: readSalt, READONLY_ADMIN_HASH: passwordHash_(readSalt + readPass)
   });
-  props.deleteProperty("INITIAL_ADMIN_USERNAME");
-  props.deleteProperty("INITIAL_ADMIN_PASSWORD");
-  Logger.log("Admin credentials initialized. Plaintext setup values removed.");
+  ["INITIAL_FULL_ADMIN_USERNAME","INITIAL_FULL_ADMIN_PASSWORD","INITIAL_READONLY_ADMIN_USERNAME","INITIAL_READONLY_ADMIN_PASSWORD",
+   "ADMIN_USERNAME","ADMIN_SALT","ADMIN_HASH","INITIAL_ADMIN_USERNAME","INITIAL_ADMIN_PASSWORD"].forEach(function(key){ props.deleteProperty(key); });
+  Logger.log("Full Admin and Read-Only Admin accounts initialized. Plaintext setup values removed.");
+}
+
+/** Legacy entry point intentionally disabled after migration to two accounts. */
+function initializeAdminCredentials() {
+  throw new Error("ใช้ initializeAdminAccounts() เพื่อกำหนดบัญชี Admin ทั้ง 2 บัญชี");
 }
 
 
@@ -185,13 +188,14 @@ var PREDICTION_HEADERS_ = [
   "sortOrder", "createdAt", "updatedAt", "updatedBy"
 ];
 var PREDICTION_COLLECTIONS_ = [
-  "Engines", "Categories", "Topics", "Variables",
+  "Engines", "Features", "Categories", "Topics", "Variables",
   "Predictions", "Rules", "Mappings"
 ];
 
 function predictionAction_(input) {
-  var actor = requireAdmin_(input.token);
-  if (!actor) return { ok: false, code: "UNAUTHORIZED", message: "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่" };
+  var session = requireFullAdmin_(input.token);
+  if (!session) return { ok: false, code: "FORBIDDEN", message: "บัญชีนี้ไม่มีสิทธิ์จัดการระบบ" };
+  var actor = session.username;
   try {
     if (input.action === "predictionInitialize") return predictionInitialize_(actor);
     if (input.action === "predictionList") return predictionList_(input);
@@ -230,6 +234,20 @@ function predictionInitialize_(actor) {
     }
   });
   if (!id) props.setProperty("PREDICTION_SPREADSHEET_ID", ss.getId());
+  var featureSheet = ss.getSheetByName("Features");
+  if (featureSheet.getLastRow() === 1) {
+    var featureRows = [
+      ["engine1-natal","engine1","","พื้นดวงกำเนิด","พื้นดวงกำเนิด","","",JSON.stringify({key:"natal",group:"base"}),100,"active",1,10,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine1-asc","engine1","","ลัคนาราศี","ลัคนาราศี","","",JSON.stringify({key:"asc",group:"base"}),100,"active",1,20,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine1-rhd","engine1","","RHD","RHD","","",JSON.stringify({key:"rhd",group:"base"}),100,"active",1,30,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine1-short","engine1","","ภาพรวมของเรื่อง","ภาพรวมของเรื่อง","","",JSON.stringify({key:"short",group:"topic"}),100,"active",1,40,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine1-month","engine1","","รายเดือน","รายเดือน","","",JSON.stringify({key:"month",group:"topic"}),100,"active",1,50,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine2-default","engine2","","เทพประจำตัว","เทพประจำตัว","","",JSON.stringify({key:"default"}),100,"active",1,10,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine3-default","engine3","","โอเรกุรัม","โอเรกุรัม","","",JSON.stringify({key:"default"}),100,"active",1,10,new Date().toISOString(),new Date().toISOString(),actor],
+      ["engine4-default","engine4","","ไพ่ทาโรต์ + รูน","ไพ่ทาโรต์ + รูน","","",JSON.stringify({key:"default"}),100,"active",1,10,new Date().toISOString(),new Date().toISOString(),actor]
+    ];
+    featureSheet.getRange(2,1,featureRows.length,PREDICTION_HEADERS_.length).setValues(featureRows);
+  }
   var engineSheet = ss.getSheetByName("Engines");
   if (engineSheet.getLastRow() === 1) {
     var now = new Date().toISOString();
@@ -460,14 +478,17 @@ function predictionAudit_(ss, action, collection, id, beforeValue, afterValue, a
 function predictionRuntime_() {
   try {
     var ss = predictionSpreadsheet_(), output = {};
-    ["Engines", "Categories", "Topics", "Variables", "Predictions", "Rules", "Mappings"].forEach(function (collection) {
+    ["Engines", "Features", "Categories", "Topics", "Variables", "Predictions", "Rules", "Mappings"].forEach(function (collection) {
       var sheet = ss.getSheetByName(collection);
       if (!sheet || sheet.getLastRow() < 2) { output[collection] = []; return; }
       var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, PREDICTION_HEADERS_.length).getValues();
       output[collection] = rows.map(function (row) {
         var data = {}; try { data = JSON.parse(row[7] || "{}"); } catch (ignore) {}
         return { id:String(row[0]), engineId:String(row[1]), parentId:String(row[2]), name:String(row[3]), title:String(row[4]), description:String(row[5]), content:String(row[6]), data:data, priority:Number(row[8] || 0), status:String(row[9]), version:Number(row[10] || 1), sortOrder:Number(row[11] || 0) };
-      }).filter(function (record) { return record.status === "published" || (collection === "Variables" && record.status === "active"); });
+      }).filter(function (record) {
+      if (collection === "Engines" || collection === "Features") return record.status === "active";
+      return record.status === "published" || (collection === "Variables" && record.status === "active");
+    });
     });
     return { ok:true, runtime:output, publishedAt:new Date().toISOString() };
   } catch (err) { return { ok:false, code:"PREDICTION_STORE_UNAVAILABLE", message:"คลังคำทำนายยังไม่ได้เริ่มต้น" }; }
