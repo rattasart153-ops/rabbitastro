@@ -121,9 +121,10 @@ function requireAdminSession_(token) {
       return parsed.epoch === currentEpoch ? parsed : null;
     }
   } catch (ignore) {
-    // Existing sessions created before role support are treated as Full Admin.
+    // Existing sessions are accepted only before the two-account migration is configured.
   }
-  return { username: stored, role: "full" };
+  var epoch = PropertiesService.getScriptProperties().getProperty("ADMIN_AUTH_EPOCH") || "legacy";
+  return epoch === "legacy" ? { username: stored, role: "full", epoch:"legacy" } : null;
 }
 
 function requireAdmin_(token) {
