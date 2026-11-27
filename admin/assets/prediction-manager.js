@@ -82,7 +82,10 @@
       data: {}, priority: 100, status: "draft", sortOrder: 100
     };
     if (currentCollection() === "Rules") {
-      record.data = { logic: "AND", predictionId: "", conditions: [{ variable: "", operator: "eq", value: "" }] };
+      record.data = { slot: record.engineId + ".base", logic: "AND", predictionId: "", conditions: [{ variable: "birth.month", operator: "eq", value: 1 }] };
+    }
+    if (currentCollection() === "Mappings") {
+      record.data = { slot: record.engineId + ".base", predictionId: "", logic: "AND" };
     }
     if (currentCollection() === "Variables") {
       record.data = { key: "", dataType: "string", source: "", description: "" };
