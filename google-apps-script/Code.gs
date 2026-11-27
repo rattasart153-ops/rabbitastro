@@ -173,6 +173,7 @@ function initializeAdminCredentials() {
 
 var PREDICTION_SHEETS_ = {
   Engines: ["engine1", "engine2", "engine3", "engine4"],
+  Features: [],
   Categories: [],
   Topics: [],
   Variables: [],
