@@ -716,3 +716,21 @@ button { border-radius:13px; }
   .engine-admin-shell .engine-tabs { gap: 4px; }
   .engine-admin-shell .tab-btn { font-size: 12px; }
 }
+
+
+/* Full Admin global Engine / Feature controls */
+.system-control-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.system-control-card { padding:18px; min-width:0; }
+.system-control-card h3 { margin:0 0 4px; }
+.system-control-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; border-top:1px solid var(--border-color); }
+.system-control-row:first-child { border-top:0; }
+.system-control-row strong, .system-control-row small { display:block; }
+.system-control-row small { color:var(--text-muted); font-size:12px; }
+.system-toggle { position:relative; display:inline-flex; align-items:center; flex:0 0 auto; cursor:pointer; }
+.system-toggle input { position:absolute; opacity:0; width:1px; height:1px; }
+.system-toggle-track { width:46px; height:26px; border-radius:20px; background:#b9b2a9; transition:background .18s ease; }
+.system-toggle-track::after { content:""; display:block; width:20px; height:20px; margin:3px; border-radius:50%; background:white; transition:transform .18s ease; box-shadow:0 1px 3px rgba(0,0,0,.18); }
+.system-toggle input:checked + .system-toggle-track { background:#568b68; }
+.system-toggle input:checked + .system-toggle-track::after { transform:translateX(20px); }
+.system-toggle input:focus-visible + .system-toggle-track { outline:3px solid rgba(86,139,104,.25); outline-offset:2px; }
+@media(max-width:760px) { .system-control-grid { grid-template-columns:1fr; } }
