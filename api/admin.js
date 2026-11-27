@@ -24,6 +24,13 @@ module.exports = async function handler(req, res) {
     return res.status(401).json({ ok: false, code: "UNAUTHORIZED", message: "กรุณาเข้าสู่ระบบใหม่" });
   }
 
+  if (body.action === "adminSetCredentials") {
+    const fields = ["fullUsername", "fullPassword", "readonlyUsername", "readonlyPassword"];
+    if (fields.some((key) => typeof body[key] !== "string" || body[key].length > 256)) {
+      return res.status(400).json({ ok: false, message: "ข้อมูลบัญชี Admin ไม่ถูกต้อง" });
+    }
+  }
+
   if (predictionActions.has(body.action)) {
     if (body.action === "predictionList" && (typeof body.collection !== "string" || body.collection.length > 40)) {
       return res.status(400).json({ ok: false, message: "ข้อมูลคลังคำทำนายไม่ถูกต้อง" });
