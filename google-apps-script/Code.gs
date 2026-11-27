@@ -286,7 +286,7 @@ function predictionSave_(input, actor) {
       name: clean_(record.name, 160), title: clean_(record.title, 200),
       description: clean_(record.description, 1000), content: String(record.content || "").slice(0, 40000),
       data: record.data && typeof record.data === "object" && !Array.isArray(record.data) ? record.data : {},
-      priority: predictionNumber_(record.priority, 100), status: predictionStatus_(record.status),
+      priority: predictionNumber_(record.priority, 100), status: predictionStatus_(record.status === "published" ? "draft" : record.status),
       version: version, sortOrder: predictionNumber_(record.sortOrder, 100),
       createdAt: old ? old.createdAt : now, updatedAt: now, updatedBy: actor
     };
