@@ -17,12 +17,78 @@
         if (!data || !data.ok || !data.runtime) throw new Error("PREDICTION_RUNTIME_UNAVAILABLE");
         runtime = data.runtime;
         window.RABBITASTRO_PREDICTION_RUNTIME = runtime;
+        applySystemVisibility();
         return runtime;
       })
       .catch(function () { runtime = null; return null; })
       .finally(function () { loadPromise = null; });
     return loadPromise;
   }
+
+  function applySystemVisibility() {
+    if (!runtime) return;
+    var enabledEngines = {};
+    (runtime.Engines || []).forEach(function (item) { enabledEngines[item.id] = item.status === "active"; });
+    var tabs = [
+      ["engine1", "tabPerson"], ["engine2", "tabGod"],
+      ["engine3", "tabOreguram"], ["engine4", "tabTarotRune"]
+    ];
+    tabs.forEach(function (entry) {
+      var tab = document.getElementById(entry[1]);
+      if (tab) tab.hidden = enabledEngines[entry[0]] === false;
+    });
+    var active = document.querySelector(".tab-btn.active");
+    if (active && active.hidden) {
+      var first = tabs.map(function (entry) { return document.getElementById(entry[1]); })
+        .filter(function (node) { return node && !node.hidden; })[0];
+      if (first) first.click();
+    }
+    var features = runtime.Features || [];
+    if (features.length) {
+      var enabled = {};
+      features.forEach(function (item) {
+        if (item.engineId === "engine1" && item.data) enabled[item.data.key] = item.status === "active";
+      });
+      var controls = [
+        ["natal", '#baseViewGroup [data-view="natal"]'],
+        ["asc", '#baseViewGroup [data-view="asc"]'],
+        ["rhd", '#baseViewGroup [data-view="rhd"]'],
+        ["short", '#topicViewGroup [data-view="short"]'],
+        ["month", '#topicViewGroup [data-view="month"]']
+      ];
+      controls.forEach(function (entry) {
+        var node = document.querySelector(entry[1]);
+        if (node) node.hidden = enabled[entry[0]] === false;
+      });
+      var hasBase = ["natal","asc","rhd"].some(function (key) { return enabled[key] !== false; });
+      var hasTopic = ["short","month"].some(function (key) { return enabled[key] !== false; });
+      var baseMode = document.querySelector('#modeGroup [data-mode="base"]');
+      var topicMode = document.querySelector('#modeGroup [data-mode="topic"]');
+      if (baseMode) baseMode.hidden = !hasBase;
+      if (topicMode) topicMode.hidden = !hasTopic;
+      var rhd = document.getElementById("rhdControl");
+      var baseBar = document.getElementById("baseBar");
+      var topicBar = document.getElementById("topicBar");
+      if (rhd) rhd.hidden = enabled.rhd === false;
+      if (baseBar) baseBar.hidden = !hasBase;
+      if (topicBar) topicBar.hidden = !hasTopic;
+      ["baseViewGroup","topicViewGroup"].forEach(function (id) {
+        var group = document.getElementById(id);
+        if (!group) return;
+        var current = group.querySelector(".chip-btn.active");
+        if (current && current.hidden) {
+          var next = Array.prototype.slice.call(group.querySelectorAll(".chip-btn")).filter(function (node) { return !node.hidden; })[0];
+          if (next) next.click();
+        }
+      });
+      var currentMode = document.querySelector('#modeGroup .chip-btn.active');
+      if (currentMode && currentMode.hidden) {
+        var nextMode = document.querySelector('#modeGroup .chip-btn:not([hidden])');
+        if (nextMode) nextMode.click();
+      }
+    }
+  }
+  window.RABBITASTRO_APPLY_SYSTEM_VISIBILITY = applySystemVisibility;
 
   function selectedValue(selector, attribute) {
     var node = document.querySelector(selector + " .active");
