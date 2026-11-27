@@ -16,6 +16,9 @@ function doPost(e) {
       case "adminLogout":
         result = adminLogout_(input);
         break;
+      case "adminSetCredentials":
+        result = adminSetCredentials_(input);
+        break;
       case "predictionRuntime":
         result = predictionRuntime_();
         break;
@@ -70,7 +73,8 @@ function adminLogin_(input) {
   }
   cache.remove(failKey);
   var token = Utilities.getUuid() + Utilities.getUuid();
-  cache.put("admin:" + token, JSON.stringify({ username: matched.username, role: matched.role }), 21600);
+  var authEpoch = props.getProperty("ADMIN_AUTH_EPOCH") || "legacy";
+  cache.put("admin:" + token, JSON.stringify({ username: matched.username, role: matched.role, epoch:authEpoch }), 21600);
   return { ok:true, token:token, username:matched.username, role:matched.role, expiresIn:21600 };
 }
 
@@ -85,13 +89,37 @@ function adminLogout_(input) {
   return { ok:true };
 }
 
+function adminSetCredentials_(input) {
+  var actor = requireFullAdmin_(input.token);
+  if (!actor) return { ok:false, code:"FORBIDDEN", message:"บัญชีนี้ไม่มีสิทธิ์จัดการบัญชี Admin" };
+  var fullUser = clean_(input.fullUsername, 80);
+  var fullPass = String(input.fullPassword || "");
+  var readUser = clean_(input.readonlyUsername, 80);
+  var readPass = String(input.readonlyPassword || "");
+  if (!fullUser || !readUser || fullUser === readUser || fullPass.length < 12 || readPass.length < 12 || fullPass === readPass) {
+    return { ok:false, message:"กรุณากำหนดชื่อผู้ใช้ต่างกัน และรหัสผ่านทั้งสองชุดอย่างน้อย 12 ตัวอักษร โดยรหัสผ่านต้องไม่เหมือนกัน" };
+  }
+  var fullSalt = Utilities.getUuid() + Utilities.getUuid();
+  var readSalt = Utilities.getUuid() + Utilities.getUuid();
+  var props = PropertiesService.getScriptProperties();
+  props.setProperties({
+    FULL_ADMIN_USERNAME:fullUser, FULL_ADMIN_SALT:fullSalt, FULL_ADMIN_HASH:passwordHash_(fullSalt + fullPass),
+    READONLY_ADMIN_USERNAME:readUser, READONLY_ADMIN_SALT:readSalt, READONLY_ADMIN_HASH:passwordHash_(readSalt + readPass),
+    ADMIN_AUTH_EPOCH:Utilities.getUuid()
+  });
+  return { ok:true, message:"เปลี่ยนบัญชี Admin ทั้งสองชุดแล้ว กรุณาเข้าสู่ระบบใหม่" };
+}
+
 function requireAdminSession_(token) {
   if (typeof token !== "string" || token.length > 200) return null;
   var stored = CacheService.getScriptCache().get("admin:" + token);
   if (!stored) return null;
   try {
     var parsed = JSON.parse(stored);
-    if (parsed && parsed.username && (parsed.role === "full" || parsed.role === "readonly")) return parsed;
+    if (parsed && parsed.username && (parsed.role === "full" || parsed.role === "readonly")) {
+      var currentEpoch = PropertiesService.getScriptProperties().getProperty("ADMIN_AUTH_EPOCH") || "legacy";
+      return parsed.epoch === currentEpoch ? parsed : null;
+    }
   } catch (ignore) {
     // Existing sessions created before role support are treated as Full Admin.
   }
@@ -151,7 +179,8 @@ function initializeAdminAccounts() {
   var readSalt = Utilities.getUuid() + Utilities.getUuid();
   props.setProperties({
     FULL_ADMIN_USERNAME: fullUser, FULL_ADMIN_SALT: fullSalt, FULL_ADMIN_HASH: passwordHash_(fullSalt + fullPass),
-    READONLY_ADMIN_USERNAME: readUser, READONLY_ADMIN_SALT: readSalt, READONLY_ADMIN_HASH: passwordHash_(readSalt + readPass)
+    READONLY_ADMIN_USERNAME: readUser, READONLY_ADMIN_SALT: readSalt, READONLY_ADMIN_HASH: passwordHash_(readSalt + readPass),
+    ADMIN_AUTH_EPOCH: Utilities.getUuid()
   });
   ["INITIAL_FULL_ADMIN_USERNAME","INITIAL_FULL_ADMIN_PASSWORD","INITIAL_READONLY_ADMIN_USERNAME","INITIAL_READONLY_ADMIN_PASSWORD",
    "ADMIN_USERNAME","ADMIN_SALT","ADMIN_HASH","INITIAL_ADMIN_USERNAME","INITIAL_ADMIN_PASSWORD"].forEach(function(key){ props.deleteProperty(key); });
@@ -490,6 +519,21 @@ function predictionRuntime_() {
       if (collection === "Engines" || collection === "Features") return record.status === "active";
       return record.status === "published" || (collection === "Variables" && record.status === "active");
     });
+    });
+    var activeEngines = {};
+    (output.Engines || []).forEach(function (engine) { activeEngines[engine.id] = true; });
+    ["Predictions", "Rules", "Mappings"].forEach(function (collection) {
+      output[collection] = (output[collection] || []).filter(function (record) {
+        if (!activeEngines[record.engineId]) return false;
+        var data = record.data || {};
+        if (data.feature) {
+          var match = (output.Features || []).some(function (feature) {
+            return feature.engineId === record.engineId && feature.data && feature.data.key === data.feature && feature.status === "active";
+          });
+          if (!match) return false;
+        }
+        return true;
+      });
     });
     return { ok:true, runtime:output, publishedAt:new Date().toISOString() };
   } catch (err) { return { ok:false, code:"PREDICTION_STORE_UNAVAILABLE", message:"คลังคำทำนายยังไม่ได้เริ่มต้น" }; }
