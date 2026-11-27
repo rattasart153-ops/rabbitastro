@@ -110,11 +110,6 @@
     return !!(data.slot || data.feature || data.category || data.topic);
   }
 
-  function escapeText(value) {
-    return String(value == null ? "" : value).replace(/[&<>"]/g, function (char) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char];
-    });
-  }
 
   function renderCentralBlock(context) {
     if (!runtime || !results || !results.isConnected) return;
@@ -178,7 +173,13 @@
   }
   window.RABBITASTRO_RELOAD_PREDICTIONS = function () {
     lastContextKey = "";
-    return loadRuntime(true).then(function () { refresh(); });
+    if (results) {
+      var oldBlock = results.querySelector("[data-central-predictions]");
+      if (oldBlock) oldBlock.remove();
+    }
+    return loadRuntime(true).then(function () {
+      if (results && results.style.display !== "none" && results.childNodes.length) renderCentralBlock(getContext());
+    });
   };
   loadRuntime(false);
 })();
