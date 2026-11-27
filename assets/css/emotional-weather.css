@@ -1,117 +1,104 @@
-
-/* Emotional Weather Check-in — isolated UI layer */
-body.emotional-weather-open { overflow: hidden; }
-.emotional-weather-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: max(16px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
-  overflow-y: auto;
-  background: rgba(48, 42, 36, .42);
-  -webkit-backdrop-filter: blur(7px);
-  backdrop-filter: blur(7px);
-  animation: emotional-weather-fade-in .24s ease both;
+/* Emotional Weather Check-in — compact inline selector under the name fields */
+.emotional-weather-checkin {
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px solid #eadfce;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #fffdf8, #faf7f1);
 }
-.emotional-weather-overlay[hidden] { display: none; }
-.emotional-weather-panel {
-  width: min(100%, 540px);
-  max-height: min(90dvh, 760px);
-  overflow-y: auto;
-  padding: clamp(20px, 5vw, 30px);
-  border: 1px solid #e9e1d7;
-  border-radius: 24px;
-  background: #fffdf9;
-  box-shadow: 0 24px 70px rgba(45, 34, 24, .2);
-  animation: emotional-weather-rise .32s cubic-bezier(.2,.75,.25,1) both;
+.emotional-weather-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 3px 8px;
 }
 .emotional-weather-eyebrow {
   color: #a18465;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: .14em;
-  text-align: center;
+  letter-spacing: .09em;
 }
-.emotional-weather-panel h2 {
-  margin: 7px 0 10px;
-  color: #332a23;
-  font-size: clamp(21px, 5vw, 25px);
-  line-height: 1.35;
-  text-align: center;
+.emotional-weather-heading strong {
+  color: #493a2d;
+  font-size: 12px;
 }
 .emotional-weather-prompt {
-  max-width: 440px;
-  margin: 0 auto 20px;
-  color: #74685c;
-  font-size: 14px;
-  line-height: 1.8;
-  text-align: center;
+  margin: 3px 0 8px;
+  color: #81766b;
+  font-size: 11px;
+  line-height: 1.45;
 }
 .emotional-weather-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 6px;
 }
 .emotional-weather-option {
   display: flex;
   min-width: 0;
-  min-height: 112px;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 14px 12px;
+  min-height: 52px;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
   border: 1px solid #e9e1d7;
-  border-radius: 16px;
-  background: #fcfaf6;
+  border-radius: 10px;
+  background: #fff;
   color: #40372f;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+  transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
   -webkit-tap-highlight-color: transparent;
 }
 .emotional-weather-option:hover,
 .emotional-weather-option:focus-visible {
   border-color: #c8ad8e;
-  background: #f7f0e7;
-  box-shadow: 0 5px 15px rgba(96, 71, 45, .08);
   outline: none;
 }
-.emotional-weather-option:active { transform: scale(.985); }
+.emotional-weather-option.is-selected {
+  border-color: #b8956d;
+  background: #f6eee3;
+  box-shadow: inset 0 0 0 1px #b8956d;
+}
 .emotional-weather-icon {
   flex: 0 0 auto;
-  font-size: 25px;
-  line-height: 1.2;
+  font-size: 19px;
+  line-height: 1.1;
 }
-.emotional-weather-copy { display: grid; gap: 5px; min-width: 0; }
+.emotional-weather-copy {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
 .emotional-weather-copy strong {
   color: #4a3a2d;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.35;
   overflow-wrap: anywhere;
 }
 .emotional-weather-copy small {
   color: #81766b;
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 9px;
+  line-height: 1.35;
 }
 .emotional-weather-skip {
   display: block;
-  min-height: 42px;
-  margin: 14px auto 0;
-  padding: 8px 14px;
+  margin: 6px 0 0 auto;
+  padding: 4px 2px;
   border: 0;
-  border-radius: 999px;
   background: transparent;
   color: #8b7b6b;
   font: inherit;
-  font-size: 12px;
+  font-size: 10px;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 2px;
   cursor: pointer;
 }
-.emotional-weather-skip:hover,
-.emotional-weather-skip:focus-visible { color: #604b37; outline: 2px solid #d9c4aa; outline-offset: 3px; }
+.emotional-weather-skip.is-selected {
+  color: #604b37;
+  font-weight: 700;
+}
 .emotional-weather-intro {
   display: flex;
   align-items: flex-start;
