@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "collection": "Engines",
+  "records": [
+    {
+      "id": "engine1",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "engine1",
+      "title": "ดวงบุคคล",
+      "description": "โหรกระต่ายและ Matrix Destiny",
+      "content": "",
+      "data": {
+        "key": "person"
+      },
+      "priority": 10,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "engine2",
+      "engineId": "engine2",
+      "parentId": "",
+      "name": "engine2",
+      "title": "เทพประจำตัว",
+      "description": "คงแนวทางคำทำนายเดิม",
+      "content": "",
+      "data": {
+        "key": "god"
+      },
+      "priority": 20,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 20
+    },
+    {
+      "id": "engine3",
+      "engineId": "engine3",
+      "parentId": "",
+      "name": "engine3",
+      "title": "โอเรกุรัม",
+      "description": "ระบบคำทำนายโอเรกุรัม",
+      "content": "",
+      "data": {
+        "key": "oreguram"
+      },
+      "priority": 30,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 30
+    },
+    {
+      "id": "engine4",
+      "engineId": "engine4",
+      "parentId": "",
+      "name": "engine4",
+      "title": "ไพ่ทาโรต์ + รูน",
+      "description": "ระบบไพ่ทาโรต์และรูน",
+      "content": "",
+      "data": {
+        "key": "tarot-rune"
+      },
+      "priority": 40,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 40
+    }
+  ]
+}
