@@ -216,10 +216,12 @@ async function rollback(collection, id, version, actor) {
   const versions = await history(collection, id);
   const selected = versions.find((item) => Number(item.version) === Number(version));
   if (!selected || !selected.record) throw new Error("VERSION_NOT_FOUND");
+  const wasPublished = selected.record.status === "published";
   const restored = Object.assign({}, selected.record, { id });
   delete restored.history;
   const saved = await save(collection, restored, actor);
-  return { record: saved, rolledBackFrom: Number(version) };
+  const finalRecord = wasPublished ? await publish(collection, id, actor) : saved;
+  return { record: finalRecord, rolledBackFrom: Number(version) };
 }
 
 async function runtime() {
