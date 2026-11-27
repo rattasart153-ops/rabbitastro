@@ -47,7 +47,7 @@ module.exports = async function handler(req, res) {
       redirect: "follow"
     });
     const data = await upstream.json();
-    const status = data.ok ? 200 : (data.code === "UNAUTHORIZED" ? 401 : 400);
+    const status = data.ok ? 200 : (data.code === "UNAUTHORIZED" ? 401 : (data.code === "FORBIDDEN" ? 403 : 400));
     return res.status(status).json(data);
   } catch (error) {
     return res.status(502).json({
