@@ -325,8 +325,25 @@
               <button type="button" id="predictionSave" class="primary">บันทึกฉบับร่าง</button>
               <button type="button" id="predictionPublish" class="secondary">เผยแพร่</button>
               <button type="button" id="predictionArchive" class="danger">เก็บเข้าคลัง</button>
+              <button type="button" id="predictionHistoryButton" class="secondary">ประวัติ / ย้อนกลับ</button>
             </div>
-            <p class="muted prediction-help">กฎการทำนาย: ในช่องข้อมูลเพิ่มเติมของ Rules ให้ระบุ logic เป็น AND หรือ OR, predictionId เป็น ID ของคำทำนาย และ conditions เป็นรายการเงื่อนไขที่ใช้ตัวแปรจาก Engine</p>
+            <section id="predictionHistoryPanel" class="prediction-history" hidden>
+              <div class="prediction-records-heading"><strong>ประวัติเวอร์ชัน</strong><span class="muted">เลือกเวอร์ชันเพื่อกู้คืน</span></div>
+              <div class="prediction-history-controls">
+                <select id="predictionHistorySelect"><option value="">เลือกเวอร์ชัน</option></select>
+                <button type="button" id="predictionHistoryLoad" class="secondary">โหลดประวัติ</button>
+                <button type="button" id="predictionRollback" class="danger">กู้คืนเวอร์ชันนี้</button>
+              </div>
+              <p id="predictionHistoryMessage" class="muted"></p>
+            </section>
+            <section class="prediction-preview">
+              <strong>ทดลองเงื่อนไขก่อนเผยแพร่</strong>
+              <p class="muted">ใช้กับรายการ Rules โดยกรอกค่าตัวแปรจำลองในรูปแบบ JSON</p>
+              <textarea id="predictionPreviewContext" rows="6" spellcheck="false">{"engine":"engine1","feature":"base","category":"love","birth":{"day":1,"month":1,"year":2000,"hour":12,"minute":0,"noBirthTime":false},"person":{"firstName":"ตัวอย่าง","lastName":"ทดสอบ"}}</textarea>
+              <button type="button" id="predictionPreviewButton" class="secondary">ทดสอบเงื่อนไข</button>
+              <p id="predictionPreviewResult" class="muted" role="status"></p>
+            </section>
+            <p class="muted prediction-help">เงื่อนไขใน Rules ใช้ logic เป็น AND หรือ OR, predictionId เป็น ID ของคำทำนาย และ conditions เป็นรายการ variable / operator / value โดยกำหนด data.slot เช่น engine1.base, engine1.asc, engine1.short, engine1.month, engine2.default, engine3.default หรือ engine4.default</p>
           </div>
         </div>
       </section>
