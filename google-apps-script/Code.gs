@@ -358,6 +358,7 @@ function predictionPublish_(input, actor) {
     if (!rowNumber) throw new Error("RECORD_NOT_FOUND");
     var record = predictionReadRecord_(sheet, rowNumber);
     if (collection === "Rules") predictionValidateRule_(record, ss);
+    if (collection === "Mappings") predictionValidateMapping_(record, ss);
     record.status = "published";
     record.version += 1;
     record.updatedAt = new Date().toISOString();
@@ -495,4 +496,24 @@ function predictionRollback_(input, actor) {
   if(!saved.ok)return saved;
   if(wasPublished)return predictionPublish_({collection:collection,id:id},actor);
   return {ok:true,record:saved.record,rolledBackFrom:version};
+}
+
+function predictionValidateMapping_(record, ss) {
+  var data = record.data || {};
+  if (!data.predictionId) throw new Error("MAPPING_PREDICTION_REQUIRED");
+  if (!data.slot && !data.feature && !data.category && !data.topic) throw new Error("MAPPING_SCOPE_REQUIRED");
+  var predictionSheet = ss.getSheetByName("Predictions");
+  var predictionRow = predictionFindRow_(predictionSheet, String(data.predictionId));
+  if (!predictionRow) throw new Error("MAPPING_TARGET_PREDICTION_NOT_FOUND");
+  var target = predictionReadRecord_(predictionSheet, predictionRow);
+  if (target.engineId !== record.engineId) throw new Error("MAPPING_TARGET_ENGINE_MISMATCH");
+  if (target.status !== "published") throw new Error("MAPPING_TARGET_NOT_PUBLISHED");
+  if (data.conditions != null) {
+    if (!Array.isArray(data.conditions) || !data.conditions.length || data.conditions.length > 50) throw new Error("INVALID_MAPPING_CONDITIONS");
+    var allowed = ["eq", "neq", "gt", "gte", "lt", "lte", "in", "between", "contains", "exists"];
+    data.conditions.forEach(function (condition) {
+      if (!condition || typeof condition.variable !== "string" || !condition.variable || allowed.indexOf(condition.operator) < 0) throw new Error("INVALID_MAPPING_CONDITION");
+    });
+  }
+  if (data.logic && data.logic !== "AND" && data.logic !== "OR") throw new Error("INVALID_MAPPING_LOGIC");
 }
