@@ -5,13 +5,17 @@ module.exports = async function handler(req, res) {
   }
 
   const url = process.env.GAS_WEB_APP_URL;
+  const token = req.headers["x-admin-token"];
+  if (typeof token !== "string" || token.length > 200) {
+    return res.status(401).json({ ok:false, code:"UNAUTHORIZED", message:"กรุณาเข้าสู่ระบบเพื่อดูคำทำนาย" });
+  }
   if (!url) return res.status(503).json({ ok: false, code: "PREDICTION_API_NOT_CONFIGURED" });
 
   try {
     const upstream = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ action: "predictionRuntime" }),
+      body: JSON.stringify({ action: "predictionRuntime", token }),
       redirect: "follow"
     });
     const data = await upstream.json();
