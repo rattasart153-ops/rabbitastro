@@ -321,6 +321,7 @@ function predictionDelete_(input, actor) {
     var rowNumber = predictionFindRow_(sheet, id);
     if (!rowNumber) return { ok: false, message: "ไม่พบรายการที่ต้องการลบ" };
     var old = predictionReadRecord_(sheet, rowNumber);
+    var beforeArchive = JSON.parse(JSON.stringify(old));
     old.status = "archived";
     old.version += 1;
     old.updatedAt = new Date().toISOString();
@@ -330,7 +331,7 @@ function predictionDelete_(input, actor) {
     sheet.getRange(rowNumber, 14).setValue(old.updatedAt);
     sheet.getRange(rowNumber, 15).setValue(actor);
     predictionVersion_(ss, collection, id, old.version + 1, old, actor);
-    predictionAudit_(ss, "archive", collection, id, old, null, actor);
+    predictionAudit_(ss, "archive", collection, id, beforeArchive, old, actor);
     return { ok: true, archived: true, id: id };
   } finally {
     lock.releaseLock();
@@ -349,7 +350,7 @@ function predictionPublish_(input, actor) {
     var rowNumber = predictionFindRow_(sheet, id);
     if (!rowNumber) throw new Error("RECORD_NOT_FOUND");
     var record = predictionReadRecord_(sheet, rowNumber);
-    if (collection === "Rules") predictionValidateRule_(record);
+    if (collection === "Rules") predictionValidateRule_(record, ss);
     record.status = "published";
     record.version += 1;
     record.updatedAt = new Date().toISOString();
@@ -366,7 +367,7 @@ function predictionPublish_(input, actor) {
   }
 }
 
-function predictionValidateRule_(record) {
+function predictionValidateRule_(record, ss) {
   var data = record.data || {};
   var conditions = data.conditions;
   if (!Array.isArray(conditions) || !conditions.length || conditions.length > 50) throw new Error("RULE_CONDITIONS_REQUIRED");
@@ -378,6 +379,14 @@ function predictionValidateRule_(record) {
   });
   if (data.logic && data.logic !== "AND" && data.logic !== "OR") throw new Error("INVALID_RULE_LOGIC");
   if (!data.predictionId) throw new Error("RULE_PREDICTION_REQUIRED");
+  if (ss) {
+    var predictionSheet = ss.getSheetByName("Predictions");
+    var predictionRow = predictionFindRow_(predictionSheet, String(data.predictionId));
+    if (!predictionRow) throw new Error("RULE_TARGET_PREDICTION_NOT_FOUND");
+    var target = predictionReadRecord_(predictionSheet, predictionRow);
+    if (target.engineId !== record.engineId) throw new Error("RULE_TARGET_ENGINE_MISMATCH");
+    if (target.status !== "published") throw new Error("RULE_TARGET_NOT_PUBLISHED");
+  }
 }
 
 function predictionAssertCollection_(collection) {
