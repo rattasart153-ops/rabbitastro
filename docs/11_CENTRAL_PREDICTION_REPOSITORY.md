@@ -117,9 +117,9 @@ Create a Prediction, save it as a draft, and set its `data` object to include a 
 - `category`: optional Engine 1 category key such as `work`, `money`, `health`, `love`, or `interest`.
 - `topic`: optional active Engine 1 subtopic label.
 
-Alternatively, publish a Rule with `data.slot` (and optional `feature`, `category`, `topic`) plus `predictionId` pointing to a published Prediction. The Admin runtime evaluates the Rule's `conditions` using the `AND` / `OR` logic and the operators `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `between`, `contains`, and `exists`.
+Alternatively, publish a Rule with `data.slot` (and optional `feature`, `category`, `topic`) plus `predictionId` pointing to a published Prediction. The Admin runtime evaluates the Rule's `conditions` using the `AND` / `OR` logic and the operators `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `between`, `contains`, and `exists`. Published Mappings can target a published Prediction using the same scope and condition fields; the target must belong to the same Engine. Active Variables can define `data.key`, `data.source`, `data.dataType`, and optional `data.defaultValue`, allowing Rule conditions to use a stable variable name while reading from a context path.
 
-Available context paths include `engine`, `feature`, `category`, `topic`, `person.firstName`, `person.lastName`, `birth.day`, `birth.month`, `birth.year`, `birth.hour`, `birth.minute`, `birth.noBirthTime`, and `oreguram.questionId`. Engine calculations are not changed; central readings are rendered as an additional section after the existing Engine result.
+For example, a Variable with `data.key = "birthMonth"` and `data.source = "birth.month"` can be referenced in a Rule condition as `birthMonth`. Available context paths include `engine`, `feature`, `category`, `topic`, `person.firstName`, `person.lastName`, `birth.day`, `birth.month`, `birth.year`, `birth.hour`, `birth.minute`, `birth.noBirthTime`, and `oreguram.questionId`. Engine calculations are not changed; central readings are rendered as an additional section after the existing Engine result.
 
 ### History and preview
 
