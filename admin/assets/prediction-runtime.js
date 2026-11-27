@@ -8,7 +8,7 @@
   function loadRuntime(force) {
     if (runtime && !force) return Promise.resolve(runtime);
     if (loadPromise && !force) return loadPromise;
-    loadPromise = fetch("/api/predictions", { method: "GET", cache: "no-store", credentials: "same-origin" })
+    loadPromise = fetch("/api/predictions", { method: "GET", cache: "no-store", credentials: "same-origin", headers: { "X-Admin-Token": sessionStorage.getItem("rabbitastro_admin_token") || "" } })
       .then(function (response) {
         if (!response.ok) throw new Error("PREDICTION_RUNTIME_UNAVAILABLE");
         return response.json();
