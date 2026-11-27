@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
 
   const body = req.body && typeof req.body === "object" ? req.body : {};
   const predictionActions = new Set(["predictionInitialize", "predictionList", "predictionSave", "predictionDelete", "predictionPublish", "predictionHistory", "predictionRollback"]);
-  const allowed = new Set(["adminLogin", "adminValidateSession", "adminLogout", ...predictionActions]);
+  const allowed = new Set(["adminLogin", "adminValidateSession", "adminLogout", "adminSetCredentials", ...predictionActions]);
   if (!allowed.has(body.action)) {
     return res.status(400).json({ ok: false, message: "คำสั่งไม่ถูกต้อง" });
   }
