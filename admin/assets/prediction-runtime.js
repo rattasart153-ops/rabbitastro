@@ -73,6 +73,22 @@
     }, object);
   }
 
+  function resolveVariable(name, context) {
+    var definitions = runtime && runtime.Variables ? runtime.Variables : [];
+    var definition = definitions.filter(function (item) {
+      if (item.engineId !== context.engine) return false;
+      var data = item.data || {};
+      return data.key === name || item.name === name;
+    })[0];
+    if (!definition) return getPath(context, name);
+    var config = definition.data || {};
+    var value = config.source ? getPath(context, config.source) : getPath(context, name);
+    if (value == null && Object.prototype.hasOwnProperty.call(config, "defaultValue")) value = config.defaultValue;
+    if (config.dataType === "number" && value != null && value !== "") value = Number(value);
+    if (config.dataType === "boolean") value = value === true || value === "true" || value === 1;
+    return value;
+  }
+
   function compare(actual, operator, expected) {
     if (operator === "exists") return expected === false ? actual == null : actual != null;
     if (operator === "eq") return String(actual) === String(expected);
@@ -96,7 +112,7 @@
     var conditions = Array.isArray(data.conditions) ? data.conditions : [];
     if (!conditions.length) return !!(data.slot || data.feature || data.category || data.topic);
     var outcomes = conditions.map(function (condition) {
-      return compare(getPath(context, condition.variable), condition.operator, condition.value);
+      return compare(resolveVariable(condition.variable, context), condition.operator, condition.value);
     });
     return String(data.logic || "AND").toUpperCase() === "OR" ? outcomes.some(Boolean) : outcomes.every(Boolean);
   }
@@ -124,6 +140,14 @@
         var target = byId[(rule.data || {}).predictionId];
         if (target && target.engineId === context.engine && selected.indexOf(target) < 0) selected.push(target);
       });
+    (runtime.Mappings || []).filter(function (mapping) {
+      return mapping.engineId === context.engine && ruleMatches(mapping, context);
+    }).sort(function (a, b) {
+      return Number(b.priority || 0) - Number(a.priority || 0) || Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+    }).forEach(function (mapping) {
+      var target = byId[(mapping.data || {}).predictionId];
+      if (target && target.engineId === context.engine && selected.indexOf(target) < 0) selected.push(target);
+    });
     predictions.filter(function (item) {
       return item.engineId === context.engine && predictionMatches(item, context);
     }).sort(function (a, b) {
