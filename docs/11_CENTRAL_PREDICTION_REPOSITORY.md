@@ -128,3 +128,32 @@ The Admin editor includes version history and rollback. A rollback creates a new
 5. Create and publish a test Prediction for one slot, then calculate the corresponding Engine to verify the central section appears.
 
 This integration is currently scoped to the Admin preview branch. Existing built-in prediction text remains in place; central content is additive, so no original calculation formula or built-in interpretation table is replaced automatically.
+
+
+## Two-account Admin access control (2026-11)
+
+The Admin interface now supports two roles:
+
+- `full`: Full Admin. Can manage the central prediction repository, Engine and Feature availability, and rotate both Admin credentials.
+- `readonly`: Read-Only Admin. Can use the calculation/read experience but cannot call repository mutation or management actions.
+
+### Initial credential setup
+
+In Apps Script Project Settings > Script Properties, set all four values:
+
+- `INITIAL_FULL_ADMIN_USERNAME`
+- `INITIAL_FULL_ADMIN_PASSWORD`
+- `INITIAL_READONLY_ADMIN_USERNAME`
+- `INITIAL_READONLY_ADMIN_PASSWORD`
+
+Use different usernames and different passwords. Both passwords must be at least 12 characters. Then run `initializeAdminAccounts()` once from the Apps Script editor and authorize it. The function stores salted hashes and removes the plaintext setup properties plus the legacy single-account properties. Existing pre-migration sessions are invalidated.
+
+Full Admin can later rotate both accounts together from Admin > จัดการ Engine / Features. This revokes existing sessions and requires both accounts to sign in again.
+
+### Engine and Feature switches
+
+The repository adds a `Features` worksheet. Initialization seeds the four Engine records and the current Engine 1–4 Feature records. Full Admin can switch each record between `active` and `inactive`. Inactive records are excluded from the public runtime feed; inactive Engines and Engine 1 Features are hidden in the Admin calculation interface for both roles. Hiding is reversible and does not delete calculation code or prediction content.
+
+### Important formula limitation
+
+The current Admin repository stores prediction content, rule conditions, mappings, and Engine/Feature availability. It does **not** execute arbitrary JavaScript source stored in Google Sheets and does not rewrite the deployed calculation modules. The existing calculation formulas remain in the version-controlled Engine code. Formula changes therefore still require a reviewed code change and a new deployment; this avoids executing editable spreadsheet text as arbitrary code. The role system does not change any existing calculation formula.
