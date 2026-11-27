@@ -1,0 +1,184 @@
+(function () {
+  "use strict";
+  var runtime = null;
+  var loadPromise = null;
+  var results = document.getElementById("results");
+  var lastContextKey = "";
+
+  function loadRuntime(force) {
+    if (runtime && !force) return Promise.resolve(runtime);
+    if (loadPromise && !force) return loadPromise;
+    loadPromise = fetch("/api/predictions", { method: "GET", cache: "no-store", credentials: "same-origin" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("PREDICTION_RUNTIME_UNAVAILABLE");
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data || !data.ok || !data.runtime) throw new Error("PREDICTION_RUNTIME_UNAVAILABLE");
+        runtime = data.runtime;
+        window.RABBITASTRO_PREDICTION_RUNTIME = runtime;
+        return runtime;
+      })
+      .catch(function () { runtime = null; return null; })
+      .finally(function () { loadPromise = null; });
+    return loadPromise;
+  }
+
+  function selectedValue(selector, attribute) {
+    var node = document.querySelector(selector + " .active");
+    return node ? (node.getAttribute(attribute) || node.textContent.trim()) : "";
+  }
+
+  function getContext() {
+    var activeTab = document.querySelector(".tab-btn.active");
+    var tabId = activeTab ? activeTab.id : "tabPerson";
+    var engine = tabId === "tabGod" ? "engine2" : tabId === "tabOreguram" ? "engine3" : tabId === "tabTarotRune" ? "engine4" : "engine1";
+    var mode = selectedValue("#modeGroup", "data-mode") || "base";
+    var feature = "default";
+    var category = "";
+    var topic = "";
+    if (engine === "engine1") {
+      if (mode === "topic") {
+        feature = selectedValue("#topicViewGroup", "data-view") || "short";
+        category = selectedValue("#catGroup", "data-cat");
+        var activeSub = document.querySelector("#subTopicGroup .active");
+        topic = activeSub ? activeSub.textContent.trim() : "";
+      } else {
+        var base = selectedValue("#baseViewGroup", "data-view") || "natal";
+        feature = base === "natal" ? "base" : base;
+      }
+    } else if (engine === "engine3") {
+      feature = "default";
+    } else if (engine === "engine4") {
+      feature = "default";
+    }
+    var value = function (id) { var el = document.getElementById(id); return el ? el.value : ""; };
+    var noTime = document.getElementById("noBirthTime");
+    var question = document.getElementById("oreguramQuestion");
+    return {
+      engine: engine,
+      feature: feature,
+      category: category,
+      topic: topic,
+      person: { firstName: value("fName"), lastName: value("fLast") },
+      birth: { day: Number(value("bDay")) || 0, month: Number(value("bMonth")) || 0, year: Number(value("bYear")) || 0, hour: Number(value("bHour")) || 0, minute: Number(value("bMin")) || 0, noBirthTime: !!(noTime && noTime.checked) },
+      oreguram: { questionId: question ? Number(question.value) || 0 : 0 },
+      tarotRune: {}
+    };
+  }
+
+  function getPath(object, path) {
+    return String(path || "").split(".").reduce(function (value, key) {
+      return value == null ? undefined : value[key];
+    }, object);
+  }
+
+  function compare(actual, operator, expected) {
+    if (operator === "exists") return expected === false ? actual == null : actual != null;
+    if (operator === "eq") return String(actual) === String(expected);
+    if (operator === "neq") return String(actual) !== String(expected);
+    if (operator === "gt") return Number(actual) > Number(expected);
+    if (operator === "gte") return Number(actual) >= Number(expected);
+    if (operator === "lt") return Number(actual) < Number(expected);
+    if (operator === "lte") return Number(actual) <= Number(expected);
+    if (operator === "in") return Array.isArray(expected) && expected.map(String).indexOf(String(actual)) >= 0;
+    if (operator === "between") return Array.isArray(expected) && expected.length === 2 && Number(actual) >= Number(expected[0]) && Number(actual) <= Number(expected[1]);
+    if (operator === "contains") return Array.isArray(actual) ? actual.map(String).indexOf(String(expected)) >= 0 : String(actual == null ? "" : actual).indexOf(String(expected)) >= 0;
+    return false;
+  }
+
+  function ruleMatches(rule, context) {
+    var data = rule.data || {};
+    if (data.slot && data.slot !== context.engine + "." + context.feature && data.slot !== context.engine + ".default") return false;
+    if (data.feature && data.feature !== context.feature) return false;
+    if (data.category && data.category !== context.category) return false;
+    if (data.topic && data.topic !== context.topic) return false;
+    var conditions = Array.isArray(data.conditions) ? data.conditions : [];
+    if (!conditions.length) return !!(data.slot || data.feature || data.category || data.topic);
+    var outcomes = conditions.map(function (condition) {
+      return compare(getPath(context, condition.variable), condition.operator, condition.value);
+    });
+    return String(data.logic || "AND").toUpperCase() === "OR" ? outcomes.some(Boolean) : outcomes.every(Boolean);
+  }
+
+  function predictionMatches(prediction, context) {
+    var data = prediction.data || {};
+    if (data.slot && data.slot !== context.engine + "." + context.feature && data.slot !== context.engine + ".default") return false;
+    if (data.feature && data.feature !== context.feature) return false;
+    if (data.category && data.category !== context.category) return false;
+    if (data.topic && data.topic !== context.topic) return false;
+    return !!(data.slot || data.feature || data.category || data.topic);
+  }
+
+  function escapeText(value) {
+    return String(value == null ? "" : value).replace(/[&<>"]/g, function (char) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char];
+    });
+  }
+
+  function renderCentralBlock(context) {
+    if (!runtime || !results || !results.isConnected) return;
+    var predictions = runtime.Predictions || [];
+    var rules = runtime.Rules || [];
+    var byId = {};
+    predictions.forEach(function (item) { byId[item.id] = item; });
+    var selected = [];
+    rules.filter(function (rule) { return rule.engineId === context.engine && ruleMatches(rule, context); })
+      .sort(function (a, b) { return Number(b.priority || 0) - Number(a.priority || 0) || Number(a.sortOrder || 0) - Number(b.sortOrder || 0); })
+      .forEach(function (rule) {
+        var target = byId[(rule.data || {}).predictionId];
+        if (target && target.engineId === context.engine && selected.indexOf(target) < 0) selected.push(target);
+      });
+    predictions.filter(function (item) {
+      return item.engineId === context.engine && predictionMatches(item, context);
+    }).sort(function (a, b) {
+      return Number(b.priority || 0) - Number(a.priority || 0) || Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+    }).forEach(function (item) {
+      if (selected.indexOf(item) < 0) selected.push(item);
+    });
+    if (!selected.length) return;
+
+    var section = document.createElement("section");
+    section.setAttribute("data-central-predictions", "true");
+    section.style.cssText = "margin-top:16px;padding:16px;border:1px solid #e7cdb5;border-left:4px solid #a66a3f;border-radius:12px;background:#fffaf5;";
+    var heading = document.createElement("h3");
+    heading.textContent = "📚 คำทำนายจากคลังส่วนกลาง";
+    heading.style.cssText = "margin:0 0 12px;color:#704526;font-size:17px;";
+    section.appendChild(heading);
+    selected.forEach(function (item) {
+      var article = document.createElement("article");
+      article.style.cssText = "padding:11px 0;border-top:1px solid #eadfd5;line-height:1.8;white-space:pre-wrap;";
+      var title = document.createElement("strong");
+      title.textContent = item.title || item.name || "คำทำนาย";
+      title.style.display = "block";
+      article.appendChild(title);
+      var body = document.createElement("div");
+      body.textContent = item.content || item.description || "";
+      article.appendChild(body);
+      section.appendChild(article);
+    });
+    results.appendChild(section);
+  }
+
+  function refresh() {
+    if (!results || results.style.display === "none" || !results.childNodes.length) return;
+    if (results.querySelector("[data-central-predictions]")) return;
+    var context = getContext();
+    var key = JSON.stringify(context);
+    if (key === lastContextKey && runtime) return;
+    lastContextKey = key;
+    if (runtime) renderCentralBlock(context);
+    else loadRuntime(false).then(function () {
+      if (results && results.style.display !== "none" && !results.querySelector("[data-central-predictions]")) renderCentralBlock(getContext());
+    });
+  }
+
+  if (results && typeof MutationObserver !== "undefined") {
+    new MutationObserver(function () { refresh(); }).observe(results, { childList: true, subtree: false });
+  }
+  window.RABBITASTRO_RELOAD_PREDICTIONS = function () {
+    lastContextKey = "";
+    return loadRuntime(true).then(function () { refresh(); });
+  };
+  loadRuntime(false);
+})();
