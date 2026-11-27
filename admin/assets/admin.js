@@ -14,7 +14,7 @@
   }
 
   function showDashboard(nextRole) {
-    role = nextRole || role || "full";
+    role = nextRole || role || "readonly";
     window.RABBITASTRO_ADMIN_ROLE = role;
     sessionStorage.setItem("rabbitastro_admin_role", role);
     loginPanel.hidden = true;
@@ -72,7 +72,7 @@
         password: $("password").value
       });
       token = result.token;
-      role = result.role || "full";
+      role = result.role || "readonly";
       sessionStorage.setItem("rabbitastro_admin_token", token);
       sessionStorage.setItem("rabbitastro_admin_role", role);
       $("password").value = "";
@@ -109,7 +109,7 @@
     }
     try {
       var session = await api({ action: "adminValidateSession" });
-      showDashboard(session.role || "full");
+      showDashboard(session.role || "readonly");
     } catch (error) {
       clearSession();
       showLogin(error.message || "กรุณาเข้าสู่ระบบใหม่");
