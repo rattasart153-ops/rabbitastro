@@ -417,10 +417,23 @@ function predictionVersion_(ss, collection, id, version, record, actor) {
     0, new Date().toISOString(), new Date().toISOString(), actor
   ]);
 }
+function predictionAuditSummary_(value) {
+  if (!value) return null;
+  return {
+    id: value.id || "",
+    name: value.name || "",
+    title: value.title || "",
+    status: value.status || "",
+    version: Number(value.version || 0)
+  };
+}
 function predictionAudit_(ss, action, collection, id, beforeValue, afterValue, actor) {
+  var now = new Date().toISOString();
   ss.getSheetByName("Audit_Logs").appendRow([
     Utilities.getUuid(), "", collection, id, action, "Audit event", "",
-    JSON.stringify({ before: beforeValue, after: afterValue }), 0, "logged", 1,
-    0, new Date().toISOString(), new Date().toISOString(), actor
+    JSON.stringify({
+      before: predictionAuditSummary_(beforeValue),
+      after: predictionAuditSummary_(afterValue)
+    }), 0, "logged", 1, 0, now, now, actor
   ]);
 }
