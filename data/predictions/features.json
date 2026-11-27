@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "collection": "Features",
+  "records": [
+    {
+      "id": "engine1-natal",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "พื้นดวงกำเนิด",
+      "title": "พื้นดวงกำเนิด",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "natal",
+        "group": "base"
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "engine1-asc",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "ลัคนาราศี",
+      "title": "ลัคนาราศี",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "asc",
+        "group": "base"
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 20
+    },
+    {
+      "id": "engine1-rhd",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "RHD",
+      "title": "RHD",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "rhd",
+        "group": "base"
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 30
+    },
+    {
+      "id": "engine1-short",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "ภาพรวมของเรื่อง",
+      "title": "ภาพรวมของเรื่อง",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "short",
+        "group": "topic"
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 40
+    },
+    {
+      "id": "engine1-month",
+      "engineId": "engine1",
+      "parentId": "",
+      "name": "รายเดือน",
+      "title": "รายเดือน",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "month",
+        "group": "topic"
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 50
+    },
+    {
+      "id": "engine2-default",
+      "engineId": "engine2",
+      "parentId": "",
+      "name": "เทพประจำตัว",
+      "title": "เทพประจำตัว",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "default",
+        "group": ""
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "engine3-default",
+      "engineId": "engine3",
+      "parentId": "",
+      "name": "โอเรกุรัม",
+      "title": "โอเรกุรัม",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "default",
+        "group": ""
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "engine4-default",
+      "engineId": "engine4",
+      "parentId": "",
+      "name": "ไพ่ทาโรต์ + รูน",
+      "title": "ไพ่ทาโรต์ + รูน",
+      "description": "",
+      "content": "",
+      "data": {
+        "key": "default",
+        "group": ""
+      },
+      "priority": 100,
+      "status": "active",
+      "version": 1,
+      "sortOrder": 10
+    }
+  ]
+}
