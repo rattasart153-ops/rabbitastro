@@ -4,7 +4,7 @@ Branch: `test-matrix-of-destiny-rhd`
 
 ## Purpose
 
-This module adds a central, Admin-managed data repository for Rabbitastro prediction content. It reuses the existing Vercel `/api/admin` route, the existing Google Apps Script deployment, and the existing Admin session. It does not change any calculation function or replace the current Engine datasets.
+This module adds a central, Admin-managed data repository for Rabbitastro prediction content. It reuses the existing Google Apps Script deployment and Admin session for writes, plus a read-only published-data endpoint for Engine runtime. It does not change any calculation function or replace the current Engine datasets.
 
 ## Storage initialization
 
@@ -92,17 +92,11 @@ Supported rule operators: `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `between`
 
 ## Current scope and limitations
 
-This is the central repository and initial Admin CRUD foundation. It is not yet the live source for Engine output. The current Engine datasets remain in their existing JavaScript files until P2/P3 validation and later Engine-by-Engine integration are complete.
+The Admin now has guided record editing, JSON for advanced fields, Rule preview, version history, rollback, and a live runtime reader for all four Engines. Published Prediction records are rendered as an additional central section after the existing Engine result. Rules and Mappings can select published Predictions by Engine slot and context conditions; active Variables can map stable variable keys to context paths.
 
-The initial Admin editor exposes structured records through JSON to support the full flexible data model. A more guided form editor can be added after the field contracts for each collection have been confirmed.
+The original built-in prediction datasets remain in place and are not automatically replaced. This is deliberate for the test branch: central readings are additive, allowing the new repository to be validated without changing calculation formulas or removing the existing interpretation baseline. Categories and Topics can be maintained in the repository, but the existing Engine selection controls still use their current static options.
 
-## Next steps
-
-1. Deploy the updated existing Apps Script version and initialize the spreadsheet.
-2. Verify initialize/list/save/archive/publish through Admin.
-3. Add guided schema validation and Rule preview.
-4. Create baseline fixtures for every existing Engine calculation and prediction output.
-5. Integrate repository reads into Engine rendering incrementally, preserving calculation outputs and keeping a safe fallback to existing datasets.
+Live persistence and rendering still require the existing Apps Script deployment to be updated and the repository spreadsheet to be initialized. Browser/GAS integration has not been executed from this source-only change.
 
 
 ## Runtime integration (Admin preview branch)
