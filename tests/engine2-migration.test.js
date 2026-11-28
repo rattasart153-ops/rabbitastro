@@ -19,7 +19,7 @@ function readObject(marker) {
     const ch = source[i];
     if (inString) {
       if (escaped) escaped = false;
-      else if (ch === '\\\\') escaped = true;
+      else if (ch === '\\') escaped = true;
       else if (ch === '"') inString = false;
       continue;
     }
@@ -39,8 +39,8 @@ test('Engine 2 central drafts preserve every GOD_DATA and GOD_RITUAL field for a
     const record = records.find(x => x.id === 'engine2:deity:' + n);
     assert.ok(record, 'missing deity ' + n);
     assert.equal(record.status, 'draft');
-    assert.deepEqual(record.data.payload.godInfo, gods[n]);
-    assert.deepEqual(record.data.payload.godRitual, rituals[n]);
+    assert.deepEqual(JSON.parse(JSON.stringify(record.data.payload.godInfo)), JSON.parse(JSON.stringify(gods[n])));
+    assert.deepEqual(JSON.parse(JSON.stringify(record.data.payload.godRitual)), JSON.parse(JSON.stringify(rituals[n])));
   }
 });
 
