@@ -20,15 +20,18 @@ function createHarness({ role = 'full', validSession = true } = {}) {
     rollback(...args) { calls.store.push(['rollback', ...args]); return { record: { id: 'restored-record' } }; }
   };
 
+  const module = { exports: {} };
   const handler = vm.runInNewContext(
-    '(' + source + ')',
-    {
-      require(id) {
-        if (id === './_prediction-store') return store;
-        throw new Error('Unexpected module: ' + id);
-      },
-      process: { env: { GAS_WEB_APP_URL: 'https://gas.example.invalid/mock' } },
-      fetch: async (_url, options) => {
+    '(function(require, module, process, fetch) { ' + source + '\n; return module.exports; })',
+    {}
+  )(
+    (id) => {
+      if (id === './_prediction-store') return store;
+      throw new Error('Unexpected module: ' + id);
+    },
+    module,
+    { env: { GAS_WEB_APP_URL: 'https://gas.example.invalid/mock' } },
+    async (_url, options) => {
         const payload = JSON.parse(options.body);
         calls.gas.push(payload);
         if (payload.action === 'adminValidateSession') {
@@ -38,7 +41,6 @@ function createHarness({ role = 'full', validSession = true } = {}) {
         }
         return { json: async () => ({ ok: true }) };
       }
-    }
   );
 
   async function invoke({ method = 'POST', body = {} } = {}) {
