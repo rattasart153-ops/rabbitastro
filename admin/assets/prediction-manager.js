@@ -218,6 +218,7 @@
   }
   async function rollbackVersion() {
     var version = Number($("predictionHistorySelect").value);
+    var rollbackId = selectedId;
     if (!selectedId) { $("predictionHistoryMessage").textContent = "กรุณาเลือกรายการก่อน"; return; }
     if (!Number.isInteger(version) || version < 1) { $("predictionHistoryMessage").textContent = "กรุณาเลือกเวอร์ชันที่ต้องการกู้คืน"; return; }
     if (!window.confirm("ยืนยันกู้คืนรายการเป็นเวอร์ชัน v" + version + "? ระบบจะบันทึกเป็นเวอร์ชันใหม่")) return;
@@ -226,11 +227,11 @@
     $("predictionHistoryMessage").textContent = "กำลังกู้คืนเวอร์ชัน…";
     try {
       var result = await request("predictionRollback", {
-        collection: currentCollection(), id: selectedId, version: version
+        collection: currentCollection(), id: rollbackId, version: version
       });
       if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
       await loadRecords();
-      var restored = (records || []).find(function (item) { return item.id === selectedId; });
+      var restored = (records || []).find(function (item) { return item.id === rollbackId; });
       if (restored) selectRecord(restored);
       $("predictionHistoryMessage").textContent = "กู้คืนจาก v" + result.rolledBackFrom + " สำเร็จ โดยสร้างเวอร์ชันใหม่แล้ว";
       setMessage("กู้คืนเวอร์ชันสำเร็จ");
