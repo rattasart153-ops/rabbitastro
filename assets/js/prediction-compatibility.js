@@ -17,6 +17,16 @@
       return payload && payload.arcana === n ? payload : null;
     }
 
+    function getDeity(number) {
+      var n = Number(number);
+      if (!Number.isInteger(n) || n < 1 || n > 9) return null;
+      var record = byId['engine2:deity:' + n];
+      if (!record || record.engineId !== 'engine2' || record.parentId !== 'GOD_DATA' || record.status !== 'published') return null;
+      var payload = record.data && record.data.payload;
+      if (!payload || payload.rabbitNumber !== n || !payload.godInfo || !payload.godRitual) return null;
+      return { godInfo: payload.godInfo, godRitual: payload.godRitual };
+    }
+
     function getSpecificPrediction(category, resultNumber) {
       var categories = ['work', 'money', 'health', 'love', 'interest'];
       var n = Number(resultNumber);
@@ -27,7 +37,7 @@
       return { overview: payload.overview, detail: payload.detail || '', advice: payload.advice || '' };
     }
 
-    return { getMatrixArcana: getMatrixArcana, getSpecificPrediction: getSpecificPrediction };
+    return { getMatrixArcana: getMatrixArcana, getSpecificPrediction: getSpecificPrediction, getDeity: getDeity };
   }
 
   var adapter = {
@@ -37,6 +47,9 @@
     },
     getSpecificPrediction: function (category, resultNumber) {
       return create(root.RABBITASTRO_PREDICTION_RUNTIME).getSpecificPrediction(category, resultNumber);
+    },
+    getDeity: function (number) {
+      return create(root.RABBITASTRO_PREDICTION_RUNTIME).getDeity(number);
     }
   };
 
