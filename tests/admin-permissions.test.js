@@ -126,7 +126,7 @@ test('unknown actions and non-POST methods are rejected', async () => {
   assert.equal(wrongMethod.statusCode, 405);
 });
 
-test('Read-Only Admin cannot change Admin credentials through the auth proxy', async () => {
+test('adminSetCredentials is forwarded to GAS for server-side authorization', async () => {
   const h = createHarness({ role: 'readonly' });
   const res = await h.invoke({
     body: {
@@ -143,4 +143,33 @@ test('Read-Only Admin cannot change Admin credentials through the auth proxy', a
   assert.equal(h.calls.gas[0].action, 'adminSetCredentials');
   // GAS enforces requireFullAdmin_; this API proxy test confirms the request is forwarded,
   // not that the external Apps Script authorization has been integration-tested.
+});
+
+
+test('GAS Full Admin guard rejects Read-Only sessions and accepts Full Admin sessions', () => {
+  const gasSource = fs.readFileSync(path.join(__dirname, '..', 'google-apps-script', 'Code.gs'), 'utf8');
+  let storedSession = '';
+  const gasContext = vm.createContext({
+    CacheService: { getScriptCache: () => ({ get: () => storedSession }) },
+    PropertiesService: { getScriptProperties: () => ({ getProperty: key => key === 'ADMIN_AUTH_EPOCH' ? 'epoch-1' : null }) }
+  });
+  vm.runInContext(gasSource, gasContext);
+
+  storedSession = JSON.stringify({ username: 'readonly-fixture', role: 'readonly', epoch: 'epoch-1' });
+  assert.equal(gasContext.requireFullAdmin_('readonly-token'), null);
+  assert.equal(gasContext.requireAdminSession_('readonly-token').role, 'readonly');
+
+  storedSession = JSON.stringify({ username: 'full-fixture', role: 'full', epoch: 'epoch-1' });
+  assert.equal(gasContext.requireFullAdmin_('full-token').role, 'full');
+});
+
+test('GAS rejects sessions from a previous authentication epoch', () => {
+  const gasSource = fs.readFileSync(path.join(__dirname, '..', 'google-apps-script', 'Code.gs'), 'utf8');
+  const gasContext = vm.createContext({
+    CacheService: { getScriptCache: () => ({ get: () => JSON.stringify({ username: 'old-user', role: 'full', epoch: 'old-epoch' }) }) },
+    PropertiesService: { getScriptProperties: () => ({ getProperty: key => key === 'ADMIN_AUTH_EPOCH' ? 'new-epoch' : null }) }
+  });
+  vm.runInContext(gasSource, gasContext);
+  assert.equal(gasContext.requireAdminSession_('old-token'), null);
+  assert.equal(gasContext.requireFullAdmin_('old-token'), null);
 });
