@@ -188,9 +188,14 @@ async function publish(collection, id, actor) {
   if (index < 0) throw new Error("RECORD_NOT_FOUND");
   const target = current.records[index];
   if (collection === "Rules" || collection === "Mappings") {
-    const predictions = await readCollection("Predictions");
-    const linked = predictions.records.find((item) => item.id === (target.data || {}).predictionId);
-    if (!linked || linked.engineId !== target.engineId || linked.status !== "published") throw new Error("PUBLISHED_PREDICTION_REQUIRED");
+    const data = target.data || {};
+    const isAgeCycleProfile = collection === "Rules" &&
+      (target.parentId === "AGE_CYCLE_PROFILE" || data.ruleType === "AGE_CYCLE_PROFILE");
+    if (!isAgeCycleProfile) {
+      const predictions = await readCollection("Predictions");
+      const linked = predictions.records.find((item) => item.id === data.predictionId);
+      if (!linked || linked.engineId !== target.engineId || linked.status !== "published") throw new Error("PUBLISHED_PREDICTION_REQUIRED");
+    }
     validateRecord(collection, target);
   }
   const next = current.records.slice();
