@@ -137,7 +137,7 @@ test('rollback restores selected content but creates a new version and preserves
   assert.equal(mock.getRecords()[0].history.at(-1).version, 3);
 });
 
-test('rollback of a previously published version performs a save then a publish', async t => {
+test('rollback to a previously published version restores Published status in one new version', async t => {
   const current = record({
     version: 2,
     content: 'draft now',
@@ -149,28 +149,8 @@ test('rollback of a previously published version performs a save then a publish'
   const result = await store.rollback('Predictions', current.id, 1, 'Tester');
   assert.equal(result.record.status, 'published');
   assert.equal(result.record.content, 'published content');
-  assert.equal(result.record.version, 4);
-  assert.equal(mock.getPutCount(), 2);
-});
-
-test('if republishing a restored published version fails, rollback leaves the saved record in Draft', async t => {
-  const current = record({
-    version: 2,
-    content: 'draft now',
-    history: [
-      { id: 'prediction-history-fixture', engineId: 'engine1', name: 'history.fixture', title: 'History fixture', content: 'published content', data: {}, status: 'published', version: 1, updatedAt: '2026-01-01T00:00:00.000Z' }
-    ]
-  });
-  const mock = installMock(t, {
-    collection: 'Predictions',
-    records: [current],
-    putResponses: [{ status: 200 }, { status: 500, persist: false }]
-  });
-  await assert.rejects(store.rollback('Predictions', current.id, 1, 'Tester'), { message: 'GITHUB_API_ERROR' });
-  assert.equal(mock.getPutCount(), 2);
-  assert.equal(mock.getRecords()[0].status, 'draft');
-  assert.equal(mock.getRecords()[0].content, 'published content');
-  assert.equal(mock.getRecords()[0].version, 3);
+  assert.equal(result.record.version, 3);
+  assert.equal(mock.getPutCount(), 1);
 });
 
 test('save sends the current GitHub blob SHA and rejects a stale concurrent write without retrying', async t => {
