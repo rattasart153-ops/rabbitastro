@@ -86,3 +86,14 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 - The compatibility adapter and Engine 1 parity tests are still pending.
 - Engines 2–4 have not been migrated as part of this one-engine-at-a-time pass.
 - This document does not claim that Engine 1 is already editable end-to-end through Admin.
+
+## Engine 1 compatibility adapter — 2026-11-28
+
+- Added `api/public-predictions.js`, a read-only endpoint that exposes only published Engine 1 records whose parent is `MATRIX_ARCANA` or `SPECIFIC_PREDICTIONS_DETAILED`. It strips admin history and non-payload metadata from the public response.
+- Added `assets/js/prediction-compatibility.js`. The main app loads the endpoint at startup and exposes lookup helpers for Matrix Arcana 1–22 and the 45 Engine 1 category/result combinations.
+- Updated `assets/js/07-matrix-of-destiny.js` so `getArcana()` prefers the central structured subconscious payload (hidden belief, hidden need, subconscious pattern, reflection prompt and integration guidance), while retaining the original Arcana array as fallback.
+- Updated `assets/js/04-ui-renderers.js` so Matrix output reads those structured fields and turns them into the four existing reading sections. The language is exploratory, not diagnostic or deterministic.
+- Updated only Engine 1 monthly and 7-day specific-prediction lookups in `assets/js/02-horakratai-engine.js` to prefer published central records. Engine 3 Oraculum's direct legacy lookup remains unchanged.
+- Added `tests/prediction-compatibility.test.js`; local Node test run: 4 tests covering 22 Arcana, 45 specific predictions, missing-data fallback and runtime refresh.
+- No formulas/calculation functions were changed. All 67 migrated records and their mappings remain Draft; therefore the public endpoint currently returns no migrated content until an administrator publishes records. No production publish or deployment was performed.
+- Browser/Preview parity testing remains pending because this work was kept on the test branch without a live deployment.
