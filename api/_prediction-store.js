@@ -121,6 +121,15 @@ function validateRecord(collection, record) {
   if (collection === "Engines" && !ALLOWED_ENGINES.has(record.engineId || record.id)) throw new Error("INVALID_ENGINE");
   if (collection === "Rules" || collection === "Mappings") {
     const data = record.data || {};
+    if (collection === "Rules" && (record.parentId === "AGE_CYCLE_PROFILE" || data.ruleType === "AGE_CYCLE_PROFILE")) {
+      // AGE_CYCLE_PROFILE is an interpretation profile, not a conditional prediction rule.
+      const profile = data.profile;
+      if (!profile || !Number.isInteger(profile.support) || !Number.isInteger(profile.challenge) ||
+          profile.support < 1 || profile.support > 3 || profile.challenge < 1 || profile.challenge > 3) {
+        throw new Error("INVALID_AGE_CYCLE_PROFILE");
+      }
+      return;
+    }
     if (!data.predictionId) throw new Error("PREDICTION_TARGET_REQUIRED");
     if (collection === "Rules") {
       if (!Array.isArray(data.conditions) || !data.conditions.length || data.conditions.length > 50) throw new Error("RULE_CONDITIONS_REQUIRED");
@@ -259,4 +268,4 @@ async function runtime() {
   return output;
 }
 
-module.exports = { COLLECTIONS, readCollection, list, save, archive, publish, history, rollback, runtime, config };
+module.exports = { COLLECTIONS, readCollection, list, save, archive, publish, history, rollback, runtime, config, validateRecord };
