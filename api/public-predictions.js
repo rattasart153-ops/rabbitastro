@@ -9,10 +9,20 @@ module.exports = async function handler(req, res) {
   try {
     const runtime = await store.runtime();
     const allowedParents = new Set(["MATRIX_ARCANA", "SPECIFIC_PREDICTIONS_DETAILED"]);
-    const predictions = (runtime.Predictions || []).filter((record) =>
-      record.engineId === "engine1" && allowedParents.has(record.parentId) &&
-      record.status === "published"
-    );
+    const predictions = (runtime.Predictions || [])
+      .filter((record) =>
+        record.engineId === "engine1" && allowedParents.has(record.parentId) &&
+        record.status === "published"
+      )
+      .map((record) => ({
+        id: record.id,
+        engineId: record.engineId,
+        parentId: record.parentId,
+        title: record.title,
+        content: record.content,
+        status: record.status,
+        data: { payload: record.data && record.data.payload ? record.data.payload : {} }
+      }));
     res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
     res.setHeader("X-Content-Type-Options", "nosniff");
     return res.status(200).json({ ok: true, runtime: { Predictions: predictions } });
