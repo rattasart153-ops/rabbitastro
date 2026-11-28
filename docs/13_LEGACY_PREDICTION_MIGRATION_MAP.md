@@ -1,7 +1,7 @@
 # Legacy Prediction Migration Map
 
 Branch: `test-matrix-of-destiny-rhd` only  
-Status: inventory and mapping design; legacy content has not yet been moved.
+Status: Engine 1 content has been copied into unpublished JSON drafts; Engines 2–4 have not been migrated in this pass.
 
 ## Non-negotiable migration rules
 
@@ -48,13 +48,20 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 - Produce an extraction manifest with source object, legacy key, target collection, stable record ID and payload hash.
 
 ### Phase 2 — Non-destructive extraction
-- Convert authored data objects into JSON records without changing source JS.
-- Keep each record below the repository's 45 KB record limit.
-- Verify Thai text, newlines, arrays, Unicode symbols and emoji survive round-trip.
+- [x] Engine 1 first-pass extraction copied to JSON drafts on 2026-11-28.
+- [x] Engine 1 Categories: `CATEGORY_INFO`, `SHORT_CATEGORIES` (existing draft records).
+- [x] Engine 1 Topics: `SUBT_TOPIC_FRAME`, `HOT_TOPICS` (existing draft records).
+- [x] Engine 1 Predictions: `TOPIC_PRED`, `PRED_DEEP`, `BASE_DEEP`, `ASC_DEEP`, `ASC_INNER`, `ASC_FACE`, `NAME_PREDICTIONS`, `RABBITS`, `RABBIT_DEEP`, `RHD_HABITS`, `RHD_SELF_QUESTIONS`, `RABBIT_EXTRA_DEEP`, `FEATURE_DEEP_GUIDE` (Engine 1 sections), and Matrix Destiny Arcana 1–22.
+- [x] Engine 1 Variables: `LEVEL_SCALE`.
+- [x] Engine 1 Rules: `AGE_CYCLE_PROFILE` 1–22.
+- [x] Every newly imported record is marked `draft`; nothing was published and the legacy JavaScript remains unchanged.
+- [x] Each record is below the repository's 45 KB record limit; the JSON files were re-read and parsed after writing.
+- Note: source literals were preserved losslessly in each record's `content` field for this first pass. They still need normalization into the final editable payload shape and a compatibility adapter before activation.
+- [ ] Verify every remaining Engine 1 source object, including the unresolved `SPECIFIC_PREDICTIONS_DETAILED` reference, and compare against the source inventory.
 - Commit only to this test branch.
 
 ### Phase 3 — Compatibility adapter
-- Add a read-only adapter that overlays published JSON content onto legacy data structures.
+- Pending: add a read-only adapter that overlays published JSON content onto legacy data structures.
 - For every missing or unpublished record, use the original JS constant.
 - Do not allow JSON to override calculation constants, numeric mappings, formulas or generated matrices.
 
@@ -71,7 +78,9 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 
 ## Current blockers
 
-- The Preview environment currently contains `GAS_WEB_APP_URL` only; `GITHUB_TOKEN` is not configured for branch `test-matrix-of-destiny-rhd`.
-- Therefore the GitHub JSON repository cannot yet be exercised through the deployed Admin UI.
-- The current JSON collections are infrastructure seeds, not a completed import of the legacy prediction content.
-- This document does not claim that all four engines are already editable through Admin.
+- The first Engine 1 extraction is a lossless draft snapshot, not yet a normalized runtime-ready data model.
+- `SPECIFIC_PREDICTIONS_DETAILED` is referenced by the legacy Engine 1 code but its declaration was not found in the inspected source files; its origin must be resolved before Engine 1 is declared complete.
+- The Preview Admin must be tested for GitHub JSON reads and writes; a successful Build alone does not prove the token works at runtime.
+- The compatibility adapter and Engine 1 parity tests are still pending.
+- Engines 2–4 have not been migrated as part of this one-engine-at-a-time pass.
+- This document does not claim that Engine 1 is already editable end-to-end through Admin.
