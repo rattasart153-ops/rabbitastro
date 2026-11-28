@@ -14,7 +14,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.1",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -33,7 +38,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.2",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -52,7 +62,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.3",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -71,7 +86,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.4",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -90,7 +110,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.5",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -109,7 +134,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.6",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -128,7 +158,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.7",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -147,7 +182,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.8",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -166,7 +206,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.9",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -185,7 +230,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.10",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -204,7 +254,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.11",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -223,7 +278,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.12",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 1,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -242,7 +302,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.13",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 1,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -261,7 +326,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.14",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -280,7 +350,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.15",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 1,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -299,7 +374,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.16",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 1,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -318,7 +398,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.17",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -337,7 +422,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.18",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 1,
+          "challenge": 3
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -356,7 +446,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.19",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -375,7 +470,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.20",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -394,7 +494,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.21",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 3,
+          "challenge": 1
+        }
       },
       "priority": 100,
       "status": "draft",
@@ -413,7 +518,12 @@
         "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
         "legacySourceObject": "AGE_CYCLE_PROFILE",
         "legacySourcePath": "AGE_CYCLE_PROFILE.22",
-        "importBatch": "engine1-central-copy-2026-11-28"
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "ruleType": "AGE_CYCLE_PROFILE",
+        "profile": {
+          "support": 2,
+          "challenge": 2
+        }
       },
       "priority": 100,
       "status": "draft",
