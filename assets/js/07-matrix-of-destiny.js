@@ -145,7 +145,21 @@ function calc(d,m,y){
  ];
  return {version:'ladini-classic-22-v3',birthDate:{day:d,month:m,year:y},points:points,energies:energies,chakra:{rows:chakraRows,total:chakraTotal},ageCycle:ageCycle,lines:{love:[D2,love,X],money:[C2,money,X],karmicTail:[D2,D1,D]},purposes:{sky:sky,earth:earth,personal:personal,male:male,female:female,social:social,spiritual:spiritual,planetary:planetary}};
 }
-function get(n){var x=A[reduce(n)-1];return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};}
+function get(n){
+ var index=reduce(n)-1, x=A[index], adapter=w.RABBITASTRO_PREDICTION_ADAPTER;
+ var central=adapter&&typeof adapter.getMatrixArcana==='function'?adapter.getMatrixArcana(index+1):null;
+ if(central){
+  return {
+   name:central.arcanaName||x[0],theme:central.theme||x[1],gift:central.gift||x[2],
+   shadow:[central.hiddenBelief,central.subconsciousPattern].filter(Boolean).join(' ' )||x[3],
+   guidance:central.integrationGuidance||x[4],
+   hiddenBelief:central.hiddenBelief||'',hiddenNeed:central.hiddenNeed||'',
+   subconsciousPattern:central.subconsciousPattern||'',reflectionPrompt:central.reflectionPrompt||'',
+   integrationGuidance:central.integrationGuidance||'',interpretationStyle:central.interpretationStyle||'subconscious-reflection'
+  };
+ }
+ return {name:x[0],theme:x[1],gift:x[2],shadow:x[3],guidance:x[4]};
+}
 function renderDetails(chart){
  if(!chart)return '';
  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
