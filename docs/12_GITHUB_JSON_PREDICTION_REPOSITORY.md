@@ -6,7 +6,7 @@ Branch: `test-matrix-of-destiny-rhd`
 
 The prediction repository is stored as JSON files in this GitHub repository. Vercel serverless API routes perform authenticated reads and writes. Google Apps Script remains only as the Admin authentication/session service.
 
-This migration does not modify the existing calculation modules in `assets/js/`. The built-in prediction datasets remain the active baseline; GitHub-managed published predictions are additive through the existing central prediction renderer. Formula changes and genuinely new executable Engines/Features still require reviewed code changes and regression tests.
+This migration does not modify the existing calculation modules in `assets/js/`. The built-in prediction datasets remain the active baseline; GitHub-managed published predictions are additive through the existing compatibility adapter. Formula changes and genuinely new executable Engines/Features still require reviewed code changes and regression tests.
 
 All work is limited to `test-matrix-of-destiny-rhd`. Do not merge to `main` or `Admin`, and do not promote a production deployment without separate approval.
 
@@ -55,7 +55,7 @@ The existing Script Properties for the two Admin accounts remain in use. Do not 
 
 The previous documentation described a spreadsheet-backed central repository. That storage path has been retired. The spreadsheet was documented as being created only after an explicit initialization action; this branch's current migration starts with empty JSON collections for Categories, Topics, Variables, Predictions, Rules, and Mappings. The four Engine records and eight existing Feature records were seeded from the prior Apps Script initializer.
 
-Engine 1 has now had a first-pass, non-destructive extraction into JSON draft records on branch `test-matrix-of-destiny-rhd` (2026-11-28). The copied content includes its category/topic metadata, core and detailed interpretations, ascendant layers, Rabbit/RHD content, Matrix Destiny Arcana meanings, the level scale, and age-cycle interpretation profiles. All imported records remain `draft`; none has been published or activated. Source JavaScript and calculation formulas remain unchanged. The first pass preserves exact source literals in the record `content` field; normalization, compatibility overlay, Admin write testing, and parity checks are still required. Engines 2–4 have not been migrated in this pass.
+Engine 1 has now had a first-pass, non-destructive extraction into JSON draft records on branch `test-matrix-of-destiny-rhd` (2026-11-28). The copied content includes its category/topic metadata, core and detailed interpretations, ascendant layers, Rabbit/RHD content, Matrix Destiny Arcana meanings, the level scale, and age-cycle interpretation profiles. All imported records remain `draft`; none has been published or activated. Source JavaScript and calculation formulas remain unchanged. The first pass preserves exact source literals in the record `content` field; normalization, compatibility overlay, Admin write testing, and parity checks are still required. Engine 2 has now had a first-pass, non-destructive extraction into JSON draft records (2026-11-28). Its nine deity profiles combine the exact `GOD_DATA` and `GOD_RITUAL` payloads and retain the original rabbit-number keys. Engine 3–4 have not been migrated in this pass.
 
 ## Test checklist
 
