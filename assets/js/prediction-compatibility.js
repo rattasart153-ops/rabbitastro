@@ -1,7 +1,7 @@
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.RABBITASTRO_PREDICTION_ADAPTER = factory();
-})(typeof window !== 'undefined' ? window : this, function () {
+  if (typeof module === 'object' && module.exports) module.exports = factory(typeof globalThis !== 'undefined' ? globalThis : root);
+  else root.RABBITASTRO_PREDICTION_ADAPTER = factory(root);
+})(typeof window !== 'undefined' ? window : this, function (root) {
   'use strict';
 
   function create(runtime) {
