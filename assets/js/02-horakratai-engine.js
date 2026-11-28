@@ -3848,10 +3848,13 @@
   function calcGod(params) {
     var rabbitBase = calcBaseFeature(params || {});
     var num = reduce1(rabbitBase && rabbitBase.baseCode || 9);
+    // Engine 2 keeps its original deity interpretation; published central data only overrides the matching legacy record.
+    var adapter = typeof window !== 'undefined' && window.RABBITASTRO_PREDICTION_ADAPTER;
+    var central = adapter && typeof adapter.getDeity === 'function' ? adapter.getDeity(num) : null;
     return {
       godNum: num,
-      godInfo: GOD_DATA[num] || GOD_DATA[9],
-      godRitual: GOD_RITUAL[num] || null,
+      godInfo: central ? central.godInfo : (GOD_DATA[num] || GOD_DATA[9]),
+      godRitual: central ? central.godRitual : (GOD_RITUAL[num] || null),
       rabbitBase: rabbitBase,
       noBirthTime: true,
       components: { rabbitNumber: num }
