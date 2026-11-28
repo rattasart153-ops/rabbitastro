@@ -55,7 +55,7 @@ The existing Script Properties for the two Admin accounts remain in use. Do not 
 
 The previous documentation described a spreadsheet-backed central repository. That storage path has been retired. The spreadsheet was documented as being created only after an explicit initialization action; this branch's current migration starts with empty JSON collections for Categories, Topics, Variables, Predictions, Rules, and Mappings. The four Engine records and eight existing Feature records were seeded from the prior Apps Script initializer.
 
-No existing built-in Engine datasets or formula code have been imported into these JSON collections or deleted. This is deliberate: the original datasets remain in their original JavaScript files and continue to provide the baseline readings. Additive JSON predictions can be entered and published through Admin after the GitHub token is configured.
+Engine 1 has now had a first-pass, non-destructive extraction into JSON draft records on branch `test-matrix-of-destiny-rhd` (2026-11-28). The copied content includes its category/topic metadata, core and detailed interpretations, ascendant layers, Rabbit/RHD content, Matrix Destiny Arcana meanings, the level scale, and age-cycle interpretation profiles. All imported records remain `draft`; none has been published or activated. Source JavaScript and calculation formulas remain unchanged. The first pass preserves exact source literals in the record `content` field; normalization, compatibility overlay, Admin write testing, and parity checks are still required. Engines 2–4 have not been migrated in this pass.
 
 ## Test checklist
 
