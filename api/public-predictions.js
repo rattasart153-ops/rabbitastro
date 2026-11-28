@@ -8,11 +8,13 @@ module.exports = async function handler(req, res) {
 
   try {
     const runtime = await store.runtime();
-    const allowedParents = new Set(["MATRIX_ARCANA", "SPECIFIC_PREDICTIONS_DETAILED"]);
+    const allowedEngine1Parents = new Set(["MATRIX_ARCANA", "SPECIFIC_PREDICTIONS_DETAILED"]);
     const predictions = (runtime.Predictions || [])
       .filter((record) =>
-        record.engineId === "engine1" && allowedParents.has(record.parentId) &&
-        record.status === "published"
+        record.status === "published" && (
+          (record.engineId === "engine1" && allowedEngine1Parents.has(record.parentId)) ||
+          (record.engineId === "engine2" && record.parentId === "GOD_DATA")
+        )
       )
       .map((record) => ({
         id: record.id,
