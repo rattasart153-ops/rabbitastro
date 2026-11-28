@@ -185,6 +185,107 @@
     } catch (error) { setMessage(error.message, true); }
   }
 
+
+  function formatVersionLabel(item) {
+    var date = item.createdAt ? new Date(item.createdAt).toLocaleString("th-TH") : "ไม่ระบุวันที่";
+    return "v" + item.version + " · " + date + (item.updatedBy ? " · " + item.updatedBy : "");
+  }
+  async function loadHistory() {
+    var message = $("predictionHistoryMessage");
+    var select = $("predictionHistorySelect");
+    if (!selectedId) {
+      message.textContent = "กรุณาเลือกรายการก่อนดูประวัติเวอร์ชัน";
+      select.innerHTML = '<option value="">เลือกเวอร์ชัน</option>';
+      return;
+    }
+    message.textContent = "กำลังโหลดประวัติเวอร์ชัน…";
+    select.innerHTML = '<option value="">กำลังโหลด…</option>';
+    try {
+      var result = await request("predictionHistory", { collection: currentCollection(), id: selectedId });
+      var versions = Array.isArray(result.versions) ? result.versions : [];
+      select.innerHTML = '<option value="">เลือกเวอร์ชัน</option>';
+      versions.forEach(function (item) {
+        var option = document.createElement("option");
+        option.value = String(item.version);
+        option.textContent = formatVersionLabel(item);
+        select.appendChild(option);
+      });
+      message.textContent = versions.length ? "พบประวัติ " + versions.length + " เวอร์ชัน" : "ยังไม่มีประวัติเวอร์ชัน";
+    } catch (error) {
+      select.innerHTML = '<option value="">เลือกเวอร์ชัน</option>';
+      message.textContent = error.message;
+    }
+  }
+  async function rollbackVersion() {
+    var version = Number($("predictionHistorySelect").value);
+    if (!selectedId) { $("predictionHistoryMessage").textContent = "กรุณาเลือกรายการก่อน"; return; }
+    if (!Number.isInteger(version) || version < 1) { $("predictionHistoryMessage").textContent = "กรุณาเลือกเวอร์ชันที่ต้องการกู้คืน"; return; }
+    if (!window.confirm("ยืนยันกู้คืนรายการเป็นเวอร์ชัน v" + version + "? ระบบจะบันทึกเป็นเวอร์ชันใหม่")) return;
+    var button = $("predictionRollback");
+    button.disabled = true;
+    $("predictionHistoryMessage").textContent = "กำลังกู้คืนเวอร์ชัน…";
+    try {
+      var result = await request("predictionRollback", {
+        collection: currentCollection(), id: selectedId, version: version
+      });
+      if (typeof window.RABBITASTRO_RELOAD_PREDICTIONS === "function") await window.RABBITASTRO_RELOAD_PREDICTIONS();
+      await loadRecords();
+      var restored = (records || []).find(function (item) { return item.id === selectedId; });
+      if (restored) selectRecord(restored);
+      $("predictionHistoryMessage").textContent = "กู้คืนจาก v" + result.rolledBackFrom + " สำเร็จ โดยสร้างเวอร์ชันใหม่แล้ว";
+      setMessage("กู้คืนเวอร์ชันสำเร็จ");
+      await loadHistory();
+    } catch (error) {
+      $("predictionHistoryMessage").textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  }
+  function readPath(object, path) {
+    return String(path || "").split(".").reduce(function (value, key) {
+      return value == null ? undefined : value[key];
+    }, object);
+  }
+  function evaluateCondition(condition, context) {
+    var actual = readPath(context, condition.variable);
+    var expected = condition.value;
+    switch (condition.operator) {
+      case "exists": return (actual !== undefined && actual !== null) === (expected === undefined ? true : Boolean(expected));
+      case "eq": return actual === expected || String(actual) === String(expected);
+      case "neq": return !(actual === expected || String(actual) === String(expected));
+      case "gt": return Number(actual) > Number(expected);
+      case "gte": return Number(actual) >= Number(expected);
+      case "lt": return Number(actual) < Number(expected);
+      case "lte": return Number(actual) <= Number(expected);
+      case "in": return Array.isArray(expected) && expected.some(function (value) { return actual === value || String(actual) === String(value); });
+      case "between": return Array.isArray(expected) && expected.length === 2 && Number(actual) >= Number(expected[0]) && Number(actual) <= Number(expected[1]);
+      case "contains":
+        if (Array.isArray(actual)) return actual.some(function (value) { return String(value).includes(String(expected)); });
+        return typeof actual === "string" && actual.includes(String(expected));
+      default: throw new Error("ไม่รองรับ operator: " + condition.operator);
+    }
+  }
+  function previewRule() {
+    var output = $("predictionPreviewResult");
+    try {
+      if (currentCollection() !== "Rules") throw new Error("เลือกประเภทข้อมูลเป็น Rules ก่อนทดลองเงื่อนไข");
+      var record = selectedId ? records.find(function (item) { return item.id === selectedId; }) : null;
+      if (!record) record = readEditor();
+      var rule = record.data || {};
+      if (!Array.isArray(rule.conditions) || !rule.conditions.length) throw new Error("รายการนี้ยังไม่มี conditions สำหรับทดสอบ");
+      var context = JSON.parse($("predictionPreviewContext").value || "{}");
+      if (!context || typeof context !== "object" || Array.isArray(context)) throw new Error("ข้อมูลจำลองต้องเป็น JSON Object");
+      var results = rule.conditions.map(function (condition, index) {
+        return { index: index + 1, passed: evaluateCondition(condition, context), variable: condition.variable, operator: condition.operator };
+      });
+      var matched = rule.logic === "OR" ? results.some(function (item) { return item.passed; }) : results.every(function (item) { return item.passed; });
+      output.textContent = (matched ? "ผ่านเงื่อนไข" : "ไม่ผ่านเงื่อนไข") + " · Logic " + (rule.logic === "OR" ? "OR" : "AND") + " · " +
+        results.map(function (item) { return "#" + item.index + " " + item.variable + " " + item.operator + ": " + (item.passed ? "ผ่าน" : "ไม่ผ่าน"); }).join(" | ");
+    } catch (error) {
+      output.textContent = error.message;
+    }
+  }
+
   $("showPredictions").addEventListener("click", function () {
     $("enginesPanel").hidden = true;
     panel.hidden = false;
@@ -198,7 +299,7 @@
     $("showPredictions").classList.remove("active");
   });
   $("predictionLoad").addEventListener("click", loadRecords);
-  $("predictionInitialize").addEventListener("click", loadRecords);
+  $("predictionInitialize").addEventListener("click", initialize);
   $("predictionNew").addEventListener("click", function () {
     selectedId = "";
     fillEditor(blankRecord(), "สร้างรายการใหม่");
