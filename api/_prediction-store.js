@@ -206,6 +206,8 @@ async function publish(collection, id, actor) {
   const index = current.records.findIndex((item) => item.id === id);
   if (index < 0) throw new Error("RECORD_NOT_FOUND");
   const target = current.records[index];
+  // Archived records are retained for history/audit and must never be republished.
+  if (target.status === "archived") throw new Error("ARCHIVED_RECORD_CANNOT_PUBLISH");
   if (collection === "Rules" || collection === "Mappings") {
     const data = target.data || {};
     const isAgeCycleProfile = collection === "Rules" &&
