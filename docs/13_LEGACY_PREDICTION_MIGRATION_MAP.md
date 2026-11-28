@@ -54,24 +54,25 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 - [x] Engine 1 Predictions: `TOPIC_PRED`, `PRED_DEEP`, `BASE_DEEP`, `ASC_DEEP`, `ASC_INNER`, `ASC_FACE`, `NAME_PREDICTIONS`, `RABBITS`, `RABBIT_DEEP`, `RHD_HABITS`, `RHD_SELF_QUESTIONS`, `RABBIT_EXTRA_DEEP`, `FEATURE_DEEP_GUIDE` (Engine 1 sections), and Matrix Destiny Arcana 1–22.
 - [x] Engine 1 Variables: `LEVEL_SCALE`.
 - [x] Engine 1 Rules: `AGE_CYCLE_PROFILE` 1–22.
-- [x] Every newly imported record is marked `draft`; nothing was published and the legacy JavaScript remains unchanged.
+- [x] Every migrated record remains `draft`; nothing was published. Legacy calculation formulas and generated matrices remain unchanged; JavaScript now contains read-only compatibility lookups with legacy fallback.
 - [x] Each record is below the repository's 45 KB record limit; the JSON files were re-read and parsed after writing.
-- Note: source literals were preserved losslessly in each record's `content` field for this first pass. They still need normalization into the final editable payload shape and a compatibility adapter before activation.
+- Note: most first-pass Engine 1 records still preserve source literals in `content` and need structured payload normalization. Matrix Destiny 22 Arcana and the 45 specific predictions now have structured payloads.
 - [x] Resolve and import `SPECIFIC_PREDICTIONS_DETAILED`: 45 draft records across work, money, health, love and interest; retain exact legacy lookup paths and result numbers.
 - [x] Expand Matrix Destiny Arcana 1–22 with structured subconscious patterns, hidden beliefs, hidden needs, reflection prompts and integration guidance; keep calculator logic unchanged.
-- [x] Add 67 draft mappings for the 45 specific predictions and 22 Matrix Arcana records. These are metadata links only; the runtime adapter is still pending.
+- [x] Add 67 draft mappings for the 45 specific predictions and 22 Matrix Arcana records. The runtime compatibility adapter now resolves these prediction IDs directly; the mappings remain available for Admin/rule workflows.
 - Commit only to this test branch.
 
 ### Phase 3 — Compatibility adapter
-- Pending: add a read-only adapter that overlays published JSON content onto legacy data structures.
-- For every missing or unpublished record, use the original JS constant.
-- Do not allow JSON to override calculation constants, numeric mappings, formulas or generated matrices.
+- [x] Add a read-only published-content endpoint limited to Engine 1 Matrix and specific predictions.
+- [x] Add a browser adapter for Matrix Arcana 1–22 and the 45 Engine 1 specific lookups.
+- [x] Keep the legacy JS interpretation as fallback when the endpoint or record is unavailable/unpublished.
+- [x] Keep all calculation constants, numeric mappings, formulas and generated matrices outside the JSON override.
 
 ### Phase 4 — Parity tests
-- Capture baseline outputs from the unmodified legacy engine for representative inputs across all four engines.
-- Run the same inputs with JSON overlay enabled.
-- Compare calculation values, result IDs, question selection, card/rune selection and rendered interpretation fields.
-- Require exact parity for all calculation outputs and expected text parity for every migrated record.
+- [x] Run adapter unit tests for all 22 Arcana and all 45 specific-prediction lookup IDs, missing-data fallback and runtime refresh (4 tests passed).
+- [ ] Capture baseline outputs from the unmodified legacy Engine 1 for representative birth-date and result-code fixtures.
+- [ ] Run the same fixtures with published JSON overlay enabled and compare calculation values, result IDs and rendered interpretation fields.
+- [ ] Complete browser/Preview parity tests before publishing.
 
 ### Phase 5 — Admin activation
 - Only after parity tests pass, enable edits/publishing for the migrated record types.
@@ -82,8 +83,8 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 
 - The Engine 1 extraction remains unpublished. `SPECIFIC_PREDICTIONS_DETAILED` was found in `assets/js/02-horakratai-engine.js` and all 45 category/result combinations (5 categories × 9 result numbers) have now been copied into draft prediction records. Matrix Destiny Arcana 1–22 has also been expanded into structured subconscious-reflection payloads; the original calculator source remains unchanged.
 - `SPECIFIC_PREDICTIONS_DETAILED` is also referenced by Engine 3's Oraculum calculation in the shared legacy source. This pass imported its 45 records under Engine 1 ownership only; Engine 3 must be assessed separately during its own migration to avoid accidental cross-engine activation.
-- The Preview Admin must be tested for GitHub JSON reads and writes; a successful Build alone does not prove the token works at runtime.
-- The compatibility adapter and Engine 1 parity tests are still pending.
+- The Preview Admin must still be tested for GitHub JSON reads and writes; a successful Build alone does not prove the token works at runtime.
+- Full Engine 1 calculation/render parity and browser testing are still pending.
 - Engines 2–4 have not been migrated as part of this one-engine-at-a-time pass.
 - This document does not claim that Engine 1 is already editable end-to-end through Admin.
 
@@ -95,5 +96,5 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 - Updated `assets/js/04-ui-renderers.js` so Matrix output reads those structured fields and turns them into the four existing reading sections. The language is exploratory, not diagnostic or deterministic.
 - Updated only Engine 1 monthly and 7-day specific-prediction lookups in `assets/js/02-horakratai-engine.js` to prefer published central records. Engine 3 Oraculum's direct legacy lookup remains unchanged.
 - Added `tests/prediction-compatibility.test.js`; local Node test run: 4 tests covering 22 Arcana, 45 specific predictions, missing-data fallback and runtime refresh.
-- No formulas/calculation functions were changed. All 67 migrated records and their mappings remain Draft; therefore the public endpoint currently returns no migrated content until an administrator publishes records. No production publish or deployment was performed.
+- No formulas/calculation functions were changed. All 67 migrated records and their mappings remain Draft; therefore the public endpoint currently returns no migrated content until an administrator publishes records. No production publish or manual deployment was performed. The branch's Vercel status check reported success; no browser smoke test was performed.
 - Browser/Preview parity testing remains pending because this work was kept on the test branch without a live deployment.
