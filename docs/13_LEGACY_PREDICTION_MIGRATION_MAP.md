@@ -57,7 +57,9 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 - [x] Every newly imported record is marked `draft`; nothing was published and the legacy JavaScript remains unchanged.
 - [x] Each record is below the repository's 45 KB record limit; the JSON files were re-read and parsed after writing.
 - Note: source literals were preserved losslessly in each record's `content` field for this first pass. They still need normalization into the final editable payload shape and a compatibility adapter before activation.
-- [ ] Verify every remaining Engine 1 source object, including the unresolved `SPECIFIC_PREDICTIONS_DETAILED` reference, and compare against the source inventory.
+- [x] Resolve and import `SPECIFIC_PREDICTIONS_DETAILED`: 45 draft records across work, money, health, love and interest; retain exact legacy lookup paths and result numbers.
+- [x] Expand Matrix Destiny Arcana 1–22 with structured subconscious patterns, hidden beliefs, hidden needs, reflection prompts and integration guidance; keep calculator logic unchanged.
+- [x] Add 67 draft mappings for the 45 specific predictions and 22 Matrix Arcana records. These are metadata links only; the runtime adapter is still pending.
 - Commit only to this test branch.
 
 ### Phase 3 — Compatibility adapter
@@ -78,8 +80,8 @@ The exact IDs must be confirmed against every legacy lookup before import. Do no
 
 ## Current blockers
 
-- The first Engine 1 extraction is a lossless draft snapshot, not yet a normalized runtime-ready data model.
-- `SPECIFIC_PREDICTIONS_DETAILED` is referenced by the legacy Engine 1 code but its declaration was not found in the inspected source files; its origin must be resolved before Engine 1 is declared complete.
+- The Engine 1 extraction remains unpublished. `SPECIFIC_PREDICTIONS_DETAILED` was found in `assets/js/02-horakratai-engine.js` and all 45 category/result combinations (5 categories × 9 result numbers) have now been copied into draft prediction records. Matrix Destiny Arcana 1–22 has also been expanded into structured subconscious-reflection payloads; the original calculator source remains unchanged.
+- `SPECIFIC_PREDICTIONS_DETAILED` is also referenced by Engine 3's Oraculum calculation in the shared legacy source. This pass imported its 45 records under Engine 1 ownership only; Engine 3 must be assessed separately during its own migration to avoid accidental cross-engine activation.
 - The Preview Admin must be tested for GitHub JSON reads and writes; a successful Build alone does not prove the token works at runtime.
 - The compatibility adapter and Engine 1 parity tests are still pending.
 - Engines 2–4 have not been migrated as part of this one-engine-at-a-time pass.
