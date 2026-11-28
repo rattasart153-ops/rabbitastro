@@ -6,7 +6,7 @@ function sendError(res,error){
  if(error.message==="GITHUB_TOKEN_NOT_CONFIGURED")return res.status(503).json({ok:false,code:error.message,message:"ยังไม่ได้ตั้งค่า GitHub Token สำหรับคลังคำทำนาย"});
  if(error.message==="GITHUB_WRITE_CONFLICT")return res.status(409).json({ok:false,code:error.message,message:"มีการแก้ไขข้อมูลพร้อมกัน กรุณาโหลดข้อมูลใหม่แล้วลองอีกครั้ง"});
  if(error.message==="GITHUB_API_ERROR")return res.status(502).json({ok:false,code:error.message,message:"ไม่สามารถเชื่อมต่อคลังข้อมูล GitHub ได้"});
- const known=new Set(["INVALID_COLLECTION","INVALID_JSON_STORE","INVALID_RECORD","INVALID_ENGINE","INVALID_STATUS","NAME_OR_TITLE_REQUIRED","INVALID_RULE_CONDITION","RULE_CONDITIONS_REQUIRED","INVALID_RULE_LOGIC","PREDICTION_TARGET_REQUIRED","MAPPING_SCOPE_REQUIRED","PUBLISHED_PREDICTION_REQUIRED","RECORD_NOT_FOUND","VERSION_NOT_FOUND"]);
+ const known=new Set(["INVALID_COLLECTION","INVALID_JSON_STORE","INVALID_RECORD","INVALID_ENGINE","INVALID_STATUS","NAME_OR_TITLE_REQUIRED","INVALID_RULE_CONDITION","RULE_CONDITIONS_REQUIRED","INVALID_RULE_LOGIC","INVALID_SPECIFIC_PREDICTION_MAPPING","PREDICTION_TARGET_REQUIRED","MAPPING_SCOPE_REQUIRED","PUBLISHED_PREDICTION_REQUIRED","RECORD_NOT_FOUND","VERSION_NOT_FOUND"]);
  if(known.has(error.message))return res.status(400).json({ok:false,code:error.message,message:"ข้อมูลไม่ถูกต้อง: "+error.message});
  return res.status(500).json({ok:false,message:"เกิดข้อผิดพลาดในการจัดการคลังคำทำนาย"});
 }
