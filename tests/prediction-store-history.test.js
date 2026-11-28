@@ -98,7 +98,7 @@ test('save keeps at most 50 history snapshots and appends the previous current v
   const saved = mock.getRecords()[0];
   assert.equal(saved.version, 57);
   assert.equal(saved.history.length, 50);
-  assert.equal(saved.history[0].version, 8);
+  assert.equal(saved.history[0].version, 7);
   assert.equal(saved.history[49].version, 56);
   assert.equal(saved.history[49].content, 'version 56');
 });
@@ -190,7 +190,7 @@ test('save sends the current GitHub blob SHA and rejects a stale concurrent writ
   assert.equal(mock.getRecords()[0].content, 'current content');
 });
 
-test('GitHub 422 write conflicts are surfaced as concurrency conflicts', async t => {
+test('GitHub 422 validation failures are not mislabeled as concurrency conflicts', async t => {
   const current = record();
   installMock(t, {
     collection: 'Predictions',
@@ -199,6 +199,6 @@ test('GitHub 422 write conflicts are surfaced as concurrency conflicts', async t
   });
   await assert.rejects(
     store.save('Predictions', Object.assign({}, current, { content: 'stale edit' }), 'Tester'),
-    { message: 'GITHUB_WRITE_CONFLICT', status: 422 }
+    { message: 'GITHUB_API_ERROR', status: 422 }
   );
 });
