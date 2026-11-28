@@ -58,3 +58,33 @@ test('ordinary Mappings keep the prediction target and scope requirements', () =
   assert.throws(() => store.validateRecord('Mappings', { ...valid, data: { feature: 'daily' } }), { message: 'PREDICTION_TARGET_REQUIRED' });
   assert.throws(() => store.validateRecord('Mappings', { ...valid, data: { predictionId: 'prediction-1' } }), { message: 'MAPPING_SCOPE_REQUIRED' });
 });
+
+test('archived records cannot be published and do not trigger linked-record reads or writes', async () => {
+  const originalFetch = global.fetch;
+  const originalToken = process.env.GITHUB_TOKEN;
+  const calls = [];
+  const archived = {
+    id: 'archived-fixture', engineId: 'engine1', parentId: 'fixture',
+    name: 'archived.fixture', title: 'Archived fixture',
+    data: { predictionId: 'prediction-1', feature: 'natal' },
+    status: 'archived', version: 3, sortOrder: 1
+  };
+  const collection = Buffer.from(JSON.stringify({ schemaVersion: 1, collection: 'Mappings', records: [archived] })).toString('base64');
+  process.env.GITHUB_TOKEN = 'test-token';
+  global.fetch = async (url, options = {}) => {
+    calls.push({ url: String(url), method: options.method || 'GET' });
+    if (String(url).includes('/contents/data/predictions/mappings.json?')) {
+      return { ok: true, json: async () => ({ type: 'file', sha: 'mappings-sha', content: collection }) };
+    }
+    throw new Error('Unexpected GitHub request: ' + url);
+  };
+  try {
+    await assert.rejects(store.publish('Mappings', archived.id, 'Full Admin'), { message: 'ARCHIVED_RECORD_CANNOT_PUBLISH' });
+    assert.equal(calls.some(call => call.method === 'PUT'), false);
+    assert.equal(calls.some(call => call.url.includes('predictions.json')), false);
+  } finally {
+    global.fetch = originalFetch;
+    if (originalToken === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = originalToken;
+  }
+});
