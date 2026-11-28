@@ -248,15 +248,54 @@ async function history(collection, id) {
 }
 
 async function rollback(collection, id, version, actor) {
-  const versions = await history(collection, id);
+  const current = await readCollection(collection);
+  const index = current.records.findIndex((item) => item.id === id);
+  if (index < 0) throw new Error("RECORD_NOT_FOUND");
+  const target = current.records[index];
+  const versions = (Array.isArray(target.history) ? target.history : []).map((item) => ({
+    version: item.version,
+    createdAt: item.updatedAt || item.createdAt,
+    updatedBy: item.updatedBy,
+    record: item
+  }));
+  const currentVersion = Object.assign({}, target);
+  delete currentVersion.history;
+  versions.unshift({
+    version: target.version,
+    createdAt: target.updatedAt || target.createdAt,
+    updatedBy: target.updatedBy,
+    record: currentVersion
+  });
   const selected = versions.find((item) => Number(item.version) === Number(version));
   if (!selected || !selected.record) throw new Error("VERSION_NOT_FOUND");
-  const wasPublished = selected.record.status === "published";
+
   const restored = Object.assign({}, selected.record, { id });
   delete restored.history;
-  const saved = await save(collection, restored, actor);
-  const finalRecord = wasPublished ? await publish(collection, id, actor) : saved;
-  return { record: finalRecord, rolledBackFrom: Number(version) };
+  const wasPublished = restored.status === "published";
+  const normalized = cleanRecord(restored, target, actor);
+  validateRecord(collection, normalized);
+
+  // Validate publication prerequisites before writing so rollback is atomic.
+  if (wasPublished && (collection === "Rules" || collection === "Mappings")) {
+    const data = normalized.data || {};
+    const isAgeCycleProfile = collection === "Rules" &&
+      (normalized.parentId === "AGE_CYCLE_PROFILE" || data.ruleType === "AGE_CYCLE_PROFILE");
+    if (!isAgeCycleProfile) {
+      const predictions = await readCollection("Predictions");
+      const linked = predictions.records.find((item) => item.id === data.predictionId);
+      if (!linked || linked.engineId !== normalized.engineId || linked.status !== "published") {
+        throw new Error("PUBLISHED_PREDICTION_REQUIRED");
+      }
+    }
+  }
+  if (wasPublished) normalized.status = "published";
+
+  const next = current.records.slice();
+  next[index] = normalized;
+  await writeCollection(collection, current, next, "Rollback " + collection + " record " + id + " to version " + version);
+  const output = Object.assign({}, normalized);
+  delete output.history;
+  return { record: output, rolledBackFrom: Number(version) };
 }
 
 async function runtime() {
