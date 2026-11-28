@@ -1491,46 +1491,56 @@ document.addEventListener("DOMContentLoaded", function () {
   // เป็นการตีความเชิงสัญลักษณ์ ไม่ใช่การวินิจฉัยหรือการยืนยันสภาพจิตใจ
   function getMatrixNarrative(inputData, context) {
     try {
-      var engine=window.RABBITASTRO_MATRIX_OF_DESTINY;
-      if(!engine||!inputData||typeof engine.calculate!=='function'||typeof engine.getArcana!=='function') return '';
-      var chart=engine.calculate(inputData.bDay,inputData.bMonth,inputData.bYear);
-      var p=chart.points||{}, get=engine.getArcana;
-      // แยกสามชั้นตามตำแหน่งใน Matrix: การแสดงออก (C), ตัวตนพื้นฐาน (A), แก่นกลาง (E)
-      var arc={
-        self:get(p.A),gift:get(p.B),expression:get(p.C),lesson:get(p.D),
-        center:get(p.E),shadow:get(p.E),path:get(p.personalPurpose),
-        love:get(p.love),money:get(p.money)
+      var engine = window.RABBITASTRO_MATRIX_OF_DESTINY;
+      if (!engine || !inputData || typeof engine.calculate !== 'function' || typeof engine.getArcana !== 'function') return '';
+      var chart = engine.calculate(inputData.bDay, inputData.bMonth, inputData.bYear);
+      var p = chart.points || {}, get = engine.getArcana;
+      var arc = {
+        self:get(p.A), gift:get(p.B), expression:get(p.C), lesson:get(p.D),
+        center:get(p.E), path:get(p.personalPurpose), love:get(p.love), money:get(p.money)
       };
-      var pick=function(x,k,fallback){return x&&x[k]||fallback||'';};
-      var outer='ภาพที่คนอื่นอาจสัมผัสได้: คุณมีแนวโน้มแสดงออกผ่านพลังของ '+
-        pick(arc.expression,'gift','การปรับตัวและตอบสนองต่อสิ่งรอบตัว')+
-        ' คนรอบข้างจึงอาจเห็นคุณในมุมนี้ แม้จะไม่ใช่ทั้งหมดที่เกิดขึ้นภายในใจ';
-      var aware='ภาพที่คุณอาจรับรู้เกี่ยวกับตัวเอง: ลึกลงมา ตัวตนพื้นฐานของคุณมีด้านของ '+
-        pick(arc.self,'theme','การเรียนรู้และค้นหาความหมายของตัวเอง')+
-        ' และมีทรัพยากรภายในอย่าง '+pick(arc.gift,'gift','ความสามารถในการเติบโตจากประสบการณ์')+
-        ' ซึ่งอาจเป็นสิ่งที่คุณมองข้ามไปในวันที่กำลังเหนื่อย';
-      var inner='แรงขับเคลื่อนที่ซ่อนอยู่: แก่นกลางของ Matrix สะท้อนประเด็น '+
-        pick(arc.center,'theme','ความต้องการความมั่นคงและความหมายในชีวิต')+
-        ' ส่วนด้านที่ต้องการการดูแลอาจเกี่ยวข้องกับ '+pick(arc.shadow,'shadow','ความกลัวหรือความคาดหวังที่แบกไว้')+
-        ' บางครั้งสิ่งเหล่านี้อาจมีอิทธิพลต่อการเลือกหรือความสัมพันธ์โดยที่คุณไม่ทันสังเกต';
-      var reflection='ลองสำรวจอย่างอ่อนโยนว่า ระหว่างสิ่งที่คุณแสดงให้คนอื่นเห็น สิ่งที่คุณเชื่อเกี่ยวกับตัวเอง และสิ่งที่ใจต้องการจริง ๆ มีส่วนไหนที่ไม่ตรงกันบ้าง คุณอาจมีความต้องการบางอย่างที่ยังไม่กล้าพูด มีความกลัวบางอย่างที่ไม่อยากให้ใครเห็น หรือมีวิธีปกป้องตัวเองที่เคยช่วยให้ผ่านเรื่องยากมาได้ แต่วันนี้อาจทำให้เหนื่อยโดยไม่รู้ตัว ลองถามตัวเองว่า เมื่อกลัวว่าจะถูกปฏิเสธหรือทำให้ใครผิดหวัง คุณมักเก็บความรู้สึก ยอมตาม ควบคุมทุกอย่าง หรือถอยห่างจากคนอื่นแบบไหน สิ่งเหล่านี้เป็นเพียงคำถามให้สำรวจ ไม่ใช่ข้อสรุปว่าคุณเป็นคนแบบนั้นแน่นอน';
-      var coreText='ตัวตนที่คนอื่นมองเห็น — '+outer+' | '+
-        'ตัวตนที่คุณรับรู้ — '+aware+' | '+
-        'โลกภายในและจิตใต้สำนึก — '+inner+' | '+reflection;
-      if(context==='person') {
-        coreText+=' บทเรียนที่อาจช่วยให้คุณเข้าใจตัวเองมากขึ้นคือ '+pick(arc.lesson,'guidance','ให้พื้นที่กับความต้องการของตัวเอง')+
-          ' และทิศทางชีวิตอาจชวนให้คุณ '+pick(arc.path,'gift','เลือกสิ่งที่สอดคล้องกับคุณค่าภายใน')+
-          ' คุณไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว เริ่มจากสิ่งเล็ก ๆ ที่ทำให้ใจเบาขึ้นได้';
+      var pick = function (x, key, fallback) { return x && x[key] || fallback || ''; };
+      var outer = 'ภาพที่คนอื่นอาจสัมผัสได้: คุณมีแนวโน้มแสดงออกผ่านพลังของ ' +
+        pick(arc.expression, 'gift', 'การปรับตัวและตอบสนองต่อสิ่งรอบตัว') +
+        ' แต่ภาพที่คนอื่นเห็นอาจไม่ใช่ทั้งหมดของโลกภายใน';
+      var aware = 'ภาพที่คุณอาจรับรู้เกี่ยวกับตัวเอง: พื้นฐานภายในมีด้านของ ' +
+        pick(arc.self, 'theme', 'การเรียนรู้และค้นหาความหมาย') +
+        ' พร้อมศักยภาพอย่าง ' + pick(arc.gift, 'gift', 'ความสามารถในการเติบโตจากประสบการณ์') +
+        ' ซึ่งคุณอาจมองข้ามไปในวันที่เหนื่อยล้า';
+      var center = arc.center || {};
+      var inner = 'ความเชื่อและแรงขับที่ซ่อนอยู่: ' +
+        pick(center, 'hiddenBelief', pick(center, 'shadow', 'ความกลัวหรือความคาดหวังที่แบกไว้')) +
+        ' รูปแบบที่อาจเกิดขึ้นเมื่อเผชิญความไม่มั่นคงคือ ' +
+        pick(center, 'subconsciousPattern', 'การใช้วิธีปกป้องตัวเองแบบเดิมโดยไม่ทันสังเกต') +
+        ' ขณะที่ความต้องการลึก ๆ อาจเป็น ' +
+        pick(center, 'hiddenNeed', 'การได้รับความเข้าใจและพื้นที่ปลอดภัย');
+      var reflection = 'ลองถามตัวเองว่า “' +
+        pick(center, 'reflectionPrompt', 'ฉันกำลังต้องการอะไรจริง ๆ และมีความกลัวใดกำลังมีอิทธิพลต่อการเลือกของฉัน?') +
+        '” จากนั้นค่อย ๆ ' +
+        pick(center, 'integrationGuidance', 'รับฟังความรู้สึกและเลือกสิ่งที่สอดคล้องกับคุณค่าของตัวเอง') +
+        ' ทั้งหมดนี้เป็นกรอบสะท้อนตนเองจากสัญลักษณ์ ไม่ใช่ข้อสรุปหรือการวินิจฉัยสภาพจิตใจ';
+      var coreText = 'ตัวตนที่คนอื่นมองเห็น — ' + outer + ' | ' +
+        'ตัวตนที่คุณรับรู้ — ' + aware + ' | ' +
+        'โลกภายในและจิตใต้สำนึก — ' + inner + ' | ' + reflection;
+      if (context === 'person') {
+        coreText += ' บทเรียนที่อาจช่วยให้เข้าใจตัวเองมากขึ้นคือ ' +
+          pick(arc.lesson, 'guidance', 'ให้พื้นที่กับความต้องการของตัวเอง') +
+          ' และทิศทางชีวิตอาจชวนให้คุณ ' +
+          pick(arc.path, 'gift', 'เลือกสิ่งที่สอดคล้องกับคุณค่าภายใน') +
+          ' คุณไม่จำเป็นต้องเปลี่ยนทุกอย่างในครั้งเดียว';
         return coreText;
       }
-      if(context==='oreguram') {
-        return coreText+' เมื่อนำมาเชื่อมกับคำถามครั้งนี้ ลองสังเกตว่าความต้องการลึก ๆ ของคุณกำลังบอกอะไร และแยกมันออกจากความกลัวหรือแรงกดดันรอบตัวก่อนเลือกทางเดิน';
+      if (context === 'oreguram') {
+        return coreText + ' เมื่อนำมาเชื่อมกับคำถามครั้งนี้ ลองแยกความต้องการจริงออกจากความกลัวและแรงกดดันรอบตัวก่อนเลือกทางเดิน';
       }
-      if(context==='tarotRune') {
-        return coreText+' ไพ่และรูนจึงเป็นอีกมุมหนึ่งที่ช่วยสะท้อนสถานการณ์ปัจจุบัน ไม่ได้มีไว้ตัดสินคุณ แต่ช่วยให้คุณมองเห็นความรู้สึกและทางเลือกของตัวเองชัดขึ้น';
+      if (context === 'tarotRune') {
+        return coreText + ' ไพ่และรูนเป็นอีกมุมหนึ่งที่ช่วยสะท้อนสถานการณ์ ไม่ได้มีไว้ตัดสินคุณ แต่ช่วยให้เห็นความรู้สึกและทางเลือกชัดขึ้น';
       }
       return '';
-    } catch(e) { console.warn('Matrix narrative skipped:',e); return ''; }
+    } catch (e) {
+      console.warn('Matrix narrative skipped:', e);
+      return '';
+    }
   }
 
   // คำนวณอายุเต็มจากวันเกิดเทียบกับวันที่ใช้งานจริง แล้วอ่านวงจร Matrix ทีละช่วง 10 ปี
