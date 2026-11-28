@@ -1,5 +1,429 @@
 {
   "schemaVersion": 1,
   "collection": "Rules",
-  "records": []
+  "records": [
+    {
+      "id": "engine1:rule:age-cycle-profile:1",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.1",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 1",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.1",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 1
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:2",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.2",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 2",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.2",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 2
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:3",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.3",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 3",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.3",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 3
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:4",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.4",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 4",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.4",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 4
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:5",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.5",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 5",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.5",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 5
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:6",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.6",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 6",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.6",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 6
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:7",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.7",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 7",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.7",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 7
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:8",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.8",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 8",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.8",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 8
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:9",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.9",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 9",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.9",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 9
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:10",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.10",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 10",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.10",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 10
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:11",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.11",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 11",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.11",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 11
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:12",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.12",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 12",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:1,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.12",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 12
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:13",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.13",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 13",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:1,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.13",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 13
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:14",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.14",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 14",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.14",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 14
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:15",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.15",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 15",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:1,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.15",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 15
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:16",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.16",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 16",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:1,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.16",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 16
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:17",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.17",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 17",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.17",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 17
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:18",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.18",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 18",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:1,challenge:3}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.18",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 18
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:19",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.19",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 19",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.19",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 19
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:20",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.20",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 20",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.20",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 20
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:21",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.21",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 21",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:3,challenge:1}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.21",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 21
+    },
+    {
+      "id": "engine1:rule:age-cycle-profile:22",
+      "engineId": "engine1",
+      "parentId": "AGE_CYCLE_PROFILE",
+      "name": "AGE_CYCLE_PROFILE.22",
+      "title": "เกณฑ์ช่วงอายุ · Arcana 22",
+      "description": "ค่าจัดระดับเพื่อเลือกช่วงอายุเด่นและช่วงที่ควรระวัง ไม่ใช่สูตรคำนวณ Matrix Destiny",
+      "content": "{support:2,challenge:2}",
+      "data": {
+        "legacySourceFile": "assets/js/07-matrix-of-destiny.js",
+        "legacySourceObject": "AGE_CYCLE_PROFILE",
+        "legacySourcePath": "AGE_CYCLE_PROFILE.22",
+        "importBatch": "engine1-central-copy-2026-11-28"
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 22
+    }
+  ],
+  "updatedAt": "2026-11-28T00:00:00.000Z",
+  "importBatch": "engine1-central-copy-2026-11-28",
+  "sourceFiles": [
+    "assets/js/07-matrix-of-destiny.js"
+  ]
 }
