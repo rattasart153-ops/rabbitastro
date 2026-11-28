@@ -74,6 +74,16 @@
     "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
   ];
 
+  // Prefer published central Engine 1 content; preserve the legacy object as a safe fallback.
+  function getSpecificPrediction(category, resultNumber) {
+    var adapter = typeof window !== 'undefined' && window.RABBITASTRO_PREDICTION_ADAPTER;
+    var central = adapter && typeof adapter.getSpecificPrediction === 'function'
+      ? adapter.getSpecificPrediction(category, resultNumber) : null;
+    if (central) return central;
+    return (SPECIFIC_PREDICTIONS_DETAILED[category] && SPECIFIC_PREDICTIONS_DETAILED[category][resultNumber])
+      ? SPECIFIC_PREDICTIONS_DETAILED[category][resultNumber] : null;
+  }
+
   function calc3MonthsPrediction(baseR4, startMonthIndex, category) {
     var results = [];
     var prevNum = baseR4;
@@ -87,9 +97,7 @@
 
       var targetRabbit = RABBITS[finalNum];
       var targetElem = getElement(finalNum);
-      var specObj = (SPECIFIC_PREDICTIONS_DETAILED[category] && SPECIFIC_PREDICTIONS_DETAILED[category][finalNum])
-        ? SPECIFIC_PREDICTIONS_DETAILED[category][finalNum]
-        : null;
+      var specObj = getSpecificPrediction(category, finalNum);
       var specPred = specObj ? specObj.overview : targetRabbit.desc;
 
       results.push({
@@ -129,8 +137,7 @@
       });
       var daily = calcDailyElement(dayDate);
       var dayRelation = calcElementRelation(t.ownerElement.name, daily.element.name);
-      var specObj = (SPECIFIC_PREDICTIONS_DETAILED[t.category] && SPECIFIC_PREDICTIONS_DETAILED[t.category][t.R4])
-        ? SPECIFIC_PREDICTIONS_DETAILED[t.category][t.R4] : null;
+      var specObj = getSpecificPrediction(t.category, t.R4);
       var topicPred = getTopicPred(t.category, t.R4) || {};
       results.push({
         date: dayDate,
