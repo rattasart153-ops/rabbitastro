@@ -40,7 +40,7 @@ async function github(path, options) {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const error = new Error(response.status === 409 || response.status === 422 ? "GITHUB_WRITE_CONFLICT" : "GITHUB_API_ERROR");
+    const error = new Error(response.status === 409 ? "GITHUB_WRITE_CONFLICT" : "GITHUB_API_ERROR");
     error.status = response.status;
     throw error;
   }
