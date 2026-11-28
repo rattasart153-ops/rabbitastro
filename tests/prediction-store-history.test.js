@@ -182,3 +182,52 @@ test('GitHub 422 validation failures are not mislabeled as concurrency conflicts
     { message: 'GITHUB_API_ERROR', status: 422 }
   );
 });
+
+test('rollback to a published Rule is rejected before writing when its Prediction is not published', async t => {
+  const originalFetch = global.fetch;
+  const originalToken = process.env.GITHUB_TOKEN;
+  const calls = [];
+  const ruleData = {
+    predictionId: 'prediction-linked',
+    slot: 'engine1.base',
+    logic: 'AND',
+    conditions: [{ variable: 'birth.month', operator: 'eq', value: 1 }]
+  };
+  const currentRule = {
+    id: 'rule-history-fixture', engineId: 'engine1', parentId: 'ordinary-rule',
+    name: 'rule.fixture', title: 'Rule fixture', data: ruleData,
+    status: 'draft', version: 2, sortOrder: 1,
+    history: [{
+      id: 'rule-history-fixture', engineId: 'engine1', parentId: 'ordinary-rule',
+      name: 'rule.fixture', title: 'Rule fixture', data: ruleData,
+      status: 'published', version: 1, updatedAt: '2026-01-01T00:00:00.000Z'
+    }]
+  };
+  const rulesContent = encoded('Rules', [currentRule]);
+  const predictionsContent = encoded('Predictions', [{
+    id: 'prediction-linked', engineId: 'engine1', status: 'draft'
+  }]);
+  process.env.GITHUB_TOKEN = 'test-token';
+  global.fetch = async (url, request = {}) => {
+    const method = request.method || 'GET';
+    calls.push({ url: String(url), method });
+    if (method === 'GET' && String(url).includes('/contents/data/predictions/rules.json')) {
+      return response(200, { type: 'file', sha: 'rules-sha', content: rulesContent });
+    }
+    if (method === 'GET' && String(url).includes('/contents/data/predictions/predictions.json')) {
+      return response(200, { type: 'file', sha: 'predictions-sha', content: predictionsContent });
+    }
+    throw new Error('Unexpected GitHub request: ' + method + ' ' + url);
+  };
+  t.after(() => {
+    global.fetch = originalFetch;
+    if (originalToken === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = originalToken;
+  });
+
+  await assert.rejects(
+    store.rollback('Rules', currentRule.id, 1, 'Tester'),
+    { message: 'PUBLISHED_PREDICTION_REQUIRED' }
+  );
+  assert.equal(calls.some(call => call.method === 'PUT'), false);
+});
