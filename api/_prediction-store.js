@@ -121,6 +121,25 @@ function validateRecord(collection, record) {
   if (collection === "Engines" && !ALLOWED_ENGINES.has(record.engineId || record.id)) throw new Error("INVALID_ENGINE");
   if (collection === "Rules" || collection === "Mappings") {
     const data = record.data || {};
+    if (collection === "Mappings" && record.parentId === "SPECIFIC_PREDICTIONS_DETAILED") {
+      // Legacy Engine 1 specific predictions are addressed by category + result number,
+      // not by a slot/feature. Validate that legacy key and its target stay in sync.
+      const categories = new Set(["work", "money", "health", "love", "interest"]);
+      const category = data.legacyCategory;
+      const number = data.resultNumber;
+      const expectedId = "engine1:prediction:specific:" + category + ":" + number;
+      const expectedPath = "SPECIFIC_PREDICTIONS_DETAILED." + category + "." + number;
+      if (record.engineId !== "engine1" ||
+          data.lookupType !== "legacy-category-result" ||
+          !categories.has(category) ||
+          !Number.isInteger(number) || number < 1 || number > 9 ||
+          data.predictionId !== expectedId ||
+          data.legacySourcePath !== expectedPath ||
+          data.adapterRequired !== true) {
+        throw new Error("INVALID_SPECIFIC_PREDICTION_MAPPING");
+      }
+      return;
+    }
     if (collection === "Rules" && (record.parentId === "AGE_CYCLE_PROFILE" || data.ruleType === "AGE_CYCLE_PROFILE")) {
       // AGE_CYCLE_PROFILE is an interpretation profile, not a conditional prediction rule.
       const profile = data.profile;
