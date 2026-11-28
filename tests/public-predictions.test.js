@@ -24,7 +24,7 @@ test('public prediction endpoint exposes only published allowlisted Engine 1 and
   const res = { statusCode: 200, headers, payload: null, setHeader(k,v){headers[k]=v;}, status(c){this.statusCode=c;return this;}, json(v){this.payload=v;return this;} };
   await handler({ method: 'GET' }, res);
   assert.equal(res.statusCode, 200);
-  assert.deepEqual(res.payload.runtime.Predictions.map(x => x.id), ['e1-matrix', 'e2-deity']);
+  assert.deepEqual(JSON.parse(JSON.stringify(res.payload.runtime.Predictions.map(x => x.id))), ['e1-matrix', 'e2-deity']);
   assert.equal(res.payload.runtime.Predictions[1].data.payload.godInfo.name, 'Deity');
   assert.equal(res.payload.runtime.Predictions[1].data.secret, undefined);
   assert.equal(res.payload.runtime.Predictions[1].history, undefined);
