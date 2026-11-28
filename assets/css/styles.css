@@ -1480,3 +1480,127 @@ footer { max-width:720px; margin:32px auto 0; line-height:1.8; color:#94877a; }
   .mobile-nav-item { font-size: 9px; }
   .mobile-nav-icon { font-size: 18px; }
 }
+
+/* =========================================================
+   Rabbitastro Hero Alignment & First-Visit Conversion Polish
+   Keeps the entire hero centered within the same content grid.
+   ========================================================= */
+.wrap {
+  width: min(100% - 32px, 980px);
+  margin-inline: auto;
+}
+header.hero,
+.hero {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 18px;
+  box-sizing: border-box;
+  position: relative;
+  left: auto;
+  right: auto;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 42px) 24px clamp(24px, 3.5vw, 34px) !important;
+  border: 1px solid #e8ddcf;
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.98) 0%, rgba(255,252,246,.96) 48%, rgba(244,235,222,.92) 100%);
+  box-shadow: 0 12px 34px rgba(74, 53, 31, .075);
+}
+.hero::before {
+  content: "RABBITASTRO  ·  PERSONAL ASTROLOGY";
+  display: block;
+  margin: 0 0 13px;
+  color: #a18465;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .19em;
+  line-height: 1.4;
+}
+.hero .bunny-badge {
+  flex: 0 0 auto;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e4d3bd;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f8efe2, #eee0cc);
+  box-shadow: 0 7px 20px rgba(92, 66, 37, .12), inset 0 1px 0 rgba(255,255,255,.9);
+  font-size: 34px;
+  line-height: 1;
+}
+.hero h1 {
+  width: 100%;
+  margin: 0;
+  color: #33291f;
+  font-size: clamp(25px, 3.6vw, 36px);
+  font-weight: 850;
+  line-height: 1.28;
+  letter-spacing: -.035em;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.hero p {
+  width: min(100%, 680px);
+  margin: 10px auto 0;
+  color: #817466;
+  font-size: clamp(13px, 1.5vw, 16px);
+  line-height: 1.7;
+  text-align: center;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  .wrap {
+    width: min(100%, 560px);
+    max-width: 560px;
+    margin-inline: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  header.hero,
+  .hero {
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 25px 16px 22px !important;
+    border: 1px solid #e8ddcf;
+    border-radius: 22px;
+    background:
+      radial-gradient(ellipse at 50% 0%, #fffefa 0%, #fbf6ee 68%, #f4ecdf 100%);
+    box-shadow: 0 9px 24px rgba(74, 53, 31, .065);
+  }
+  .hero::before {
+    margin-bottom: 10px;
+    font-size: 9px;
+    letter-spacing: .16em;
+  }
+  .hero .bunny-badge {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 10px;
+    font-size: 29px;
+  }
+  .hero h1 {
+    font-size: clamp(23px, 6.2vw, 29px);
+    line-height: 1.3;
+  }
+  .hero p {
+    max-width: 34ch;
+    margin-top: 7px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}
+@media (max-width: 380px) {
+  .hero { padding: 22px 12px 19px !important; }
+  .hero .bunny-badge { width: 54px; height: 54px; }
+  .hero h1 { font-size: 22px; }
+  .hero p { font-size: 12px; }
+}
