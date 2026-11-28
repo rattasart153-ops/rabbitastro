@@ -1,5 +1,121 @@
 {
   "schemaVersion": 1,
   "collection": "Variables",
-  "records": []
+  "records": [
+    {
+      "id": "engine1:variable:level-scale:5",
+      "engineId": "engine1",
+      "parentId": "LEVEL_SCALE",
+      "name": "LEVEL_SCALE.5",
+      "title": "ระดับผลคำทำนาย 5",
+      "description": "ระดับการประเมินผลคำทำนายต้นฉบับ ใช้สำหรับแสดงผลเท่านั้น ไม่เปลี่ยนสูตรคำนวณ",
+      "content": "{ text: \"ดีมาก\", cls: \"verdict-good\", chip: \"chip-good\", emoji: \"🌟\" }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "LEVEL_SCALE",
+        "legacySourcePath": "LEVEL_SCALE.5",
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ text: \"ดีมาก\", cls: \"verdict-good\", chip: \"chip-good\", emoji: \"🌟\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 1
+    },
+    {
+      "id": "engine1:variable:level-scale:4",
+      "engineId": "engine1",
+      "parentId": "LEVEL_SCALE",
+      "name": "LEVEL_SCALE.4",
+      "title": "ระดับผลคำทำนาย 4",
+      "description": "ระดับการประเมินผลคำทำนายต้นฉบับ ใช้สำหรับแสดงผลเท่านั้น ไม่เปลี่ยนสูตรคำนวณ",
+      "content": "{ text: \"ค่อนข้างดี\", cls: \"verdict-good\", chip: \"chip-good\", emoji: \"✅\" }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "LEVEL_SCALE",
+        "legacySourcePath": "LEVEL_SCALE.4",
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ text: \"ค่อนข้างดี\", cls: \"verdict-good\", chip: \"chip-good\", emoji: \"✅\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 2
+    },
+    {
+      "id": "engine1:variable:level-scale:3",
+      "engineId": "engine1",
+      "parentId": "LEVEL_SCALE",
+      "name": "LEVEL_SCALE.3",
+      "title": "ระดับผลคำทำนาย 3",
+      "description": "ระดับการประเมินผลคำทำนายต้นฉบับ ใช้สำหรับแสดงผลเท่านั้น ไม่เปลี่ยนสูตรคำนวณ",
+      "content": "{ text: \"ทรงตัว / พอใช้ได้\", cls: \"verdict-mid\", chip: \"chip-mid\", emoji: \"⏳\" }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "LEVEL_SCALE",
+        "legacySourcePath": "LEVEL_SCALE.3",
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ text: \"ทรงตัว / พอใช้ได้\", cls: \"verdict-mid\", chip: \"chip-mid\", emoji: \"⏳\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 3
+    },
+    {
+      "id": "engine1:variable:level-scale:2",
+      "engineId": "engine1",
+      "parentId": "LEVEL_SCALE",
+      "name": "LEVEL_SCALE.2",
+      "title": "ระดับผลคำทำนาย 2",
+      "description": "ระดับการประเมินผลคำทำนายต้นฉบับ ใช้สำหรับแสดงผลเท่านั้น ไม่เปลี่ยนสูตรคำนวณ",
+      "content": "{ text: \"ต้องระวังเป็นพิเศษ\", cls: \"verdict-warn\", chip: \"chip-warn\", emoji: \"⚠️\" }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "LEVEL_SCALE",
+        "legacySourcePath": "LEVEL_SCALE.2",
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ text: \"ต้องระวังเป็นพิเศษ\", cls: \"verdict-warn\", chip: \"chip-warn\", emoji: \"⚠️\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 4
+    },
+    {
+      "id": "engine1:variable:level-scale:1",
+      "engineId": "engine1",
+      "parentId": "LEVEL_SCALE",
+      "name": "LEVEL_SCALE.1",
+      "title": "ระดับผลคำทำนาย 1",
+      "description": "ระดับการประเมินผลคำทำนายต้นฉบับ ใช้สำหรับแสดงผลเท่านั้น ไม่เปลี่ยนสูตรคำนวณ",
+      "content": "{ text: \"ต้องชะลอและแก้ก่อน\", cls: \"verdict-warn\", chip: \"chip-warn\", emoji: \"🛑\" }",
+      "data": {
+        "legacySourceFile": "assets/js/02-horakratai-engine.js",
+        "legacySourceObject": "LEVEL_SCALE",
+        "legacySourcePath": "LEVEL_SCALE.1",
+        "importBatch": "engine1-central-copy-2026-11-28",
+        "payload": {
+          "sourceLiteral": "{ text: \"ต้องชะลอและแก้ก่อน\", cls: \"verdict-warn\", chip: \"chip-warn\", emoji: \"🛑\" }"
+        }
+      },
+      "priority": 100,
+      "status": "draft",
+      "version": 1,
+      "sortOrder": 5
+    }
+  ],
+  "updatedAt": "2026-11-28T00:00:00.000Z",
+  "importBatch": "engine1-central-copy-2026-11-28",
+  "sourceFiles": [
+    "assets/js/02-horakratai-engine.js"
+  ]
 }
